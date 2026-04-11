@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Debriefs</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent: #58a6ff;
+    --accent2: #3fb950;
+    --link-hover: #79c0ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 1.8rem;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+  .subtitle {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+  }
+  .stats {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    min-width: 140px;
+  }
+  .stat .num {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent2);
+  }
+  .stat .label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .debrief-list {
+    list-style: none;
+  }
+  .debrief-list li {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 0.6rem;
+    transition: border-color 0.2s;
+  }
+  .debrief-list li:hover {
+    border-color: var(--accent);
+  }
+  .debrief-list a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 1.2rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .debrief-list a:hover {
+    color: var(--link-hover);
+  }
+  .debrief-list .date {
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .debrief-list .time {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  .debrief-list .links {
+    display: flex;
+    gap: 1rem;
+  }
+  .debrief-list .links a {
+    padding: 0;
+    font-size: 0.82rem;
+  }
+  .debrief-list .links .html-link { color: var(--accent); }
+  .debrief-list .links .md-link { color: var(--text-muted); }
+  .empty {
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+    padding: 3rem;
+  }
+  footer {
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    margin-top: 2rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>Research Debriefs</h1>
+<p class="subtitle">Auto-generated research summaries from arXiv, Google Scholar, Lobste.rs, Hacker News, and HuggingFace</p>
+
+<div class="stats">
+  <div class="stat">
+    <div class="num" id="count">—</div>
+    <div class="label">Debriefs</div>
+  </div>
+  <div class="stat">
+    <div class="num" id="latest">—</div>
+    <div class="label">Latest</div>
+  </div>
+</div>
+
+<ul class="debrief-list" id="list">
+  <li class="empty">Loading...</li>
+</ul>
+
+<footer>
+  Hermes Research Scout • Updated every 3 hours • Debriefs at 4:20 AM, 11:00 AM, 7:00 PM
+</footer>
+
+<script>
+// Auto-discover debrief files by attempting to load them
+// This works when served from a local file server or when files are in the same directory
+const list = document.getElementById('list');
+const countEl = document.getElementById('count');
+const latestEl = document.getElementById('latest');
+
+// Try to load a manifest file, or show instructions
+async function loadDebriefs() {
+  try {
+    const resp = await fetch('manifest.json');
+    if (resp.ok) {
+      const debriefs = await resp.json();
+      render(debriefs);
+      return;
+    }
+  } catch(e) {}
+
+  // Fallback: show instructions
+  list.innerHTML = `
+    <li class="empty">
+      Open individual debrief files from your file browser,<br>
+      or run <code>ls ~/Documents/research/debrief-*.html</code> to see available files.
+    </li>
+  `;
+}
+
+function render(debriefs) {
+  if (!debriefs.length) {
+    list.innerHTML = '<li class="empty">No debriefs yet. Check back after 4:20 AM.</li>';
+    return;
+  }
+  countEl.textContent = debriefs.length;
+  latestEl.textContent = debriefs[0].date || '—';
+  list.innerHTML = debriefs.map(d => `
+    <li>
+      <a href="${d.html}">
+        <div>
+          <div class="date">${d.date}</div>
+          <div class="time">${d.papers || ''} papers • ${d.findings || ''} web findings</div>
+        </div>
+        <div class="links">
+          <span class="html-link">HTML →</span>
+          <a href="${d.md}" class="md-link">.md</a>
+        </div>
+      </a>
+    </li>
+  `).join('');
+}
+
+loadDebriefs();
+</script>
+</body>
+</html>

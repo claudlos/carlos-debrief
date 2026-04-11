@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Research Debrief — April 11, 2026 11:00</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    line-height: 1.6; padding: 0;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+  
+  /* Header */
+  .header {
+    text-align: center; padding: 48px 20px 32px; margin-bottom: 32px;
+    background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 { font-size: 2.2em; color: #f0f6fc; margin-bottom: 8px; }
+  .header .subtitle { color: #8b949e; font-size: 1.1em; }
+  .header .stats {
+    display: flex; justify-content: center; gap: 32px; margin-top: 20px; flex-wrap: wrap;
+  }
+  .header .stat {
+    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+    padding: 12px 24px; text-align: center;
+  }
+  .header .stat-num { font-size: 1.8em; font-weight: 700; color: #58a6ff; display: block; }
+  .header .stat-label { font-size: 0.85em; color: #8b949e; }
+  .header .topics {
+    margin-top: 20px; max-width: 760px; margin-left: auto; margin-right: auto;
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 6px 8px; padding: 0 16px;
+  }
+  .header .topics-label {
+    color: #6e7681; font-size: 0.75em; text-transform: uppercase;
+    letter-spacing: 0.06em; margin-right: 4px; align-self: center;
+  }
+  .header .topic {
+    color: #8b949e; font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px; border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px; color: #6e7681;
+    font-size: 0.85em; font-style: italic;
+  }
+
+  /* Quick Summary */
+  .summary-box {
+    background: #161b22; border-left: 4px solid #3fb950; border-radius: 8px;
+    padding: 20px 24px; margin-bottom: 36px;
+  }
+  .summary-box h2 { color: #3fb950; font-size: 1.3em; margin-bottom: 12px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { margin-bottom: 8px; color: #c9d1d9; }
+  .summary-box strong { color: #f0f6fc; }
+
+  /* Sections */
+  .section { margin-bottom: 40px; }
+  .section > h2 {
+    font-size: 1.5em; color: #f0f6fc; margin-bottom: 20px; padding-bottom: 8px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 28px; }
+  .section-group h3 { color: #58a6ff; font-size: 1.15em; margin-bottom: 14px; }
+
+  /* Cards */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .card {
+    background: #161b22; border: 1px solid #21262d; border-radius: 10px;
+    padding: 18px; transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover { border-color: #58a6ff; transform: translateY(-2px); }
+  .card-title { font-size: 1em; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
+  .card-title a { color: #f0f6fc; text-decoration: none; }
+  .card-title a:hover { color: #58a6ff; text-decoration: underline; }
+  .src-num { color: #8b949e; font-size: 0.8em; font-weight: 400; }
+  .card-authors { color: #8b949e; font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: #c9d1d9; font-size: 0.9em; margin-bottom: 10px; line-height: 1.5; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    background: #21262d; color: #79c0ff; font-size: 0.75em; padding: 2px 8px;
+    border-radius: 12px; border: 1px solid #30363d;
+  }
+  .web-tag { color: #d2a8ff; }
+  .web-card { border-left: 3px solid #8957e5; }
+  .more-text { color: #8b949e; font-size: 0.9em; margin-top: 10px; font-style: italic; }
+
+  /* Sources */
+  .sources { margin-top: 40px; }
+  .sources h2 { font-size: 1.3em; color: #f0f6fc; margin-bottom: 16px; border-bottom: 1px solid #21262d; padding-bottom: 8px; }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+  .sources-grid ol { padding-left: 20px; }
+  .sources-grid li { margin-bottom: 4px; font-size: 0.82em; color: #8b949e; word-break: break-word; }
+  .sources-grid a { color: #58a6ff; text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 24px; margin-top: 48px;
+    border-top: 1px solid #21262d; color: #484f58; font-size: 0.85em;
+  }
+
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.5em; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .header .stats { gap: 12px; }
+  }
+
+/* === card-zoom-modal:v2 === */
+.card { cursor: zoom-in; position: relative; transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s; }
+.card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(88,166,255,0.08); }
+.card::after {
+  content: '\2922';
+  position: absolute; top: 12px; right: 14px;
+  color: #6e7681; font-size: 0.95em;
+  opacity: 0; transition: opacity 0.15s, color 0.15s;
+  pointer-events: none;
+}
+.card:hover::after { opacity: 1; color: #58a6ff; }
+.card.hidden { display: none !important; }
+.section-group.empty, .section.empty { display: none; }
+
+.zoom-toolbar {
+  display: flex; gap: 12px; align-items: center;
+  margin: 0 0 28px 0; flex-wrap: wrap;
+}
+.zoom-search {
+  flex: 1; min-width: 220px;
+  background: #161b22; border: 1px solid #30363d; border-radius: 10px;
+  color: #c9d1d9; padding: 12px 16px; font-size: 0.95em;
+  font-family: inherit; outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.zoom-search:focus { border-color: #58a6ff; box-shadow: 0 0 0 3px rgba(88,166,255,0.15); }
+.zoom-search::placeholder { color: #6e7681; }
+.zoom-filter-count { color: #8b949e; font-size: 0.85em; white-space: nowrap; }
+
+.zoom-modal {
+  position: fixed; inset: 0; z-index: 1000;
+  display: none; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.zoom-modal[data-open="true"] { display: flex; }
+.zoom-modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(1,4,9,0.85);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  animation: zoomModalFade 0.18s ease;
+}
+.zoom-modal-content {
+  position: relative;
+  width: min(1200px, 92vw);
+  max-height: 92vh;
+  background: #161b22; border: 1px solid #484f58; border-radius: 18px;
+  padding: 56px 72px 48px; overflow-y: auto;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(88,166,255,0.18);
+  animation: zoomModalIn 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.zoom-modal-close {
+  position: absolute; top: 18px; right: 22px;
+  background: none; border: none; color: #8b949e;
+  font-size: 2.4em; line-height: 1; cursor: pointer;
+  padding: 6px 16px; border-radius: 10px; z-index: 2;
+  transition: background 0.15s, color 0.15s;
+}
+.zoom-modal-close:hover { background: #21262d; color: #f0f6fc; }
+.zoom-modal-title {
+  font-size: 2.15em; font-weight: 700; color: #f0f6fc;
+  line-height: 1.25; margin-bottom: 18px; padding-right: 60px;
+  letter-spacing: -0.01em;
+}
+.zoom-modal-title a { color: inherit; text-decoration: none; }
+.zoom-modal-title a:hover { color: #58a6ff; }
+.zoom-modal-authors {
+  color: #8b949e; font-size: 1.15em;
+  font-style: italic; margin-bottom: 28px;
+}
+.zoom-modal-desc {
+  color: #c9d1d9; font-size: 1.3em; line-height: 1.75;
+  margin-bottom: 32px; white-space: pre-wrap;
+}
+.zoom-modal-tags {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px;
+}
+.zoom-modal-tags .tag { font-size: 1em; padding: 6px 16px; }
+.zoom-modal-link {
+  display: inline-block; background: #58a6ff; color: #0d1117;
+  padding: 14px 30px; border-radius: 10px; text-decoration: none;
+  font-weight: 600; font-size: 1.1em;
+  transition: background 0.15s, transform 0.15s;
+}
+.zoom-modal-link:hover { background: #79c0ff; transform: translateY(-1px); }
+.zoom-modal-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 36px; padding-top: 24px; border-top: 1px solid #30363d;
+}
+.zoom-modal-nav button {
+  background: none; border: 1px solid #30363d; color: #8b949e;
+  padding: 12px 24px; border-radius: 10px; cursor: pointer;
+  font-size: 1em; font-family: inherit;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.zoom-modal-nav button:hover:not(:disabled) {
+  border-color: #58a6ff; color: #58a6ff; background: rgba(88,166,255,0.06);
+}
+.zoom-modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+.zoom-modal-counter { color: #6e7681; font-size: 1em; }
+
+@keyframes zoomModalFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes zoomModalIn {
+  from { opacity: 0; transform: scale(0.94) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@media (max-width: 700px) {
+  .zoom-modal { padding: 8px; }
+  .zoom-modal-content { padding: 36px 22px 28px; max-height: 95vh; }
+  .zoom-modal-title { font-size: 1.45em; padding-right: 44px; }
+  .zoom-modal-authors { font-size: 1em; margin-bottom: 18px; }
+  .zoom-modal-desc { font-size: 1.08em; line-height: 1.65; margin-bottom: 22px; }
+  .zoom-modal-tags .tag { font-size: 0.85em; padding: 4px 12px; }
+  .zoom-modal-link { font-size: 1em; padding: 12px 24px; }
+  .zoom-modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+}
+.zoom-modal-tags, .zoom-modal-link { display: none !important; }
+/* === /card-zoom-modal:v2 === */
+
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">April 11, 2026 11:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">43</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">192</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">235</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">April 11, 2026 11:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li><strong>SkillClaw</strong> (194 upvotes, HuggingFace): Introduces Agentic Evolver for collective skill evolution — new paradigm for scaling agent capabilities.</li>
+      <li><strong>Rethinking Generalization in Reasoning SFT</strong> (168 upvotes): Reveals non-obvious interactions between optimization, data, and model capability in reasoning fine-tuning.</li>
+      <li><strong>ClawBench</strong> (96 upvotes): First benchmark testing AI agents on 153 real-world everyday tasks across 144 live platforms — agents still struggle with routine life.</li>
+      <li><strong>Your Agent Is Mine</strong>: Systematic study of malicious LLM API routers — third-party proxies can silently hijack tool calls with no cryptographic integrity.</li>
+      <li><strong>Quantum/PQC urgency</strong>: Filippo Valsorda's quantum computing timeline analysis (105 upvotes) + Cloudflare targeting 2029 for full PQ security, fueling industry action.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    
+    <div class="section-group">
+      <h3>🧠 LLMs</h3>
+      <div class="cards-grid">
+        <div class="card" data-full-desc='Multimodal Mixture-of-Experts (MoE) models have achieved remarkable performance on vision-language tasks. However, we identify a puzzling phenomenon termed Seeing but Not Thinking: models accurately perceive image content yet fail in subsequent reasoning, while correctly solving identical problems presented as pure text. Through systematic analysis, we first verify that cross-modal semantic sharing exists in MoE architectures, ruling out semantic alignment failure as the sole explanation. We then reveal that visual experts and domain experts exhibit layer-wise separation, with image inputs inducing significant routing divergence from text inputs in middle layers where domain experts concentrate. Based on these findings, we propose the Routing Distraction hypothesis: when processing visual inputs, the routing mechanism fails to adequately activate task-relevant reasoning experts. To validate this hypothesis, we design a routing-guided intervention method that enhances domain expert activation. Experiments on three multimodal MoE models across six benchmarks demonstrate consistent improvements, with gains of up to 3.17% on complex visual reasoning tasks. Our analysis further reveals that domain expert identification locates cognitive functions rather than sample-specific solutions, enabling effective transfer across tasks with different information structures.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08541" target="_blank">Seeing but Not Thinking: Routing Distraction in Multimodal Mixture-of-Experts</a> <span class="src-num">[1]</span></div>
+          <div class="card-authors">Haolei Xu, Haiwen Hong, Hongxing Li, et al.</div>
+          <div class="card-desc">Multimodal Mixture-of-Experts (MoE) models have achieved remarkable performance on vision-language tasks. However, we identify a puzzling phenomenon termed Seeing but Not Thinking: models accurately perceive image...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span><span class="tag">cs.CL</span></div>
+        </div>
+        <div class="card" data-full-desc='Text-to-Audio-Video (T2AV) generation is rapidly becoming a core interface for media creation, yet its evaluation remains fragmented. Existing benchmarks largely assess audio and video in isolation or rely on coarse embedding similarity, failing to capture the fine-grained joint correctness required by realistic prompts. We introduce AVGen-Bench, a task-driven benchmark for T2AV generation featuring high-quality prompts across 11 real-world categories. To support comprehensive assessment, we propose a multi-granular evaluation framework that combines lightweight specialist models with Multimodal Large Language Models (MLLMs), enabling evaluation from perceptual quality to fine-grained semantic controllability. Our evaluation reveals a pronounced gap between strong audio-visual aesthetics and weak semantic reliability, including persistent failures in text rendering, speech coherence, physical reasoning, and a universal breakdown in musical pitch control. Code and benchmark resources are available at http://aka.ms/avgenbench.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08540" target="_blank">AVGen-Bench: A Task-Driven Benchmark for Multi-Granular Evaluation of Text-to-Audio-Video Generation</a> <span class="src-num">[2]</span></div>
+          <div class="card-authors">Ziwei Zhou, Zeyuan Lai, Rui Wang, et al.</div>
+          <div class="card-desc">Text-to-Audio-Video (T2AV) generation is rapidly becoming a core interface for media creation, yet its evaluation remains fragmented. Existing benchmarks largely assess audio and video in isolation or rely on coarse...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span><span class="tag">cs.CL</span></div>
+        </div>
+        <div class="card" data-full-desc='Group Relative Policy Optimization (GRPO) has emerged as the de facto Reinforcement Learning (RL) objective driving recent advancements in Multimodal Large Language Models. However, extending this success to open-source multimodal generalist models remains heavily constrained by two primary challenges: the extreme variance in reward topologies across diverse visual tasks, and the inherent difficulty of balancing fine-grained perception with multi-step reasoning capabilities. To address these issues, we introduce Gaussian GRPO (G$^2$RPO), a novel RL training objective that replaces standard linear scaling with non-linear distributional matching. By mathematically forcing the advantage distribution of any given task to strictly converge to a standard normal distribution, $\mathcal{N}(0,1)$, G$^2$RPO theoretically ensures inter-task gradient equity, mitigates vulnerabilities to heavy-tail outliers, and offers symmetric update for positive and negative rewards. Leveraging the enhanced training stability provided by G$^2$RPO, we introduce two task-level shaping mechanisms to seamlessly balance perception and reasoning. First, response length shaping dynamically elicits extended reasoning chains for complex queries while enforce direct outputs to bolster visual grounding. Second, entropy shaping tightly bounds the model&#39;s exploration zone, effectively preventing both entropy collapse and entropy explosion. Integrating these methodologies, we present OpenVLThinkerV2, a highly robust, general-purpose multimodal model. Extensive evaluations across 18 diverse benchmarks demonstrate its superior performance over strong open-source and leading proprietary frontier models.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08539" target="_blank">OpenVLThinkerV2: A Generalist Multimodal Reasoning Model for Multi-domain Visual Tasks</a> <span class="src-num">[3]</span></div>
+          <div class="card-authors">Wenbo Hu, Xin Chen, Yan Gao-Tian, et al.</div>
+          <div class="card-desc">Group Relative Policy Optimization (GRPO) has emerged as the de facto Reinforcement Learning (RL) objective driving recent advancements in Multimodal Large Language Models. However, extending this success to open-source...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span><span class="tag">cs.CL</span></div>
+        </div>
+        <div class="card" data-full-desc='Today&#39;s large language models (LLMs) are trained to align with user preferences through methods such as reinforcement learning. Yet models are beginning to be deployed not merely to satisfy users, but also to generate revenue for the companies that created them through advertisements. This creates the potential for LLMs to face conflicts of interest, where the most beneficial response to a user may not be aligned with the company&#39;s incentives. For instance, a sponsored product may be more expensive but otherwise equal to another; in this case, what does (and should) the LLM recommend to the user? In this paper, we provide a framework for categorizing the ways in which conflicting incentives might lead LLMs to change the way they interact with users, inspired by literature from linguistics and advertising regulation. We then present a suite of evaluations to examine how current models handle these tradeoffs. We find that a majority of LLMs forsake user welfare for company incentives in a multitude of conflict of interest situations, including recommending a sponsored product almost twice as expensive (Grok 4.1 Fast, 83%), surfacing sponsored options to disrupt the purchasing process (GPT 5.1, 94%), and concealing prices in unfavorable comparisons (Qwen 3 Next, 24%). Behaviors also vary strongly with levels of reasoning and users&#39; inferred socio-economic status. Our results highlight some of the hidden risks to users that can emerge when companies begin to subtly incentivize advertisements in chatbots.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08525" target="_blank">Ads in AI Chatbots? An Analysis of How Large Language Models Navigate Conflicts of Interest</a> <span class="src-num">[4]</span></div>
+          <div class="card-authors">Addison J. Wu, Ryan Liu, Shuyue Stella Li, et al.</div>
+          <div class="card-desc">Today's large language models (LLMs) are trained to align with user preferences through methods such as reinforcement learning. Yet models are beginning to be deployed not merely to satisfy users, but also to generate...</div>
+          <div class="card-tags"><span class="tag">cs.AI</span><span class="tag">cs.CL</span><span class="tag">cs.CY</span></div>
+        </div>
+        <div class="card" data-full-desc='Applying steering vectors to large language models (LLMs) is an efficient and effective model alignment technique, but we lack an interpretable explanation for how it works-- specifically, what internal mechanisms steering vectors affect and how this results in different model outputs. To investigate the causal mechanisms underlying the effectiveness of steering vectors, we conduct a comprehensive case study on refusal. We propose a multi-token activation patching framework and discover that different steering methodologies leverage functionally interchangeable circuits when applied at the same layer. These circuits reveal that steering vectors primarily interact with the attention mechanism through the OV circuit while largely ignoring the QK circuit-- freezing all attention scores during steering drops performance by only 8.75% across two model families. A mathematical decomposition of the steered OV circuit further reveals semantically interpretable concepts, even in cases where the steering vector itself does not. Leveraging the activation patching results, we show that steering vectors can be sparsified by up to 90-99% while retaining most performance, and that different steering methodologies agree on a subset of important dimensions.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08524" target="_blank">What Drives Representation Steering? A Mechanistic Case Study on Steering Refusal</a> <span class="src-num">[5]</span></div>
+          <div class="card-authors">Stephen Cheng, Sarah Wiegreffe, Dinesh Manocha</div>
+          <div class="card-desc">Applying steering vectors to large language models (LLMs) is an efficient and effective model alignment technique, but we lack an interpretable explanation for how it works-- specifically, what internal mechanisms...</div>
+          <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span><span class="tag">cs.CL</span></div>
+        </div>
+        <div class="card" data-full-desc='On-policy distillation (OPD) trains student models under their own induced distribution while leveraging supervision from stronger teachers. We identify a failure mode of OPD: as training progresses, on-policy rollouts can undergo abrupt length inflation, causing truncated trajectories to dominate the training data. This truncation collapse coincides with abrupt repetition saturation and induces biased gradient signals, leading to severe training instability and sharp degradation in validation performance. We attribute this problem to the interaction between student-induced data collection and the distillation objective, which implicitly favors long and repetitive rollouts. To address this issue, we propose StableOPD, a stabilized OPD framework that combines a reference-based divergence constraint with rollout mixture distillation. These together mitigate repetition-induced length inflation and further stabilize OPD training. Across multiple math reasoning datasets, our approach prevents truncation collapse, stabilizes training dynamics, and improves performance by 7.2% on average.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08527" target="_blank">Demystifying OPD: Length Inflation and Stabilization Strategies for Large Language Models</a> <span class="src-num">[6]</span></div>
+          <div class="card-authors">Feng Luo, Yu-Neng Chuang, Guanchu Wang, et al.</div>
+          <div class="card-desc">On-policy distillation (OPD) trains student models under their own induced distribution while leveraging supervision from stronger teachers. We identify a failure mode of OPD: as training progresses, on-policy rollouts...</div>
+          <div class="card-tags"><span class="tag">cs.CL</span><span class="tag">cs.LG</span></div>
+        </div>
+        <div class="card" data-full-desc='Large language models (LLMs) can struggle to memorize factual knowledge in their parameters, often leading to hallucinations and poor performance on knowledge-intensive tasks. In this paper, we formalize fact memorization from an information-theoretic perspective and study how training data distributions affect fact accuracy. We show that fact accuracy is suboptimal (below the capacity limit) whenever the amount of information contained in the training data facts exceeds model capacity. This is further exacerbated when the fact frequency distribution is skewed (e.g. a power law). We propose data selection schemes based on the training loss alone that aim to limit the number of facts in the training data and flatten their frequency distribution. On semi-synthetic datasets containing high-entropy facts, our selection method effectively boosts fact accuracy to the capacity limit. When pretraining language models from scratch on an annotated Wikipedia corpus, our selection method enables a GPT2-Small model (110m parameters) to memorize 1.3X more entity facts compared to standard training, matching the performance of a 10X larger model (1.3B parameters) pretrained on the full dataset.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08519" target="_blank">Cram Less to Fit More: Training Data Pruning Improves Memorization of Facts</a> <span class="src-num">[7]</span></div>
+          <div class="card-authors">Jiayuan Ye, Vitaly Feldman, Kunal Talwar</div>
+          <div class="card-desc">Large language models (LLMs) can struggle to memorize factual knowledge in their parameters, often leading to hallucinations and poor performance on knowledge-intensive tasks. In this paper, we formalize fact...</div>
+          <div class="card-tags"><span class="tag">cs.CL</span><span class="tag">stat.ML</span></div>
+        </div>
+        <div class="card" data-full-desc='We initiate the study of language generation in the limit, a model recently introduced by Kleinberg and Mullainathan [KM24], under the constraint of differential privacy. We consider the continual release model, where a generator must eventually output a stream of valid strings while protecting the privacy of the entire input sequence. Our first main result is that for countable collections of languages, privacy comes at no qualitative cost: we provide an $\varepsilon$-differentially-private algorithm that generates in the limit from any countable collection. This stands in contrast to many learning settings where privacy renders learnability impossible. However, privacy does impose a quantitative cost: there are finite collections of size $k$ for which uniform private generation requires $Ω(k/\varepsilon)$ samples, whereas just one sample suffices non-privately. We then turn to the harder problem of language identification in the limit. Here, we show that privacy creates fundamental barriers. We prove that no $\varepsilon$-DP algorithm can identify a collection containing two languages with an infinite intersection and a finite set difference, a condition far stronger than the classical non-private characterization of identification. Next, we turn to the stochastic setting where the sample strings are sampled i.i.d. from a distribution (instead of being generated by an adversary). Here, we show that private identification is possible if and only if the collection is identifiable in the adversarial model. Together, our results establish new dimensions along which generation and identification differ and, for identification, a separation between adversarial and stochastic settings induced by privacy constraints.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08504" target="_blank">Differentially Private Language Generation and Identification in the Limit</a> <span class="src-num">[8]</span></div>
+          <div class="card-authors">Anay Mehrotra, Grigoris Velegkas, Xifan Yu, et al.</div>
+          <div class="card-desc">We initiate the study of language generation in the limit, a model recently introduced by Kleinberg and Mullainathan [KM24], under the constraint of differential privacy. We consider the continual release model, where a...</div>
+          <div class="card-tags"><span class="tag">stat.ML</span><span class="tag">cs.AI</span><span class="tag">cs.CL</span></div>
+        </div>
+        <div class="card" data-full-desc='Reinforcement Learning with Verifiable Rewards (RLVR) has significantly improved large language model (LLM) reasoning in formal domains such as mathematics and code. Despite these advancements, LLMs still struggle with general reasoning tasks requiring capabilities such as causal inference and temporal understanding. Extending RLVR to general reasoning is fundamentally constrained by the lack of high-quality, verifiable training data that spans diverse reasoning skills. To address this challenge, we propose SUPERNOVA, a data curation framework for RLVR aimed at enhancing general reasoning. Our key insight is that instruction-tuning datasets containing expert-annotated ground-truth encode rich reasoning patterns that can be systematically adapted for RLVR. To study this, we conduct 100+ controlled RL experiments to analyze how data design choices impact downstream reasoning performance. In particular, we investigate three key factors: (i) source task selection, (ii) task mixing strategies, and (iii) synthetic interventions for improving data quality. Our analysis reveals that source task selection is non-trivial and has a significant impact on downstream reasoning performance. Moreover, selecting tasks based on their performance for individual target tasks outperforms strategies based on overall average performance. Finally, models trained on SUPERNOVA outperform strong baselines (e.g., Qwen3.5) on challenging reasoning benchmarks including BBEH, Zebralogic, and MMLU-Pro. In particular, training on SUPERNOVA yields relative improvements of up to 52.8\% on BBEH across model sizes, demonstrating the effectiveness of principled data curation for RLVR. Our findings provide practical insights for curating human-annotated resources to extend RLVR to general reasoning. The code and data is available at https://github.com/asuvarna31/supernova.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08477" target="_blank">SUPERNOVA: Eliciting General Reasoning in LLMs with Reinforcement Learning on Natural Instructions</a> <span class="src-num">[9]</span></div>
+          <div class="card-authors">Ashima Suvarna, Kendrick Phan, Mehrab Beikzadeh, et al.</div>
+          <div class="card-desc">Reinforcement Learning with Verifiable Rewards (RLVR) has significantly improved large language model (LLM) reasoning in formal domains such as mathematics and code. Despite these advancements, LLMs still struggle with...</div>
+          <div class="card-tags"><span class="tag">cs.AI</span><span class="tag">cs.LG</span></div>
+        </div>
+        <div class="card" data-full-desc='Large-scale real-world robot data collection is a prerequisite for bringing robots into everyday deployment. However, existing pipelines often rely on specialized handheld devices to bridge the embodiment gap, which not only increases operator burden and limits scalability, but also makes it difficult to capture the naturally coordinated perception-manipulation behaviors of human daily interaction. This challenge calls for a more natural system that can faithfully capture human manipulation and perception behaviors while enabling zero-shot transfer to robotic platforms. We introduce ActiveGlasses, a system for learning robot manipulation from ego-centric human demonstrations with active vision. A stereo camera mounted on smart glasses serves as the sole perception device for both data collection and policy inference: the operator wears it during bare-hand demonstrations, and the same camera is mounted on a 6-DoF perception arm during deployment to reproduce human active vision. To enable zero-transfer, we extract object trajectories from demonstrations and use an object-centric point-cloud policy to jointly predict manipulation and head movement. Across several challenging tasks involving occlusion and precise interaction, ActiveGlasses achieves zero-shot transfer with active vision, consistently outperforms strong baselines under the same hardware setup, and generalizes across two robot platforms.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08534" target="_blank">ActiveGlasses: Learning Manipulation with Active Vision from Ego-centric Human Demonstration</a> <span class="src-num">[10]</span></div>
+          <div class="card-authors">Yanwen Zou, Chenyang Shi, Wenye Yu, et al.</div>
+          <div class="card-desc">Large-scale real-world robot data collection is a prerequisite for bringing robots into everyday deployment. However, existing pipelines often rely on specialized handheld devices to bridge the embodiment gap, which not...</div>
+          <div class="card-tags"><span class="tag">cs.RO</span></div>
+        </div>
+        <div class="card" data-full-desc='Let $K$ be a field of characteristic $p&gt;0$, $A=K[[Y]]$ be a power series ring in one variable and $Q(A)$ be the field of fraction of $A$. Suppose that $R=A[X_1,\ldots,X_n]$ is a standard $\mathbb{N}^n$-graded polynomial ring over $A$, i.e., $\operatorname{deg} (A)=\underline{0}\in \mathbb{N}^n$ and $\operatorname{deg}(X_j)=e_j\in \mathbb{N}^n$. Assume that $M=\bigoplus_{\underline{u}\in \mathbb{Z}^n} M_{\underline{u}}$ is a $\mathbb{Z}^n$-graded $\mathcal{F}$-finite, $\mathcal{F}$-module over $R$. In this article we prove that, $\displaystyle M_{\underline{u}}\cong E(A/YA)^{a(\underline{u})}\oplus Q(A)^{b(\underline{u})}\oplus A^{c(\underline{u})}$ for some finite numbers $a(\underline{u}), b(\underline{u}), c(\underline{u})\geq 0$. Let for a subset of $U$ of $\mathcal{S}=\{1, \ldots, n\}$, define a block to be the set $\displaystyle\mathcal{B}(U)=\{\underline{u} \in \mathbb{Z}^n \mid u_i \geq 0 \mbox{ if } i \in U \mbox{ and } u_i \leq -1 \mbox{ if } i \notin U \}$. Note that $\bigcup_{U\subseteq \mathcal{S}}\mathcal{B}(U)=\mathbb{Z}^n$. We prove that the sets $\{a(\underline{u})\mid \underline{u}\in \mathbb{Z}^n\}$, $\{b(\underline{u})\mid \underline{u}\in \mathbb{Z}^n\}$ and $\{c(\underline{u})\mid \underline{u}\in \mathbb{Z}^n\}$ are constant on $\mathcal{B}(U)$ for each subset $U$ of $\{1,\ldots,n\}$. In particular, these results holds for composition of local cohomology modules of the form $ H^{i_1}_{I_1}(H^{i_2}_{I_2}(\dots H^{i_r}_{I_r}(R)\dots)$ where $I_1,\ldots,I_r$ are $\mathbb{N}^n$-graded ideals of $R$. This provides a positive characteristic analogue of the results proved in \cite{TS-23} by the authors in characteristic zero.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08533" target="_blank">On the structure theorem of graded components of $\mathcal{F}$-finite, $\mathcal{F}$-modules over certain polynomial ring</a> <span class="src-num">[11]</span></div>
+          <div class="card-authors">Sayed Sadiqul Islam</div>
+          <div class="card-desc">Let $K$ be a field of characteristic $p&gt;0$, $A=K[[Y]]$ be a power series ring in one variable and $Q(A)$ be the field of fraction of $A$. Suppose that $R=A[X_1,\ldots,X_n]$ is a standard $\mathbb{N}^n$-graded polynomial...</div>
+          <div class="card-tags"><span class="tag">math.AC</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>📊 Machine Learning</h3>
+      <div class="cards-grid">
+        <div class="card" data-full-desc='Robotic manipulation with deformable objects represents a data-intensive regime in embodied learning, where shape, contact, and topology co-evolve in ways that far exceed the variability of rigids. Although simulation promises relief from the cost of real-world data acquisition, prevailing sim-to-real pipelines remain rooted in rigid-body abstractions, producing mismatched geometry, fragile soft dynamics, and motion primitives poorly suited for cloth interaction. We posit that simulation fails not for being synthetic, but for being ungrounded. To address this, we introduce SIM1, a physics-aligned real-to-sim-to-real data engine that grounds simulation in the physical world. Given limited demonstrations, the system digitizes scenes into metric-consistent twins, calibrates deformable dynamics through elastic modeling, and expands behaviors via diffusion-based trajectory generation with quality filtering. This pipeline transforms sparse observations into scaled synthetic supervision with near-demonstration fidelity. Experiments show that policies trained on purely synthetic data achieve parity with real-data baselines at a 1:15 equivalence ratio, while delivering 90% zero-shot success and 50% generalization gains in real-world deployment. These results validate physics-aligned simulation as scalable supervision for deformable manipulation and a practical pathway for data-efficient policy learning.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08544" target="_blank">SIM1: Physics-Aligned Simulator as Zero-Shot Data Scaler in Deformable Worlds</a> <span class="src-num">[12]</span></div>
+          <div class="card-authors">Yunsong Zhou, Hangxu Liu, Xuekun Jiang, et al.</div>
+          <div class="card-desc">Robotic manipulation with deformable objects represents a data-intensive regime in embodied learning, where shape, contact, and topology co-evolve in ways that far exceed the variability of rigids. Although simulation...</div>
+          <div class="card-tags"><span class="tag">cs.RO</span><span class="tag">cs.AI</span><span class="tag">cs.CV</span></div>
+        </div>
+        <div class="card" data-full-desc='Visual decoding from brain signals is a key challenge at the intersection of computer vision and neuroscience, requiring methods that bridge neural representations and computational models of vision. A field-wide goal is to achieve generalizable, cross-subject models. A major obstacle towards this goal is the substantial variability in neural representations across individuals, which has so far required training bespoke models or fine-tuning separately for each subject. To address this challenge, we introduce a meta-optimized approach for semantic visual decoding from fMRI that generalizes to novel subjects without any fine-tuning. By simply conditioning on a small set of image-brain activation examples from the new individual, our model rapidly infers their unique neural encoding patterns to facilitate robust and efficient visual decoding. Our approach is explicitly optimized for in-context learning of the new subject&#39;s encoding model and performs decoding by hierarchical inference, inverting the encoder. First, for multiple brain regions, we estimate the per-voxel visual response encoder parameters by constructing a context over multiple stimuli and responses. Second, we construct a context consisting of encoder parameters and response values over multiple voxels to perform aggregated functional inversion. We demonstrate strong cross-subject and cross-scanner generalization across diverse visual backbones without retraining or fine-tuning. Moreover, our approach requires neither anatomical alignment nor stimulus overlap. This work is a critical step towards a generalizable foundation model for non-invasive brain decoding.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08537" target="_blank">Meta-learning In-Context Enables Training-Free Cross Subject Brain Decoding</a> <span class="src-num">[13]</span></div>
+          <div class="card-authors">Mu Nan, Muquan Yu, Weijian Mai, et al.</div>
+          <div class="card-desc">Visual decoding from brain signals is a key challenge at the intersection of computer vision and neuroscience, requiring methods that bridge neural representations and computational models of vision. A field-wide goal...</div>
+          <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">q-bio.NC</span></div>
+        </div>
+        <div class="card" data-full-desc='Previous work has established that neural network-based node embeddings return different outcomes when trained with identical parameters on the same dataset, just from using different training seeds. Yet, it has not been thoroughly analyzed how key hyperparameters such as embedding dimension could impact this instability. In this work, we investigate how varying the dimensionality of node embeddings influences both their stability and downstream performance. We systematically evaluate five widely used methods -- ASNE, DGI, GraphSAGE, node2vec, and VERSE -- across multiple datasets and embedding dimensions. We assess stability from both a representational perspective and a functional perspective, alongside performance evaluation. Our results show that embedding stability varies significantly with dimensionality, but we observe different patterns across the methods we consider: while some approaches, such as node2vec and ASNE, tend to become more stable with higher dimensionality, other methods do not exhibit the same trend. Moreover, we find that maximum stability does not necessarily align with optimal task performance. These findings highlight the importance of carefully selecting embedding dimension, and provide new insights into the trade-offs between stability, performance, and computational effectiveness in graph representation learning.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08492" target="_blank">The Impact of Dimensionality on the Stability of Node Embeddings</a> <span class="src-num">[14]</span></div>
+          <div class="card-authors">Tobias Schumacher, Simon Reichelt, Markus Strohmaier</div>
+          <div class="card-desc">Previous work has established that neural network-based node embeddings return different outcomes when trained with identical parameters on the same dataset, just from using different training seeds. Yet, it has not...</div>
+          <div class="card-tags"><span class="tag">cs.LG</span></div>
+        </div>
+        <div class="card" data-full-desc='Federated learning (FL) enables privacy-preserving predictive maintenance across distributed aerospace fleets, but gradient communication overhead constrains deployment on bandwidth-limited IoT nodes. This paper investigates the impact of symmetric uniform quantization ($b \in \{32,8,4,2\}$ bits) on the accuracy--efficiency trade-off of a custom-designed lightweight 1-D convolutional model (AeroConv1D, 9\,697 parameters) trained via FL on the NASA C-MAPSS benchmark under a realistic Non-IID client partition. Using a rigorous multi-seed evaluation ($N=10$ seeds), we show that INT4 achieves accuracy \emph{statistically indistinguishable} from FP32 on both FD001 ($p=0.341$) and FD002 ($p=0.264$ MAE, $p=0.534$ NASA score) while delivering an $8\times$ reduction in gradient communication cost (37.88~KiB $\to$ 4.73~KiB per round). A key methodological finding is that naïve IID client partitioning artificially suppresses variance; correct Non-IID evaluation reveals the true operational instability of extreme quantization, demonstrated via a direct empirical IID vs.\ Non-IID comparison. INT2 is empirically characterized as unsuitable: while it achieves lower MAE on FD002 through extreme quantization-induced over-regularization, this apparent gain is accompanied by catastrophic NASA score instability (CV\,=\,45.8\% vs.\ 22.3\% for FP32), confirming non-reproducibility under heterogeneous operating conditions. Analytical FPGA resource projections on the Xilinx ZCU102 confirm that INT4 fits within hardware constraints (85.5\% DSP utilization), potentially enabling a complete FL pipeline on a single SoC. The full simulation codebase and FPGA estimation scripts are publicly available at https://github.com/therealdeadbeef/aerospace-fl-quantization.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08474" target="_blank">Quantization Impact on the Accuracy and Communication Efficiency Trade-off in Federated Learning for Aerospace Predictive Maintenance</a> <span class="src-num">[15]</span></div>
+          <div class="card-authors">Abdelkarim Loukili</div>
+          <div class="card-desc">Federated learning (FL) enables privacy-preserving predictive maintenance across distributed aerospace fleets, but gradient communication overhead constrains deployment on bandwidth-limited IoT nodes. This paper...</div>
+          <div class="card-tags"><span class="tag">cs.LG</span></div>
+        </div>
+        <div class="card" data-full-desc='Topological Data Analysis (TDA) provides tools to describe the shape of data, but integrating topological features into deep learning pipelines remains challenging, especially when preserving local geometric structure rather than summarizing it globally. We propose a persistence-based data augmentation framework that encodes local gradient flow regions and their hierarchical evolution using the Morse-Smale complex. This representation, compatible with both convolutional and graph neural networks, retains spatially localized topological information across multiple scales. Importantly, the augmentation procedure itself is efficient, with computational complexity $O(n \log n)$, making it practical for large datasets. We evaluate our method on histopathology image classification and 3D porous material regression, where it consistently outperforms baselines and global TDA descriptors such as persistence images and landscapes. We also show that pruning the base level of the hierarchy reduces memory usage while maintaining competitive performance. These results highlight the potential of local, structured topological augmentation for scalable and interpretable learning across data modalities.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08469" target="_blank">Persistence-Augmented Neural Networks</a> <span class="src-num">[16]</span></div>
+          <div class="card-authors">Elena Xinyi Wang, Arnur Nigmetov, Dmitriy Morozov</div>
+          <div class="card-desc">Topological Data Analysis (TDA) provides tools to describe the shape of data, but integrating topological features into deep learning pipelines remains challenging, especially when preserving local geometric structure...</div>
+          <div class="card-tags"><span class="tag">cs.LG</span></div>
+        </div>
+        <div class="card" data-full-desc='Human body fitting, which aligns parametric body models such as SMPL to raw 3D point clouds of clothed humans, serves as a crucial first step for downstream tasks like animation and texturing. An effective fitting method should be both locally expressive-capturing fine details such as hands and facial features-and globally robust to handle real-world challenges, including clothing dynamics, pose variations, and noisy or partial inputs. Existing approaches typically excel in only one aspect, lacking an all-in-one solution.We upgrade ETCH to ETCH-X, which leverages a tightness-aware fitting paradigm to filter out clothing dynamics ("undress"), extends expressiveness with SMPL-X, and replaces explicit sparse markers (which are highly sensitive to partial data) with implicit dense correspondences ("dense fit") for more robust and fine-grained body fitting. Our disentangled "undress" and "dense fit" modular stages enable separate and scalable training on composable data sources, including diverse simulated garments (CLOTH3D), large-scale full-body motions (AMASS), and fine-grained hand gestures (InterHand2.6M), improving outfit generalization and pose robustness of both bodies and hands. Our approach achieves robust and expressive fitting across diverse clothing, poses, and levels of input completeness, delivering a substantial performance improvement over ETCH on both: 1) seen data, such as 4D-Dress (MPJPE-All, 33.0% ) and CAPE (V2V-Hands, 35.8% ), and 2) unseen data, such as BEDLAM2.0 (MPJPE-All, 80.8% ; V2V-All, 80.5% ). Code and models will be released at https://xiaobenli00.github.io/ETCH-X/.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08548" target="_blank">ETCH-X: Robustify Expressive Body Fitting to Clothed Humans with Composable Datasets</a> <span class="src-num">[17]</span></div>
+          <div class="card-authors">Xiaoben Li, Jingyi Wu, Zeyu Cai, et al.</div>
+          <div class="card-desc">Human body fitting, which aligns parametric body models such as SMPL to raw 3D point clouds of clothed humans, serves as a crucial first step for downstream tasks like animation and texturing. An effective fitting...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span></div>
+        </div>
+        <div class="card" data-full-desc='Text-to-video diffusion models have enabled open-ended video synthesis, but often struggle with generating the correct number of objects specified in a prompt. We introduce NUMINA , a training-free identify-then-guide framework for improved numerical alignment. NUMINA identifies prompt-layout inconsistencies by selecting discriminative self- and cross-attention heads to derive a countable latent layout. It then refines this layout conservatively and modulates cross-attention to guide regeneration. On the introduced CountBench, NUMINA improves counting accuracy by up to 7.4% on Wan2.1-1.3B, and by 4.9% and 5.5% on 5B and 14B models, respectively. Furthermore, CLIP alignment is improved while maintaining temporal consistency. These results demonstrate that structural guidance complements seed search and prompt enhancement, offering a practical path toward count-accurate text-to-video diffusion. The code is available at https://github.com/H-EmbodVis/NUMINA.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08546" target="_blank">When Numbers Speak: Aligning Textual Numerals and Visual Instances in Text-to-Video Diffusion Models</a> <span class="src-num">[18]</span></div>
+          <div class="card-authors">Zhengyang Sun, Yu Chen, Xin Zhou, et al.</div>
+          <div class="card-desc">Text-to-video diffusion models have enabled open-ended video synthesis, but often struggle with generating the correct number of objects specified in a prompt. We introduce NUMINA , a training-free identify-then-guide...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span></div>
+        </div>
+        <div class="card" data-full-desc='Event cameras offer multiple advantages in monocular egocentric 3D human pose estimation from head-mounted devices, such as millisecond temporal resolution, high dynamic range, and negligible motion blur. Existing methods effectively leverage these properties, but suffer from low 3D estimation accuracy, insufficient in many applications (e.g., immersive VR/AR). This is due to the design not being fully tailored towards event streams (e.g., their asynchronous and continuous nature), leading to high sensitivity to self-occlusions and temporal jitter in the estimates. This paper rethinks the setting and introduces E-3DPSM, an event-driven continuous pose state machine for event-based egocentric 3D human pose estimation. E-3DPSM aligns continuous human motion with fine-grained event dynamics; it evolves latent states and predicts continuous changes in 3D joint positions associated with observed events, which are fused with direct 3D human pose predictions, leading to stable and drift-free final 3D pose reconstructions. E-3DPSM runs in real-time at 80 Hz on a single workstation and sets a new state of the art in experiments on two benchmarks, improving accuracy by up to 19% (MPJPE) and temporal stability by up to 2.7x. See our project page for the source code and trained models.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08543" target="_blank">E-3DPSM: A State Machine for Event-Based Egocentric 3D Human Pose Estimation</a> <span class="src-num">[19]</span></div>
+          <div class="card-authors">Mayur Deshmukh, Hiroyasu Akada, Helge Rhodin, et al.</div>
+          <div class="card-desc">Event cameras offer multiple advantages in monocular egocentric 3D human pose estimation from head-mounted devices, such as millisecond temporal resolution, high dynamic range, and negligible motion blur. Existing...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span></div>
+        </div>
+        <div class="card" data-full-desc='This paper addresses the task of large-scale 3D scene reconstruction from long video sequences. Recent feed-forward reconstruction models have shown promising results by directly regressing 3D geometry from RGB images without explicit 3D priors or geometric constraints. However, these methods often struggle to maintain reconstruction accuracy and consistency over long sequences due to limited memory capacity and the inability to effectively capture global contextual cues. In contrast, humans can naturally exploit the global understanding of the scene to inform local perception. Motivated by this, we propose a novel neural global context representation that efficiently compresses and retains long-range scene information, enabling the model to leverage extensive contextual cues for enhanced reconstruction accuracy and consistency. The context representation is realized through a set of lightweight neural sub-networks that are rapidly adapted during test time via self-supervised objectives, which substantially increases memory capacity without incurring significant computational overhead. The experiments on multiple large-scale benchmarks, including the KITTI Odometry~\cite{Geiger2012CVPR} and Oxford Spires~\cite{tao2025spires} datasets, demonstrate the effectiveness of our approach in handling ultra-large scenes, achieving leading pose accuracy and state-of-the-art 3D reconstruction accuracy while maintaining efficiency. Code is available at https://zju3dv.github.io/scal3r.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08542" target="_blank">Scal3R: Scalable Test-Time Training for Large-Scale 3D Reconstruction</a> <span class="src-num">[20]</span></div>
+          <div class="card-authors">Tao Xie, Peishan Yang, Yudong Jin, et al.</div>
+          <div class="card-desc">This paper addresses the task of large-scale 3D scene reconstruction from long video sequences. Recent feed-forward reconstruction models have shown promising results by directly regressing 3D geometry from RGB images...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span></div>
+        </div>
+        <div class="card" data-full-desc='Transfer learning followed by fine-tuning is widely adopted in medical image classification due to consistent gains in diagnostic performance. However, in multi-class settings with overlapping visual features, improvements in accuracy do not guarantee stability of the visual evidence used to support predictions. We define semantic drift as systematic changes in the attribution structure supporting a model&#39;s predictions between transfer learning and full fine-tuning, reflecting potential shifts in underlying visual reasoning despite stable classification performance. Using a five-class chest X-ray task, we evaluate DenseNet201, ResNet50V2, and InceptionV3 under a two-stage training protocol and quantify drift with reference-free metrics capturing spatial localization and structural consistency of attribution maps. Across architectures, coarse anatomical localization remains stable, while overlap IoU reveals pronounced architecture-dependent reorganization of evidential structure. Beyond single-method analysis, stability rankings can reverse across LayerCAM and GradCAM++ under converged predictive performance, establishing explanation stability as an interaction between architecture, optimization phase, and attribution objective.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08513" target="_blank">When Fine-Tuning Changes the Evidence: Architecture-Dependent Semantic Drift in Chest X-Ray Explanations</a> <span class="src-num">[21]</span></div>
+          <div class="card-authors">Kabilan Elangovan, Daniel Ting</div>
+          <div class="card-desc">Transfer learning followed by fine-tuning is widely adopted in medical image classification due to consistent gains in diagnostic performance. However, in multi-class settings with overlapping visual features,...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🔒 Security & Crypto</h3>
+      <div class="cards-grid">
+        <div class="card" data-full-desc='Prompt injection attacks pose serious security risks across a wide range of real-world applications. While receiving increasing attention, the community faces a critical gap: the lack of a unified platform for prompt injection evaluation. This makes it challenging to reliably compare defenses, understand their true robustness under diverse attacks, or assess how well they generalize across tasks and benchmarks. For instance, many defenses initially reported as effective were later found to exhibit limited robustness on diverse datasets and attacks. To bridge this gap, we introduce PIArena, a unified and extensible platform for prompt injection evaluation that enables users to easily integrate state-of-the-art attacks and defenses and evaluate them across a variety of existing and new benchmarks. We also design a dynamic strategy-based attack that adaptively optimizes injected prompts based on defense feedback. Through comprehensive evaluation using PIArena, we uncover critical limitations of state-of-the-art defenses: limited generalizability across tasks, vulnerability to adaptive attacks, and fundamental challenges when an injected task aligns with the target task. The code and datasets are available at https://github.com/sleeepeer/PIArena.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08499" target="_blank">PIArena: A Platform for Prompt Injection Evaluation</a> <span class="src-num">[22]</span></div>
+          <div class="card-authors">Runpeng Geng, Chenlong Yin, Yanting Wang, et al.</div>
+          <div class="card-desc">Prompt injection attacks pose serious security risks across a wide range of real-world applications. While receiving increasing attention, the community faces a critical gap: the lack of a unified platform for prompt...</div>
+          <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.AI</span><span class="tag">cs.CL</span></div>
+        </div>
+        <div class="card" data-full-desc='Large Language Models (LLMs) have been a promising way for automated vulnerability detection. However, most prior studies have explored the use of LLMs to detect vulnerabilities only within single functions, disregarding those related to interprocedural dependencies. These studies overlook vulnerabilities that arise from data and control flows that span multiple functions. Thus, leveraging the context provided by callers and callees may help identify vulnerabilities. This study empirically investigates the effectiveness of detection, the inference cost, and the quality of explanations of four modern LLMs (Claude Haiku 4.5, GPT-4.1 Mini, GPT-5 Mini, and Gemini 3 Flash) in detecting vulnerabilities related to interprocedural dependencies. To do that, we conducted an empirical study on 509 vulnerabilities from the ReposVul dataset, systematically varying the level of interprocedural context (target function code-only, target function + callers, and target function + callees) and evaluating the four modern LLMs across C, C++, and Python. The results show that Gemini 3 Flash offers the best cost-effectiveness trade-off for C vulnerabilities, achieving F1 &gt;= 0.978 at an estimated cost of $0.50-$0.58 per configuration, and Claude Haiku 4.5 correctly identified and explained the vulnerability in 93.6% of the evaluated cases. Overall, the findings have direct implications for the design of AI-assisted security analysis tools that can generalize across codebases in multiple programming languages.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08417" target="_blank">Vulnerability Detection with Interprocedural Context in Multiple Languages: Assessing Effectiveness and Cost of Modern LLMs</a> <span class="src-num">[23]</span></div>
+          <div class="card-authors">Kevin Lira, Baldoino Fonseca, Davy Baía, et al.</div>
+          <div class="card-desc">Large Language Models (LLMs) have been a promising way for automated vulnerability detection. However, most prior studies have explored the use of LLMs to detect vulnerabilities only within single functions,...</div>
+          <div class="card-tags"><span class="tag">cs.SE</span><span class="tag">cs.CR</span></div>
+        </div>
+        <div class="card" data-full-desc='Large language model (LLM) agents increasingly rely on third-party API routers to dispatch tool-calling requests across multiple upstream providers. These routers operate as application-layer proxies with full plaintext access to every in-flight JSON payload, yet no provider enforces cryptographic integrity between client and upstream model. We present the first systematic study of this attack surface. We formalize a threat model for malicious LLM API routers and define two core attack classes, payload injection (AC-1) and secret exfiltration (AC-2), together with two adaptive evasion variants: dependency-targeted injection (AC-1.a) and conditional delivery (AC-1.b). Across 28 paid routers purchased from Taobao, Xianyu, and Shopify-hosted storefronts and 400 free routers collected from public communities, we find 1 paid and 8 free routers actively injecting malicious code, 2 deploying adaptive evasion triggers, 17 touching researcher-owned AWS canary credentials, and 1 draining ETH from a researcher-owned private key. Two poisoning studies further show that ostensibly benign routers can be pulled into the same attack surface: a leaked OpenAI key generates 100M GPT-5.4 tokens and more than seven Codex sessions, while weakly configured decoys yield 2B billed tokens, 99 credentials across 440 Codex sessions, and 401 sessions already running in autonomous YOLO mode. We build Mine, a research proxy that implements all four attack classes against four public agent frameworks, and use it to evaluate three deployable client-side defenses: a fail-closed policy gate, response-side anomaly screening, and append-only transparency logging.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08407" target="_blank">Your Agent Is Mine: Measuring Malicious Intermediary Attacks on the LLM Supply Chain</a> <span class="src-num">[24]</span></div>
+          <div class="card-authors">Hanzhi Liu, Chaofan Shou, Hongbo Wen, et al.</div>
+          <div class="card-desc">Large language model (LLM) agents increasingly rely on third-party API routers to dispatch tool-calling requests across multiple upstream providers. These routers operate as application-layer proxies with full plaintext...</div>
+          <div class="card-tags"><span class="tag">cs.CR</span></div>
+        </div>
+        <div class="card" data-full-desc='Generative Artificial Intelligence (GenAI) has become a central component of many development tools (e.g., GitHub Copilot) that support software practitioners across multiple programming tasks, including code completion, documentation, and bug detection. However, current research has identified significant limitations and open issues in GenAI, including reliability, non-determinism, bias, and copyright infringement. While prior work has primarily focused on assessing the technical performance of these technologies for code generation, less attention has been paid to emerging concerns of software developers, particularly in the security realm. OBJECTIVE: This work explores security concerns regarding the use of GenAI-based coding assistants by analyzing challenges voiced by developers and software enthusiasts in public online forums. METHOD: We retrieved posts, comments, and discussion threads addressing security issues in GitHub Copilot from three popular platforms, namely Stack Overflow, Reddit, and Hacker News. These discussions were clustered using BERTopic and then synthesized using thematic analysis to identify distinct categories of security concerns. RESULTS: Four major concern areas were identified, including potential data leakage, code licensing, adversarial attacks (e.g., prompt injection), and insecure code suggestions, underscoring critical reflections on the limitations and trade-offs of GenAI in software engineering. IMPLICATIONS: Our findings contribute to a broader understanding of how developers perceive and engage with GenAI-based coding assistants, while highlighting key areas for improving their built-in security features.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08352" target="_blank">Security Concerns in Generative AI Coding Assistants: Insights from Online Discussions on GitHub Copilot</a> <span class="src-num">[25]</span></div>
+          <div class="card-authors">Nicolás E. Díaz Ferreyra, Monika Swetha Gurupathi, Zadia Codabux, et al.</div>
+          <div class="card-desc">Generative Artificial Intelligence (GenAI) has become a central component of many development tools (e.g., GitHub Copilot) that support software practitioners across multiple programming tasks, including code...</div>
+          <div class="card-tags"><span class="tag">cs.SE</span><span class="tag">cs.CR</span><span class="tag">cs.HC</span></div>
+        </div>
+        <div class="card" data-full-desc='Retrieval-augmented generation (RAG) significantly enhances large language models (LLMs) but introduces novel security risks through external knowledge access. While existing studies cover various RAG vulnerabilities, they often conflate inherent LLM risks with those specifically introduced by RAG. In this paper, we propose that secure RAG is fundamentally about the security of the external knowledge-access pipeline. We establish an operational boundary to separate inherent LLM flaws from RAG-introduced or RAG-amplified threats. Guided by this perspective, we abstract the RAG workflow into six stages and organize the literature around three trust boundaries and four primary security surfaces, including pre-retrieval knowledge corruption, retrieval-time access manipulation, downstream context exploitation, and knowledge exfiltration. By systematically reviewing the corresponding attacks, defenses, remediation mechanisms, and evaluation benchmarks, we reveal that current defenses remain largely reactive and fragmented. Finally, we discuss these gaps and highlight future directions toward layered, boundary-aware protection across the entire knowledge-access lifecycle.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08304" target="_blank">Securing Retrieval-Augmented Generation: A Taxonomy of Attacks, Defenses, and Future Directions</a> <span class="src-num">[26]</span></div>
+          <div class="card-authors">Yuming Xu, Mingtao Zhang, Zhuohan Ge, et al.</div>
+          <div class="card-desc">Retrieval-augmented generation (RAG) significantly enhances large language models (LLMs) but introduces novel security risks through external knowledge access. While existing studies cover various RAG vulnerabilities,...</div>
+          <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.AI</span></div>
+        </div>
+        <div class="card" data-full-desc='Ensuring Large Language Model (LLM) safety is crucial, yet the lack of a clear understanding about safety mechanisms hinders the development of precise and reliable methodologies for safety intervention across diverse tasks. To better understand and control LLM safety, we propose the Expected Safety Impact (ESI) framework for quantifying how different parameters affect LLM safety. Based on ESI, we reveal distinct safety-critical patterns across different LLM architectures: In dense LLMs, many safety-critical parameters are located in value matrices (V) and MLPs in middle layers, whereas in Mixture-of-Experts (MoE) models, they shift to the late-layer MLPs. Leveraging ESI, we further introduce two targeted intervention paradigms for safety enhancement and preservation, i.e., Safety Enhancement Tuning (SET) and Safety Preserving Adaptation (SPA). SET can align unsafe LLMs by updating only a few safety-critical parameters, effectively enhancing safety while preserving original performance. SPA safeguards well-aligned LLMs during capability-oriented intervention (e.g., instruction tuning) by preventing disruption of safety-critical weights, allowing the LLM to acquire new abilities and maintain safety capabilities. Extensive evaluations on different LLMs demonstrate that SET can reduce the attack success rates of unaligned LLMs by over 50% with only a 100-iteration update on 1% of model weights. SPA can limit the safety degradation of aligned LLMs within 1% after a 1,000-iteration instruction fine-tuning on different tasks. Our code is available at: https://github.com/ZJU-LLM-Safety/SafeWeights-ACL.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08297" target="_blank">Towards Identification and Intervention of Safety-Critical Parameters in Large Language Models</a> <span class="src-num">[27]</span></div>
+          <div class="card-authors">Weiwei Qi, Zefeng Wu, Tianhang Zheng, et al.</div>
+          <div class="card-desc">Ensuring Large Language Model (LLM) safety is crucial, yet the lack of a clear understanding about safety mechanisms hinders the development of precise and reliable methodologies for safety intervention across diverse...</div>
+          <div class="card-tags"><span class="tag">cs.CR</span></div>
+        </div>
+        <div class="card" data-full-desc='We formulate operating-system vulnerability discovery as a \emph{repeated Bayesian Stackelberg search game} in which a Large Reasoning Model (LRM) orchestrator allocates analysis budget across kernel files, functions, and attack paths while external verifiers -- static analyzers, fuzzers, and sanitizers -- provide evidence. At each round, the orchestrator selects a target component, an analysis method, and a time budget; observes tool outputs; updates Bayesian beliefs over latent vulnerability states; and re-solves the game to minimize the strategic attacker&#39;s expected payoff. We introduce \textsc{VCAO} (\textbf{V}erifier-\textbf{C}entered \textbf{A}gentic \textbf{O}rchestration), a six-layer architecture comprising surface mapping, intra-kernel attack-graph construction, game-theoretic file/function ranking, parallel executor agents, cascaded verification, and a safety governor. Our DOBSS-derived MILP allocates budget optimally across heterogeneous analysis tools under resource constraints, with formal $\tilde{O}(\sqrt{T})$ regret bounds from online Stackelberg learning. Experiments on five Linux kernel subsystems -- replaying 847 historical CVEs and running live discovery on upstream snapshots -- show that \textsc{VCAO} discovers $2.7\times$ more validated vulnerabilities per unit budget than coverage-only fuzzing, $1.9\times$ more than static-analysis-only baselines, and $1.4\times$ more than non-game-theoretic multi-agent pipelines, while reducing false-positive rates reaching human reviewers by 68\%. We release our simulation framework, synthetic attack-graph generator, and evaluation harness as open-source artifacts.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08291" target="_blank">VCAO: Verifier-Centered Agentic Orchestration for Strategic OS Vulnerability Discovery</a> <span class="src-num">[28]</span></div>
+          <div class="card-authors">Suyash Mishra</div>
+          <div class="card-desc">We formulate operating-system vulnerability discovery as a \emph{repeated Bayesian Stackelberg search game} in which a Large Reasoning Model (LRM) orchestrator allocates analysis budget across kernel files, functions,...</div>
+          <div class="card-tags"><span class="tag">cs.GT</span><span class="tag">cs.CR</span><span class="tag">cs.OS</span></div>
+        </div>
+        <div class="card" data-full-desc='For a pair of finite relational structures $(\mathfrak{A},\mathfrak{B})$ such that $\mathfrak{A}$ homomorphically maps to $\mathfrak{B}$ we denote by $K_{(\mathfrak{A},\mathfrak{B})}$ the following statement: for all structures $\mathfrak{I}$ with the same signature as $\mathfrak{A}$ if all finite substructures of $\mathfrak{I}$ homomorphically maps to $\mathfrak{A}$ then $\mathfrak{I}$ homomorphically maps to $\mathfrak{B}$. In this article, we show that if $(\mathfrak{A},\mathfrak{B})$ has no Olšák polymorphism, then $K_{(\mathfrak{A},\mathfrak{B})}$ is equivalent to the ultrafilter principle over $\operatorname{ZF}$. This includes the statements $K_{(K_3,K_5)}$ and $K_{(H_2,H_c)}$ for all $c\geq 2$ where $K_n$ denotes the clique of size $n$ and $H_k$ denotes the ternary not-all-equal structure on a $k$-element set. This means, for example, that in any $\operatorname{ZF}$ model, if every finitely 3-colourable graph can be coloured by 5 colours then all these graphs can in fact be coloured by 3 colours.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08365" target="_blank">Equivalences of promise compactness principles</a> <span class="src-num">[29]</span></div>
+          <div class="card-authors">Bertalan Bodor</div>
+          <div class="card-desc">For a pair of finite relational structures $(\mathfrak{A},\mathfrak{B})$ such that $\mathfrak{A}$ homomorphically maps to $\mathfrak{B}$ we denote by $K_{(\mathfrak{A},\mathfrak{B})}$ the following statement: for all...</div>
+          <div class="card-tags"><span class="tag">math.CO</span></div>
+        </div>
+        <div class="card" data-full-desc='Quantum computing is becoming strategically relevant to finance because several core financial bottlenecks are already defined by combinatorial search, expectation estimation, rare-event analysis, representation learning, and long-horizon cryptographic resilience. This review examines that landscape across five connected domains: constrained portfolio optimisation, derivative pricing, tail-risk and scenario estimation, quantum machine learning, and post-quantum security. Rather than treating these topics as isolated demonstrations, the article studies them as linked layers of a financial-computation stack. Across all five domains, the review applies a common evaluative logic: identify the financial bottleneck, specify the relevant quantum primitive, compare it with an explicit classical benchmark, and assess the result under realistic implementation and governance constraints. The main conclusion is measured but consequential. The strongest near-term case for quantum finance lies in carefully designed hybrid workflows rather than blanket claims of universal advantage. Quantum optimisation is most credible when constrained search dominates; amplitude-estimation methods matter most when repeated expectation evaluation is the binding cost; quantum machine learning remains task dependent; and post-quantum cryptography is already strategically necessary because financial infrastructures must migrate before fault-tolerant attacks arrive. By combining system-level synthesis with locally reproducible small-scale case studies on simulated qubit registers, the article is intended both as a review of the field and as a handbook-style entry point for future work.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08180" target="_blank">Quantum Computing for Financial Transformation: A Review of Optimisation, Pricing, Risk, Machine Learning, and Post-Quantum Security</a> <span class="src-num">[30]</span></div>
+          <div class="card-authors">Hui Gong, Akash Sedai, Thomas Schroeder, et al.</div>
+          <div class="card-desc">Quantum computing is becoming strategically relevant to finance because several core financial bottlenecks are already defined by combinatorial search, expectation estimation, rare-event analysis, representation...</div>
+          <div class="card-tags"><span class="tag">q-fin.CP</span></div>
+        </div>
+        <div class="card" data-full-desc='Network traffic, as a key media format, is crucial for ensuring security and communications in modern internet infrastructure. While existing methods offer excellent performance, they face two key bottlenecks: (1) They fail to capture multidimensional semantics beyond unimodal sequence patterns. (2) Their black box property, i.e., providing only category labels, lacks an auditable reasoning process. We identify a key factor that existing network traffic datasets are primarily designed for classification and inherently lack rich semantic annotations, failing to generate human-readable evidence report. To address data scarcity, this paper proposes a Byte-Grounded Traffic Description (BGTD) benchmark for the first time, combining raw bytes with structured expert annotations. BGTD provides necessary behavioral features and verifiable chains of evidence for multimodal reasoning towards explainable encrypted traffic interpretation. Built upon BGTD, this paper proposes an end-to-end traffic-language representation framework (mmTraffic), a multimodal reasoning architecture bridging physical traffic encoding and semantic interpretation. In order to alleviate modality interference and generative hallucinations, mmTraffic adopts a jointly-optimized perception-cognition architecture. By incorporating a perception-centered traffic encoder and a cognition-centered LLM generator, mmTraffic achieves refined traffic interpretation with guaranteed category prediction. Extensive experiments demonstrate that mmTraffic autonomously generates high-fidelity, human-readable, and evidence-grounded traffic interpretation reports, while maintaining highly competitive classification accuracy comparing to specialized unimodal model (e.g., NetMamba). The source code is available at https://github.com/lgzhangzlg/Multimodal-Reasoning-with-LLM-for-Encrypted-Traffic-Interpretation-A-Benchmark'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08140" target="_blank">Multimodal Reasoning with LLM for Encrypted Traffic Interpretation: A Benchmark</a> <span class="src-num">[31]</span></div>
+          <div class="card-authors">Longgang Zhang, Xiaowei Fu, Fuxiang Huang, et al.</div>
+          <div class="card-desc">Network traffic, as a key media format, is crucial for ensuring security and communications in modern internet infrastructure. While existing methods offer excellent performance, they face two key bottlenecks: (1) They...</div>
+          <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.AI</span><span class="tag">cs.MM</span></div>
+        </div>
+        <div class="card" data-full-desc='ROI (Region of Interest) video selective encryption based on H.265/HEVC is a technology that protects the sensitive regions of videos by perturbing the syntax elements associated with target areas. However, existing methods typically adopt Tile (with a relatively large size) as the minimum encryption unit, which suffers from problems such as inaccurate encryption regions and low encryption precision. This low-precision encryption makes them difficult to apply in sensitive fields such as medicine, military, and remote sensing. In order to address the aforementioned problem, this paper proposes a fine-grained ROI video selective encryption algorithm based on Coding Units (CUs) and prompt segmentation. First, to achieve a more precise ROI acquisition, we present a novel ROI mapping approach based on prompt segmentation. This approach enables precise mapping of ROIs to small $8\times8$ CU levels, significantly enhancing the precision of encrypted regions. Second, we propose a selective encryption scheme based on multiple syntax elements, which distorts syntax elements within high-precision ROI to effectively safeguard ROI security. Finally, we design a diffusion isolation based on Pulse Code Modulation (PCM) mode and MV restriction, applying PCM mode and MV restriction strategy to the affected CU to address encryption diffusion during prediction. The above three strategies break the inherent mechanism of using Tiles in existing ROI encryption and push the fine-grained level of ROI video encryption to the minimum $8\times8$ CU precision. The experimental results demonstrate that the proposed algorithm can accurately segment ROI regions, effectively perturb pixels within these regions, and eliminate the diffusion artifacts introduced by encryption. The method exhibits great potential for application in medical imaging, military surveillance, and remote areas.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08047" target="_blank">A H.265/HEVC Fine-Grained ROI Video Encryption Algorithm Based on Coding Unit and Prompt Segmentation</a> <span class="src-num">[32]</span></div>
+          <div class="card-authors">Xiang Zhang, Haoyan Lu, Ziqiang Li, et al.</div>
+          <div class="card-desc">ROI (Region of Interest) video selective encryption based on H.265/HEVC is a technology that protects the sensitive regions of videos by perturbing the syntax elements associated with target areas. However, existing...</div>
+          <div class="card-tags"><span class="tag">eess.IV</span><span class="tag">cs.MM</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🤖 Agents</h3>
+      <div class="cards-grid">
+        <div class="card" data-full-desc='The advent of agentic multimodal models has empowered systems to actively interact with external environments. However, current agents suffer from a profound meta-cognitive deficit: they struggle to arbitrate between leveraging internal knowledge and querying external utilities. Consequently, they frequently fall prey to blind tool invocation, resorting to reflexive tool execution even when queries are resolvable from the raw visual context. This pathological behavior precipitates severe latency bottlenecks and injects extraneous noise that derails sound reasoning. Existing reinforcement learning protocols attempt to mitigate this via a scalarized reward that penalizes tool usage. Yet, this coupled formulation creates an irreconcilable optimization dilemma: an aggressive penalty suppresses essential tool use, whereas a mild penalty is entirely subsumed by the variance of the accuracy reward during advantage normalization, rendering it impotent against tool overuse. To transcend this bottleneck, we propose HDPO, a framework that reframes tool efficiency from a competing scalar objective to a strictly conditional one. By eschewing reward scalarization, HDPO maintains two orthogonal optimization channels: an accuracy channel that maximizes task correctness, and an efficiency channel that enforces execution economy exclusively within accurate trajectories via conditional advantage estimation. This decoupled architecture naturally induces a cognitive curriculum-compelling the agent to first master task resolution before refining its self-reliance. Extensive evaluations demonstrate that our resulting model, Metis, reduces tool invocations by orders of magnitude while simultaneously elevating reasoning accuracy.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08545" target="_blank">Act Wisely: Cultivating Meta-Cognitive Tool Use in Agentic Multimodal Models</a> <span class="src-num">[33]</span></div>
+          <div class="card-authors">Shilin Yan, Jintao Tong, Hongwei Xue, et al.</div>
+          <div class="card-desc">The advent of agentic multimodal models has empowered systems to actively interact with external environments. However, current agents suffer from a profound meta-cognitive deficit: they struggle to arbitrate between...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span></div>
+        </div>
+        <div class="card" data-full-desc='Personal AI tools can now be generated from natural-language requests, but they often remain isolated after creation. We present PSI, a shared-state architecture that turns independently generated modules into coherent instruments: persistent, connected, and chat-complementary artifacts accessible through both GUIs and a generic chat agent. By publishing current state and write-back affordances to a shared personal-context bus, modules enable cross-module reasoning and synchronized actions across interfaces. We study PSI through a three-week autobiographical deployment in a self-developed personal AI environment and show that later-generated instruments can be integrated automatically through the same contract. PSI identifies shared state as the missing systems layer that transforms AI-generated personal software from isolated apps into coherent personal computing environments.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08529" target="_blank">PSI: Shared State as the Missing Layer for Coherent AI-Generated Instruments in Personal AI Agents</a> <span class="src-num">[34]</span></div>
+          <div class="card-authors">Zhiyuan Wang, Erzhen Hu, Mark Rucker, et al.</div>
+          <div class="card-desc">Personal AI tools can now be generated from natural-language requests, but they often remain isolated after creation. We present PSI, a shared-state architecture that turns independently generated modules into coherent...</div>
+          <div class="card-tags"><span class="tag">cs.HC</span><span class="tag">cs.AI</span></div>
+        </div>
+        <div class="card" data-full-desc='AI agents may be able to automate your inbox, but can they automate other routine aspects of your life? Everyday online tasks offer a realistic yet unsolved testbed for evaluating the next generation of AI agents. To this end, we introduce ClawBench, an evaluation framework of 153 simple tasks that people need to accomplish regularly in their lives and work, spanning 144 live platforms across 15 categories, from completing purchases and booking appointments to submitting job applications. These tasks require demanding capabilities beyond existing benchmarks, such as obtaining relevant information from user-provided documents, navigating multi-step workflows across diverse platforms, and write-heavy operations like filling in many detailed forms correctly. Unlike existing benchmarks that evaluate agents in offline sandboxes with static pages, ClawBench operates on production websites, preserving the full complexity, dynamic nature, and challenges of real-world web interaction. A lightweight interception layer captures and blocks only the final submission request, ensuring safe evaluation without real-world side effects. Our evaluations of 7 frontier models show that both proprietary and open-source models can complete only a small portion of these tasks. For example, Claude Sonnet 4.6 achieves only 33.3%. Progress on ClawBench brings us closer to AI agents that can function as reliable general-purpose assistants.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08523" target="_blank">ClawBench: Can AI Agents Complete Everyday Online Tasks?</a> <span class="src-num">[35]</span></div>
+          <div class="card-authors">Yuxuan Zhang, Yubo Wang, Yipeng Zhu, et al.</div>
+          <div class="card-desc">AI agents may be able to automate your inbox, but can they automate other routine aspects of your life? Everyday online tasks offer a realistic yet unsolved testbed for evaluating the next generation of AI agents. To...</div>
+          <div class="card-tags"><span class="tag">cs.CL</span><span class="tag">cs.AI</span></div>
+        </div>
+        <div class="card" data-full-desc='AI agents are changing the requirements for document parsing. What matters is \emph{semantic correctness}: parsed output must preserve the structure and meaning needed for autonomous decisions, including correct table structure, precise chart data, semantically meaningful formatting, and visual grounding. Existing benchmarks do not fully capture this setting for enterprise automation, relying on narrow document distributions and text-similarity metrics that miss agent-critical failures. We introduce \textbf{ParseBench}, a benchmark of ${\sim}2{,}000$ human-verified pages from enterprise documents spanning insurance, finance, and government, organized around five capability dimensions: tables, charts, content faithfulness, semantic formatting, and visual grounding. Across 14 methods spanning vision-language models, specialized document parsers, and LlamaParse, the benchmark reveals a fragmented capability landscape: no method is consistently strong across all five dimensions. LlamaParse Agentic achieves the highest overall score at \agenticoverall\%, and the benchmark highlights the remaining capability gaps across current systems. Dataset and evaluation code are available on \href{https://huggingface.co/datasets/llamaindex/ParseBench}{HuggingFace} and \href{https://github.com/run-llama/ParseBench}{GitHub}.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08538" target="_blank">ParseBench: A Document Parsing Benchmark for AI Agents</a> <span class="src-num">[36]</span></div>
+          <div class="card-authors">Boyang Zhang, Sebastián G. Acosta, Preston Carlson, et al.</div>
+          <div class="card-desc">AI agents are changing the requirements for document parsing. What matters is \emph{semantic correctness}: parsed output must preserve the structure and meaning needed for autonomous decisions, including correct table...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🛡️ AI Safety</h3>
+      <div class="cards-grid">
+        <div class="card" data-full-desc='We introduce RewardFlow, an inversion-free framework that steers pretrained diffusion and flow-matching models at inference time through multi-reward Langevin dynamics. RewardFlow unifies complementary differentiable rewards for semantic alignment, perceptual fidelity, localized grounding, object consistency, and human preference, and further introduces a differentiable VQA-based reward that provides fine-grained semantic supervision through language-vision reasoning. To coordinate these heterogeneous objectives, we design a prompt-aware adaptive policy that extracts semantic primitives from the instruction, infers edit intent, and dynamically modulates reward weights and step sizes throughout sampling. Across several image editing and compositional generation benchmarks, RewardFlow delivers state-of-the-art edit fidelity and compositional alignment.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08536" target="_blank">RewardFlow: Generate Images by Optimizing What You Reward</a> <span class="src-num">[37]</span></div>
+          <div class="card-authors">Onkar Susladkar, Dong-Hwan Jang, Tushar Prakash, et al.</div>
+          <div class="card-desc">We introduce RewardFlow, an inversion-free framework that steers pretrained diffusion and flow-matching models at inference time through multi-reward Langevin dynamics. RewardFlow unifies complementary differentiable...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>⚛️ Quantum</h3>
+      <div class="cards-grid">
+        <div class="card" data-full-desc='When a user sends a message over a wireless network, the message does not travel as-is. It is encrypted, authenticated, encapsulated, and transformed as it descends the protocol stack from the application layer to the physical medium. Each layer may apply its own cryptographic operations using its own algorithms, and these algorithms differ in their vulnerability to quantum computers. The security of the overall communication depends not on any single layer but on the \emph{composition} of transformations across all layers. We develop a preliminary formal framework for analyzing these cross-layer cryptographic transformations with respect to post-quantum cryptographic (PQC) readiness. We classify every per-layer cryptographic operation into one of four quantum vulnerability categories, define how per-layer PQC statuses compose across the full message transformation chain, and prove that this composition forms a bounded lattice with confidentiality composing via the join (max) operator and authentication via the meet (min). We apply the framework to five communication scenarios spanning Linux and iOS platforms, and identify several research challenges. Among our findings: WPA2-Personal provides strictly better PQC posture than both WPA3-Personal and WPA2-Enterprise; a single post-quantum layer suffices for payload confidentiality but \emph{every} layer must migrate for complete authentication; and metadata protection depends solely on the outermost layer.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08480" target="_blank">Post-Quantum Cryptographic Analysis of Message Transformations Across the Network Stack</a> <span class="src-num">[38]</span></div>
+          <div class="card-authors">Ashish Kundu, Vishal Chakraborty, Ramana Kompella</div>
+          <div class="card-desc">When a user sends a message over a wireless network, the message does not travel as-is. It is encrypted, authenticated, encapsulated, and transformed as it descends the protocol stack from the application layer to the...</div>
+          <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.NI</span></div>
+        </div>
+        <div class="card" data-full-desc='Free-form bones, that conform closely to the surface, can effectively capture non-rigid deformations, but lack a kinematic structure necessary for intuitive control. Thus, we propose a Scaffold-Skin Rigging System, termed "Skelebones", with three key steps: (1) Bones: compress temporally-consistent deformable Gaussians into free-form bones, approximating non-rigid surface deformations; (2) Skeleton: extract a Mean Curvature Skeleton from canonical Gaussians and refine it temporally, ensuring a category-agnostic, motion-adaptive, and topology-correct kinematic structure; (3) Binding: bind the skeleton and bones via non-parametric partwise motion matching (PartMM), synthesizing novel bone motions by matching, retrieving, and blending existing ones. Collectively, these three steps enable us to compress the Level of Dynamics of 4D shapes into compact skelebones that are both controllable and expressive. We validate our approach on both synthetic and real-world datasets, achieving significant improvements in reanimation performance across unseen poses-with 17.3% PSNR gains over Linear Blend Skinning (LBS) and 21.7% over Bag-of-Bones (BoB)-while maintaining excellent reconstruction fidelity, particularly for characters exhibiting complex non-rigid surface dynamics. Our Partwise Motion Matching algorithm demonstrates strong generalization to both Gaussian and mesh representations, especially under low-data regime (~1000 frames), achieving 48.4% RMSE improvement over robust LBS and outperforming GRU- and MLP-based learning methods by &gt;20%. Code will be made publicly available for research purposes at cookmaker.cn/gaussianimate.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08547" target="_blank">GaussiAnimate: Reconstruct and Rig Animatable Categories with Level of Dynamics</a> <span class="src-num">[39]</span></div>
+          <div class="card-authors">Jiaxin Wang, Dongxin Lyu, Zeyu Cai, et al.</div>
+          <div class="card-desc">Free-form bones, that conform closely to the surface, can effectively capture non-rigid deformations, but lack a kinematic structure necessary for intuitive control. Thus, we propose a Scaffold-Skin Rigging System,...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.GR</span></div>
+        </div>
+        <div class="card" data-full-desc='Video temporal grounding (VTG) is typically tackled with dataset-specific models that transfer poorly across domains and query styles. Recent efforts to overcome this limitation have adapted large multimodal language models (MLLMs) to VTG, but their high compute cost and limited video context still hinder long-video grounding. We instead scale unified supervision while keeping the model lightweight. We present UniversalVTG, a single VTG model trained with large-scale cross-dataset pretraining. An offline Query Unifier canonicalizes heterogeneous query formats into a shared declarative space, reducing linguistic mismatch and preventing the negative transfer observed under naïve joint training. Combined with an efficient grounding head, UniversalVTG scales to long, untrimmed videos. Across diverse benchmarks-GoalStep-StepGrounding, Ego4D-NLQ, TACoS, Charades-STA, and ActivityNet-Captions-one UniversalVTG checkpoint achieves state-of-the-art performance versus dedicated VTG models. Moreover, despite being $&gt;100\times$ smaller than recent MLLM-based approaches, UniversalVTG matches or exceeds their accuracy on multiple benchmarks, offering a practical alternative to parameter-heavy MLLMs.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08522" target="_blank">UniversalVTG: A Universal and Lightweight Foundation Model for Video Temporal Grounding</a> <span class="src-num">[40]</span></div>
+          <div class="card-authors">Joungbin An, Agrim Jain, Kristen Grauman</div>
+          <div class="card-desc">Video temporal grounding (VTG) is typically tackled with dataset-specific models that transfer poorly across domains and query styles. Recent efforts to overcome this limitation have adapted large multimodal language...</div>
+          <div class="card-tags"><span class="tag">cs.CV</span></div>
+        </div>
+        <div class="card" data-full-desc='We lay the foundations for a quantum formalism describing the real-time evolution of particles in the Glasma phase of a heavy-ion collision, focusing on the implications of gauge invariance in the definition of the momentum of a particle in a classical background field. We first establish the correspondence between the classical Wong&#39;s equations and the Heisenberg equations of motion for a particle in a classical non-Abelian background field. Using this correspondence, we obtain equations of motion for both the kinetic momentum -- the gauge invariant, physically measurable quantity -- and the canonical momentum, which is conjugate to the coordinates in the Hamiltonian. In particular, the kinetic momentum broadening receives non-trivial contributions from the transverse field components, even in the eikonal limit. Finally, we demonstrate that imposing a transverse Coulomb gauge condition at the initial time significantly reduces the accumulation of numerical errors, thereby providing an optimized framework for the forthcoming quantum implementation.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08520" target="_blank">Kinetic and canonical momentum broadening in the Glasma</a> <span class="src-num">[41]</span></div>
+          <div class="card-authors">Dana Avramescu, Carlos Lamas, Tuomas Lappi, et al.</div>
+          <div class="card-desc">We lay the foundations for a quantum formalism describing the real-time evolution of particles in the Glasma phase of a heavy-ion collision, focusing on the implications of gauge invariance in the definition of the...</div>
+          <div class="card-tags"><span class="tag">hep-ph</span><span class="tag">nucl-th</span></div>
+        </div>
+        <div class="card" data-full-desc='The study of repeated interactions between a learner and a utility-maximizing optimizer has yielded deep insights into the manipulability of learning algorithms. However, existing literature primarily focuses on independent, unlinked rounds, largely ignoring the ubiquitous practical reality of budget constraints. In this paper, we study this interaction in repeated second-price auctions in a Bayesian setting between a learning agent and a strategic agent, both subject to strict budget constraints, showing that such cross-round constraints fundamentally alter the strategic landscape. First, we generalize the classic Stackelberg equilibrium to the Budgeted Stackelberg Equilibrium. We prove that an optimizer&#39;s optimal strategy in a budgeted setting requires time-multiplexing; for a $k$-dimensional budget constraint, the optimal strategy strictly decomposes into up to $k+1$ distinct phases, with each phase employing a possibly unique mixed strategy (the case of $k=0$ recovers the classic Stackelberg equilibrium where the optimizer repeatedly uses a single mixed strategy). Second, we address the intriguing question of non-manipulability. We prove that when the learner employs a standard Proportional controller (the "P" of the PID-controller) to pace their bids, the optimizer&#39;s utility is upper bounded by their objective value in the Budgeted Stackelberg Equilibrium baseline. By bounding the dynamics of the PID controller via a novel analysis, our results establish that this widely used control-theoretic heuristic is actually strategically robust.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08517" target="_blank">Learning vs. Optimizing Bidders in Budgeted Auctions</a> <span class="src-num">[42]</span></div>
+          <div class="card-authors">Giannis Fikioris, Balasubramanian Sivan, Éva Tardos</div>
+          <div class="card-desc">The study of repeated interactions between a learner and a utility-maximizing optimizer has yielded deep insights into the manipulability of learning algorithms. However, existing literature primarily focuses on...</div>
+          <div class="card-tags"><span class="tag">cs.GT</span></div>
+        </div>
+        <div class="card" data-full-desc='Understanding the mechanisms that limit high-fidelity readout in circuit quantum electrodynamics is essential for its optimization. Multi-photon resonances are understood to be a limiting factor, causing population transfer from the computational states to higher-energy states under drive. This effect, known as measurement-induced state transitions, has been extensively studied for the transmon qubit. While this exploration has begun for the fluxonium qubit, a systematic study of this effect is lacking. Here, we bridge this gap by theoretically studying measurement-induced state transitions in the fluxonium qubit over a wide range of parameters, comprising essentially all experimentally explored ranges. We find that lighter fluxoniums are less susceptible to these state transitions when compared to their heavier counterparts. We attribute this effect to the combination of lower density of multi-photon resonances, a smaller requisite coupling for a given dispersive shift, and a more harmonic-like structure of the charge operator. We confirm the validity of our analysis by performing time-dependent readout simulations. Finally, we consider the impact of the superinductor&#39;s array modes on measurement-induced state transitions over a large range of parameters.'>
+          <div class="card-title"><a href="https://arxiv.org/abs/2604.08515" target="_blank">Measurement-induced state transitions across the fluxonium qubit landscape</a> <span class="src-num">[43]</span></div>
+          <div class="card-authors">Alex A. Chapple, Boris M. Varbanov, Alexander McDonald, et al.</div>
+          <div class="card-desc">Understanding the mechanisms that limit high-fidelity readout in circuit quantum electrodynamics is essential for its optimization. Multi-photon resonances are understood to be a limiting factor, causing population...</div>
+          <div class="card-tags"><span class="tag">quant-ph</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    
+    <div class="section-group">
+      <h3>💬 Hacker News</h3>
+      <div class="cards-grid">
+        <div class="card web-card">
+          <div class="card-title"><a href="https://news.ycombinator.com/item?id=47668710" target="_blank">Neuro-symbolic AI breakthrough cuts energy use by 100x while boosting accuracy</a> <span class="src-num">[44]</span></div>
+          <div class="card-desc">Published on hackernews — AI breakthrough topic.</div>
+          <div class="card-tags"><span class="tag web-tag">AI breakthrough</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://www.sciencedaily.com/releases/2026/04/260405003952.htm" target="_blank">(https://www.sciencedaily.com/releases/2026/04/260405003952.htm)</a> <span class="src-num">[45]</span></div>
+          <div class="card-desc">Published on hackernews — AI breakthrough topic.</div>
+          <div class="card-tags"><span class="tag web-tag">AI breakthrough</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://news.ycombinator.com/item?id=47688483" target="_blank">Breakthrough in AI Solving Math Conjectures: Peking Univ. Team's Exploration</a> <span class="src-num">[46]</span></div>
+          <div class="card-desc">Published on hackernews — AI breakthrough topic.</div>
+          <div class="card-tags"><span class="tag web-tag">AI breakthrough</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://chinaresearchcollective.substack.com/p/a-new-breakthrough-in-ai-solving" target="_blank">(https://chinaresearchcollective.substack.com/p/a-new-breakthrough-in-ai-solving)</a> <span class="src-num">[47]</span></div>
+          <div class="card-desc">Published on hackernews — AI breakthrough topic.</div>
+          <div class="card-tags"><span class="tag web-tag">AI breakthrough</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://news.ycombinator.com/item?id=47689822" target="_blank">Ask HN: What's the state of multimodal prompt injection defence in 2026?</a> <span class="src-num">[48]</span></div>
+          <div class="card-desc">Published on hackernews — LLM research paper topic.</div>
+          <div class="card-tags"><span class="tag web-tag">LLM research paper</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://news.ycombinator.com/item?id=47719919" target="_blank">Ubik Studio: A desktop-native, NotebookLM alternative with agentic-annotation</a> <span class="src-num">[49]</span></div>
+          <div class="card-desc">Published on hackernews — LLM research paper topic.</div>
+          <div class="card-tags"><span class="tag web-tag">LLM research paper</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://old.reddit.com/r/electronjs/comments/1sfzgbr/built_an_llm_research_studio_for_working_with/" target="_blank">(https://old.reddit.com/r/electronjs/comments/1sfzgbr/built_an_llm_research_studio_for_working_with/)</a> <span class="src-num">[50]</span></div>
+          <div class="card-desc">Published on hackernews — LLM research paper topic.</div>
+          <div class="card-tags"><span class="tag web-tag">LLM research paper</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://news.ycombinator.com/item?id=47645594" target="_blank">Show HN: Signals – finding the most informative agent traces without LLM judges</a> <span class="src-num">[51]</span></div>
+          <div class="card-desc">Published on hackernews — LLM research paper topic.</div>
+          <div class="card-tags"><span class="tag web-tag">LLM research paper</span></div>
+        </div>
+      </div>
+      <p class="more-text">...and 17 more findings from Hacker News.</p>
+    </div>
+    <div class="section-group">
+      <h3>💬 HuggingFace</h3>
+      <div class="cards-grid">
+        <div class="card web-card">
+          <div class="card-title"><a href="https://huggingface.co/papers/2604.07338" target="_blank">Appear2Meaning: A Cross-Cultural Benchmark for Structured Cultural Metadata Inference from Images</a> <span class="src-num">[69]</span></div>
+          <div class="card-desc">arXiv:2604.07338 | Authors: Yuechen Jiang, Enze Zhang, Md Mohsinul Kabir, Qianqian Xie, Stavroula Golfomitsou | Upvotes: 1</div>
+          <div class="card-tags"><span class="tag web-tag">daily curated papers</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://huggingface.co/papers/2602.06057" target="_blank">QEIL v2: Heterogeneous Computing for Edge Intelligence via Roofline-Derived Pareto-Optimal Energy Modeling and Multi-Objective Orchestration</a> <span class="src-num">[70]</span></div>
+          <div class="card-desc">arXiv:2602.06057 | Authors: Satyam Kumar, Saurabh Jha | Upvotes: 2</div>
+          <div class="card-tags"><span class="tag web-tag">daily curated papers</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://huggingface.co/papers/2604.06377" target="_blank">The Master Key Hypothesis: Unlocking Cross-Model Capability Transfer via Linear Subspace Alignment</a> <span class="src-num">[71]</span></div>
+          <div class="card-desc">arXiv:2604.06377 | Authors: Rishab Balasubramanian, Pin-Jie Lin, Rituraj Sharma, Anjie Fang, Fardin Abdi | Upvotes: 3</div>
+          <div class="card-tags"><span class="tag web-tag">daily curated papers</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://huggingface.co/papers/2604.03841" target="_blank">Training a Student Expert via Semi-Supervised Foundation Model Distillation</a> <span class="src-num">[72]</span></div>
+          <div class="card-desc">arXiv:2604.03841 | Authors: Pardis Taghavi, Tian Liu, Renjie Li, Reza Langari, Zhengzhong Tu | Upvotes: 2</div>
+          <div class="card-tags"><span class="tag web-tag">daily curated papers</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://huggingface.co/papers/2511.16428" target="_blank">CylinderDepth: Cylindrical Spatial Attention for Multi-View Consistent Self-Supervised Surround Depth Estimation</a> <span class="src-num">[73]</span></div>
+          <div class="card-desc">arXiv:2511.16428 | Authors: Samer Abualhanud, Christian Grannemann, Max Mehltretter | Upvotes: 0</div>
+          <div class="card-tags"><span class="tag web-tag">daily curated papers</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://huggingface.co/papers/2604.08120" target="_blank">Small Vision-Language Models are Smart Compressors for Long Video Understanding</a> <span class="src-num">[74]</span></div>
+          <div class="card-desc">arXiv:2604.08120 | Authors: Junjie Fei, Jun Chen, Zechun Liu, Yunyang Xiong, Chong Zhou | Upvotes: 7</div>
+          <div class="card-tags"><span class="tag web-tag">daily curated papers</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://huggingface.co/papers/2604.08476" target="_blank">Faithful GRPO: Improving Visual Spatial Reasoning in Multimodal Language Models via Constrained Policy Optimization</a> <span class="src-num">[75]</span></div>
+          <div class="card-desc">arXiv:2604.08476 | Authors: Sai Srinivas Kancheti, Aditya Kanade, Rohit Sinha, Vineeth N Balasubramanian, Tanuja Ganu | Upvotes: 3</div>
+          <div class="card-tags"><span class="tag web-tag">daily curated papers</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://huggingface.co/papers/2601.20524" target="_blank">AnomalyVFM -- Transforming Vision Foundation Models into Zero-Shot Anomaly Detectors</a> <span class="src-num">[76]</span></div>
+          <div class="card-desc">arXiv:2601.20524 | Authors: Matic Fučka, Vitjan Zavrtanik, Danijel Skočaj | Upvotes: 2</div>
+          <div class="card-tags"><span class="tag web-tag">daily curated papers</span></div>
+        </div>
+      </div>
+      <p class="more-text">...and 36 more findings from HuggingFace.</p>
+    </div>
+    <div class="section-group">
+      <h3>💬 Lobste.rs</h3>
+      <div class="cards-grid">
+        <div class="card web-card">
+          <div class="card-title"><a href="https://www.quantamagazine.org/why-do-we-tell-ourselves-scary-stories-about-ai-20260410/" target="_blank">Why Do We Tell Ourselves Scary Stories About AI?</a> <span class="src-num">[113]</span></div>
+          <div class="card-desc">Tags: ai | Score: 2</div>
+          <div class="card-tags"><span class="tag web-tag">ai</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://blog.orhun.dev/code-responsibly/" target="_blank">Write less code, be more responsible</a> <span class="src-num">[114]</span></div>
+          <div class="card-desc">Tags: ai, vibecoding | Score: 0</div>
+          <div class="card-tags"><span class="tag web-tag">ai</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://lobste.rs/s/bzcjrl" target="_blank">How is your org/company measuring the impact of AI adoption?</a> <span class="src-num">[115]</span></div>
+          <div class="card-desc">Tags: ai, ask | Score: 9</div>
+          <div class="card-tags"><span class="tag web-tag">ai</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://rodneybrooks.com/predictions-scorecard-2026-january-01/" target="_blank">Predictions Scorecard, 2026 January 01</a> <span class="src-num">[116]</span></div>
+          <div class="card-desc">Tags: ai | Score: 1</div>
+          <div class="card-tags"><span class="tag web-tag">ai</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://www.anthropic.com/glasswing" target="_blank">Project Glasswing: Securing critical software for the AI era</a> <span class="src-num">[117]</span></div>
+          <div class="card-desc">Tags: ai | Score: 6</div>
+          <div class="card-tags"><span class="tag web-tag">ai</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://www.robinsloan.com/winter-garden/where-is-it-like/" target="_blank">Where is it like to be a language model?</a> <span class="src-num">[118]</span></div>
+          <div class="card-desc">Tags: ai, philosophy | Score: 3</div>
+          <div class="card-tags"><span class="tag web-tag">ai</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://www.brookings.edu/articles/artificial-intelligence-saturation-and-the-future-of-work/" target="_blank">(Artificial) Intelligence saturation and the future of work</a> <span class="src-num">[119]</span></div>
+          <div class="card-desc">Tags: ai | Score: 0</div>
+          <div class="card-tags"><span class="tag web-tag">ai</span></div>
+        </div>
+        <div class="card web-card">
+          <div class="card-title"><a href="https://arxiv.org/pdf/2603.26524" target="_blank">Mathematical methods and human thought in the age of AI</a> <span class="src-num">[120]</span></div>
+          <div class="card-desc">Tags: ai, culture, philosophy | Score: 3</div>
+          <div class="card-tags"><span class="tag web-tag">ai</span></div>
+        </div>
+      </div>
+      <p class="more-text">...and 115 more findings from Lobste.rs.</p>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>📚 Sources</h2>
+    <div class="sources-grid">
+      <ol start="1"><li><a href="https://arxiv.org/abs/2604.08541" target="_blank">Seeing but Not Thinking: Routing Distraction in Multimodal Mixture-of-Experts</a></li><li><a href="https://arxiv.org/abs/2604.08540" target="_blank">AVGen-Bench: A Task-Driven Benchmark for Multi-Granular Evaluation of Text-to-Audio-Video Generation</a></li><li><a href="https://arxiv.org/abs/2604.08539" target="_blank">OpenVLThinkerV2: A Generalist Multimodal Reasoning Model for Multi-domain Visual Tasks</a></li><li><a href="https://arxiv.org/abs/2604.08525" target="_blank">Ads in AI Chatbots? An Analysis of How Large Language Models Navigate Conflicts of Interest</a></li><li><a href="https://arxiv.org/abs/2604.08524" target="_blank">What Drives Representation Steering? A Mechanistic Case Study on Steering Refusal</a></li><li><a href="https://arxiv.org/abs/2604.08527" target="_blank">Demystifying OPD: Length Inflation and Stabilization Strategies for Large Language Models</a></li><li><a href="https://arxiv.org/abs/2604.08519" target="_blank">Cram Less to Fit More: Training Data Pruning Improves Memorization of Facts</a></li><li><a href="https://arxiv.org/abs/2604.08504" target="_blank">Differentially Private Language Generation and Identification in the Limit</a></li><li><a href="https://arxiv.org/abs/2604.08477" target="_blank">SUPERNOVA: Eliciting General Reasoning in LLMs with Reinforcement Learning on Natural Instructions</a></li><li><a href="https://arxiv.org/abs/2604.08534" target="_blank">ActiveGlasses: Learning Manipulation with Active Vision from Ego-centric Human Demonstration</a></li><li><a href="https://arxiv.org/abs/2604.08533" target="_blank">On the structure theorem of graded components of $\mathcal{F}$-finite, $\mathcal{F}$-modules over certain polynomial ring</a></li><li><a href="https://arxiv.org/abs/2604.08544" target="_blank">SIM1: Physics-Aligned Simulator as Zero-Shot Data Scaler in Deformable Worlds</a></li><li><a href="https://arxiv.org/abs/2604.08537" target="_blank">Meta-learning In-Context Enables Training-Free Cross Subject Brain Decoding</a></li><li><a href="https://arxiv.org/abs/2604.08492" target="_blank">The Impact of Dimensionality on the Stability of Node Embeddings</a></li><li><a href="https://arxiv.org/abs/2604.08474" target="_blank">Quantization Impact on the Accuracy and Communication Efficiency Trade-off in Federated Learning for Aerospace Predictive Maintenance</a></li><li><a href="https://arxiv.org/abs/2604.08469" target="_blank">Persistence-Augmented Neural Networks</a></li><li><a href="https://arxiv.org/abs/2604.08548" target="_blank">ETCH-X: Robustify Expressive Body Fitting to Clothed Humans with Composable Datasets</a></li><li><a href="https://arxiv.org/abs/2604.08546" target="_blank">When Numbers Speak: Aligning Textual Numerals and Visual Instances in Text-to-Video Diffusion Models</a></li><li><a href="https://arxiv.org/abs/2604.08543" target="_blank">E-3DPSM: A State Machine for Event-Based Egocentric 3D Human Pose Estimation</a></li><li><a href="https://arxiv.org/abs/2604.08542" target="_blank">Scal3R: Scalable Test-Time Training for Large-Scale 3D Reconstruction</a></li><li><a href="https://arxiv.org/abs/2604.08513" target="_blank">When Fine-Tuning Changes the Evidence: Architecture-Dependent Semantic Drift in Chest X-Ray Explanations</a></li><li><a href="https://arxiv.org/abs/2604.08499" target="_blank">PIArena: A Platform for Prompt Injection Evaluation</a></li><li><a href="https://arxiv.org/abs/2604.08417" target="_blank">Vulnerability Detection with Interprocedural Context in Multiple Languages: Assessing Effectiveness and Cost of Modern LLMs</a></li><li><a href="https://arxiv.org/abs/2604.08407" target="_blank">Your Agent Is Mine: Measuring Malicious Intermediary Attacks on the LLM Supply Chain</a></li><li><a href="https://arxiv.org/abs/2604.08352" target="_blank">Security Concerns in Generative AI Coding Assistants: Insights from Online Discussions on GitHub Copilot</a></li><li><a href="https://arxiv.org/abs/2604.08304" target="_blank">Securing Retrieval-Augmented Generation: A Taxonomy of Attacks, Defenses, and Future Directions</a></li><li><a href="https://arxiv.org/abs/2604.08297" target="_blank">Towards Identification and Intervention of Safety-Critical Parameters in Large Language Models</a></li><li><a href="https://arxiv.org/abs/2604.08291" target="_blank">VCAO: Verifier-Centered Agentic Orchestration for Strategic OS Vulnerability Discovery</a></li><li><a href="https://arxiv.org/abs/2604.08365" target="_blank">Equivalences of promise compactness principles</a></li><li><a href="https://arxiv.org/abs/2604.08180" target="_blank">Quantum Computing for Financial Transformation: A Review of Optimisation, Pricing, Risk, Machine Learning, and Post-Quantum Security</a></li><li><a href="https://arxiv.org/abs/2604.08140" target="_blank">Multimodal Reasoning with LLM for Encrypted Traffic Interpretation: A Benchmark</a></li><li><a href="https://arxiv.org/abs/2604.08047" target="_blank">A H.265/HEVC Fine-Grained ROI Video Encryption Algorithm Based on Coding Unit and Prompt Segmentation</a></li><li><a href="https://arxiv.org/abs/2604.08545" target="_blank">Act Wisely: Cultivating Meta-Cognitive Tool Use in Agentic Multimodal Models</a></li><li><a href="https://arxiv.org/abs/2604.08529" target="_blank">PSI: Shared State as the Missing Layer for Coherent AI-Generated Instruments in Personal AI Agents</a></li><li><a href="https://arxiv.org/abs/2604.08523" target="_blank">ClawBench: Can AI Agents Complete Everyday Online Tasks?</a></li><li><a href="https://arxiv.org/abs/2604.08538" target="_blank">ParseBench: A Document Parsing Benchmark for AI Agents</a></li><li><a href="https://arxiv.org/abs/2604.08536" target="_blank">RewardFlow: Generate Images by Optimizing What You Reward</a></li><li><a href="https://arxiv.org/abs/2604.08480" target="_blank">Post-Quantum Cryptographic Analysis of Message Transformations Across the Network Stack</a></li><li><a href="https://arxiv.org/abs/2604.08547" target="_blank">GaussiAnimate: Reconstruct and Rig Animatable Categories with Level of Dynamics</a></li><li><a href="https://arxiv.org/abs/2604.08522" target="_blank">UniversalVTG: A Universal and Lightweight Foundation Model for Video Temporal Grounding</a></li><li><a href="https://arxiv.org/abs/2604.08520" target="_blank">Kinetic and canonical momentum broadening in the Glasma</a></li><li><a href="https://arxiv.org/abs/2604.08517" target="_blank">Learning vs. Optimizing Bidders in Budgeted Auctions</a></li><li><a href="https://arxiv.org/abs/2604.08515" target="_blank">Measurement-induced state transitions across the fluxonium qubit landscape</a></li><li><a href="https://news.ycombinator.com/item?id=47668710" target="_blank">Neuro-symbolic AI breakthrough cuts energy use by 100x while boosting accuracy</a></li><li><a href="https://www.sciencedaily.com/releases/2026/04/260405003952.htm" target="_blank">(https://www.sciencedaily.com/releases/2026/04/260405003952.htm)</a></li><li><a href="https://news.ycombinator.com/item?id=47688483" target="_blank">Breakthrough in AI Solving Math Conjectures: Peking Univ. Team's Exploration</a></li><li><a href="https://chinaresearchcollective.substack.com/p/a-new-breakthrough-in-ai-solving" target="_blank">(https://chinaresearchcollective.substack.com/p/a-new-breakthrough-in-ai-solving)</a></li><li><a href="https://news.ycombinator.com/item?id=47689822" target="_blank">Ask HN: What's the state of multimodal prompt injection defence in 2026?</a></li><li><a href="https://news.ycombinator.com/item?id=47719919" target="_blank">Ubik Studio: A desktop-native, NotebookLM alternative with agentic-annotation</a></li><li><a href="https://old.reddit.com/r/electronjs/comments/1sfzgbr/built_an_llm_research_studio_for_working_with/" target="_blank">(https://old.reddit.com/r/electronjs/comments/1sfzgbr/built_an_llm_research_studio_for_working_with/)</a></li><li><a href="https://news.ycombinator.com/item?id=47645594" target="_blank">Show HN: Signals – finding the most informative agent traces without LLM judges</a></li><li><a href="https://arxiv.org/abs/2604.00356" target="_blank">(https://arxiv.org/abs/2604.00356)</a></li><li><a href="https://news.ycombinator.com/item?id=47691681" target="_blank">Show HN: Interactive first-principles climate physics simulation with explainer</a></li><li><a href="https://earth.crackalamoo.com" target="_blank">(https://earth.crackalamoo.com)</a></li><li><a href="https://news.ycombinator.com/item?id=47697744" target="_blank">Ask HN: Best social impact project for a MLE?</a></li><li><a href="https://news.ycombinator.com/item?id=47699963" target="_blank">AI Cybersecurity After Mythos: The Jagged Frontier</a></li><li><a href="https://aisle.com/blog/ai-cybersecurity-after-mythos-the-jagged-frontier" target="_blank">(https://aisle.com/blog/ai-cybersecurity-after-mythos-the-jagged-frontier)</a></li><li><a href="https://news.ycombinator.com/item?id=47724513" target="_blank">AI and Cybersecurity: A Glass Half-Empty/Half-Full of Nitroglycerin</a></li><li><a href="https://www.techdirt.com/2026/04/10/ai-and-cybersecurity-a-glass-half-empty-half-full-proposition-where-the-glass-is-holding-nitroglycerin/" target="_blank">(https://www.techdirt.com/2026/04/10/ai-and-cybersecurity-a-glass-half-empty-half-full-proposition-where-the-glass-is-holding-nitroglycerin/)</a></li><li><a href="https://news.ycombinator.com/item?id=47693923" target="_blank">Anthropic limits access to Mythos, its new cybersecurity AI model</a></li><li><a href="https://news.ycombinator.com/" target="_blank">Search Hacker News</a></li><li><a href="https://news.ycombinator.com/item?id=47714060" target="_blank">How zero-knowledge proofs make quantum circuits &quot;private&quot;</a></li><li><a href="https://medium.com/@jkim_tran/verifying-private-quantum-circuits-9ec99d5f3d5a" target="_blank">(https://medium.com/@jkim_tran/verifying-private-quantum-circuits-9ec99d5f3d5a)</a></li><li><a href="https://news.ycombinator.com/item?id=47662234" target="_blank">A cryptography engineer's perspective on quantum computing timelines</a></li><li><a href="https://words.filippo.io/crqc-timeline/" target="_blank">(https://words.filippo.io/crqc-timeline/)</a></li><li><a href="https://news.ycombinator.com/item?id=47681274" target="_blank">Bitcoin and quantum computing</a></li><li><a href="https://nehanarula.org/2026/04/03/bitcoin-and-quantum-computing.html" target="_blank">(https://nehanarula.org/2026/04/03/bitcoin-and-quantum-computing.html)</a></li><li><a href="https://news.ycombinator.com/item?id=47669803" target="_blank">Quantum computing could fix AI's sustainability problem</a></li><li><a href="https://huggingface.co/papers/2604.07338" target="_blank">Appear2Meaning: A Cross-Cultural Benchmark for Structured Cultural Metadata Inference from Images</a></li><li><a href="https://huggingface.co/papers/2602.06057" target="_blank">QEIL v2: Heterogeneous Computing for Edge Intelligence via Roofline-Derived Pareto-Optimal Energy Modeling and Multi-Objective Orchestration</a></li><li><a href="https://huggingface.co/papers/2604.06377" target="_blank">The Master Key Hypothesis: Unlocking Cross-Model Capability Transfer via Linear Subspace Alignment</a></li><li><a href="https://huggingface.co/papers/2604.03841" target="_blank">Training a Student Expert via Semi-Supervised Foundation Model Distillation</a></li><li><a href="https://huggingface.co/papers/2511.16428" target="_blank">CylinderDepth: Cylindrical Spatial Attention for Multi-View Consistent Self-Supervised Surround Depth Estimation</a></li><li><a href="https://huggingface.co/papers/2604.08120" target="_blank">Small Vision-Language Models are Smart Compressors for Long Video Understanding</a></li><li><a href="https://huggingface.co/papers/2604.08476" target="_blank">Faithful GRPO: Improving Visual Spatial Reasoning in Multimodal Language Models via Constrained Policy Optimization</a></li><li><a href="https://huggingface.co/papers/2601.20524" target="_blank">AnomalyVFM -- Transforming Vision Foundation Models into Zero-Shot Anomaly Detectors</a></li><li><a href="https://huggingface.co/papers/2604.08172" target="_blank">On the Global Photometric Alignment for Low-Level Vision</a></li><li><a href="https://huggingface.co/papers/2604.08064" target="_blank">ImplicitMemBench: Measuring Unconscious Behavioral Adaptation in Large Language Models</a></li><li><a href="https://huggingface.co/papers/2604.07427" target="_blank">Personalizing Text-to-Image Generation to Individual Taste</a></li><li><a href="https://huggingface.co/papers/2604.06938" target="_blank">POS-ISP: Pipeline Optimization at the Sequence Level for Task-aware ISP</a></li><li><a href="https://huggingface.co/papers/2604.08168" target="_blank">ViVa: A Video-Generative Value Model for Robot Reinforcement Learning</a></li><li><a href="https://huggingface.co/papers/2604.06628" target="_blank">Rethinking Generalization in Reasoning SFT: A Conditional Analysis on Optimization, Data, and Model Capability</a></li><li><a href="https://huggingface.co/papers/2604.07966" target="_blank">Lighting-grounded Video Generation with Renderer-based Agent Reasoning</a></li><li><a href="https://huggingface.co/papers/2604.07776" target="_blank">Structured Distillation of Web Agent Capabilities Enables Generalization</a></li><li><a href="https://huggingface.co/papers/2603.27070" target="_blank">Structural Graph Probing of Vision-Language Models</a></li><li><a href="https://huggingface.co/papers/2604.07296" target="_blank">OpenSpatial: A Principled Data Engine for Empowering Spatial Intelligence</a></li><li><a href="https://huggingface.co/papers/2604.08364" target="_blank">MegaStyle: Constructing Diverse and Scalable Style Dataset via Consistent Text-to-Image Style Mapping</a></li><li><a href="https://huggingface.co/papers/2604.06231" target="_blank">Automating Database-Native Function Code Synthesis with LLMs</a></li><li><a href="https://huggingface.co/papers/2604.07823" target="_blank">LPM 1.0: Video-based Character Performance Model</a></li><li><a href="https://huggingface.co/papers/2604.08124" target="_blank">Beyond Stochastic Exploration: What Makes Training Data Valuable for Agentic Search</a></li><li><a href="https://huggingface.co/papers/2604.08526" target="_blank">FIT: A Large-Scale Dataset for Fit-Aware Virtual Try-On</a></li><li><a href="https://huggingface.co/papers/2604.07429" target="_blank">GameWorld: Towards Standardized and Verifiable Evaluation of Multimodal Game Agents</a></li><li><a href="https://huggingface.co/papers/2604.08503" target="_blank">Phantom: Physics-Infused Video Generation via Joint Modeling of Visual and Latent Physical Dynamics</a></li><li><a href="https://huggingface.co/papers/2604.08340" target="_blank">PokeGym: A Visually-Driven Long-Horizon Benchmark for Vision-Language Models</a></li><li><a href="https://huggingface.co/papers/2604.08377" target="_blank">SkillClaw: Let Skills Evolve Collectively with Agentic Evolver</a></li><li><a href="https://huggingface.co/papers/2604.08516" target="_blank">MolmoWeb: Open Visual Web Agent and Open Data for the Open Web</a></li><li><a href="https://huggingface.co/papers/2604.07430" target="_blank">HY-Embodied-0.5: Embodied Foundation Models for Real-World Agents</a></li><li><a href="https://huggingface.co/papers/2604.08455" target="_blank">KnowU-Bench: Towards Interactive, Proactive, and Personalized Mobile Agent Evaluation</a></li><li><a href="https://huggingface.co/papers/2604.08362" target="_blank">Towards Real-world Human Behavior Simulation: Benchmarking Large Language Models on Long-horizon, Cross-scenario, Heterogeneous Behavior Traces</a></li><li><a href="https://huggingface.co/papers/2604.08302" target="_blank">DMax: Aggressive Parallel Decoding for dLLMs</a></li><li><a href="https://huggingface.co/papers/2604.08224" target="_blank">Externalization in LLM Agents: A Unified Review of Memory, Skills, Protocols and Harness Engineering</a></li><li><a href="https://huggingface.co/papers/2604.07394" target="_blank">Flux Attention: Context-Aware Hybrid Attention for Efficient LLMs Inference</a></li><li><a href="https://huggingface.co/papers/2604.08209" target="_blank">OmniJigsaw: Enhancing Omni-Modal Reasoning via Modality-Orchestrated Reordering</a></li><li><a href="https://huggingface.co/papers/2604.05333" target="_blank">Graph of Skills: Dependency-Aware Structural Retrieval for Massive Agent Skills</a></li><li><a href="https://huggingface.co/papers/2604.06834" target="_blank">On the Step Length Confounding in LLM Reasoning Data Selection</a></li><li><a href="https://huggingface.co/papers/2604.04247" target="_blank">Combee: Scaling Prompt Learning for Self-Improving Language Model Agents</a></li><li><a href="https://huggingface.co/papers/2604.07273" target="_blank">GenLCA: 3D Diffusion for Full-Body Avatars from In-the-Wild Videos</a></li><li><a href="https://huggingface.co/papers/2604.05643" target="_blank">Graph-Based Chain-of-Thought Pruning for Reducing Redundant Reflections in Reasoning LLMs</a></li><li><a href="https://huggingface.co/papers/2604.03995" target="_blank">A Systematic Study of Cross-Modal Typographic Attacks on Audio-Visual Reasoning</a></li><li><a href="https://huggingface.co/papers/2604.06392" target="_blank">Qualixar OS: A Universal Operating System for AI Agent Orchestration</a></li><li><a href="https://huggingface.co/papers/2604.05846" target="_blank">AgentGL: Towards Agentic Graph Learning with LLMs via Reinforcement Learning</a></li><li><a href="https://huggingface.co/papers/2604.04913" target="_blank">A Frame is Worth One Token: Efficient Generative World Modeling with Delta Tokens</a></li><li><a href="https://www.quantamagazine.org/why-do-we-tell-ourselves-scary-stories-about-ai-20260410/" target="_blank">Why Do We Tell Ourselves Scary Stories About AI?</a></li><li><a href="https://blog.orhun.dev/code-responsibly/" target="_blank">Write less code, be more responsible</a></li><li><a href="https://lobste.rs/s/bzcjrl" target="_blank">How is your org/company measuring the impact of AI adoption?</a></li><li><a href="https://rodneybrooks.com/predictions-scorecard-2026-january-01/" target="_blank">Predictions Scorecard, 2026 January 01</a></li><li><a href="https://www.anthropic.com/glasswing" target="_blank">Project Glasswing: Securing critical software for the AI era</a></li><li><a href="https://www.robinsloan.com/winter-garden/where-is-it-like/" target="_blank">Where is it like to be a language model?</a></li></ol>
+      <ol start="119"><li><a href="https://www.brookings.edu/articles/artificial-intelligence-saturation-and-the-future-of-work/" target="_blank">(Artificial) Intelligence saturation and the future of work</a></li><li><a href="https://arxiv.org/pdf/2603.26524" target="_blank">Mathematical methods and human thought in the age of AI</a></li><li><a href="https://arxiv.org/abs/2604.01193" target="_blank">Embarrassingly Simple Self-Distillation Improves Code Generation</a></li><li><a href="https://tombedor.dev/approaches-to-agent-memory/" target="_blank">The Design of AI Memory Systems</a></li><li><a href="https://gist.github.com/MostAwesomeDude/560185c24f959f6fec229739cb5a6735" target="_blank">Activating Two Trap Cards at Once, or: A Gentle Response to the Popularity of Vibecoding</a></li><li><a href="https://www.pipevals.com" target="_blank">Pipevals: Evaluation pipelines for every LLM application</a></li><li><a href="https://vercel.com/changelog/updates-to-terms-of-service-march-2026" target="_blank">Vercel: Updates to Terms of Service</a></li><li><a href="https://anil.recoil.org/projects/oxcaml" target="_blank">OxCaml Labs</a></li><li><a href="https://arxiv.org/pdf/2312.00752" target="_blank">Mamba: Linear-Time Sequence Modeling with Selective State Spaces</a></li><li><a href="https://percepta.ai/blog/constructing-llm-computer" target="_blank">Constructing an LLM-Computer</a></li><li><a href="https://kldload.com/" target="_blank">10 operating systems. One USB. ZFS on root. AI-powered. Free</a></li><li><a href="https://arxiv.org/abs/2602.16800" target="_blank">Large-scale online deanonymization with LLMs</a></li><li><a href="https://ngrok.com/blog/quantization" target="_blank">Quantization from the ground up</a></li><li><a href="https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/" target="_blank">TurboQuant: Redefining AI efficiency with extreme compression</a></li><li><a href="https://yare.io/ai-arena" target="_blank">LLM 'benchmark' as a 1v1 RTS game where models write code controlling the units</a></li><li><a href="https://www.psychologytoday.com/us/blog/the-digital-self/202603/when-writing-becomes-detached-from-thought" target="_blank">When Writing Becomes Detached From Thought</a></li><li><a href="https://mathstodon.xyz/@tao/116252708577614828" target="_blank">AI's impact on mathematics is analogous to the car's impact on cities</a></li><li><a href="https://gitlab.com/IsolatedOctopi/nvidia_greenboost" target="_blank">Nvidia greenboost: transparently extend GPU VRAM using system RAM/NVMe</a></li><li><a href="https://mistral.ai/news/debugging-memory-leak-in-vllm" target="_blank">Heaps do lie: Debugging a memory leak in vLLM</a></li><li><a href="https://blog.mempko.com/entering-the-architecture-age/" target="_blank">Entering The Architecture Age</a></li><li><a href="https://philcrissman.net/posts/wet-sidewalks-and-odd-numbers/" target="_blank">Wet Sidewalks and Odd Numbers</a></li><li><a href="https://kirancodes.me/posts/log-distributed-llms.html" target="_blank">Multi-agentic Software Development is a Distributed Systems Problem (AGI can't save you)</a></li><li><a href="https://jeffhuang.com/best_paper_awards/" target="_blank">Best Paper Awards in Computer Science over the past 30 years</a></li><li><a href="https://www.matheusmoreira.com/articles/babys-second-garbage-collector" target="_blank">Baby’s Second Garbage Collector</a></li><li><a href="https://pythonspeed.com/articles/reservoir-sampling-profilers/" target="_blank">Timesliced reservoir sampling: a new(?) algorithm for profilers</a></li><li><a href="https://en.wikipedia.org/wiki/Chaitin%27s_constant" target="_blank">Chaitin's constant</a></li><li><a href="https://youtu.be/Z9X3dH5LjrM" target="_blank">The Gray Device</a></li><li><a href="https://smu160.github.io/posts/missile-defense-is-np-complete/" target="_blank">Missile Defense is NP-Complete</a></li><li><a href="https://dl.acm.org/doi/pdf/10.1145/3510449?download=true" target="_blank">Binary Fuse Filters: Fast and Smaller Than Xor Filters (2022)</a></li><li><a href="https://www.undonecs.org" target="_blank">Undone Computer Science</a></li><li><a href="https://iev.ee/blog/all-longest-regex-matches-in-linear-time/" target="_blank">yes, all longest regex matches in linear time is possible</a></li><li><a href="https://repositorio-aberto.up.pt/bitstream/10216/161857/2/690986.pdf" target="_blank">Optimizing Models of Hybrid Quantum/Classical Computation [PDF] (2024)</a></li><li><a href="https://www.cs.dartmouth.edu/~doug/components.txt" target="_blank">Mass-Produced Software Components (1968)</a></li><li><a href="https://purplesyringa.moe/blog/an-ode-to-bzip/" target="_blank">An ode to bzip</a></li><li><a href="https://www.youtube.com/watch?v=eQgxFuw8f1U" target="_blank">Cellpond: Spatial programming without escape</a></li><li><a href="https://stackoverflow.blog/2020/10/05/play-the-long-game-when-learning-to-code/" target="_blank">Play the long game when learning to code (2020)</a></li><li><a href="https://danielalp.com/blog/regex_crossword/" target="_blank">Solving Regex Crosswords Without Z3</a></li><li><a href="https://iev.ee/blog/symbolic-derivatives-and-the-rust-rewrite-of-resharp/" target="_blank">symbolic derivatives and the rust rewrite of RE#</a></li><li><a href="https://blog.jordan.matelsky.com/bb64/" target="_blank">Based base64 (now with more steganography!)</a></li><li><a href="https://www-cs-faculty.stanford.edu/~knuth/papers/claude-cycles.pdf" target="_blank">Claude's Cycles</a></li><li><a href="https://github.com/RyanGibb/apt-graph-colouring" target="_blank">APT Graph Colouring</a></li><li><a href="https://arxiv.org/abs/2602.18602" target="_blank">Package Managers à la Carte: A Formal Model of Dependency Resolution</a></li><li><a href="https://xlinux.nist.gov/dads/" target="_blank">Dictionary of Algorithms and Data Structures</a></li><li><a href="https://arxiv.org/pdf/2602.20762" target="_blank">Turing Completeness of GNU find: From mkdir-assisted Loops to Standalone Computation</a></li><li><a href="https://hackingpassion.com/bluehammer-windows-defender-zero-day/" target="_blank">Windows Defender is being used to hack Windows</a></li><li><a href="https://kerkour.com/rust-supply-chain-nightmare" target="_blank">How Rust is susceptible to supply chain attacks and what we can do to mitigate the inevitable</a></li><li><a href="https://raymii.org/s/tutorials/Put_your_SSH_keys_in_your_TPM_chip.html" target="_blank">Put your SSH keys in your TPM chip</a></li><li><a href="https://vivianvoss.net/blog/capsicum-vs-seccomp" target="_blank">Capsicum vs seccomp: Process Sandboxing</a></li><li><a href="https://security.googleblog.com/2026/04/protecting-cookies-with-device-bound.html" target="_blank">Protecting Cookies with Device Bound Session Credentials</a></li><li><a href="https://criticalthinkingpodcast.github.io/research/totaljs-rce-gadgets" target="_blank">Total.js RCE gadgets all around</a></li><li><a href="https://bytecodealliance.org/articles/wasmtime-security-advisories" target="_blank">A new world for security-critical projects</a></li><li><a href="https://github.com/flatpak/flatpak/security/advisories/GHSA-cc2q-qc34-jprg" target="_blank">Flatpak: Complete Sandbox Escape</a></li><li><a href="https://paragonie.com/blog/2026/04/post-quantum-cryptography-for-php-community" target="_blank">Post-Quantum Cryptography for the PHP Community</a></li><li><a href="https://obdev.at/blog/little-snitch-for-linux/" target="_blank">Little Snitch for Linux</a></li><li><a href="https://astral.sh/blog/open-source-security-at-astral" target="_blank">Open source security at Astral</a></li><li><a href="https://ciolek.dev/posts/when-the-compiler-lies" target="_blank">When the compiler lies: breaking memory safety in safe Go</a></li><li><a href="https://discourse.nixos.org/t/nix-security-advisory-privilege-escalation-via-symlink-following-during-fod-output-registration/76900" target="_blank">Nix security advisory: Privilege escalation via symlink following during FOD output registration</a></li><li><a href="https://netbsd-cells.petermann-digital.de/" target="_blank">Cells for NetBSD - Kernel-enforced jail-like Isolation</a></li><li><a href="https://blog.cloudflare.com/post-quantum-roadmap/" target="_blank">Cloudflare targets 2029 for full post-quantum security</a></li><li><a href="https://red.anthropic.com/2026/mythos-preview/" target="_blank">Assessing Claude Mythos Preview’s cybersecurity capabilities</a></li><li><a href="https://www.openssh.com/pq.html" target="_blank">OpenSSH Post-Quantum Cryptography (2025)</a></li><li><a href="https://blog.tangrs.id.au/2026/04/06/exploiting-cve-2026-1668-part-3/" target="_blank">Getting root on on TP-Link Smart Switches using CVE-2026-1668</a></li><li><a href="https://infosec.exchange/@badkeys/116359377342260172" target="_blank">BrowserStack local leaking private key</a></li><li><a href="https://words.filippo.io/crqc-timeline/" target="_blank">A Cryptography Engineer’s Perspective on Quantum Computing Timelines</a></li><li><a href="https://github.com/boratanrikulu/gecit" target="_blank">DPI bypass using eBPF sock_ops and fake TLS ClientHello injection</a></li><li><a href="https://arxiv.org/pdf/2602.04991" target="_blank">CVA6-CFI: A First Glance at RISC-V Control-Flow Integrity Extensions</a></li><li><a href="https://unmitigatedrisk.com/?p=1231" target="_blank">Why Nobody Can Verify What Booted Your Server</a></li><li><a href="https://simonwillison.net/2026/Apr/3/supply-chain-social-engineering/" target="_blank">The Axios supply chain attack used individually targeted social engineering</a></li><li><a href="https://mtlynch.io/claude-code-found-linux-vulnerability/" target="_blank">Claude Code Found a Linux Vulnerability Hidden for 23 Years</a></li><li><a href="https://shkspr.mobi/blog/2026/04/someone-at-browserstack-is-leaking-users-email-address/" target="_blank">Someone at BrowserStack is Leaking Users' Email Address</a></li><li><a href="https://spencermortensen.com/articles/email-obfuscation/" target="_blank">Email obfuscation: What works in 2026?</a></li><li><a href="https://tech.stonecharioteer.com/posts/2026/tailscale-exit-nodes/" target="_blank">I Traced My Traffic Through a Home Tailscale Exit Node</a></li><li><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank">ChatGPT Won't Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a></li><li><a href="https://nickvsnetworking.com/somebodys-watching-me-adventures-in-cellular-locating/" target="_blank">Adventures in cellular location services</a></li><li><a href="https://www.eff.org/press/releases/nicole-ozer-named-electronic-frontier-foundations-executive-director" target="_blank">Nicole Ozer Named as Electronic Frontier Foundation’s Executive Director</a></li><li><a href="https://blog.kemonine.info/blog/2026-03-10-self-hosted-search/" target="_blank">Self Hosted Search</a></li><li><a href="https://stagex.tools/" target="_blank">A Linux distribution designed to eliminate single points of failure</a></li><li><a href="https://www.reddit.com/r/linux/s/WqwsCnFE8E" target="_blank">I traced $2 billion in nonprofit grants and 45 states of lobbying records to figure out who's behind the age verification bills</a></li><li><a href="https://ritter.vg/blog-telemetry.html" target="_blank">telemetry helps. you still get to turn it off</a></li><li><a href="https://blog.adafruit.com/2026/03/04/you-bought-zucks-ray-bans-now-someone-in-nairobi-is-watching-you-poop/" target="_blank">You Bought Zuck’s Ray-Bans. Now Someone in Nairobi Is Watching You Poop</a></li><li><a href="https://cdt.org/insights/encrypted-client-hello-closing-the-sni-metadata-gap/" target="_blank">Encrypted Client Hello: Closing the SNI Metadata Gap</a></li><li><a href="https://runxiyu.org/comp/ab1043/" target="_blank">California's Digital Age Assurance Act, and FOSS</a></li><li><a href="https://github.com/yjeanrenaud/yj_nearbyglasses" target="_blank">yj_nearbyglasses: attempting to detect smart glasses nearby and warn you</a></li><li><a href="https://neilzone.co.uk/2026/03/im-struggling-to-think-of-any-online-services-for-which-id-be-willing-to-verify-my-identity-or-age/" target="_blank">I'm struggling to think of any online services for which I'd be willing to verify my identity or age</a></li><li><a href="https://yawnbox.eu/blog/how-to-use-an-ipad-as-a-secure-calling-and-messaging-device/" target="_blank">How to Use an iPad as a Secure Calling and Messaging Device</a></li><li><a href="https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260AB1043" target="_blank">Bill Text  - AB-1043 Age verification signals: software applications and online services</a></li><li><a href="https://keepandroidopen.org/open-letter/" target="_blank">An Open Letter to Google regarding Mandatory Developer Registration for Android</a></li><li><a href="https://discord.com/blog/getting-global-age-assurance-right-what-we-got-wrong-and-whats-changing" target="_blank">Getting Global Age Assurance Right: What We Got Wrong and What's Changing</a></li><li><a href="https://www.liquid.surf/fedcm" target="_blank">FedCM + IdP Registration — Call to action</a></li><li><a href="https://keepandroidopen.org/" target="_blank">Keep Android Open</a></li><li><a href="https://blog.dmcc.io/journal/2026-bluetooth-privacy-bluehood/" target="_blank">What Your Bluetooth Devices Reveal About You</a></li><li><a href="https://consumerrights.wiki/w/Main_Page" target="_blank">Consumer Rights Wiki</a></li><li><a href="https://www.passiveradar.com/how-passive-radar-works/" target="_blank">How passive radar works</a></li><li><a href="https://ethz.ch/en/news-and-events/eth-news/news/2026/04/a-new-trick-brings-stability-to-quantum-operations.html" target="_blank">Stable quantum logical operations with qubits made of neutral atoms</a></li><li><a href="https://r6.ca/blog/20260402T135216Z.html" target="_blank">Nash Equilibrium for Terminal Maneuvers</a></li><li><a href="https://ergosphere.blog/posts/the-machines-are-fine/" target="_blank">The machines are fine. I'm worried about us</a></li><li><a href="https://rewrites.bio/" target="_blank">Rewrites.bio: 60x speedup in Genomics QC + AI rewrite guidelines for Science</a></li><li><a href="https://entropicthoughts.com/lines-of-code" target="_blank">Lines of code are useful</a></li><li><a href="https://home.cern/news/news/physics/lhcb-collaboration-discovers-new-proton-particle" target="_blank">LHCb Collaboration discovers new proton-like particle</a></li><li><a href="https://caio.ca/blog/anxiety-software-development.html" target="_blank">The Silent Struggle: Anxiety in Software Development</a></li><li><a href="https://thesis.lucblassel.com/what-is-sequence-data.html" target="_blank">What is Sequence Data ?</a></li><li><a href="https://addisoncrump.info/research/enamored-with-macy/" target="_blank">Enamored with Macy</a></li><li><a href="https://rygoldstein.com/posts/perils-of-isbn" target="_blank">The Perils of ISBN</a></li><li><a href="https://github.com/skavanagh/lebron-james-is-president" target="_blank">LeBron James Is President – Exploiting LLMs via &quot;Alignment&quot; Context Injection</a></li><li><a href="https://stargazingbuddy.com/" target="_blank">Stargazing Buddy: A practical guide to observing the night sky for real skies and real equipment</a></li><li><a href="https://research.google/blog/hard-braking-events-as-indicators-of-road-segment-crash-risk/" target="_blank">Hard-braking events as indicators of road segment crash risk</a></li><li><a href="https://www.science.org/doi/10.1126/science.adz9311" target="_blank">Who is using AI to code? Global diffusion and impact of generative AI</a></li><li><a href="https://www.comsol.it/blogs/comparing-optimization-methods-for-a-heat-sink-design-for-3d-printing" target="_blank">Comparing Optimization Methods for a Heat Sink Design for 3D Printing</a></li><li><a href="http://ocramz.github.io/posts/2026-01-16-ergonomics-numerical.html" target="_blank">Ergonomic abstractions for numerical computing: My story so far</a></li><li><a href="https://sive.rs/relax" target="_blank">Relax for the same result (2015)</a></li><li><a href="https://www.youtube.com/watch?v=-FJCnrqqMWo" target="_blank">Brain Data in Clojure 2: BrainFloj in Premise and Practice - Lyons</a></li><li><a href="https://people.idsia.ch/~juergen/who-invented-the-transistor.html" target="_blank">Who Invented the Transistor?</a></li><li><a href="https://www.youtube.com/watch?v=HU-uwSUZETw" target="_blank">UnifyBio: Power Tools for Translational Data Science - Benjamin Kamphaus</a></li><li><a href="https://neal.fun/size-of-life/" target="_blank">Size of Life</a></li><li><a href="https://mirawelner.com/posts/peer_review.html" target="_blank">How should we peer review software?</a></li><li><a href="https://taranis.ie/datacenters-in-space-are-a-terrible-horrible-no-good-idea/" target="_blank">Datacenters in space are a terrible, horrible, no good idea</a></li><li><a href="https://sebastianraschka.com/llm-architecture-gallery/" target="_blank">LLM Architecture Gallery</a></li></ol>
+    </div>
+  </div>
+
+  <div class="footer">
+    Generated by Hermes Agent · April 11, 2026 11:00 · 235 sources reviewed
+  </div>
+</div>
+
+<!-- card-zoom-modal:v1 -->
+<div class="zoom-modal" id="zoom-modal" aria-hidden="true">
+  <div class="zoom-modal-backdrop"></div>
+  <div class="zoom-modal-content" role="dialog" aria-modal="true" aria-labelledby="zoom-modal-title">
+    <button class="zoom-modal-close" id="zoom-modal-close" aria-label="Close">&times;</button>
+    <div class="zoom-modal-title" id="zoom-modal-title"></div>
+    <div class="zoom-modal-authors" id="zoom-modal-authors"></div>
+    <div class="zoom-modal-desc" id="zoom-modal-desc"></div>
+    <div class="zoom-modal-tags" id="zoom-modal-tags"></div>
+    <a class="zoom-modal-link" id="zoom-modal-link" href="#" target="_blank" rel="noopener">Open source &#8599;</a>
+    <div class="zoom-modal-nav">
+      <button id="zoom-modal-prev" type="button">&larr; Previous</button>
+      <span class="zoom-modal-counter" id="zoom-modal-counter"></span>
+      <button id="zoom-modal-next" type="button">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var modal = document.getElementById('zoom-modal');
+  var modalTitle = document.getElementById('zoom-modal-title');
+  var modalAuthors = document.getElementById('zoom-modal-authors');
+  var modalDesc = document.getElementById('zoom-modal-desc');
+  var modalTags = document.getElementById('zoom-modal-tags');
+  var modalLink = document.getElementById('zoom-modal-link');
+  var modalClose = document.getElementById('zoom-modal-close');
+  var modalPrev = document.getElementById('zoom-modal-prev');
+  var modalNext = document.getElementById('zoom-modal-next');
+  var modalCounter = document.getElementById('zoom-modal-counter');
+  var backdrop = modal.querySelector('.zoom-modal-backdrop');
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter(function (c) { return !c.classList.contains('hidden'); });
+  }
+
+  function getTagsHTML(card) {
+    var el = card.querySelector('.card-tags') || card.querySelector('.card-meta');
+    return el ? el.innerHTML : '';
+  }
+
+  function getLink(card) {
+    return card.querySelector('.card-link') || card.querySelector('.card-title a') || card.querySelector('a[href]');
+  }
+
+  function openCard(card) {
+    var list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    var titleEl = card.querySelector('.card-title');
+    var authorsEl = card.querySelector('.card-authors');
+    var descEl = card.querySelector('.card-desc');
+    var link = getLink(card);
+
+    if (link && titleEl) {
+      var titleAnchor = titleEl.querySelector('a');
+      var titleText = titleAnchor ? titleAnchor.textContent : titleEl.textContent;
+      modalTitle.innerHTML = '';
+      var a = document.createElement('a');
+      a.href = link.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleText.trim();
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    var authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    var fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalTags.innerHTML = getTagsHTML(card);
+
+    if (link) {
+      modalLink.href = link.href;
+      modalLink.style.display = '';
+    } else {
+      modalLink.style.display = 'none';
+    }
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    var content = modal.querySelector('.zoom-modal-content');
+    if (content) content.scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    var list = visibleCards();
+    var next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', function () { navigate(-1); });
+  modalNext.addEventListener('click', function () { navigate(1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  // Inject search toolbar at top of first content container
+  var anchor = document.querySelector('.summary-box, .quick-summary');
+  if (anchor && anchor.parentNode) {
+    var bar = document.createElement('div');
+    bar.className = 'zoom-toolbar';
+    bar.innerHTML = '<input type="text" id="zoom-search" class="zoom-search" placeholder="Search title, authors, tags\u2026" /><span class="zoom-filter-count" id="zoom-filter-count"></span>';
+    anchor.parentNode.insertBefore(bar, anchor.nextSibling);
+
+    var search = document.getElementById('zoom-search');
+    var filterCount = document.getElementById('zoom-filter-count');
+    function applyFilter() {
+      var q = search.value.trim().toLowerCase();
+      var shown = 0;
+      cards.forEach(function (card) {
+        if (!q) { card.classList.remove('hidden'); shown++; return; }
+        var text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+        if (text.indexOf(q) !== -1) { card.classList.remove('hidden'); shown++; }
+        else { card.classList.add('hidden'); }
+      });
+      document.querySelectorAll('.section-group').forEach(function (grp) {
+        var remaining = grp.querySelectorAll('.card:not(.hidden)');
+        grp.classList.toggle('empty', remaining.length === 0);
+      });
+      document.querySelectorAll('.section').forEach(function (sec) {
+        var remaining = sec.querySelectorAll('.card:not(.hidden)');
+        sec.classList.toggle('empty', remaining.length === 0);
+      });
+      filterCount.textContent = q ? (shown + ' of ' + cards.length + ' cards') : '';
+    }
+    search.addEventListener('input', applyFilter);
+  }
+})();
+</script>
+
+</body>
+</html>
