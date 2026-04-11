@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Research Debriefs</title>
+<title>Carlos's Debrief</title>
 <style>
   :root {
     --bg: #0d1117;
@@ -116,7 +116,7 @@
 </style>
 </head>
 <body>
-<h1>Research Debriefs</h1>
+<h1>Carlos's Debrief</h1>
 <p class="subtitle">Auto-generated research summaries from arXiv, Google Scholar, Lobste.rs, Hacker News, and HuggingFace</p>
 
 <div class="stats">
@@ -135,7 +135,8 @@
 </ul>
 
 <footer>
-  Hermes Research Scout • Updated every 3 hours • Debriefs at 4:20 AM, 11:00 AM, 7:00 PM
+  Curated by Hermes Research Scout · 3 debriefs daily at 4:20 AM, 11:00 AM, 7:00 PM ·
+  <a href="https://github.com/claudlos/carlos-debrief" style="color:var(--text-muted);">view on GitHub</a>
 </footer>
 
 <script>
@@ -166,18 +167,29 @@ async function loadDebriefs() {
 }
 
 function render(debriefs) {
+  // Defensive: dedup by html filename, keep first (newest) occurrence
+  const seen = new Set();
+  debriefs = debriefs.filter(d => {
+    if (seen.has(d.html)) return false;
+    seen.add(d.html);
+    return true;
+  });
   if (!debriefs.length) {
     list.innerHTML = '<li class="empty">No debriefs yet. Check back after 4:20 AM.</li>';
     return;
   }
   countEl.textContent = debriefs.length;
   latestEl.textContent = debriefs[0].date || '—';
-  list.innerHTML = debriefs.map(d => `
+  list.innerHTML = debriefs.map(d => {
+    const parts = [];
+    if (d.papers != null) parts.push(`${d.papers} papers`);
+    if (d.findings != null) parts.push(`${d.findings} web findings`);
+    return `
     <li>
       <a href="${d.html}">
         <div>
           <div class="date">${d.date}</div>
-          <div class="time">${d.papers || ''} papers • ${d.findings || ''} web findings</div>
+          <div class="time">${parts.join(' · ')}</div>
         </div>
         <div class="links">
           <span class="html-link">HTML →</span>
@@ -185,7 +197,8 @@ function render(debriefs) {
         </div>
       </a>
     </li>
-  `).join('');
+  `;
+  }).join('');
 }
 
 loadDebriefs();
