@@ -135,18 +135,15 @@
 </ul>
 
 <footer>
-  Curated by Hermes Research Scout · 3 debriefs daily at 4:20 AM, 11:00 AM, 7:00 PM ·
+  Curated by Hermes Research Scout · 3 debriefs daily at 4:00 AM, 11:00 AM, 7:00 PM ·
   <a href="https://github.com/claudlos/carlos-debrief" style="color:var(--text-muted);">view on GitHub</a>
 </footer>
 
 <script>
-// Auto-discover debrief files by attempting to load them
-// This works when served from a local file server or when files are in the same directory
 const list = document.getElementById('list');
 const countEl = document.getElementById('count');
 const latestEl = document.getElementById('latest');
 
-// Try to load a manifest file, or show instructions
 async function loadDebriefs() {
   try {
     const resp = await fetch('manifest.json');
@@ -157,17 +154,15 @@ async function loadDebriefs() {
     }
   } catch(e) {}
 
-  // Fallback: show instructions
   list.innerHTML = `
     <li class="empty">
       Open individual debrief files from your file browser,<br>
-      or run <code>ls ~/Documents/research/debrief-*.html</code> to see available files.
+      or run <code>ls ~/Documents/research/debriefs/debrief-*.html</code> to see available files.
     </li>
   `;
 }
 
 function render(debriefs) {
-  // Defensive: dedup by html filename, keep first (newest) occurrence
   const seen = new Set();
   debriefs = debriefs.filter(d => {
     if (seen.has(d.html)) return false;
@@ -175,7 +170,7 @@ function render(debriefs) {
     return true;
   });
   if (!debriefs.length) {
-    list.innerHTML = '<li class="empty">No debriefs yet. Check back after 4:20 AM.</li>';
+    list.innerHTML = '<li class="empty">No debriefs yet. Check back after 4:00 AM.</li>';
     return;
   }
   countEl.textContent = debriefs.length;
