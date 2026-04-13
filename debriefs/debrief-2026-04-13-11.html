@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — April 13, 2026 11:11</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">April 13, 2026 11:11</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">14</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">11</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">25</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">April 13, 2026 11:11 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li><strong>Process Reward Agents</strong>: New method uses external knowledge retrieval to steer LLM reasoning chains, improving accuracy on knowledge-intensive tasks by validating intermediate steps.</li>
+      <li><strong>Faithful GRPO</strong>: Reinforcement learning approach improves visual spatial reasoning in multimodal models by training with verifiable reward signals on grounded perception tasks.</li>
+      <li><strong>Backdoor Attacks on Decentralised Training</strong>: Demonstrates serious security vulnerabilities in federated LLM post-training pipelines, showing attackers can inject persistent backdoors through data poisoning.</li>
+      <li><strong>The Master Key Hypothesis</strong>: Shows post-trained capabilities can be linearly transferred across different model architectures, suggesting a universal 'key' unlocks cross-model skill sharing.</li>
+      <li><strong>ImplicitMemBench</strong>: New benchmark reveals LLMs unconsciously adapt their behavior based on prior context in ways that go beyond explicit fact recall — a deeper form of memory than previously measured.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>ChatGPT Privacy Concern</strong>: A researcher reverse-engineered ChatGPT's client-side encryption, revealing that Cloudflare inspects React state before keystrokes are sent — raising fresh questions about AI chat privacy.</li>
+      <li><strong>Formal Verification Limits</strong>: A Lobste.rs post explores how Lean-proved programs can still harbor bugs, challenging assumptions about the reliability of formally verified code.</li>
+      <li><strong>Post-Quantum Crypto Survey</strong>: New comprehensive review covers post-quantum cryptography for authentication and key exchange, emphasizing the urgency of migration as quantum computers advance.</li>
+      <li><strong>Quantum + ML Convergence</strong>: A major survey paper maps the full landscape of quantum machine learning — from quantum-enhanced classical algorithms to native quantum neural networks.</li>
+      <li><strong>LLMs in Social Science</strong>: Growing adoption of LLMs in computational social science research is reshaping methodology, with prospects and pitfalls being cataloged across disciplines.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  <div class="section">
+  <h2>📄 Research Papers (14)</h2>
+  <div class="section-group">
+    <h3>LLMs & Agents <span class="group-count">12</span></h3>
+    <div class="cards-grid">
+    <div class="card" data-full-desc="Reasoning in knowledge-intensive domains remains challenging as intermediate steps are often not locally verifiable: unlike math or code, evaluating step correctness may require synthesizing clues across large external knowledge sources. As a result, subtle errors can propagate through reasoning traces, potentially never to be detected. Prior work has proposed process reward models (PRMs), including retrieval-augmented variants, but these methods operate post hoc, scoring completed trajectories, which prevents their integration into dynamic inference procedures. Here, we introduce Process Reward Agents (PRA), a test-time method for providing domain-grounded, online, step-wise rewards to a frozen policy. In contrast to prior retrieval-augmented PRMs, PRA enables search-based decoding to rank and prune candidate trajectories at every generation step. Experiments on multiple medical reasoning benchmarks demonstrate that PRA consistently outperforms strong baselines, achieving 80.8% accuracy on MedQA with Qwen3-4B, a new state of the art at the 4B scale. Importantly, PRA generalizes to unseen frozen policy models ranging from 0.5B to 8B parameters, improving their accuracy by up to 25.7% without any policy model updates. More broadly, PRA suggests a paradigm in which frozen reasoners are decoupled from domain-specific reward modules, allowing the deployment of new backbones in complex domains without retraining.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.09482" target="_blank" rel="noopener">Process Reward Agents for Steering Knowledge-Intensive Reasoning</a> <span class="src-num">[2]</span></div>
+      <div class="card-authors">2604.09482</div>
+      <div class="card-desc">Reasoning in knowledge-intensive domains remains challenging as intermediate steps are often not locally verifiable: unlike math or code, evaluating step correctness may require synthesizing clues across large external…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    <div class="card" data-full-desc="Large language models (LLMs) and LLM-based agents are increasingly deployed as assistants in planning and decision making, yet most existing systems are implicitly optimized for a single-principal interaction paradigm, in which the model is designed to satisfy the objectives of one dominant user whose instructions are treated as the sole source of authority and utility. However, as they are integrated into team workflows and organizational tools, they are increasingly required to serve multiple users simultaneously, each with distinct roles, preferences, and authority levels, leading to multi-user, multi-principal settings with unavoidable conflicts, information asymmetry, and privacy constraints. In this work, we present the first systematic study of multi-user LLM agents. We begin by formalizing multi-user interaction with LLM agents as a multi-principal decision problem, where a single agent must account for multiple users with potentially conflicting interests and associated challenges. We then introduce a unified multi-user interaction protocol and design three targeted stress-testing scenarios to evaluate current LLMs' capabilities in instruction following, privacy preservation, and coordination. Our results reveal systematic gaps: frontier LLMs frequently fail to maintain stable prioritization under conflicting user objectives, exhibit increasing privacy violations over multi-turn interactions, and suffer from efficiency bottlenecks when coordination requires iterative">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.08567" target="_blank" rel="noopener">Multi-User Large Language Model Agents</a> <span class="src-num">[3]</span></div>
+      <div class="card-authors">2604.08567</div>
+      <div class="card-desc">Large language models (LLMs) and LLM-based agents are increasingly deployed as assistants in planning and decision making, yet most existing systems are implicitly optimized for a single-principal interaction paradigm,…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    <div class="card" data-full-desc="This work investigates the fundamental fragility of state-of-the-art Vision-Language Models (VLMs) under basic geometric transformations. While modern VLMs excel at semantic tasks such as recognizing objects in canonical orientations and describing complex scenes, they exhibit systematic failures at a more fundamental level: lack of robust spatial invariance and equivariance required to reliably determine object identity under simple rotations, scaling, and identity transformations. We demonstrate this limitation through a systematic evaluation across diverse visual domains, including symbolic sketches, natural photographs, and abstract art. Performance drops sharply as semantic content becomes sparse, and this behavior is observed across architectures, model capacities, and prompting strategies. Overall, our results reveal a systematic gap between semantic understanding and spatial reasoning in current VLMs, highlighting the need for stronger geometric grounding in future multimodal systems.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.01848" target="_blank" rel="noopener">Semantic Richness or Geometric Reasoning? The Fragility of VLM&#x27;s Visual Invariance</a> <span class="src-num">[5]</span></div>
+      <div class="card-authors">2604.01848</div>
+      <div class="card-desc">This work investigates the fundamental fragility of state-of-the-art Vision-Language Models (VLMs) under basic geometric transformations. While modern VLMs excel at semantic tasks such as recognizing objects in…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    <div class="card" data-full-desc="Prompt optimization improves language models without updating their weights by searching for a better system prompt, but its effectiveness varies widely across tasks. We study what makes a task amenable to prompt optimization. We show that the reward variance across different system prompts can be decomposed into two components: variance among responses, which captures generation stochasticity, and variance among system prompts, which captures differences in system prompt quality. Prompt optimization succeeds when variance among system prompts is sufficiently large, but fails when variance among responses dominates the variance of the system prompts. Surprisingly, we further show that scaling to more user prompts can hurt optimization by reducing variance among system prompts, especially on heterogeneous datasets where different user prompts favor different system prompts. Motivated by this insight, we propose p1, a simple user prompt filtering method that selects a small subset of user prompts with high variance across candidate system prompts. This subset of user prompts allows one to distinguish a good system prompt from a bad one, making system optimization easier. Experiments on reasoning benchmarks show that p1 substantially improves prompt optimization over training on the full dataset and outperforms strong baselines such as GEPA. Notably, training on only two prompts from AIME 24 yields a system prompt that generalizes well to other reasoning benchmarks.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.08801" target="_blank" rel="noopener">p1: Better Prompt Optimization with Fewer Prompts</a> <span class="src-num">[6]</span></div>
+      <div class="card-authors">2604.08801</div>
+      <div class="card-desc">Prompt optimization improves language models without updating their weights by searching for a better system prompt, but its effectiveness varies widely across tasks. We study what makes a task amenable to prompt…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    <div class="card" data-full-desc="Decentralised post-training of large language models utilises data and pipeline parallelism techniques to split the data and the model. Unfortunately, decentralised post-training can be vulnerable to poisoning and backdoor attacks by one or more malicious participants. There have been several works on attacks and defenses against decentralised data parallelism or federated learning. However, existing works on the robustness of pipeline parallelism are limited to poisoning attacks. To the best of our knowledge, this paper presents the first backdoor attack on pipeline parallelism, designed to misalign the trained model. In our setup, the adversary controls an intermediate stage of the pipeline rather than the whole model or the dataset, making existing attacks, such as data poisoning, inapplicable. Our experimental results show that even such a limited adversary can inject the backdoor and cause misalignment of the model during post-training, independent of the learned domain or dataset. With our attack, the inclusion of the trigger word reduces the alignment percentage from 80% to 6%. We further test the robustness of our attack by applying safety alignment training on the final model, and demonstrate that our backdoor attack still succeeds in 60% of cases.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.02372" target="_blank" rel="noopener">Backdoor Attacks on Decentralised Post-Training</a> <span class="src-num">[7]</span></div>
+      <div class="card-authors">2604.02372</div>
+      <div class="card-desc">Decentralised post-training of large language models utilises data and pipeline parallelism techniques to split the data and the model. Unfortunately, decentralised post-training can be vulnerable to poisoning and…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    <div class="card" data-full-desc="Additive quantization enables extreme LLM compression with O(1) lookup-table dequantization, making it attractive for edge deployment. Yet at 2-bit precision, it often fails catastrophically, even with extensive search and finetuning. We show that the dominant bottleneck is codebook initialisation. Greedy sequential initialisation frequently places the model in poor optimisation regions that subsequent beam search and PV-tuning struggle to overcome. We analyse this behaviour through the representational ratio ho = N/KM, which characterises the relationship between weight groups and codebook capacity, and propose OA-EM, an output-aware EM initialisation method using Hessian-weighted Mahalanobis distance. Across compression rates, search budgets, and three architectures (Llama 3.2 3B, Llama 3.1 8B, Qwen 2.5 3B), OA-EM consistently produces better solutions after PV-tuning and dominates the quality-compute frontier. The severity of the bottleneck scales with ho: moderate at 3 bpp but extreme at 2 bpp, where poor initialisation can degrade perplexity by orders of magnitude. More broadly, our results highlight the importance of optimisation geometry in compressed model spaces, where initialisation can dominate subsequent search and fine-tuning.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.08118" target="_blank" rel="noopener">Initialisation Determines the Basin: Efficient Codebook Optimisation for Extreme LLM Quantization</a> <span class="src-num">[8]</span></div>
+      <div class="card-authors">2604.08118</div>
+      <div class="card-desc">Additive quantization enables extreme LLM compression with O(1) lookup-table dequantization, making it attractive for edge deployment. Yet at 2-bit precision, it often fails catastrophically, even with extensive search…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    <div class="card" data-full-desc="Interpretation is essential to deciphering the language of art: audiences communicate with artists by recovering meaning from visual artifacts. However, current Generative Art (GenArt) evaluators remain fixated on surface-level image quality or literal prompt adherence, failing to assess the deeper symbolic or abstract meaning intended by the creator. We address this gap by formalizing a Peircean computational semiotic theory that models Human-GenArt Interaction (HGI) as cascaded semiosis. This framework reveals that artistic meaning is conveyed through three modes - iconic, symbolic, and indexical - yet existing evaluators operate heavily within the iconic mode, remaining structurally blind to the latter two. To overcome this structural blindness, we propose SemJudge. This evaluator explicitly assesses symbolic and indexical meaning in HGI via a Hierarchical Semiosis Graph (HSG) that reconstructs the meaning-making process from prompt to generated artifact. Extensive quantitative experiments show that SemJudge aligns more closely with human judgments than prior evaluators on an interpretation-intensive fine-art benchmark. User studies further demonstrate that SemJudge produces deeper, more insightful artistic interpretations, thereby paving the way for GenArt to move beyond the generation of &quot;pretty&quot; images toward a medium capable of expressing complex human experience. Project page: https://github.com/songrise/SemJudge.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.08641" target="_blank" rel="noopener">On Semiotic-Grounded Interpretive Evaluation of Generative Art</a> <span class="src-num">[9]</span></div>
+      <div class="card-authors">2604.08641</div>
+      <div class="card-desc">Interpretation is essential to deciphering the language of art: audiences communicate with artists by recovering meaning from visual artifacts. However, current Generative Art (GenArt) evaluators remain fixated on…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    <div class="card" data-full-desc="Many disciplines pose natural-language research questions over large document collections whose answers typically require structured evidence, traditionally obtained by manually designing an annotation schema and exhaustively labeling the corpus, a slow and error-prone process. We introduce ScheMatiQ, which leverages calls to a backbone LLM to take a question and a corpus to produce a schema and a grounded database, with a web interface that lets steer and revise the extraction. In collaboration with domain experts, we show that ScheMatiQ yields outputs that support real-world analysis in law and computational biology. We release ScheMatiQ as open source with a public web interface, and invite experts across disciplines to use it with their own data. All resources, including the website, source code, and demonstration video, are available at: www.ScheMatiQ-ai.com">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.09237" target="_blank" rel="noopener">ScheMatiQ: From Research Question to Structured Data through Interactive Schema Discovery</a> <span class="src-num">[10]</span></div>
+      <div class="card-authors">2604.09237</div>
+      <div class="card-desc">Many disciplines pose natural-language research questions over large document collections whose answers typically require structured evidence, traditionally obtained by manually designing an annotation schema and…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    <div class="card" data-full-desc="Creative thinking is a fundamental aspect of human cognition, and divergent thinking-the capacity to generate novel and varied ideas-is widely regarded as its core generative engine. Large language models (LLMs) have recently demonstrated impressive performance on divergent thinking tests and prior work has shown that models with higher task performance tend to be more aligned to human brain activity. However, existing brain-LLM alignment studies have focused on passive, non-creative tasks. Here, we explore brain alignment during creative thinking using fMRI data from 170 participants performing the Alternate Uses Task (AUT). We extract representations from LLMs varying in size (270M-72B) and measure alignment to brain responses via Representational Similarity Analysis (RSA), targeting the creativity-related default mode and frontoparietal networks. We find that brain-LLM alignment scales with model size (default mode network only) and idea originality (both networks), with effects strongest early in the creative process. We further show that post-training objectives shape alignment in functionally selective ways: a creativity-optimized Llama-3.1-8B-Instruct preserves alignment with high-creativity neural responses while reducing alignment with low-creativity ones; a human behavior fine-tuned model elevates alignment with both; and a reasoning-trained variant shows the opposite pattern, suggesting chain-of-thought training steers representations away from creative neural geom">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.03480" target="_blank" rel="noopener">Large Language Models Align with the Human Brain during Creative Thinking</a> <span class="src-num">[11]</span></div>
+      <div class="card-authors">2604.03480</div>
+      <div class="card-desc">Creative thinking is a fundamental aspect of human cognition, and divergent thinking-the capacity to generate novel and varied ideas-is widely regarded as its core generative engine. Large language models (LLMs) have…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    <div class="card" data-full-desc="We investigate whether post-trained capabilities can be transferred across models without retraining, with a focus on transfer across different model scales. We propose the Master Key Hypothesis, which states that model capabilities correspond to directions in a low-dimensional latent subspace that induce specific behaviors and are transferable across models through linear alignment. Based on this hypothesis, we introduce UNLOCK, a training-free and label-free framework that extracts a capability direction by contrasting activations between capability-present and capability-absent Source variants, aligns it with a Target model through a low-rank linear transformation, and applies it at inference time to elicit the behavior. Experiments on reasoning behaviors, including Chain-of-Thought (CoT) and mathematical reasoning, demonstrate substantial improvements across model scales without training. For example, transferring CoT reasoning from Qwen1.5-14B to Qwen1.5-7B yields an accuracy gain of 12.1% on MATH, and transferring a mathematical reasoning direction from Qwen3-4B-Base to Qwen3-14B-Base improves AGIEval Math accuracy from 61.1% to 71.3%, surpassing the 67.8% achieved by the 14B post-trained model. Our analysis shows that the success of transfer depends on the capabilities learned during pre-training, and that our intervention amplifies latent capabilities by sharpening the output distribution toward successful reasoning trajectories.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.06377" target="_blank" rel="noopener">The Master Key Hypothesis: Unlocking Cross-Model Capability Transfer via Linear Subspace Alignment</a> <span class="src-num">[12]</span></div>
+      <div class="card-authors">2604.06377</div>
+      <div class="card-desc">We investigate whether post-trained capabilities can be transferred across models without retraining, with a focus on transfer across different model scales. We propose the Master Key Hypothesis, which states that model…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    <div class="card" data-full-desc="Multimodal reasoning models (MRMs) trained with reinforcement learning with verifiable rewards (RLVR) show improved accuracy on visual reasoning benchmarks. However, we observe that accuracy gains often come at the cost of reasoning quality: generated Chain-of-Thought (CoT) traces are frequently inconsistent with the final answer and poorly grounded in the visual evidence. We systematically study this phenomenon across seven challenging real-world spatial reasoning benchmarks and find that it affects contemporary MRMs such as ViGoRL-Spatial, TreeVGR as well as our own models trained with standard Group Relative Policy Optimization (GRPO). We characterize CoT reasoning quality along two complementary axes: &quot;logical consistency&quot; (does the CoT entail the final answer?) and &quot;visual grounding&quot; (does each reasoning step accurately describe objects, attributes, and spatial relationships in the image?). To address this, we propose Faithful GRPO (FGRPO), a variant of GRPO that enforces consistency and grounding as constraints via Lagrangian dual ascent. FGRPO incorporates batch-level consistency and grounding constraints into the advantage computation within a group, adaptively adjusting the relative importance of constraints during optimization. We evaluate FGRPO on Qwen2.5-VL-7B and 3B backbones across seven spatial datasets. Our results show that FGRPO substantially improves reasoning quality, reducing the inconsistency rate from 24.5% to 1.7% and improving visual grounding scores">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.08476" target="_blank" rel="noopener">Faithful GRPO: Improving Visual Spatial Reasoning in Multimodal Language Models via Constrained Policy Optimization</a> <span class="src-num">[13]</span></div>
+      <div class="card-authors">2604.08476</div>
+      <div class="card-desc">Multimodal reasoning models (MRMs) trained with reinforcement learning with verifiable rewards (RLVR) show improved accuracy on visual reasoning benchmarks. However, we observe that accuracy gains often come at the cost…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    <div class="card" data-full-desc="Existing memory benchmarks for LLM agents evaluate explicit recall of facts, yet overlook implicit memory where experience becomes automated behavior without conscious retrieval. This gap is critical: effective assistants must automatically apply learned procedures or avoid failed actions without explicit reminders. We introduce ImplicitMemBench, the first systematic benchmark evaluating implicit memory through three cognitively grounded constructs drawn from standard cognitive-science accounts of non-declarative memory: Procedural Memory (one-shot skill acquisition after interference), Priming (theme-driven bias via paired experimental/control instances), and Classical Conditioning (Conditioned Stimulus--Unconditioned Stimulus (CS--US) associations shaping first decisions). Our 300-item suite employs a unified Learning/Priming-Interfere-Test protocol with first-attempt scoring. Evaluation of 17 models reveals severe limitations: no model exceeds 66% overall, with top performers DeepSeek-R1 (65.3%), Qwen3-32B (64.1%), and GPT-5 (63.0%) far below human baselines. Analysis uncovers dramatic asymmetries (inhibition 17.6% vs. preference 75.0%) and universal bottlenecks requiring architectural innovations beyond parameter scaling. ImplicitMemBench reframes evaluation from &quot;what agents recall&quot; to &quot;what they automatically enact&quot;.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.08064" target="_blank" rel="noopener">ImplicitMemBench: Measuring Unconscious Behavioral Adaptation in Large Language Models</a> <span class="src-num">[14]</span></div>
+      <div class="card-authors">2604.08064</div>
+      <div class="card-desc">Existing memory benchmarks for LLM agents evaluate explicit recall of facts, yet overlook implicit memory where experience becomes automated behavior without conscious retrieval. This gap is critical: effective…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>Multimodal & Vision <span class="group-count">1</span></h3>
+    <div class="cards-grid">
+    <div class="card" data-full-desc="Accurately anticipating how complex, diverse scenes will evolve requires models that represent uncertainty, simulate along extended interaction chains, and efficiently explore many plausible futures. Yet most existing approaches rely on dense video or latent-space prediction, expending substantial capacity on dense appearance rather than on the underlying sparse trajectories of points in the scene. This makes large-scale exploration of future hypotheses costly and limits performance when long-horizon, multi-modal motion is essential. We address this by formulating the prediction of open-set future scene dynamics as step-wise inference over sparse point trajectories. Our autoregressive diffusion model advances these trajectories through short, locally predictable transitions, explicitly modeling the growth of uncertainty over time. This dynamics-centric representation enables fast rollout of thousands of diverse futures from a single image, optionally guided by initial constraints on motion, while maintaining physical plausibility and long-range coherence. We further introduce OWM, a benchmark for open-set motion prediction based on diverse in-the-wild videos, to evaluate accuracy and variability of predicted trajectory distributions under real-world uncertainty. Our method matches or surpasses dense simulators in predictive accuracy while achieving orders-of-magnitude higher sampling speed, making open-set future prediction both scalable and practical. Project page: http://co">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.09527" target="_blank" rel="noopener">Envisioning the Future, One Step at a Time</a> <span class="src-num">[1]</span></div>
+      <div class="card-authors">2604.09527</div>
+      <div class="card-desc">Accurately anticipating how complex, diverse scenes will evolve requires models that represent uncertainty, simulate along extended interaction chains, and efficiently explore many plausible futures. Yet most existing…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>ML Architectures <span class="group-count">1</span></h3>
+    <div class="cards-grid">
+    <div class="card" data-full-desc="As SE(3)-equivariant graph neural networks mature as a core tool for 3D atomistic modeling, improving their efficiency, expressivity, and physical consistency has become a central challenge for large-scale applications. In this work, we introduce EquiformerV3, the third generation of the SE(3)-equivariant graph attention Transformer, designed to advance all three dimensions: efficiency, expressivity, and generality. Building on EquiformerV2, we have the following three key advances. First, we optimize the software implementation, achieving 1.75times speedup. Second, we introduce simple and effective modifications to EquiformerV2, including equivariant merged layer normalization, improved feedforward network hyper-parameters, and attention with smooth radius cutoff. Third, we propose SwiGLU-S^2 activations to incorporate many-body interactions for better theoretical expressivity and to preserve strict equivariance while reducing the complexity of sampling S^2 grids. Together, SwiGLU-S^2 activations and smooth-cutoff attention enable accurate modeling of smoothly varying potential energy surfaces (PES), generalizing EquiformerV3 to tasks requiring energy-conserving simulations and higher-order derivatives of PES. With these improvements, EquiformerV3 trained with the auxiliary task of denoising non-equilibrium structures (DeNS) achieves state-of-the-art results on OC20, OMat24, and Matbench Discovery.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.09130" target="_blank" rel="noopener">EquiformerV3: Scaling Efficient, Expressive, and General SE(3)-Equivariant Graph Attention Transformers</a> <span class="src-num">[4]</span></div>
+      <div class="card-authors">2604.09130</div>
+      <div class="card-desc">As SE(3)-equivariant graph neural networks mature as a core tool for 3D atomistic modeling, improving their efficiency, expressivity, and physical consistency has become a central challenge for large-scale applications.…</div>
+      <div class="card-tags"><span class="tag">arXiv:</span></div>
+    </div>
+    </div>
+  </div>
+</div>
+<div class="section">
+  <h2>🌐 Web Findings (11)</h2>
+  <div class="section-group">
+    <h3>🔶 Lobste.rs <span class="group-count">2</span></h3>
+    <div class="cards-grid">
+    <div class="card web-card" data-full-desc="AI agents are getting very good at finding vulnerabilities in large-scale software systems.">
+      <div class="card-title"><a href="https://kirancodes.me/posts/log-who-watches-the-watchers.html" target="_blank" rel="noopener">Lean proved this program was correct; then I found a bug</a> <span class="src-num">[15]</span></div>
+      <div class="card-desc">AI agents are getting very good at finding vulnerabilities in large-scale software systems.</div>
+      <div class="card-tags"><span class="tag web-tag">Lobste.rs</span><span class="tag">formalmethods</span><span class="tag">plt</span><span class="tag">security</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Edit April 2, 2026: I've been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild, directly from Claude. To access it reach out at buchodi@">
+      <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[16]</span></div>
+      <div class="card-desc">Edit April 2, 2026: I've been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from…</div>
+      <div class="card-tags"><span class="tag web-tag">Lobste.rs</span><span class="tag">privacy</span><span class="tag">web</span></div>
+    </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🎓 Google Scholar <span class="group-count">8</span></h3>
+    <div class="cards-grid">
+    <div class="card web-card" data-full-desc="In this distinguished research lecture, Dr. Sarah Elaine Eaton explores how artificial intelligence (AI) is transforming global education and reshaping our approach to teaching, learning, and assessment. Her talk will examine breakthrough technologies that are redefining education such as Generative AI (GenAI), neurotechnology, and brain-computer interfaces (BCIs) and consider how they might impact education in the coming years. Dr. Eaton will ground the rapid technological changes transforming education in the timeless principles of integrity, ethics, equity, and human rights. Dr. Eaton will">
+      <div class="card-title"><a href="https://link.springer.com/article/10.1007/s40979-025-00187-6" target="_blank" rel="noopener">Global trends in education: Artificial intelligence, postplagiarism, and future-focused learning for 2025 and beyond–2024–2025 Werklund Distinguished Research …</a> <span class="src-num">[17]</span></div>
+      <div class="card-desc">In this distinguished research lecture, Dr. Sarah Elaine Eaton explores how artificial intelligence (AI) is transforming global education and reshaping our approach to teaching, learning, and assessment. Her talk will…</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Generative artificial intelligence (GAI) has introduced a new era of medical education by offering innovative solutions to critical challenges in teaching, assessment, and clinical training. …">
+      <div class="card-title"><a href="https://www.cureus.com/articles/351494-an-academic-viewpoint-2025-on-the-integration-of-generative-artificial-intelligence-in-medical-education-transforming-learning-and-practices.pdf" target="_blank" rel="noopener">An academic viewpoint (2025) on the integration of generative artificial intelligence in medical education: transforming learning and practices</a> <span class="src-num">[18]</span></div>
+      <div class="card-desc">Generative artificial intelligence (GAI) has introduced a new era of medical education by offering innovative solutions to critical challenges in teaching, assessment, and clinical training. …</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Rising levels of atmospheric carbon dioxide (CO 2 ) and methane (CH 4 ) have sparked the interest of researchers in resolving this issue. Various technologies have been utilized such …">
+      <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[19]</span></div>
+      <div class="card-desc">Rising levels of atmospheric carbon dioxide (CO 2 ) and methane (CH 4 ) have sparked the interest of researchers in resolving this issue. Various technologies have been utilized such …</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="… by technological breakthroughs and availability of funding. The spikes seen in 2013, 2016 and 2019 correspond with major technological breakthroughs in deep learning and neural …">
+      <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a> <span class="src-num">[20]</span></div>
+      <div class="card-desc">… by technological breakthroughs and availability of funding. The spikes seen in 2013, 2016 and 2019 correspond with major technological breakthroughs in deep learning and neural …</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="… The advent of large language models (LLMs) has marked a new … LLM usage. We further present the challenges associated with data bias, privacy, and the integration of these models …">
+      <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[21]</span></div>
+      <div class="card-desc">… The advent of large language models (LLMs) has marked a new … LLM usage. We further present the challenges associated with data bias, privacy, and the integration of these models …</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="… in adversarial AI, automated threat intelligence, and AI-driven security orchestration, this … AI’s role in cybersecurity. Figure 1 shows the key areas where Artificial intelligence (AI) and …">
+      <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[22]</span></div>
+      <div class="card-desc">… in adversarial AI, automated threat intelligence, and AI-driven security orchestration, this … AI’s role in cybersecurity. Figure 1 shows the key areas where Artificial intelligence (AI) and …</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+      <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[23]</span></div>
+      <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="… in quantum-enhanced classical ML to native quantum algorithms and hybrid quantum-… It varies from applications in optimization, drug discovery, and quantum-secured communications, …">
+      <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[24]</span></div>
+      <div class="card-desc">… in quantum-enhanced classical ML to native quantum algorithms and hybrid quantum-… It varies from applications in optimization, drug discovery, and quantum-secured communications, …</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🟠 Hacker News <span class="group-count">1</span></h3>
+    <div class="cards-grid">
+    <div class="card web-card" data-full-desc="A three-part deep dive into quantum computing">
+      <div class="card-title"><a href="https://bitcoinquantum.space" target="_blank" rel="noopener">(https://bitcoinquantum.space)</a> <span class="src-num">[25]</span></div>
+      <div class="card-desc">A three-part deep dive into quantum computing</div>
+      <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+    </div>
+    </div>
+  </div>
+</div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <div style="grid-column: 1"><ol>
+  <li><a href="https://huggingface.co/papers/2604.09527" target="_blank" rel="noopener">Envisioning the Future, One Step at a Time</a></li>
+  <li><a href="https://huggingface.co/papers/2604.09482" target="_blank" rel="noopener">Process Reward Agents for Steering Knowledge-Intensive Reasoning</a></li>
+  <li><a href="https://huggingface.co/papers/2604.08567" target="_blank" rel="noopener">Multi-User Large Language Model Agents</a></li>
+  <li><a href="https://huggingface.co/papers/2604.09130" target="_blank" rel="noopener">EquiformerV3: Scaling Efficient, Expressive, and General SE(3)-Equivariant Graph Attention Transformers</a></li>
+  <li><a href="https://huggingface.co/papers/2604.01848" target="_blank" rel="noopener">Semantic Richness or Geometric Reasoning? The Fragility of VLM&#x27;s Visual Invariance</a></li>
+  <li><a href="https://huggingface.co/papers/2604.08801" target="_blank" rel="noopener">p1: Better Prompt Optimization with Fewer Prompts</a></li>
+  <li><a href="https://huggingface.co/papers/2604.02372" target="_blank" rel="noopener">Backdoor Attacks on Decentralised Post-Training</a></li>
+  <li><a href="https://huggingface.co/papers/2604.08118" target="_blank" rel="noopener">Initialisation Determines the Basin: Efficient Codebook Optimisation for Extreme LLM Quantization</a></li>
+  <li><a href="https://huggingface.co/papers/2604.08641" target="_blank" rel="noopener">On Semiotic-Grounded Interpretive Evaluation of Generative Art</a></li>
+  <li><a href="https://huggingface.co/papers/2604.09237" target="_blank" rel="noopener">ScheMatiQ: From Research Question to Structured Data through Interactive Schema Discovery</a></li>
+  <li><a href="https://huggingface.co/papers/2604.03480" target="_blank" rel="noopener">Large Language Models Align with the Human Brain during Creative Thinking</a></li>
+  <li><a href="https://huggingface.co/papers/2604.06377" target="_blank" rel="noopener">The Master Key Hypothesis: Unlocking Cross-Model Capability Transfer via Linear Subspace Alignment</a></li>
+  <li><a href="https://huggingface.co/papers/2604.08476" target="_blank" rel="noopener">Faithful GRPO: Improving Visual Spatial Reasoning in Multimodal Language Models via Constrained Policy Optimization</a></li>
+</ol></div>
+<div style="grid-column: 2"><ol>
+  <li><a href="https://huggingface.co/papers/2604.08064" target="_blank" rel="noopener">ImplicitMemBench: Measuring Unconscious Behavioral Adaptation in Large Language Models</a></li>
+  <li><a href="https://kirancodes.me/posts/log-who-watches-the-watchers.html" target="_blank" rel="noopener">Lean proved this program was correct; then I found a bug</a></li>
+  <li><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a></li>
+  <li><a href="https://link.springer.com/article/10.1007/s40979-025-00187-6" target="_blank" rel="noopener">Global trends in education: Artificial intelligence, postplagiarism, and future-focused learning for 2025 and beyond–2024–2025 Werklund Distinguished Research …</a></li>
+  <li><a href="https://www.cureus.com/articles/351494-an-academic-viewpoint-2025-on-the-integration-of-generative-artificial-intelligence-in-medical-education-transforming-learning-and-practices.pdf" target="_blank" rel="noopener">An academic viewpoint (2025) on the integration of generative artificial intelligence in medical education: transforming learning and practices</a></li>
+  <li><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a></li>
+  <li><a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a></li>
+  <li><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a></li>
+  <li><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a></li>
+  <li><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a></li>
+  <li><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a></li>
+  <li><a href="https://bitcoinquantum.space" target="_blank" rel="noopener">(https://bitcoinquantum.space)</a></li>
+</ol></div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
