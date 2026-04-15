@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — April 14, 2026 19:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">April 14, 2026 19:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">22</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">22</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">April 14, 2026 19:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li><strong>No direct arXiv queue items landed this cycle</strong>: the strongest research signal came from curated paper channels and scholar indexing rather than new raw arXiv queue entries.</li>
+      <li><strong>Agent memory is getting more temporal and testable</strong>: RoMem treats time as continuous phase rotation in knowledge graphs, while ATANT proposes a concrete benchmark for whether memory systems actually preserve continuity across many narratives.</li>
+      <li><strong>Agent training is becoming more targeted</strong>: TRACE converts failed trajectories into capability-specific RL environments, and AggAgent shows that parallel deep-research rollouts are more valuable when an agent actively aggregates them instead of just voting on outputs.</li>
+      <li><strong>Inference efficiency remains a frontier bottleneck</strong>: IceCache tackles KV-cache memory pressure for long contexts, while masked diffusion model scheduling shows some denoising steps can be made cheaper without collapsing output quality.</li>
+      <li><strong>Multimodal generative systems keep broadening</strong>: Audio-Omni's unified treatment of audio understanding, generation, and editing points toward more general-purpose audio agents rather than siloed speech or music tools.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+      <li><strong>AI privacy telemetry</strong>: a Lobste.rs reverse-engineering post pushed privacy concerns upstream from model outputs to the hidden browser instrumentation and anti-abuse layers surrounding consumer AI products.</li>
+      <li><strong>Supply-chain and credential security</strong>: today's security queue mixed least-authority retrospectives, password-manager ecosystem churn, and skepticism toward simplistic dependency cooldown policies as a real defense.</li>
+      <li><strong>Agent memory and self-improvement</strong>: curated paper feeds were heavy on continuity benchmarks, temporal memory, experience replay, and capability-targeted repair for agentic systems.</li>
+      <li><strong>AI deepening its reach into science and medicine</strong>: scholar results focused on ML-guided catalyst discovery, clinical LLM evidence reviews, and surveys of how AI methods are changing both research and deployment incentives.</li>
+      <li><strong>Quantum and post-quantum momentum</strong>: the web queue clustered around post-quantum IoT security, quantum-ML synthesis work, and the emerging geopolitical race to commercialize quantum technology.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  <div class="section">
+  <h2>📄 ArXiv Papers</h2>
+  <div class="section-group">
+    <h3>🧠 LLMs <span class="group-count">0</span></h3>
+    <p style="color: var(--text-muted); margin: 0 0 18px 4px;">No new papers this cycle.</p>
+  </div>
+  <div class="section-group">
+    <h3>🎨 Machine Learning <span class="group-count">0</span></h3>
+    <p style="color: var(--text-muted); margin: 0 0 18px 4px;">No new papers this cycle.</p>
+  </div>
+  <div class="section-group">
+    <h3>🔐 Security & Crypto <span class="group-count">0</span></h3>
+    <p style="color: var(--text-muted); margin: 0 0 18px 4px;">No new papers this cycle.</p>
+  </div>
+  <div class="section-group">
+    <h3>🕵️ Zero Knowledge <span class="group-count">0</span></h3>
+    <p style="color: var(--text-muted); margin: 0 0 18px 4px;">No new papers this cycle.</p>
+  </div>
+  <div class="section-group">
+    <h3>⚛️ Quantum <span class="group-count">0</span></h3>
+    <p style="color: var(--text-muted); margin: 0 0 18px 4px;">No new papers this cycle.</p>
+  </div>
+  <div class="section-group">
+    <h3>🛡️ AI Safety <span class="group-count">0</span></h3>
+    <p style="color: var(--text-muted); margin: 0 0 18px 4px;">No new papers this cycle.</p>
+  </div>
+  <div class="section-group">
+    <h3>🤖 Agents <span class="group-count">0</span></h3>
+    <p style="color: var(--text-muted); margin: 0 0 18px 4px;">No new papers this cycle.</p>
+  </div>
+</div>
+<div class="section">
+  <h2>🌐 Web Findings</h2>
+  <div class="section-group">
+    <h3>🦞 Lobste.rs <span class="group-count">4</span></h3>
+    <div class="cards-grid">
+      <div class="card web-card" data-full-desc="This essay argues that blanket epsilon-based floating-point comparisons are often the wrong fix, and that programmers should reason from the numerical structure of each problem instead of applying one tolerance everywhere. It matters because graphics, simulation, and scientific code still ship subtle correctness bugs when developers treat floating-point error as a generic afterthought.">
+        <div class="card-title"><a href="https://lisyarus.github.io/blog/posts/its-ok-to-compare-floating-points-for-equality.html" target="_blank" rel="noopener">It's NOT OK to compare floating-points using epsilons</a> <span class="src-num">[1]</span></div>
+        <div class="card-authors">Lobste.rs • compsci • 2026-04-14</div>
+        <div class="card-desc">This essay argues that blanket epsilon-based floating-point comparisons are often the wrong fix, and that programmers should reason from the numerical structure of each problem instead of applying one…</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span><span class="tag">compsci</span><span class="tag">2026-04-14</span><span class="tag">Score: 15</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This historical chapter revisits Intel&#x27;s iAPX 432, a capability-oriented architecture designed around protected objects and fine-grained authority control rather than flat ambient access. It matters because modern supply-chain security and sandboxing debates keep rediscovering capability-security ideas that hardware experiments like the 432 explored decades ago.">
+        <div class="card-title"><a href="https://homes.cs.washington.edu/~levy/capabook/Chapter9.pdf" target="_blank" rel="noopener">The Intel iAPX 432</a> <span class="src-num">[2]</span></div>
+        <div class="card-authors">Lobste.rs • security • 2026-04-14</div>
+        <div class="card-desc">This historical chapter revisits Intel's iAPX 432, a capability-oriented architecture designed around protected objects and fine-grained authority control rather than flat ambient access. It matters because…</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span><span class="tag">security</span><span class="tag">2026-04-14</span><span class="tag">Score: 1</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This announcement surfaces a new KeePassXC fork hosted on Codeberg, signaling continued experimentation and governance branching in open-source password manager tooling. It matters because security-sensitive utilities live or die by maintenance trust, so even small ecosystem forks can reshape where users place their credentials and updates.">
+        <div class="card-title"><a href="https://codeberg.org/keepasschi" target="_blank" rel="noopener">KeePassχ - a KeePassXC fork</a> <span class="src-num">[3]</span></div>
+        <div class="card-authors">Lobste.rs • security • 2026-04-14</div>
+        <div class="card-desc">This announcement surfaces a new KeePassXC fork hosted on Codeberg, signaling continued experimentation and governance branching in open-source password manager tooling. It matters because security-sensitive…</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span><span class="tag">security</span><span class="tag">2026-04-14</span><span class="tag">Score: 27</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This reverse-engineering post argues that ChatGPT&#x27;s web client gates text entry behind Cloudflare code that inspects client-side application state before input is enabled. It matters because consumer AI privacy debates are shifting from model outputs to the hidden telemetry, anti-abuse logic, and browser instrumentation wrapped around the model.">
+        <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won't Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[4]</span></div>
+        <div class="card-authors">Lobste.rs • privacy • 2026-03-30</div>
+        <div class="card-desc">This reverse-engineering post argues that ChatGPT's web client gates text entry behind Cloudflare code that inspects client-side application state before input is enabled. It matters because consumer AI…</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span><span class="tag">privacy</span><span class="tag">2026-03-30</span><span class="tag">Score: 69</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🎓 Google Scholar <span class="group-count">7</span></h3>
+    <div class="cards-grid">
+      <div class="card web-card" data-full-desc="This review surveys how machine learning is being used to accelerate catalyst discovery and optimization for methane dry reforming. It matters because AI methods are increasingly flowing into energy and climate-relevant materials research where brute-force experimentation is slow and expensive.">
+        <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[5]</span></div>
+        <div class="card-authors">Google Scholar • machine learning breakthroughs</div>
+        <div class="card-desc">This review surveys how machine learning is being used to accelerate catalyst discovery and optimization for methane dry reforming. It matters because AI methods are increasingly flowing into energy and…</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">machine learning breakthroughs</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This overview combines literature review with quantitative analysis of notable AI models since 2010 to map major technical milestones and the shift from academia to industry-led frontier development. It matters because strategic questions about funding, compute, and who drives progress now shape AI outcomes as much as benchmark improvements do.">
+        <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a> <span class="src-num">[6]</span></div>
+        <div class="card-authors">Google Scholar • machine learning breakthroughs</div>
+        <div class="card-desc">This overview combines literature review with quantitative analysis of notable AI models since 2010 to map major technical milestones and the shift from academia to industry-led frontier development. It…</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">machine learning breakthroughs</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This review uses LLM assistance to synthesize the rapidly expanding literature on clinical evaluations of large language models and to expose how uneven and opaque that evidence base still is. It matters because healthcare adoption is outrunning careful synthesis, so clinicians need structured reviews before trusting LLM claims in medical settings.">
+        <div class="card-title"><a href="https://www.nature.com/articles/s41591-026-04229-5" target="_blank" rel="noopener">LLM-assisted systematic review of large language models in clinical medicine</a> <span class="src-num">[7]</span></div>
+        <div class="card-authors">Google Scholar • large language models LLM</div>
+        <div class="card-desc">This review uses LLM assistance to synthesize the rapidly expanding literature on clinical evaluations of large language models and to expose how uneven and opaque that evidence base still is. It matters…</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">large language models LLM</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This survey maps how computational social science is using LLMs and foregrounds persistent issues around bias, privacy, reproducibility, and methodological validity. It matters because these models are becoming research instruments in fields where poor measurement and hidden bias can distort conclusions at scale.">
+        <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[8]</span></div>
+        <div class="card-authors">Google Scholar • large language models LLM</div>
+        <div class="card-desc">This survey maps how computational social science is using LLMs and foregrounds persistent issues around bias, privacy, reproducibility, and methodological validity. It matters because these models are…</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">large language models LLM</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This review synthesizes current uses of AI and machine learning across cybersecurity, including adversarial AI, automated threat intelligence, and AI-driven security orchestration. It matters because security operations are evolving from isolated models toward AI-native workflows that raise both capability and governance questions.">
+        <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[9]</span></div>
+        <div class="card-authors">Google Scholar • AI security cybersecurity</div>
+        <div class="card-desc">This review synthesizes current uses of AI and machine learning across cybersecurity, including adversarial AI, automated threat intelligence, and AI-driven security orchestration. It matters because security…</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">AI security cybersecurity</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This paper reviews post-quantum approaches for authentication and privacy in IoT systems that will remain deployed long enough to face future quantum-era threats. It matters because connected devices have long hardware refresh cycles, so quantum-safe migration needs to start well before practical attacks arrive.">
+        <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[10]</span></div>
+        <div class="card-authors">Google Scholar • cryptography post-quantum</div>
+        <div class="card-desc">This paper reviews post-quantum approaches for authentication and privacy in IoT systems that will remain deployed long enough to face future quantum-era threats. It matters because connected devices have long…</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">cryptography post-quantum</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This review surveys hybrid and native quantum machine-learning methods across optimization, science, and secure communications while cataloging where the field is still mostly aspirational. It matters because synthesis papers are essential for separating genuinely promising quantum-AI workflows from broad marketing hype.">
+        <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[11]</span></div>
+        <div class="card-authors">Google Scholar • quantum computing algorithms</div>
+        <div class="card-desc">This review surveys hybrid and native quantum machine-learning methods across optimization, science, and secure communications while cataloging where the field is still mostly aspirational. It matters because…</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">quantum computing algorithms</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🧑‍💻 Hacker News <span class="group-count">2</span></h3>
+    <div class="cards-grid">
+      <div class="card web-card" data-full-desc="This Hacker News thread spotlights a BBC report arguing that Europe still has a plausible path to leadership in quantum technology if it can convert strong research and startups into industrial momentum. It matters because quantum competition is no longer only scientific; it is also a race in policy, manufacturing, and regional investment strategy.">
+        <div class="card-title"><a href="https://news.ycombinator.com/item?id=47764738" target="_blank" rel="noopener">Quantum computing: A tech race Europe could win?</a> <span class="src-num">[12]</span></div>
+        <div class="card-authors">Hacker News • quantum computing</div>
+        <div class="card-desc">This Hacker News thread spotlights a BBC report arguing that Europe still has a plausible path to leadership in quantum technology if it can convert strong research and startups into industrial momentum. It…</div>
+        <div class="card-tags"><span class="tag web-tag">Hacker News</span><span class="tag">quantum computing</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This BBC explainer asks whether Europe can translate its quantum research base and emerging startups into leadership in the next computing wave. It matters because national strategy, capital formation, and hardware supply chains may determine the winners well before quantum advantage becomes routine.">
+        <div class="card-title"><a href="https://www.bbc.com/news/articles/c20q4nv89yzo" target="_blank" rel="noopener">BBC explainer: Could Europe win the quantum tech race?</a> <span class="src-num">[13]</span></div>
+        <div class="card-authors">Hacker News • quantum computing</div>
+        <div class="card-desc">This BBC explainer asks whether Europe can translate its quantum research base and emerging startups into leadership in the next computing wave. It matters because national strategy, capital formation, and…</div>
+        <div class="card-tags"><span class="tag web-tag">Hacker News</span><span class="tag">quantum computing</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🤗 HuggingFace <span class="group-count">9</span></h3>
+    <div class="cards-grid">
+      <div class="card web-card" data-full-desc="RoMem models time in agent memory with continuous phase rotation and a learned volatility score so persistent facts stay stable while outdated facts are rotated out of phase instead of being deleted. It matters because long-lived agents need memory systems that can distinguish durable knowledge from fast-changing state without constant LLM-mediated cleanup.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.11544" target="_blank" rel="noopener">Time is Not a Label: Continuous Phase Rotation for Temporal Knowledge Graphs and Agentic Memory</a> <span class="src-num">[14]</span></div>
+        <div class="card-authors">Weixian Waylon Li, Jiaxin Zhang, Xianan Jim Yang, Tiejun Ma, Yiwen Guo</div>
+        <div class="card-desc">RoMem models time in agent memory with continuous phase rotation and a learned volatility score so persistent facts stay stable while outdated facts are rotated out of phase instead of being deleted. It…</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-04-13</span><span class="tag">Upvotes: 1</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Audio-Omni proposes an end-to-end framework that unifies audio understanding, generation, and editing across speech, music, and general sound, backed by a million-pair AudioEdit dataset. It matters because audio AI is still fragmented across narrow expert systems, and a single multimodal stack could make general-purpose audio agents much more practical.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.10708" target="_blank" rel="noopener">Audio-Omni: Extending Multi-modal Understanding to Versatile Audio Generation and Editing</a> <span class="src-num">[15]</span></div>
+        <div class="card-authors">Zeyue Tian, Binxin Yang, Zhaoyang Liu, Jiexuan Zhang, Ruibin Yuan</div>
+        <div class="card-desc">Audio-Omni proposes an end-to-end framework that unifies audio understanding, generation, and editing across speech, music, and general sound, backed by a million-pair AudioEdit dataset. It matters because…</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-04-12</span><span class="tag">Upvotes: 1</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="IceCache clusters semantically related tokens and combines that layout with PagedAttention to keep long-context LLM inference accurate while moving more cache data off GPU. It matters because KV-cache memory is one of the main bottlenecks for long-context serving, especially on constrained hardware and agent workloads with long traces.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.10539" target="_blank" rel="noopener">IceCache: Memory-efficient KV-cache Management for Long-Sequence LLMs</a> <span class="src-num">[16]</span></div>
+        <div class="card-authors">Yuzhen Mao, Qitong Wang, Martin Ester, Ke Li</div>
+        <div class="card-desc">IceCache clusters semantically related tokens and combines that layout with PagedAttention to keep long-context LLM inference accurate while moving more cache data off GPU. It matters because KV-cache memory…</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-04-12</span><span class="tag">Upvotes: 0</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="ATANT defines continuity as a measurable systems property and introduces a 250-story benchmark for testing whether AI memory stacks can preserve, update, and retrieve narrative truth over time without cross-contamination. It matters because many agent products claim memory, but few have rigorous evaluations showing that memory remains correct once many narratives coexist.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.06710" target="_blank" rel="noopener">ATANT: An Evaluation Framework for AI Continuity</a> <span class="src-num">[17]</span></div>
+        <div class="card-authors">Samuel Sameer Tanguturi</div>
+        <div class="card-desc">ATANT defines continuity as a measurable systems property and introduces a 250-story benchmark for testing whether AI memory stacks can preserve, update, and retrieve narrative truth over time without…</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-04-08</span><span class="tag">Upvotes: 0</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="TRACE turns failed agent trajectories into capability-targeted synthetic RL environments, then trains specialized LoRA adapters and routes the agent to the right one at inference time. It matters because agent improvement is starting to move from generic post-training toward explicit repair of the concrete capabilities that caused failure.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.05336" target="_blank" rel="noopener">TRACE: Capability-Targeted Agentic Training</a> <span class="src-num">[18]</span></div>
+        <div class="card-authors">Hangoo Kang, Tarun Suresh, Jon Saad-Falcon, Azalia Mirhoseini</div>
+        <div class="card-desc">TRACE turns failed agent trajectories into capability-targeted synthetic RL environments, then trains specialized LoRA adapters and routes the agent to the right one at inference time. It matters because agent…</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-04-07</span><span class="tag">Upvotes: 11</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This study argues that strict on-policy sampling is often wasteful for LLM post-training and shows that well-designed replay buffers can reuse experience without sacrificing final performance. It matters because rollout generation is expensive, so any credible path to lower inference cost changes the economics of reasoning and agent training.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.08706" target="_blank" rel="noopener">Efficient RL Training for LLMs with Experience Replay</a> <span class="src-num">[19]</span></div>
+        <div class="card-authors">Charles Arnal, Vivien Cabannes, Taco Cohen, Julia Kempe, Remi Munos</div>
+        <div class="card-desc">This study argues that strict on-policy sampling is often wasteful for LLM post-training and shows that well-designed replay buffers can reuse experience without sacrificing final performance. It matters…</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-04-09</span><span class="tag">Upvotes: 9</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="AggAgent treats parallel agent trajectories as an environment of their own and gives an aggregation agent tools to inspect, compare, and synthesize them rather than simply voting on final answers. It matters because deep-research style systems increasingly rely on many long rollouts, and smarter aggregation is becoming a first-class scaling lever.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.11753" target="_blank" rel="noopener">Agentic Aggregation for Parallel Scaling of Long-Horizon Agentic Tasks</a> <span class="src-num">[20]</span></div>
+        <div class="card-authors">Yoonsang Lee, Howard Yen, Xi Ye, Danqi Chen</div>
+        <div class="card-desc">AggAgent treats parallel agent trajectories as an environment of their own and gives an aggregation agent tools to inspect, compare, and synthesize them rather than simply voting on final answers. It matters…</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-04-13</span><span class="tag">Upvotes: 10</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This report shows how a Polish-specific tokenizer and adapted pretraining curriculum improve efficiency and usable context length for Bielik v3 compared with more universal vocabularies. It matters because multilingual models still underperform on morphologically rich languages when tokenization is optimized for broad coverage instead of local linguistic structure.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.10799" target="_blank" rel="noopener">Advancing Polish Language Modeling through Tokenizer Optimization in the Bielik v3 7B and 11B Series</a> <span class="src-num">[21]</span></div>
+        <div class="card-authors">Krzysztof Ociepa, Łukasz Flis, Remigiusz Kinas, Krzysztof Wróbel, Adrian Gwoździej</div>
+        <div class="card-desc">This report shows how a Polish-specific tokenizer and adapted pretraining curriculum improve efficiency and usable context length for Bielik v3 compared with more universal vocabularies. It matters because…</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-04-12</span><span class="tag">Upvotes: 4</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This paper shows masked diffusion language models can swap in smaller models for less sensitive denoising steps, cutting sampling FLOPs while preserving much of the quality. It matters because diffusion LMs remain computationally expensive, and step-aware scheduling offers a simple route to cheaper generation.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.02340" target="_blank" rel="noopener">Not All Denoising Steps Are Equal: Model Scheduling for Faster Masked Diffusion Language Models</a> <span class="src-num">[22]</span></div>
+        <div class="card-authors">Ivan Sedykh, Nikita Sorokin, Valentin Malykh</div>
+        <div class="card-desc">This paper shows masked diffusion language models can swap in smaller models for less sensitive denoising steps, cutting sampling FLOPs while preserving much of the quality. It matters because diffusion LMs…</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-04-11</span><span class="tag">Upvotes: 6</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol>
+  <li><a href="https://lisyarus.github.io/blog/posts/its-ok-to-compare-floating-points-for-equality.html" target="_blank" rel="noopener">It's NOT OK to compare floating-points using epsilons</a></li>
+  <li><a href="https://homes.cs.washington.edu/~levy/capabook/Chapter9.pdf" target="_blank" rel="noopener">The Intel iAPX 432</a></li>
+  <li><a href="https://codeberg.org/keepasschi" target="_blank" rel="noopener">KeePassχ - a KeePassXC fork</a></li>
+  <li><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won't Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a></li>
+  <li><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a></li>
+  <li><a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a></li>
+  <li><a href="https://www.nature.com/articles/s41591-026-04229-5" target="_blank" rel="noopener">LLM-assisted systematic review of large language models in clinical medicine</a></li>
+  <li><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a></li>
+  <li><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a></li>
+  <li><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a></li>
+  <li><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a></li>
+</ol>
+<ol start="12">
+  <li><a href="https://news.ycombinator.com/item?id=47764738" target="_blank" rel="noopener">Quantum computing: A tech race Europe could win?</a></li>
+  <li><a href="https://www.bbc.com/news/articles/c20q4nv89yzo" target="_blank" rel="noopener">BBC explainer: Could Europe win the quantum tech race?</a></li>
+  <li><a href="https://huggingface.co/papers/2604.11544" target="_blank" rel="noopener">Time is Not a Label: Continuous Phase Rotation for Temporal Knowledge Graphs and Agentic Memory</a></li>
+  <li><a href="https://huggingface.co/papers/2604.10708" target="_blank" rel="noopener">Audio-Omni: Extending Multi-modal Understanding to Versatile Audio Generation and Editing</a></li>
+  <li><a href="https://huggingface.co/papers/2604.10539" target="_blank" rel="noopener">IceCache: Memory-efficient KV-cache Management for Long-Sequence LLMs</a></li>
+  <li><a href="https://huggingface.co/papers/2604.06710" target="_blank" rel="noopener">ATANT: An Evaluation Framework for AI Continuity</a></li>
+  <li><a href="https://huggingface.co/papers/2604.05336" target="_blank" rel="noopener">TRACE: Capability-Targeted Agentic Training</a></li>
+  <li><a href="https://huggingface.co/papers/2604.08706" target="_blank" rel="noopener">Efficient RL Training for LLMs with Experience Replay</a></li>
+  <li><a href="https://huggingface.co/papers/2604.11753" target="_blank" rel="noopener">Agentic Aggregation for Parallel Scaling of Long-Horizon Agentic Tasks</a></li>
+  <li><a href="https://huggingface.co/papers/2604.10799" target="_blank" rel="noopener">Advancing Polish Language Modeling through Tokenizer Optimization in the Bielik v3 7B and 11B Series</a></li>
+  <li><a href="https://huggingface.co/papers/2604.02340" target="_blank" rel="noopener">Not All Denoising Steps Are Equal: Model Scheduling for Faster Masked Diffusion Language Models</a></li>
+</ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
