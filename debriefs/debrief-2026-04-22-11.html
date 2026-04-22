@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — April 22, 2026 11:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">April 22, 2026 11:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">22</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">22</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">April 22, 2026 11:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+          <li><strong>LLM Optimization</strong>: A trajectory analysis of 15 LLMs across 8 tasks reveals strong optimizers behave as local refiners — frequent incremental improvements outperform sporadic breakthroughs.</li>
+    <li><strong>Parameter-Efficient Fine-Tuning</strong>: RDP LoRA uses the Ramer-Douglas-Peucker geometry algorithm to select only 13/36 layers for adaptation, outperforming full fine-tuning on math benchmarks.</li>
+    <li><strong>Agent-as-Judge</strong>: AJ-Bench evaluates Agent-as-Judge systems across search, data, and GUI domains, showing consistent gains over LLM-as-Judge but revealing open challenges.</li>
+    <li><strong>Speech-to-Speech Translation</strong>: MoVE preserves laughter and crying in speech translation at 76% vs. 14% baseline, using a Mixture-of-Vocalization-Experts architecture.</li>
+    <li><strong>Spatially-Grounded Video</strong>: CityRAG generates 3D-consistent, navigable video reconstructions of real geographic locations with weather/lighting consistency over thousands of frames.</li>
+
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+          <li><strong>LLM Bug Finding</strong>: LLMs are increasingly used to discover real-world bugs in Python C-extensions and other open-source projects, signaling a shift in automated code auditing.</li>
+    <li><strong>AI Security</strong>: Mythos AI reportedly helped close Firefox vulnerabilities, demonstrating AI&#x27;s growing role in practical security hardening.</li>
+    <li><strong>Micro Language Models</strong>: New research on ultra-compact 8M-30M parameter micro-LLMs enables instant on-device response initiation for edge devices like smartwatches.</li>
+    <li><strong>Post-Quantum IoT</strong>: Academic literature is actively exploring post-quantum cryptography adoption for IoT devices as quantum threat timelines shorten.</li>
+    <li><strong>AI in Chemistry</strong>: Deep learning-based exchange-correlation functionals (Skala) surpass hybrid DFT accuracy at lower computational cost, potentially transforming computational chemistry.</li>
+
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+    <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>📄 HuggingFace Papers <span class="group-count">8</span></h3>
+      <div class="cards-grid">
+      <div class="card web-card" data-full-desc="Fine-tuning Large Language Models (LLMs) remains structurally uncertain despite parameter-efficient methods such as Low-Rank Adaptation (LoRA), as the layer-specific roles of internal representations are poorly understood, leading to heuristic decisions about where adaptation should be applied. We model the evolution of hidden states as a high-dimensional geometric trajectory and propose using the Ramer-Douglas-Peucker (RDP) algorithm, a parameter-free and training-free polygon simplification method that preserves global structural transitions while eliminating locally redundant changes, to identify critical breakpoints along the representation path. Crucially, we use these geometric pivots not merely for analysis, but as a direct decision signal for determining which layers should be adapted during parameter-efficient fine-tuning. By integrating this geometry-aware layer selection strategy into LoRA fine-tuning of Qwen3-8B-Base, we achieve superior performance on MMLU-Math using only 13 RDP-selected layers (81.67%), significantly outperforming both full 36-layer adaptation (79.32%) and random 13-layer selection (75.56%), as well as the baseline Qwen3-8B-Base model (74.25%). These results demonstrate that leveraging the intrinsic geometry of representation trajectories provides a robust, interpretable, and training-free signal for optimizing layer selection during model adaptation.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.19321" target="_blank" rel="noopener">RDP LoRA: Geometry-Driven Identification for Parameter-Efficient Adaptation in Large Language Models</a> <span class="src-num">[3]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">Fine-tuning Large Language Models (LLMs) remains structurally uncertain despite parameter-efficient methods such as Low-Rank Adaptation (LoRA), as the layer-specific roles of internal representations are poorly…</div>
+        <div class="card-tags"><span class="tag web-tag">arXiv</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Edge devices such as smartwatches and smart glasses cannot continuously run even the smallest 100M-1B parameter language models due to power and compute constraints, yet cloud inference introduces multi-second latencies that break the illusion of a responsive assistant. We introduce micro language models (μLMs): ultra-compact models (8M-30M parameters) that instantly generate the first 4-8 words of a contextually grounded response on-device, while a cloud model completes it; thus, masking the cloud latency. We show that useful language generation survives at this extreme scale with our models matching several 70M-256M-class existing models. We design a collaborative generation framework that reframes the cloud model as a continuator rather than a respondent, achieving seamless mid-sentence handoffs and structured graceful recovery via three error correction methods when the local opener goes wrong. Empirical results show that μLMs can initiate responses that larger models complete seamlessly, demonstrating that orders-of-magnitude asymmetric collaboration is achievable and unlocking responsive AI for extremely resource-constrained devices. The model checkpoint and demo are available at https://github.com/Sensente/micro_language_model_swen_project.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.19642" target="_blank" rel="noopener">Micro Language Models Enable Instant Responses</a> <span class="src-num">[4]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">Edge devices such as smartwatches and smart glasses cannot continuously run even the smallest 100M-1B parameter language models due to power and compute constraints, yet cloud inference introduces multi-second latencies…</div>
+        <div class="card-tags"><span class="tag web-tag">arXiv</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="We address the problem of generating a 3D-consistent, navigable environment that is spatially grounded: a simulation of a real location. Existing video generative models can produce a plausible sequence that is consistent with a text (T2V) or image (I2V) prompt. However, the capability to reconstruct the real world under arbitrary weather conditions and dynamic object configurations is essential for downstream applications including autonomous driving and robotics simulation. To this end, we present CityRAG, a video generative model that leverages large corpora of geo-registered data as context to ground generation to the physical scene, while maintaining learned priors for complex motion and appearance changes. CityRAG relies on temporally unaligned training data, which teaches the model to semantically disentangle the underlying scene from its transient attributes. Our experiments demonstrate that CityRAG can generate coherent minutes-long, physically grounded video sequences, maintain weather and lighting conditions over thousands of frames, achieve loop closure, and navigate complex trajectories to reconstruct real-world geography.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.19741" target="_blank" rel="noopener">CityRAG: Stepping Into a City via Spatially-Grounded Video Generation</a> <span class="src-num">[5]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">We address the problem of generating a 3D-consistent, navigable environment that is spatially grounded: a simulation of a real location. Existing video generative models can produce a plausible sequence that is…</div>
+        <div class="card-tags"><span class="tag web-tag">arXiv</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Recent work has demonstrated the promise of orchestrating large language models (LLMs) within evolutionary and agentic optimization systems. However, the mechanisms driving these optimization gains remain poorly understood. In this work, we present a large-scale study of LLM-guided evolutionary search, collecting optimization trajectories for 15 LLMs across 8 tasks. Although zero-shot problem-solving ability correlates with final optimization outcomes, it explains only part of the variance: models with similar initial capability often induce dramatically different search trajectories and outcomes. By analyzing these trajectories, we find that strong LLM optimizers behave as local refiners, producing frequent incremental improvements while progressively localizing the search in semantic space. Conversely, weaker optimizers exhibit large semantic drift, with sporadic breakthroughs followed by stagnation. Notably, various measures of solution novelty do not predict final performance; novelty is beneficial only when the search remains sufficiently localized around high-performing regions of the solution space. Our results highlight the importance of trajectory analysis for understanding and improving LLM-based optimization systems and provide actionable insights for their design and training.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.19440" target="_blank" rel="noopener">What Makes an LLM a Good Optimizer? A Trajectory Analysis of LLM-Guided Evolutionary Search</a> <span class="src-num">[6]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">Recent work has demonstrated the promise of orchestrating large language models (LLMs) within evolutionary and agentic optimization systems. However, the mechanisms driving these optimization gains remain poorly…</div>
+        <div class="card-tags"><span class="tag web-tag">arXiv</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Recent Speech-to-Speech Translation (S2ST) systems achieve strong semantic accuracy yet consistently strip away non-verbal vocalizations (NVs), such as laughter and crying that convey pragmatic intent, which severely limits real-world utility. We address this via three contributions. First, we propose a synthesis pipeline for building scalable expressive datasets to overcome the data scarcity limitation. Second, we propose MoVE, a Mixture-of-LoRA-Experts architecture with expressive-specialized adapters and a soft-weighting router that blends experts for capturing hybrid expressive states. Third, we show pretrained AudioLLMs enable striking data efficiency: 30 minutes of curated data is enough for strong performance. On English-Chinese S2ST, while comparing with strong baselines, MoVE reproduces target NVs in 76% of cases and achieves the highest human-rated naturalness and emotional fidelity among all compared systems, where existing S2ST systems preserve at most 14% of NVs.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.17435" target="_blank" rel="noopener">MoVE: Translating Laughter and Tears via Mixture of Vocalization Experts in Speech-to-Speech Translation</a> <span class="src-num">[7]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">Recent Speech-to-Speech Translation (S2ST) systems achieve strong semantic accuracy yet consistently strip away non-verbal vocalizations (NVs), such as laughter and crying that convey pragmatic intent, which severely…</div>
+        <div class="card-tags"><span class="tag web-tag">arXiv</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Density Functional Theory (DFT) underpins much of modern computational chemistry and materials science. Yet, the reliability of DFT-derived predictions of experimentally measurable properties remains fundamentally limited by the need to approximate the unknown exchange-correlation (XC) functional. The traditional paradigm for improving accuracy has relied on increasingly elaborate hand-crafted functional forms. This approach has led to a longstanding trade-off between computational efficiency and accuracy, which remains insufficient for reliable predictive modelling of laboratory experiments. Here we introduce Skala, a deep learning-based XC functional that surpasses state-of-the-art hybrid functionals in accuracy across the main-group chemistry benchmark set GMTKN55 with an error of 2.8 kcal/mol, while retaining the lower computational cost characteristic of semi-local DFT. This demonstrated departure from the historical trade-off between accuracy and efficiency is enabled by learning non-local representations of electronic structure directly from data, bypassing the need for increasingly costly hand-engineered features. Leveraging an unprecedented volume of high-accuracy reference data from wavefunction-based methods, we establish that modern deep learning enables systematically improvable neural exchange-correlation models as training datasets expand, positioning first-principles simulations to become progressively more predictive.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2506.14665" target="_blank" rel="noopener">Accurate and scalable exchange-correlation with deep learning</a> <span class="src-num">[8]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">Density Functional Theory (DFT) underpins much of modern computational chemistry and materials science. Yet, the reliability of DFT-derived predictions of experimentally measurable properties remains fundamentally…</div>
+        <div class="card-tags"><span class="tag web-tag">arXiv</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="As reinforcement learning continues to scale the training of large language model-based agents, reliably verifying agent behaviors in complex environments has become increasingly challenging. Existing approaches rely on rule-based verifiers or LLM-as-a-Judge models, which struggle to generalize beyond narrow domains. Agent-as-a-Judge addresses this limitation by actively interacting with environments and tools to acquire verifiable evidence, yet its capabilities remain underexplored.
+  We introduce a benchmark AJ-Bench to systematically evaluate Agent-as-a-Judge across three domains-search, data systems, and graphical user interfaces-comprising 155 tasks and 516 annotated trajectories. The benchmark comprehensively assesses judge agents&#x27; abilities in information acquisition, state verification, and process verification. Experiments demonstrate consistent performance gains over LLM-as-a-Judge baselines, while also revealing substantial open challenges in agent-based verification. Our data and code are available at https://aj-bench.github.io/.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.18240" target="_blank" rel="noopener">AJ-Bench: Benchmarking Agent-as-a-Judge for Environment-Aware Evaluation</a> <span class="src-num">[9]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">As reinforcement learning continues to scale the training of large language model-based agents, reliably verifying agent behaviors in complex environments has become increasingly challenging. Existing approaches rely on…</div>
+        <div class="card-tags"><span class="tag web-tag">arXiv</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Traditional photographic image editing typically requires users to possess sufficient aesthetic understanding to provide appropriate instructions for adjusting image quality and camera parameters. However, this paradigm relies on explicit human instruction of aesthetic intent, which is often ambiguous, incomplete, or inaccessible to non-expert users. In this work, we propose SmartPhotoCrafter, an automatic photographic image editing method which formulates image editing as a tightly coupled reasoning-to-generation process. The proposed model first performs image quality comprehension and identifies deficiencies by the Image Critic module, and then the Photographic Artist module realizes targeted edits to enhance image appeal, eliminating the need for explicit human instructions. A multi-stage training pipeline is adopted: (i) Foundation pretraining to establish basic aesthetic understanding and editing capabilities, (ii) Adaptation with reasoning-guided multi-edit supervision to incorporate rich semantic guidance, and (iii) Coordinated reasoning-to generation reinforcement learning to jointly optimize reasoning and generation. During training, SmartPhotoCrafter emphasizes photo-realistic image generation, while supporting both image restoration and retouching tasks with consistent adherence to color- and tone-related semantics. We also construct a stage-specific dataset, which progressively builds reasoning and controllable generation, effective cross-module collaboration, an">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.19587" target="_blank" rel="noopener">SmartPhotoCrafter: Unified Reasoning, Generation and Optimization for Automatic Photographic Image Editing</a> <span class="src-num">[10]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">Traditional photographic image editing typically requires users to possess sufficient aesthetic understanding to provide appropriate instructions for adjusting image quality and camera parameters. However, this paradigm…</div>
+        <div class="card-tags"><span class="tag web-tag">arXiv</span></div>
+      </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🔗 Lobste.rs <span class="group-count">2</span></h3>
+      <div class="cards-grid">
+      <div class="card web-card" data-full-desc="The open-source world is currently awash in reports of LLM-discovered bugs and vulnerabilities, [...]">
+        <div class="card-title"><a href="https://lwn.net/SubscriberLink/1067234/e5312bed2037a102/" target="_blank" rel="noopener">Using LLMs to find Python C-extension bugs</a> <span class="src-num">[1]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">The open-source world is currently awash in reports of LLM-discovered bugs and vulnerabilities, [...]</div>
+        <div class="card-tags"><span class="tag web-tag">lobsters</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild, directly from Claude. To access it reach out at buchodi@">
+        <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[2]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from…</div>
+        <div class="card-tags"><span class="tag web-tag">lobsters</span></div>
+      </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>📰 Hacker News <span class="group-count">2</span></h3>
+      <div class="cards-grid">
+      <div class="card web-card" data-full-desc="Firefox flaws closed thanks to Mythos AI">
+        <div class="card-title"><a href="https://news.ycombinator.com/item?id=47865364" target="_blank" rel="noopener">Firefox flaws closed thanks to Mythos AI</a> <span class="src-num">[21]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">Firefox flaws closed thanks to Mythos AI</div>
+        <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="(https://www.heise.de/en/news/271-Firefox-flaws-closed-thanks-to-Mythos-AI-Breakthrough-for-IT-security-11267732.html)">
+        <div class="card-title"><a href="https://www.heise.de/en/news/271-Firefox-flaws-closed-thanks-to-Mythos-AI-Breakthrough-for-IT-security-11267732.html" target="_blank" rel="noopener">(https://www.heise.de/en/news/271-Firefox-flaws-closed-thanks-to-Mythos-AI-Breakthrough-for-IT-security-11267732.html)</a> <span class="src-num">[22]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">(https://www.heise.de/en/news/271-Firefox-flaws-closed-thanks-to-Mythos-AI-Breakthrough-for-IT-security-11267732.html)</div>
+        <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+      </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>📚 Google Scholar <span class="group-count">10</span></h3>
+      <div class="cards-grid">
+      <div class="card web-card" data-full-desc="Rising levels of atmospheric carbon dioxide (CO 2 ) and methane (CH 4 ) have sparked the interest of researchers in resolving this issue. Various technologies have been utilized such …">
+        <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[11]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">Rising levels of atmospheric carbon dioxide (CO 2 ) and methane (CH 4 ) have sparked the interest of researchers in resolving this issue. Various technologies have been utilized such …</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="… The advent of large language models (LLMs) has marked a new … LLM usage. We further present the challenges associated with data bias, privacy, and the integration of these models …">
+        <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[12]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">… The advent of large language models (LLMs) has marked a new … LLM usage. We further present the challenges associated with data bias, privacy, and the integration of these models …</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="… in adversarial AI, automated threat intelligence, and AI-driven security orchestration, this … AI’s role in cybersecurity. Figure 1 shows the key areas where Artificial intelligence (AI) and …">
+        <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[13]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">… in adversarial AI, automated threat intelligence, and AI-driven security orchestration, this … AI’s role in cybersecurity. Figure 1 shows the key areas where Artificial intelligence (AI) and …</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+        <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[14]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="… This work is an example of how novel quantum computational models and algorithms, even when co-designed with omics problems, can lead to new insights and help bypass the data-…">
+        <div class="card-title"><a href="https://www.cell.com/patterns/fulltext/S2666-3899(25)00084-4" target="_blank" rel="noopener">How quantum computing can enhance biomarker discovery</a> <span class="src-num">[15]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">… This work is an example of how novel quantum computational models and algorithms, even when co-designed with omics problems, can lead to new insights and help bypass the data-…</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="… to incorporating blockchain and smart contract technology is … Blockchain technology provides consumers with detailed … that this shift to blockchain smart contracts can reduce the …">
+        <div class="card-title"><a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/sd.3431" target="_blank" rel="noopener">Leveraging blockchain and smart contracts to combat greenwashing in sustainable development</a> <span class="src-num">[16]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">… to incorporating blockchain and smart contract technology is … Blockchain technology provides consumers with detailed … that this shift to blockchain smart contracts can reduce the …</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="The advancement and comprehensive adoption of blockchain technology has led to momentous progression in data-critical areas such as DeFi, health sector, defense, supply chain, and beyond. Nevertheless, beside this growth, there has been a distinguished rise in both the prevalence and diversification of security vulnerabilities. Recent attacks have exploited these vulnerabilities in targeting different layers of the blockchain architecture. This paper centralizes on the security vulnerabilities, attacks, and challenges faced by blockchain systems, presenting an exhaustive taxonomical classifica">
+        <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/10946113/" target="_blank" rel="noopener">Blockchain security in focus: A comprehensive investigation into threats, smart contract security, cross-chain bridges, vulnerabilities detection tools &amp; techniques</a> <span class="src-num">[17]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">The advancement and comprehensive adoption of blockchain technology has led to momentous progression in data-critical areas such as DeFi, health sector, defense, supply chain, and beyond. Nevertheless, beside this…</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="To address the challenges of internal security policy compliance and dynamic threat response in organizations, we present a novel framework that integrates artificial intelligence (AI), blockchain, and smart contracts. We propose a system that automates the enforcement of security policies, reducing manual effort and potential human error. Utilizing AI, we can analyse cyber threat intelligence rapidly, identify non-compliances and automatically adjust cyber defence mechanisms. Blockchain technology provides an immutable ledger for transparent logging of compliance actions, while smart contract">
+        <div class="card-title"><a href="https://link.springer.com/article/10.1007/s41870-024-02324-9" target="_blank" rel="noopener">Automated cybersecurity compliance and threat response using AI, blockchain and smart contracts</a> <span class="src-num">[18]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">To address the challenges of internal security policy compliance and dynamic threat response in organizations, we present a novel framework that integrates artificial intelligence (AI), blockchain, and smart contracts.…</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Vardhan Dongre, Xiaocheng Yang, Emre Can Acikgoz, Suvodip Dey, Gokhan Tur, Dilek Hakkani-Tur. Proceedings of the 15th International Workshop on Spoken Dialogue Systems Technology. 2025.">
+        <div class="card-title"><a href="https://aclanthology.org/2025.iwsds-1.7/" target="_blank" rel="noopener">Respact: Harmonizing reasoning, speaking, and acting towards building large language model-based conversational ai agents</a> <span class="src-num">[19]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">Vardhan Dongre, Xiaocheng Yang, Emre Can Acikgoz, Suvodip Dey, Gokhan Tur, Dilek Hakkani-Tur. Proceedings of the 15th International Workshop on Spoken Dialogue Systems Technology. 2025.</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="… alignment method that provides the highest and most consistent results; 3) We show that safety alignment … to Italian, even leading to worse safety performance in certain conditions; and 4…">
+        <div class="card-title"><a href="https://www.martimbrandao.com/papers/Wu2026-lrec.pdf" target="_blank" rel="noopener">AI Safety Lost in Translation: Evaluating the Effectiveness of English-Italian Cross-Lingual LLM Safety Alignment</a> <span class="src-num">[20]</span></div>
+        <div class="card-authors"></div>
+        <div class="card-desc">… alignment method that provides the highest and most consistent results; 3) We show that safety alignment … to Italian, even leading to worse safety performance in certain conditions; and 4…</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+          <div class="sources-grid">
+      <ol>
+        <li>[1] <a href="https://lwn.net/SubscriberLink/1067234/e5312bed2037a102/" target="_blank" rel="noopener">Using LLMs to find Python C-extension bugs</a></li>
+        <li>[2] <a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a></li>
+        <li>[3] <a href="https://huggingface.co/papers/2604.19321" target="_blank" rel="noopener">RDP LoRA: Geometry-Driven Identification for Parameter-Efficient Adaptation in Large Language Models</a></li>
+        <li>[4] <a href="https://huggingface.co/papers/2604.19642" target="_blank" rel="noopener">Micro Language Models Enable Instant Responses</a></li>
+        <li>[5] <a href="https://huggingface.co/papers/2604.19741" target="_blank" rel="noopener">CityRAG: Stepping Into a City via Spatially-Grounded Video Generation</a></li>
+        <li>[6] <a href="https://huggingface.co/papers/2604.19440" target="_blank" rel="noopener">What Makes an LLM a Good Optimizer? A Trajectory Analysis of LLM-Guided Evolutionary Search</a></li>
+        <li>[7] <a href="https://huggingface.co/papers/2604.17435" target="_blank" rel="noopener">MoVE: Translating Laughter and Tears via Mixture of Vocalization Experts in Speech-to-Speech Translation</a></li>
+        <li>[8] <a href="https://huggingface.co/papers/2506.14665" target="_blank" rel="noopener">Accurate and scalable exchange-correlation with deep learning</a></li>
+        <li>[9] <a href="https://huggingface.co/papers/2604.18240" target="_blank" rel="noopener">AJ-Bench: Benchmarking Agent-as-a-Judge for Environment-Aware Evaluation</a></li>
+        <li>[10] <a href="https://huggingface.co/papers/2604.19587" target="_blank" rel="noopener">SmartPhotoCrafter: Unified Reasoning, Generation and Optimization for Automatic Photographic Image Editing</a></li>
+        <li>[11] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a></li>
+      </ol>
+      <ol>
+        <li>[12] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a></li>
+        <li>[13] <a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a></li>
+        <li>[14] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a></li>
+        <li>[15] <a href="https://www.cell.com/patterns/fulltext/S2666-3899(25)00084-4" target="_blank" rel="noopener">How quantum computing can enhance biomarker discovery</a></li>
+        <li>[16] <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/sd.3431" target="_blank" rel="noopener">Leveraging blockchain and smart contracts to combat greenwashing in sustainable development</a></li>
+        <li>[17] <a href="https://ieeexplore.ieee.org/abstract/document/10946113/" target="_blank" rel="noopener">Blockchain security in focus: A comprehensive investigation into threats, smart contract security, cross-chain bridges, vulnerabilities detection tools &amp; techniques</a></li>
+        <li>[18] <a href="https://link.springer.com/article/10.1007/s41870-024-02324-9" target="_blank" rel="noopener">Automated cybersecurity compliance and threat response using AI, blockchain and smart contracts</a></li>
+        <li>[19] <a href="https://aclanthology.org/2025.iwsds-1.7/" target="_blank" rel="noopener">Respact: Harmonizing reasoning, speaking, and acting towards building large language model-based conversational ai agents</a></li>
+        <li>[20] <a href="https://www.martimbrandao.com/papers/Wu2026-lrec.pdf" target="_blank" rel="noopener">AI Safety Lost in Translation: Evaluating the Effectiveness of English-Italian Cross-Lingual LLM Safety Alignment</a></li>
+        <li>[21] <a href="https://news.ycombinator.com/item?id=47865364" target="_blank" rel="noopener">Firefox flaws closed thanks to Mythos AI</a></li>
+        <li>[22] <a href="https://www.heise.de/en/news/271-Firefox-flaws-closed-thanks-to-Mythos-AI-Breakthrough-for-IT-security-11267732.html" target="_blank" rel="noopener">(https://www.heise.de/en/news/271-Firefox-flaws-closed-thanks-to-Mythos-AI-Breakthrough-for-IT-security-11267732.html)</a></li>
+      </ol>
+    </div>
+
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
