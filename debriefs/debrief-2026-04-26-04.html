@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — April 26, 2026 04:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">April 26, 2026 04:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">10</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">10</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">April 26, 2026 04:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li><strong>No new arXiv papers</strong> — all results from this cycle were duplicates of previously seen papers. Run the scouts again later for fresh publications.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+      <li><strong>SSH Honeypot Data Reveals Constant Scanning</strong>: A 54-day honeypot experiment capturing real-world SSH intrusion attempts shows the relentless volume and tactics of opportunistic port 22 scanning — useful baseline data for defenders.</li>
+      <li><strong>Cloudflare Monitors React State Before Keystrokes in ChatGPT</strong>: A technical analysis reveals that ChatGPT's interface monitors React component state before user keystrokes are processed, exposing client-side surveillance mechanisms built into AI products.</li>
+      <li><strong>Diffusion Models Edit High-Resolution Images Without Fine-Tuning</strong>: HuggingFace paper EditCrafter uses tiled inversion and novel manifold-constrained guidance to edit arbitrary-aspect-ratio, above-training-resolution images using only pretrained diffusion priors.</li>
+      <li><strong>Smaller LLMs Can Learn to Abstain and Clarify via RL Rewards</strong>: HuggingFace paper Abstain-R1 demonstrates that a 3B model trained with clarification-aware RL rewards achieves abstention and post-refusal clarification competitive with DeepSeek-R1, suggesting this behavior doesn't require massive scale.</li>
+      <li><strong>Post-Quantum Cryptography for IoT Gains Attention</strong>: Google Scholar research reviews PQC approaches for securing resource-constrained IoT devices against future quantum attacks, relevant as NIST finalizes post-quantum standards.</li>
+      <li><strong>LLMs Reshaping Computational Social Science Research</strong>: A Google Scholar review surveys how large language models are being applied across CSS research, noting significant opportunities alongside data bias and privacy challenges.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  <div class="section">
+    <h2>📄 Web Findings</h2>
+    <div class="section-group">
+      <h3>🔗 Lobste.rs <span class="group-count">2</span></h3>
+      <div class="cards-grid">
+
+        <div class="card web-card" data-full-desc="A security researcher ran a honeypot on port 22 for 54 days, logging all inbound connection attempts. The data reveals the constant automated scanning of SSH services on the public internet, the most common username/password brute-force patterns, and the geographic distribution of sources — providing real-world baseline data for defenders assessing SSH exposure.">
+          <div class="card-title"><a href="https://arman-bd.hashnode.dev/i-left-port-22-open-on-the-internet-for-54-days-here-s-who-showed-up" target="_blank" rel="noopener">I Left Port 22 Open on the Internet for 54 Days. Here's Who Showed Up</a> <span class="src-num">[1]</span></div>
+          <div class="card-authors">Arnan BD</div>
+          <div class="card-desc">A 54-day SSH honeypot experiment logging real-world intrusion attempts, revealing the volume, patterns, and geographic sources of automated port 22 scanning.</div>
+          <div class="card-tags"><span class="tag web-tag">Lobste.rs</span><span class="tag">networking</span><span class="tag">security</span></div>
+        </div>
+
+        <div class="card web-card" data-full-desc="The author reverse-engineered ChatGPT's client-side code and found that Cloudflare's bot management reads React component state before user keystrokes are accepted in the chat input field. The system appears to monitor UI state changes as a signal for human vs. bot detection, raising questions about the depth of client-side surveillance integrated into AI products by CDN/security layers.">
+          <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won't Let You Type Until Cloudflare Reads Your React State</a> <span class="src-num">[2]</span></div>
+          <div class="card-authors">buchodi research</div>
+          <div class="card-desc">Reverse-engineering reveals Cloudflare monitors React component state before ChatGPT accepts keystrokes, exposing bot-detection surveillance built into AI product interfaces.</div>
+          <div class="card-tags"><span class="tag web-tag">Lobste.rs</span><span class="tag">privacy</span><span class="tag">web</span></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🤗 HuggingFace <span class="group-count">2</span></h3>
+      <div class="cards-grid">
+
+        <div class="card web-card" data-full-desc="We propose EditCrafter, a high-resolution image editing method that operates without tuning, leveraging pretrained text-to-image (T2I) diffusion models to process images at resolutions significantly exceeding those used during training. Leveraging the generative priors of large-scale T2I diffusion models enables the development of a wide array of novel generation and editing applications. Although numerous image editing methods have been proposed based on diffusion models and exhibit high-quality editing results, they are difficult to apply to images with arbitrary aspect ratios or higher resolutions since they only work at the training resolutions (512x512 or 1024x1024). Naively applying patch-wise editing fails with unrealistic object structures and repetition. To address these challenges, we introduce EditCrafter, a simple yet effective editing pipeline. EditCrafter operates by first performing tiled inversion, which preserves the original identity of the input high-resolution image. We further propose a noise-damped manifold-constrained classifier-free guidance (NDCFG++) that is tailored for high resolution image editing from the inverted latent. Our experiments show that the our EditCrafter can achieve impressive editing results across various resolutions without fine-tuning and optimization.">
+          <div class="card-title"><a href="https://huggingface.co/papers/2604.10268" target="_blank" rel="noopener">EditCrafter: Tuning-free High-Resolution Image Editing via Pretrained Diffusion Model</a> <span class="src-num">[3]</span></div>
+          <div class="card-authors">Kunho Kim, Sumin Seo, Yongjun Cho, Hyungjin Chung</div>
+          <div class="card-desc">EditCrafter uses tiled inversion and novel manifold-constrained guidance to enable pretrained diffusion models to edit high-resolution, arbitrary-aspect-ratio images without fine-tuning.</div>
+          <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">image-editing</span><span class="tag">diffusion</span><span class="tag">cs.CV</span></div>
+        </div>
+
+        <div class="card web-card" data-full-desc="Reinforcement fine-tuning improves the reasoning ability of large language models, but it can also encourage them to answer unanswerable queries by guessing or hallucinating missing information. Existing abstention methods either train models to produce generic refusals or encourage follow-up clarifications without verifying whether those clarifications identify the key missing information. We study queries that are clear in meaning but cannot be reliably resolved from the given information, and argue that a reliable model should not only abstain, but also explain what is missing. We propose a clarification-aware RLVR reward that, while rewarding correct answers on answerable queries, jointly optimizes explicit abstention and semantically aligned post-refusal clarification on unanswerable queries. Using this reward, we train Abstain-R1, a 3B model that improves abstention and clarification on unanswerable queries while preserving strong performance on answerable ones. Experiments on Abstain-Test, Abstain-QA, and SelfAware show that Abstain-R1 substantially improves over its base model and achieves unanswerable-query behavior competitive with larger systems including DeepSeek-R1, suggesting that calibrated abstention and clarification can be learned through verifiable rewards rather than emerging from scale alone.">
+          <div class="card-title"><a href="https://huggingface.co/papers/2604.17073" target="_blank" rel="noopener">Abstain-R1: Calibrated Abstention and Post-Refusal Clarification via Verifiable RL</a> <span class="src-num">[4]</span></div>
+          <div class="card-authors">Skylar Zhai, Jingcheng Liang, Dongyeop Kang</div>
+          <div class="card-desc">A 3B model trained with clarification-aware RL rewards learns to abstain on unanswerable queries and explain what's missing, achieving DeepSeek-R1-level abstention performance at much smaller scale.</div>
+          <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">RL</span><span class="tag">safety</span><span class="tag">LLM</span></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🎓 Google Scholar <span class="group-count">6</span></h3>
+      <div class="cards-grid">
+
+        <div class="card web-card" data-full-desc="This paper presents a framework for identifying breakthrough technologies using science-driven innovations. Building on the premise that breakthrough technologies have distinctive scientific signatures, it employs machine learning-based link prediction to map citation networks and detect emergent technology clusters before they achieve mainstream adoption. The approach is validated against historical patent and publication data.">
+          <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[5]</span></div>
+          <div class="card-authors">ScienceDirect</div>
+          <div class="card-desc">A framework using machine learning link prediction on citation networks to identify emerging breakthrough technology clusters before mainstream adoption.</div>
+          <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">machine-learning</span><span class="tag">innovation</span></div>
+        </div>
+
+        <div class="card web-card" data-full-desc="Rising levels of atmospheric carbon dioxide (CO2) and methane (CH4) have sparked research interest in resolving this issue. Various technologies have been utilized such as methane dry reforming (MDR). Catalyst breakthroughs in methane dry reforming employ machine learning to predict optimal catalyst compositions and reaction conditions, accelerating the discovery of more efficient and stable catalysts for converting CH4 and CO2 into synthesis gas.">
+          <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[6]</span></div>
+          <div class="card-authors">ScienceDirect</div>
+          <div class="card-desc">Machine learning approaches applied to methane dry reforming catalyst discovery, predicting optimal compositions to improve efficiency in converting CO2 and CH4 into useful synthesis gas.</div>
+          <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">machine-learning</span><span class="tag">climate</span></div>
+        </div>
+
+        <div class="card web-card" data-full-desc="The advent of large language models (LLMs) has marked a new era in computational social science (CSS). This review surveys how LLMs are being applied across CSS research domains — from text analysis and sentiment detection to simulation of social phenomena — while examining key challenges around data bias, privacy, and integration with existing methodological workflows.">
+          <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[7]</span></div>
+          <div class="card-authors">Springer</div>
+          <div class="card-desc">A comprehensive review of how LLMs are being applied in computational social science research, covering text analysis, social simulation, data bias, privacy concerns, and methodological integration challenges.</div>
+          <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">LLM</span><span class="tag">social-science</span></div>
+        </div>
+
+        <div class="card web-card" data-full-desc="This paper provides a deep dive into state-of-the-art AI and machine learning techniques applied to cybersecurity — covering adversarial AI attacks, automated threat intelligence, AI-driven security orchestration, and emerging defensive paradigms. It surveys the current landscape of AI's dual role in both enabling and defending against cyber threats.">
+          <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[8]</span></div>
+          <div class="card-authors">Springer</div>
+          <div class="card-desc">A comprehensive survey of AI/ML techniques in cybersecurity — adversarial AI, automated threat intelligence, and AI-driven security orchestration — examining both offensive and defensive applications.</div>
+          <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">AI-security</span><span class="tag">threat-intel</span></div>
+        </div>
+
+        <div class="card web-card" data-full-desc="Cluster Computing — With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and user privacy in IoT environments. This paper reviews post-quantum cryptographic algorithms and their suitability for resource-constrained IoT devices, evaluating lattice-based, hash-based, and code-based approaches for key exchange and digital signatures.">
+          <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[9]</span></div>
+          <div class="card-authors">Springer</div>
+          <div class="card-desc">Review of post-quantum cryptographic approaches — lattice-based, hash-based, and code-based — evaluated for securing authentication and privacy in resource-constrained IoT devices.</div>
+          <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">post-quantum</span><span class="tag">IoT</span><span class="tag">cryptography</span></div>
+        </div>
+
+        <div class="card web-card" data-full-desc="This review covers the integration of AI with quantum computing — ranging from quantum-enhanced classical ML to native quantum algorithms and hybrid quantum-classical approaches. It examines applications in optimization, drug discovery, and quantum-secured communications, while discussing the current state of quantum hardware and the path to practical quantum advantage in ML tasks.">
+          <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[10]</span></div>
+          <div class="card-authors">ScienceDirect</div>
+          <div class="card-desc">A comprehensive review of quantum machine learning — from quantum-enhanced classical ML to native quantum algorithms — covering optimization, drug discovery, and quantum-secured communications applications.</div>
+          <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">quantum</span><span class="tag">QML</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol>
+        <li><a href="https://arman-bd.hashnode.dev/i-left-port-22-open-on-the-internet-for-54-days-here-s-who-showed-up" target="_blank" rel="noopener">I Left Port 22 Open on the Internet for 54 Days. Here's Who Showed Up</a> — Lobste.rs</li>
+        <li><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won't Let You Type Until Cloudflare Reads Your React State</a> — Lobste.rs</li>
+        <li><a href="https://huggingface.co/papers/2604.10268" target="_blank" rel="noopener">EditCrafter: Tuning-free High-Resolution Image Editing via Pretrained Diffusion Model</a> — HuggingFace</li>
+        <li><a href="https://huggingface.co/papers/2604.17073" target="_blank" rel="noopener">Abstain-R1: Calibrated Abstention and Post-Refusal Clarification via Verifiable RL</a> — HuggingFace</li>
+        <li><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies</a> — Google Scholar</li>
+      </ol>
+      <ol start="6">
+        <li><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming</a> — Google Scholar</li>
+        <li><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science</a> — Google Scholar</li>
+        <li><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity</a> — Google Scholar</li>
+        <li><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for IoT</a> — Google Scholar</li>
+        <li><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review</a> — Google Scholar</li>
+      </ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
