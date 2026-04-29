@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — April 29, 2026 09:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">April 29, 2026 09:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">32</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">32</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">April 29, 2026 09:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li><strong>Ai</strong>: Contribute to triton-lang/triton-ascend development by creating an account on GitHub.</li>
+<li><strong>Security</strong>: Breaking the DNS Dependencych-22" class="toc-anchor">ECH’s Catch-22thing-strange-in-the-dns" href="#something-strange-in-the-dns" class="toc-anchor">Something Strange in the DNS…</li>
+<li><strong>Privacy</strong>: Edit April 2, 2026: I've been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live…</li>
+<li><strong>Daily Curated Papers</strong>: Recent advancements in large audio language models have extended Chain-of-Thought (CoT) reasoning into the auditory domain, enabling models to tackle increasingly complex acoustic…</li>
+<li><strong>Machine Learning Breakthroughs</strong>: This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original quantitative analysis of…</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+      <li><strong>Ai</strong>: Contribute to triton-lang/triton-ascend development by creating an account on GitHub.</li>
+<li><strong>Security</strong>: Breaking the DNS Dependencych-22" class="toc-anchor">ECH’s Catch-22thing-strange-in-the-dns" href="#something-strange-in-the-dns" class="toc-anchor">Something…</li>
+<li><strong>Privacy</strong>: Edit April 2, 2026: I've been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets…</li>
+<li><strong>Machine Learning Breakthroughs</strong>: This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original…</li>
+<li><strong>Cryptography Post-Quantum</strong>: Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum…</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+
+  <div class="section-group">
+    <h3>🤗 HuggingFace Papers <span class="group-count">20</span></h3>
+    <div class="cards-grid">
+  <div class="card web-card" data-full-desc="Recent advancements in large audio language models have extended Chain-of-Thought (CoT) reasoning into the auditory domain, enabling models to tackle increasingly complex acoustic and spoken tasks. To elicit and sustain these extended reasoning chains, the prevailing paradigm -- driven by the success of text-based reasoning models -- overwhelmingly relies on Reinforcement Learning with Verified Rewards (RLVR). However, as models are strictly optimized to distill rich, continuous auditory contexts into isolated, verifiable text labels, a fundamental question arises: are we fostering true audio intelligence, or merely reducing a continuous sensory medium into a discrete puzzle? We identify this as the &quot;verifiable reward trap.&quot; While RLVR yields remarkable scores on standardized objective benchmarks, it systematically degrades the real-world conversational feel of audio models. By prioritizing isolated correctness over acoustic nuance, RLVR reduces dynamic interactions to mechanical &quot;answering machines,&quot; severely compromising prosodic naturalness, emotional continuity, and user immersion, particularly in long-turn dialogues. To bridge the gap between mechanical objective verification and genuine sensory empathy, we introduce Step-Audio-R1.5, marking a paradigm shift toward Reinforcement Learning from Human Feedback (RLHF) in audio reasoning. Comprehensive evaluations demonstrate that Step-Audio-R1.5 not only maintains robust analytical reasoning but profoundly transforms the int">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25719" target="_blank" rel="noopener">Step-Audio-R1.5 Technical Report</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">Yuxin Zhang, Xiangyu Tony Zhang, Daijiao Liu, Fei Tian, Yayue Deng</div>
+    <div class="card-desc">Recent advancements in large audio language models have extended Chain-of-Thought (CoT) reasoning into the auditory domain, enabling models to tackle increasingly complex acoustic and spoken tasks.…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Creating interactive STEM courseware traditionally requires HTML/CSS/JavaScript expertise, leaving barriers for educators. While generative AI can produce HTML codes, existing tools generate static presentations rather than interactive simulations, struggle with long documents, and lack pedagogical accuracy mechanisms. Furthermore, full regeneration for modifications requires 200--600 seconds, disrupting creative flow. We present MAIC-UI, a zero-code authoring system that enables educators to create and rapidly edit interactive courseware from textbooks, PPTs, and PDFs. MAIC-UI employs: (1) structured knowledge analysis with multi-modal understanding to ensure pedagogical rigor; (2) a two-stage generate-verify-optimize pipeline separating content alignment from visual refinement; and (3) Click-to-Locate editing with Unified Diff-based incremental generation achieving sub-10-second iteration cycles. A controlled lab study with 40 participants shows MAIC-UI reduces editing iterations (4.9 vs. 7.0) and significantly improves learnability and controllability compared to direct Text-to-HTML generation. A three-month classroom deployment with 53 high school students demonstrates that MAIC-UI fosters learning agency and reduces outcome disparities -- the pilot class achieved 9.21-point gains in STEM subjects compared to -2.32 points in control classes. Our code is available at https://github.com/THU-MAIC/MAIC-UI.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25806" target="_blank" rel="noopener">MAIC-UI: Making Interactive Courseware with Generative UI</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors">Shangqing Tu, Yanjia Li, Keyu Chen, Sichen Zhang, Jifan Yu</div>
+    <div class="card-desc">Creating interactive STEM courseware traditionally requires HTML/CSS/JavaScript expertise, leaving barriers for educators. While generative AI can produce HTML codes, existing tools generate static…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Autonomous scientific research is significantly advanced thanks to the development of AI agents. One key step in this process is finding the right scientific literature, whether to explore existing knowledge for a research problem, or to acquire evidence for verifying assumptions and supporting claims. To assess AI agents&#x27; capability in driving this process, we present AutoResearchBench, a dedicated benchmark for autonomous scientific literature discovery. AutoResearchBench consists of two complementary task types: (1) Deep Research, which requires tracking down a specific target paper through a progressive, multi-step probing process, and (2) Wide Research, which requires comprehensively collecting a set of papers satisfying given conditions. Compared to previous benchmarks on agentic web browsing, AutoResearchBench is distinguished along three dimensions: it is research-oriented, calling for in-depth comprehension of scientific concepts; literature-focused, demanding fine-grained utilization of detailed information; and open-ended, involving an unknown number of qualified papers and thus requiring deliberate reasoning and search throughout. These properties make AutoResearchBench uniquely suited for evaluating autonomous research capabilities, and extraordinarily challenging. Even the most powerful LLMs, despite having largely conquered general agentic web-browsing benchmarks such as BrowseComp, achieve only 9.39% accuracy on Deep Research and 9.31% IoU on Wide Research, wh">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25256" target="_blank" rel="noopener">AutoResearchBench: Benchmarking AI Agents on Complex Scientific Literature Discovery</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors">Lei Xiong, Kun Luo, Ziyi Xia, Wenbo Zhang, Jin-Ge Yao</div>
+    <div class="card-desc">Autonomous scientific research is significantly advanced thanks to the development of AI agents. One key step in this process is finding the right scientific literature, whether to explore existing…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Crowdsourced pairwise evaluation has emerged as a scalable approach for assessing foundation models. However, applying it to Text to Speech(TTS) introduces high variance due to linguistic diversity and multidimensional nature of speech perception. We present a controlled multidimensional pairwise evaluation framework for multilingual TTS that combines linguistic control with perceptually grounded annotation. Using 5K+ native and code-mixed sentences across 10 Indic languages, we evaluate 7 state-of-the-art TTS systems and collect over 120K pairwise comparisons from over 1900 native raters. In addition to overall preference, raters provide judgments across 6 perceptual dimensions: intelligibility, expressiveness, voice quality, liveliness, noise, and hallucinations. Using Bradley-Terry modeling, we construct a multilingual leaderboard, interpret human preference using SHAP analysis and analyze leaderboard reliability alongside model strengths and trade-offs across perceptual dimensions.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.21481" target="_blank" rel="noopener">Preferences of a Voice-First Nation: Large-Scale Pairwise Evaluation and Preference Analysis for TTS in Indian Languages</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors">Srija Anand, Ashwin Sankar, Ishvinder Sethi, Aaditya Pareek, Kartik Rajput</div>
+    <div class="card-desc">Crowdsourced pairwise evaluation has emerged as a scalable approach for assessing foundation models. However, applying it to Text to Speech(TTS) introduces high variance due to linguistic diversity…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Large Vision-Language Models (VLMs) are increasingly used to evaluate outputs of other models, for image-to-text (I2T) tasks such as visual question answering, and text-to-image (T2I) generation tasks. Despite this growing reliance, the reliability of these Evaluator VLMs remains under explored. In this work, we systematically evaluate the reliability of Evaluator VLMs across both I2T and T2I tasks. We introduce targeted perturbations that degrade output quality along key error dimensions, including object hallucinations, spatial reasoning, factual grounding, and visual fidelity. These perturbations test whether Evaluator VLMs can reliably account for these quality degrading errors in their evaluations. Using a comprehensive benchmark of over 4000 perturbed instances spanning 40 perturbation dimensions, we evaluate 4 prominent VLMs using single-answer scoring, pairwise comparison, and reference-guided paradigms. Our findings reveal that current VLM evaluators exhibit substantial blind spots: they often fail to detect perturbed outputs - in some cases exceeding 50%, struggle particularly with fine-grained compositional and spatial errors, and are often insensitive to hallucinated content that contradicts the input image. Pairwise comparison proves more reliable, though failure rates persist. These results highlight the unreliable nature of current Evaluator VLMs and urge caution in their deployment for benchmarking and development decisions. Code and data have been made public">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.21523" target="_blank" rel="noopener">Seeing Isn&#x27;t Believing: Uncovering Blind Spots in Evaluator Vision-Language Models</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors">Mohammed Safi Ur Rahman Khan, Sanjay Suryanarayanan, Tushar Anand, Mitesh M. Khapra</div>
+    <div class="card-desc">Large Vision-Language Models (VLMs) are increasingly used to evaluate outputs of other models, for image-to-text (I2T) tasks such as visual question answering, and text-to-image (T2I) generation…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="On-policy distillation (OPD) has shown strong potential for transferring reasoning ability from frontier or domain-specific models to smaller students. While effective on static single-turn tasks, its behavior in multi-turn agent settings remains underexplored. In this work, we identify a key limitation of vanilla OPD in such settings, which we term Trajectory-Level KL Instability. Specifically, we observe that KL divergence increases together with a drop in success rate, and even after convergence, the KL remains high, leading to unstable training. This instability arises from inter-turn error compounding: as errors accumulate, the student is driven beyond the teacher&#x27;s effective support, rendering the supervision signal unreliable. To address this, we propose TCOD (Temporal Curriculum On-Policy Distillation), a simple yet effective framework that controls the trajectory depth exposed to the student and progressively expands it from short to long with a curriculum schedule.Experimental results across four student-teacher pairs on three multi-turn agent benchmarks (ALFWorld, WebShop, ScienceWorld) show that TCOD mitigates KL escalation and enhances KL stability throughout training, improving agent performance by up to 18 points over vanilla OPD. Further evaluations show that TCOD can even surpass the teacher&#x27;s performance and generalize to tasks on which the teacher fails.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.24005" target="_blank" rel="noopener">TCOD: Exploring Temporal Curriculum in On-Policy Distillation for Multi-turn Autonomous Agents</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors">Jiaqi Wang, Wenhao Zhang, Weijie Shi, Yaliang Li, James Cheng</div>
+    <div class="card-desc">On-policy distillation (OPD) has shown strong potential for transferring reasoning ability from frontier or domain-specific models to smaller students. While effective on static single-turn tasks,…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Graphical User Interface (GUI) element grounding (precisely locating elements on screenshots based on natural language instructions) is fundamental for agents interacting with GUIs. Deploying this capability directly on resource-constrained devices like mobile phones is increasingly critical for GUI agents requiring low latency. However, this goal faces a significant challenge, as current visual grounding methods typically employ large vision-language model (VLM) (more than 2.5B parameters), making them impractical for on-device execution due to memory and computational constraints. To address this, this paper introduces GoClick, a lightweight GUI element grounding VLM with only 230M parameters that achieves excellent visual grounding accuracy, even on par with significantly larger models. Simply downsizing existing decoder-only VLMs is a straightforward way to design a lightweight model, but our experiments reveal that this approach yields suboptimal results. Instead, we select an encoder-decoder architecture, which outperforms decoder-only alternatives at small parameter scales for GUI grounding tasks. Additionally, the limited capacity of small VLMs encourages us to develop a Progressive Data Refinement pipeline that utilizes task type filtering and data ratio adjustment to extract a high-quality 3.8M-sample core set from a 10.8M raw dataset. Training GoClick using this core set brings notable grounding accuracy gains. Our experiments show that GoClick excels on multiple G">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.23941" target="_blank" rel="noopener">GoClick: Lightweight Element Grounding Model for Autonomous GUI Interaction</a> <span class="src-num">[7]</span></div>
+    <div class="card-authors">Hongxin Li, Yuntao Chen, Zhaoxiang Zhang</div>
+    <div class="card-desc">Graphical User Interface (GUI) element grounding (precisely locating elements on screenshots based on natural language instructions) is fundamental for agents interacting with GUIs. Deploying this…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Autonomous agents capable of navigating Graphical User Interfaces (GUIs) hold the potential to revolutionize digital productivity. However, achieving true digital autonomy extends beyond reactive element matching; it necessitates a predictive mental model of interface dynamics and the ability to foresee the &quot;digital world state&quot; resulting from interactions. Despite the perceptual capabilities of modern Vision-Language Models (VLMs), existing benchmarks remain bifurcated (focusing either on black-box task completion or static, shallow grounding), thereby failing to assess whether agents truly comprehend the implicit functionality and transition logic of GUIs. To bridge this gap, we introduce AutoGUI-v2, a comprehensive benchmark designed to evaluate deep GUI functionality understanding and interaction outcome prediction. We construct the benchmark using a novel VLM-human collaborative pipeline that recursively parses multi-platform screenshots into hierarchical functional regions to generate diverse evaluation tasks. Providing 2,753 tasks across six operating systems, AutoGUI-v2 rigorously tests agents on region and element-level semantics, grounding, and dynamic state prediction. Our evaluation reveals a striking dichotomy in VLMs: while open-source models fine-tuned on agent data (e.g., Qwen3-VL) excel at functional grounding, commercial models (e.g., Gemini-2.5-Pro-Thinking) dominate in functionality captioning. Crucially, all models struggle with complex interaction logic ">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.24441" target="_blank" rel="noopener">AutoGUI-v2: A Comprehensive Multi-Modal GUI Functionality Understanding Benchmark</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors">Hongxin Li, Xiping Wang, Jingran Su, Zheng Ju, Yuntao Chen</div>
+    <div class="card-desc">Autonomous agents capable of navigating Graphical User Interfaces (GUIs) hold the potential to revolutionize digital productivity. However, achieving true digital autonomy extends beyond reactive…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Deploying guardrails for custom policies remains challenging, as generic safety models fail to capture task-specific requirements, while prompting LLMs suffers from inconsistent boundary-case performance and high inference costs. Training custom classifiers achieves both accuracy and efficiency, yet demands substantial labeled data that is costly to obtain. We present BARRED (Boundary Alignment Refinement through REflection and Debate), a framework for generating faithful and diverse synthetic training data using only a task description and a small set of unlabeled examples. Our approach decomposes the domain space into dimensions to ensure comprehensive coverage, and employs multi-agent debate to verify label correctness, yielding a high-fidelity training corpus. Experiments across diverse custom policies demonstrate that small language models finetuned on our synthetic data consistently outperform state-of-the-art proprietary LLMs (including reasoning models) and dedicated guardrail models. Ablation studies confirm that both dimension decomposition and debate-based verification are critical for ensuring the diversity and label fidelity required for effective fine-tuning. The BARRED framework eliminates the reliance on extensive human annotation, offering a scalable solution for accurate custom guardrails.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25203" target="_blank" rel="noopener">BARRED: Synthetic Training of Custom Policy Guardrails via Asymmetric Debate</a> <span class="src-num">[9]</span></div>
+    <div class="card-authors">Arnon Mazza, Elad Levi</div>
+    <div class="card-desc">Deploying guardrails for custom policies remains challenging, as generic safety models fail to capture task-specific requirements, while prompting LLMs suffers from inconsistent boundary-case…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="While diffusion models generate high-fidelity video clips, transforming them into coherent storytelling engines remains challenging. Current agentic pipelines automate this via chained modules but suffer from semantic drift and cascading failures due to independent, handcrafted prompting. We present Co-Director, a hierarchical multi-agent framework formalizing video storytelling as a global optimization problem. To ensure semantic coherence, we introduce hierarchical parameterization: a multi-armed bandit globally identifies promising creative directions, while a local multimodal self-refinement loop mitigates identity drift and ensures sequence-level consistency. This balances the exploration of novel narrative strategies with the exploitation of effective creative configurations. For evaluation, we introduce GenAD-Bench, a 400-scenario dataset of fictional products for personalized advertising. Experiments demonstrate that Co-Director significantly outperforms state-of-the-art baselines, offering a principled approach that seamlessly generalizes to broader cinematic narratives. Project Page: https://co-director-agent.github.io/">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.24842" target="_blank" rel="noopener">Co-Director: Agentic Generative Video Storytelling</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors">Yale Song, Yiwen Song, Nick Losier, Nathan Hodson, Ye Jin</div>
+    <div class="card-desc">While diffusion models generate high-fidelity video clips, transforming them into coherent storytelling engines remains challenging. Current agentic pipelines automate this via chained modules but…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="In this work, we propose Mutual Forcing, a framework for fast autoregressive audio-video generation with long-horizon audio-video synchronization. Our approach addresses two key challenges: joint audio-video modeling and fast autoregressive generation. To ease joint audio-video optimization, we adopt a two-stage training strategy: we first train uni-modal generators and then couple them into a unified audio-video model for joint training on paired data. For streaming generation, we ask whether a native fast causal audio-video model can be trained directly, instead of following existing streaming distillation pipelines that typically train a bidirectional model first and then convert it into a causal generator through multiple distillation stages. Our answer is Mutual Forcing, which builds directly on native autoregressive model and integrates few-step and multi-step generation within a single weight-shared model, enabling self-distillation and improved training-inference consistency. The multi-step mode improves the few-step mode via self-distillation, while the few-step mode generates historical context during training to improve training-inference consistency; because the two modes share parameters, these two effects reinforce each other within a single model. Compared with prior approaches such as Self-Forcing, Mutual Forcing removes the need for an additional bidirectional teacher model, supports more flexible training sequence lengths, reduces training overhead, and allo">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25819" target="_blank" rel="noopener">Mutual Forcing: Dual-Mode Self-Evolution for Fast Autoregressive Audio-Video Character Generation</a> <span class="src-num">[11]</span></div>
+    <div class="card-authors">Yupeng Zhou, Lianghua Huang, Zhifan Wu, Jiabao Wang, Yupeng Shi</div>
+    <div class="card-desc">In this work, we propose Mutual Forcing, a framework for fast autoregressive audio-video generation with long-horizon audio-video synchronization. Our approach addresses two key challenges: joint…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Unified multimodal models (UMMs) integrate visual understanding and generation within a single framework. For text-to-image (T2I) tasks, this unified capability allows UMMs to refine outputs after their initial generation, potentially extending the performance upper bound. Current UMM-based refinement methods primarily follow a refinement-via-editing (RvE) paradigm, where UMMs produce editing instructions to modify misaligned regions while preserving aligned content. However, editing instructions often describe prompt-image misalignment only coarsely, leading to incomplete refinement. Moreover, pixel-level preservation, though necessary for editing, unnecessarily restricts the effective modification space for refinement. To address these limitations, we propose Refinement via Regeneration (RvR), a novel framework that reformulates refinement as conditional image regeneration rather than editing. Instead of relying on editing instructions and enforcing strict content preservation, RvR regenerates images conditioned on the target prompt and the semantic tokens of the initial image, enabling more complete semantic alignment with a larger modification space. Extensive experiments demonstrate the effectiveness of RvR, improving Geneval from 0.78 to 0.91, DPGBench from 84.02 to 87.21, and UniGenBench++ from 61.53 to 77.41.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25636" target="_blank" rel="noopener">Refinement via Regeneration: Enlarging Modification Space Boosts Image Refinement in Unified Multimodal Models</a> <span class="src-num">[12]</span></div>
+    <div class="card-authors">Jiayi Guo, Linqing Wang, Jiangshan Wang, Yang Yue, Zeyu Liu</div>
+    <div class="card-desc">Unified multimodal models (UMMs) integrate visual understanding and generation within a single framework. For text-to-image (T2I) tasks, this unified capability allows UMMs to refine outputs after…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Recent advances in text-driven human motion generation enable models to synthesize realistic motion sequences from natural language descriptions. However, most existing approaches assume identity-neutral motion and generate movements using a canonical body representation, ignoring the strong influence of body morphology on motion dynamics. In practice, attributes such as body proportions, mass distribution, and age significantly affect how actions are performed, and neglecting this coupling often leads to physically inconsistent motions. We propose an identity-aware motion generation framework that explicitly models the relationship between body morphology and motion dynamics. Instead of relying on explicit geometric measurements, identity is represented using multimodal signals, including natural language descriptions and visual cues. We further introduce a joint motion-shape generation paradigm that simultaneously synthesizes motion sequences and body shape parameters, allowing identity cues to directly modulate motion dynamics. Extensive experiments on motion capture datasets and large-scale in-the-wild videos demonstrate improved motion realism and motion-identity consistency while maintaining high motion quality. Project page: https://vjwq.github.io/IAM">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25164" target="_blank" rel="noopener">IAM: Identity-Aware Human Motion and Shape Joint Generation</a> <span class="src-num">[13]</span></div>
+    <div class="card-authors">Wenqi Jia, Zekun Li, Abhay Mittal, Chengcheng Tang, Chuan Guo</div>
+    <div class="card-desc">Recent advances in text-driven human motion generation enable models to synthesize realistic motion sequences from natural language descriptions. However, most existing approaches assume…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="While large-scale video diffusion models have demonstrated impressive capabilities in generating high-resolution and semantically rich content, a significant gap remains between their pretraining performance and real-world deployment requirements due to critical issues such as prompt sensitivity, temporal inconsistency, and prohibitive inference costs. To bridge this gap, we propose a comprehensive post-training framework that systematically aligns pretrained models with user intentions through four synergistic stages: we first employ Supervised Fine-Tuning (SFT) to transform the base model into a stable instruction-following policy, followed by a Reinforcement Learning from Human Feedback (RLHF) stage that utilizes a novel Group Relative Policy Optimization (GRPO) method tailored for video diffusion to enhance perceptual quality and temporal coherence; subsequently, we integrate Prompt Enhancement via a specialized language model to refine user inputs, and finally address system efficiency through Inference Optimization. Together, these components provide a systematic approach to improving visual quality, temporal coherence, and instruction following, while preserving the controllability learned during pretraining. The result is a practical blueprint for building scalable post-training pipelines that are stable, adaptable, and effective in real-world deployment. Extensive experiments demonstrate that this unified pipeline effectively mitigates common artifacts and significan">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25427" target="_blank" rel="noopener">A Systematic Post-Train Framework for Video Generation</a> <span class="src-num">[14]</span></div>
+    <div class="card-authors">Zeyue Xue, Siming Fu, Jie Huang, Shuai Lu, Haoran Li</div>
+    <div class="card-desc">While large-scale video diffusion models have demonstrated impressive capabilities in generating high-resolution and semantically rich content, a significant gap remains between their pretraining…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Terminal agents have demonstrated strong potential for autonomous command-line execution, yet their training remains constrained by the scarcity of high-quality and diverse execution trajectories. Existing approaches mitigate this bottleneck by synthesizing large-scale terminal task instances for trajectory sampling. However, they primarily focus on scaling the number of tasks while providing limited control over the diversity of execution trajectories that agents actually experience during training. In this paper, we present SkillSynth, an automated framework for terminal task synthesis built on a scenario-mediated skill graph. SkillSynth first constructs a large-scale skill graph, where scenarios serve as intermediate transition nodes that connect diverse command-line skills. It then samples paths from this graph as abstractions of real-world workflows, and uses a multi-agent harness to instantiate them into executable task instances. By grounding task synthesis in graph-sampled workflow paths, SkillSynth explicitly controls the diversity of minimal execution trajectories required to solve the synthesized tasks. Experiments on Terminal-Bench demonstrate the effectiveness of SkillSynth. Moreover, task instances synthesized by SkillSynth have been adopted to train Hy3 Preview, contributing to its enhanced agentic capabilities in terminal-based settings.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25727" target="_blank" rel="noopener">Toward Scalable Terminal Task Synthesis via Skill Graphs</a> <span class="src-num">[15]</span></div>
+    <div class="card-authors">Zhiyuan Fan, Tinghao Yu, Yuanjun Cai, Jiangtao Guan, Yun Yang</div>
+    <div class="card-desc">Terminal agents have demonstrated strong potential for autonomous command-line execution, yet their training remains constrained by the scarcity of high-quality and diverse execution trajectories.…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Real-world data visualization (DV) requires native environmental grounding, cross-platform evolution, and proactive intent alignment. Yet, existing benchmarks often suffer from code-sandbox confinement, single-language creation-only tasks, and assumption of perfect intent. To bridge these gaps, we introduce DV-World, a benchmark of 260 tasks designed to evaluate DV agents across real-world professional lifecycles. DV-World spans three domains: DV-Sheet for native spreadsheet manipulation including chart and dashboard creation as well as diagnostic repair; DV-Evolution for adapting and restructuring reference visual artifacts to fit new data across diverse programming paradigms and DV-Interact for proactive intent alignment with a user simulator that mimics real-world ambiguous requirements. Our hybrid evaluation framework integrates Table-value Alignment for numerical precision and MLLM-as-a-Judge with rubrics for semantic-visual assessment. Experiments reveal that state-of-the-art models achieve less than 50% overall performance, exposing critical deficits in handling the complex challenges of real-world data visualization. DV-World provides a realistic testbed to steer development toward the versatile expertise required in enterprise workflows. Our data and code are available at https://github.com/DA-Open/DV-World{this project page}.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25914" target="_blank" rel="noopener">DV-World: Benchmarking Data Visualization Agents in Real-World Scenarios</a> <span class="src-num">[16]</span></div>
+    <div class="card-authors">Jinxiang Meng, Shaoping Huang, Fangyu Lei, Jingyu Guo, Haoxiang Liu</div>
+    <div class="card-desc">Real-world data visualization (DV) requires native environmental grounding, cross-platform evolution, and proactive intent alignment. Yet, existing benchmarks often suffer from code-sandbox…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Reliably transferring specialized human knowledge from text into large language models remains a fundamental challenge in artificial intelligence. Fine-tuning on domain corpora has enabled substantial capability gains, but the process operates without feedback: when a model fails on a domain task, there is no method to diagnose what is deficient in the training data, and the only recourse is to add more data indiscriminately. Here we show that when a structured knowledge representation extracted from the source corpus serves as the shared foundation for both training data and evaluation, the complete data-engineering lifecycle maps onto the software development lifecycle in a precise and operative way: training data becomes source code specifying what the model should learn, model training becomes compilation, benchmarking becomes unit testing, and failure-driven data repair becomes debugging. Under this correspondence, model failures decompose into concept-level gaps and reasoning-chain breaks that can be traced back to specific deficiencies in the data and repaired through targeted patches, with each repair cycle producing consistent improvements across model scales and architectures without degrading general capabilities. We formalize this principle as Programming with Data and instantiate it across sixteen disciplines spanning the natural sciences, engineering, biomedicine, and the social sciences, releasing a structured knowledge base, benchmark suite, and training corpu">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.24819" target="_blank" rel="noopener">Programming with Data: Test-Driven Data Engineering for Self-Improving LLMs from Raw Corpora</a> <span class="src-num">[17]</span></div>
+    <div class="card-authors">Chenkai Pan, Xinglong Xu, Yuhang Xu, Yujun Wu, Siyuan Li</div>
+    <div class="card-desc">Reliably transferring specialized human knowledge from text into large language models remains a fundamental challenge in artificial intelligence. Fine-tuning on domain corpora has enabled…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Recursive or looped language models have recently emerged as a new scaling axis by iteratively refining the same model computation over latent states to deepen reasoning. We extend such scaling principle from a single model to multi-agent systems, and ask: Can agent collaboration itself be scaled through recursion? To this end, we introduce RecursiveMAS, a recursive multi-agent framework that casts the entire system as a unified latent-space recursive computation. RecursiveMAS connects heterogeneous agents as a collaboration loop through the lightweight RecursiveLink module, enabling in-distribution latent thoughts generation and cross-agent latent state transfer. To optimize our framework, we develop an inner-outer loop learning algorithm for iterative whole-system co-optimization through shared gradient-based credit assignment across recursion rounds. Theoretical analyses of runtime complexity and learning dynamics establish that RecursiveMAS is more efficient than standard text-based MAS and maintains stable gradients during recursive training. Empirically, we instantiate RecursiveMAS under 4 representative agent collaboration patterns and evaluate across 9 benchmarks spanning mathematics, science, medicine, search, and code generation. In comparison with advanced single/multi-agent and recursive computation baselines, RecursiveMAS consistently delivers an average accuracy improvement of 8.3%, together with 1.2times-2.4times end-to-end inference speedup, and 34.6%-75.6% to">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25917" target="_blank" rel="noopener">Recursive Multi-Agent Systems</a> <span class="src-num">[18]</span></div>
+    <div class="card-authors">Xiyuan Yang, Jiaru Zou, Rui Pan, Ruizhong Qiu, Pan Lu</div>
+    <div class="card-desc">Recursive or looped language models have recently emerged as a new scaling axis by iteratively refining the same model computation over latent states to deepen reasoning. We extend such scaling…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Unified multi-modal understanding/generative models have shown improved image editing performance by incorporating fine-grained understanding into their Chain-of-Thought (CoT) process. However, a critical question remains underexplored: what forms of CoT and training strategy can jointly enhance both the understanding granularity and generalization? To address this, we propose Meta-CoT, a paradigm that performs a two-level decomposition of any single-image editing operation with two key properties: (1) Decomposability. We observe that any editing intention can be represented as a triplet - (task, target, required understanding ability). Inspired by this, Meta-CoT decomposes both the editing task and the target, generating task-specific CoT and traversing editing operations on all targets. This decomposition enhances the model&#x27;s understanding granularity of editing operations and guides it to learn each element of the triplet during training, substantially improving the editing capability. (2) Generalizability. In the second decomposition level, we further break down editing tasks into five fundamental meta-tasks. We find that training on these five meta-tasks, together with the other two elements of the triplet, is sufficient to achieve strong generalization across diverse, unseen editing tasks. To further align the model&#x27;s editing behavior with its CoT reasoning, we introduce the CoT-Editing Consistency Reward, which encourages more accurate and effective utilization of CoT ">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.24625" target="_blank" rel="noopener">Meta-CoT: Enhancing Granularity and Generalization in Image Editing</a> <span class="src-num">[19]</span></div>
+    <div class="card-authors">Shiyi Zhang, Yiji Cheng, Tiankai Hang, Zijin Yin, Runze He</div>
+    <div class="card-desc">Unified multi-modal understanding/generative models have shown improved image editing performance by incorporating fine-grained understanding into their Chain-of-Thought (CoT) process. However, a…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Large Language Models (LLMs) remain vulnerable to optimization-based jailbreak attacks that exploit internal gradient structure. While Sparse Autoencoders (SAEs) are widely used for interpretability, their robustness implications remain underexplored. We present a study of integrating pretrained SAEs into transformer residual streams at inference time, without modifying model weights or blocking gradients. Across four model families (Gemma, LLaMA, Mistral, Qwen) and two strong white-box attacks (GCG, BEAST) plus three black-box benchmarks, SAE-augmented models achieve up to a 5x reduction in jailbreak success rate relative to the undefended baseline and reduce cross-model attack transferability. Parametric ablations reveal (i) a monotonic dose-response relationship between L0 sparsity and attack success rate, and (ii) a layer-dependent defense-utility tradeoff, where intermediate layers balance robustness and clean performance. These findings are consistent with a representational bottleneck hypothesis: sparse projection reshapes the optimization geometry exploited by jailbreak attacks.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.18756" target="_blank" rel="noopener">Towards Understanding the Robustness of Sparse Autoencoders</a> <span class="src-num">[20]</span></div>
+    <div class="card-authors">Ahson Saiyed, Sabrina Sadiekh, Chirag Agarwal</div>
+    <div class="card-desc">Large Language Models (LLMs) remain vulnerable to optimization-based jailbreak attacks that exploit internal gradient structure. While Sparse Autoencoders (SAEs) are widely used for interpretability,…</div>
+    <div class="card-tags"><span class="tag web-tag">huggingface</span></div>
+  </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🔗 Lobste.rs <span class="group-count">3</span></h3>
+    <div class="cards-grid">
+  <div class="card web-card" data-full-desc="Contribute to triton-lang/triton-ascend development by creating an account on GitHub.">
+    <div class="card-title"><a href="https://github.com/triton-lang/triton-ascend" target="_blank" rel="noopener">Triton language for Huawei Ascend</a> <span class="src-num">[21]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Contribute to triton-lang/triton-ascend development by creating an account on GitHub.</div>
+    <div class="card-tags"><span class="tag web-tag">lobsters</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Breaking the DNS Dependencych-22&quot; class=&quot;toc-anchor&quot;&gt;ECH’s Catch-22thing-strange-in-the-dns&quot; href=&quot;#something-strange-in-the-dns&quot; class=&quot;toc-anchor&quot;&gt;Something Strange in the DNS use it. That’s the fundamental challenge facing encrypted DNS and Encrypted Client Hello (ECH). These protocols can protect your browsing from prying eyes, but only if you can first obtain the cryptographic configurations that make them work. In places like China, censors have […]">
+    <div class="card-title"><a href="https://cdt.org/insights/distributing-the-keys-for-private-access-to-the-web/" target="_blank" rel="noopener">Distributing the Keys for Private Access to the Web</a> <span class="src-num">[22]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Breaking the DNS Dependencych-22&quot; class=&quot;toc-anchor&quot;&gt;ECH’s Catch-22thing-strange-in-the-dns&quot; href=&quot;#something-strange-in-the-dns&quot; class=&quot;toc-anchor&quot;&gt;Something Strange in the DNS use it. That’s the…</div>
+    <div class="card-tags"><span class="tag web-tag">lobsters</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild, directly from Claude. To access it reach out at buchodi@">
+    <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[23]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry…</div>
+    <div class="card-tags"><span class="tag web-tag">lobsters</span></div>
+  </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🎓 Google Scholar <span class="group-count">5</span></h3>
+    <div class="cards-grid">
+  <div class="card web-card" data-full-desc="This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original quantitative analysis of Epoch AI notable AI models dataset and combining with available literature. With focus on key breakthroughs, evolving trends, industry impacts and future directions, the paper shows important shifts from academia to industry in AI research leadership from the year 2014 when industry started leading in release of notable AI models. Despite abundance of literature about AI and allied fields, there are not many papers or a">
+    <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a> <span class="src-num">[24]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original quantitative analysis of Epoch AI notable AI…</div>
+    <div class="card-tags"><span class="tag web-tag">scholar</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Article on google_scholar — see link for details.">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[25]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Article on google_scholar — see link for details.</div>
+    <div class="card-tags"><span class="tag web-tag">scholar</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Article on google_scholar — see link for details.">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[26]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Article on google_scholar — see link for details.</div>
+    <div class="card-tags"><span class="tag web-tag">scholar</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[27]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...</div>
+    <div class="card-tags"><span class="tag web-tag">scholar</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Article on google_scholar — see link for details.">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[28]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Article on google_scholar — see link for details.</div>
+    <div class="card-tags"><span class="tag web-tag">scholar</span></div>
+  </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>▲ Hacker News <span class="group-count">4</span></h3>
+    <div class="cards-grid">
+  <div class="card web-card" data-full-desc="“It’s now or never. There’s a tidal wave coming.”">
+    <div class="card-title"><a href="https://www.theverge.com/ai-artificial-intelligence/915660/mythos-script-kiddies-hackers-attack-cybersecurity-ai" target="_blank" rel="noopener">(https://www.theverge.com/ai-artificial-intelligence/915660/mythos-script-kiddies-hackers-attack-cybersecurity-ai)</a> <span class="src-num">[29]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">“It’s now or never. There’s a tidal wave coming.”</div>
+    <div class="card-tags"><span class="tag web-tag">hackernews</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Article on hackernews — see link for details.">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=47939570" target="_blank" rel="noopener">Computing quantum waves from classical action</a> <span class="src-num">[30]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Article on hackernews — see link for details.</div>
+    <div class="card-tags"><span class="tag web-tag">hackernews</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Article on hackernews — see link for details.">
+    <div class="card-title"><a href="https://royalsocietypublishing.org/rspa/article/482/2336/20250413/481461/On-computing-quantum-waves-exactly-from-classical" target="_blank" rel="noopener">(https://royalsocietypublishing.org/rspa/article/482/2336/20250413/481461/On-computing-quantum-waves-exactly-from-classical)</a> <span class="src-num">[31]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Article on hackernews — see link for details.</div>
+    <div class="card-tags"><span class="tag web-tag">hackernews</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Article on hackernews — see link for details.">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=47945756" target="_blank" rel="noopener">Quantum Computing and Blockchain [pdf]</a> <span class="src-num">[32]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Article on hackernews — see link for details.</div>
+    <div class="card-tags"><span class="tag web-tag">hackernews</span></div>
+  </div>
+    </div>
+  </div>
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol>
+<li>[1] <a href="https://github.com/triton-lang/triton-ascend" target="_blank" rel="noopener">Triton language for Huawei Ascend</a> <span style="color:var(--text-subtle)">(lobsters)</span></li>
+<li>[2] <a href="https://cdt.org/insights/distributing-the-keys-for-private-access-to-the-web/" target="_blank" rel="noopener">Distributing the Keys for Private Access to the Web</a> <span style="color:var(--text-subtle)">(lobsters)</span></li>
+<li>[3] <a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span style="color:var(--text-subtle)">(lobsters)</span></li>
+<li>[4] <a href="https://huggingface.co/papers/2604.25719" target="_blank" rel="noopener">Step-Audio-R1.5 Technical Report</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[5] <a href="https://huggingface.co/papers/2604.25806" target="_blank" rel="noopener">MAIC-UI: Making Interactive Courseware with Generative UI</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[6] <a href="https://huggingface.co/papers/2604.25256" target="_blank" rel="noopener">AutoResearchBench: Benchmarking AI Agents on Complex Scientific Literature Discovery</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[7] <a href="https://huggingface.co/papers/2604.21481" target="_blank" rel="noopener">Preferences of a Voice-First Nation: Large-Scale Pairwise Evaluation and Preference Analysis for TTS in Indian Languages</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[8] <a href="https://huggingface.co/papers/2604.21523" target="_blank" rel="noopener">Seeing Isn&#x27;t Believing: Uncovering Blind Spots in Evaluator Vision-Language Models</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[9] <a href="https://huggingface.co/papers/2604.24005" target="_blank" rel="noopener">TCOD: Exploring Temporal Curriculum in On-Policy Distillation for Multi-turn Autonomous Agents</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[10] <a href="https://huggingface.co/papers/2604.23941" target="_blank" rel="noopener">GoClick: Lightweight Element Grounding Model for Autonomous GUI Interaction</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[11] <a href="https://huggingface.co/papers/2604.24441" target="_blank" rel="noopener">AutoGUI-v2: A Comprehensive Multi-Modal GUI Functionality Understanding Benchmark</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[12] <a href="https://huggingface.co/papers/2604.25203" target="_blank" rel="noopener">BARRED: Synthetic Training of Custom Policy Guardrails via Asymmetric Debate</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[13] <a href="https://huggingface.co/papers/2604.24842" target="_blank" rel="noopener">Co-Director: Agentic Generative Video Storytelling</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[14] <a href="https://huggingface.co/papers/2604.25819" target="_blank" rel="noopener">Mutual Forcing: Dual-Mode Self-Evolution for Fast Autoregressive Audio-Video Character Generation</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[15] <a href="https://huggingface.co/papers/2604.25636" target="_blank" rel="noopener">Refinement via Regeneration: Enlarging Modification Space Boosts Image Refinement in Unified Multimodal Models</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[16] <a href="https://huggingface.co/papers/2604.25164" target="_blank" rel="noopener">IAM: Identity-Aware Human Motion and Shape Joint Generation</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+</ol>
+<ol start="17">
+<li>[17] <a href="https://huggingface.co/papers/2604.25427" target="_blank" rel="noopener">A Systematic Post-Train Framework for Video Generation</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[18] <a href="https://huggingface.co/papers/2604.25727" target="_blank" rel="noopener">Toward Scalable Terminal Task Synthesis via Skill Graphs</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[19] <a href="https://huggingface.co/papers/2604.25914" target="_blank" rel="noopener">DV-World: Benchmarking Data Visualization Agents in Real-World Scenarios</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[20] <a href="https://huggingface.co/papers/2604.24819" target="_blank" rel="noopener">Programming with Data: Test-Driven Data Engineering for Self-Improving LLMs from Raw Corpora</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[21] <a href="https://huggingface.co/papers/2604.25917" target="_blank" rel="noopener">Recursive Multi-Agent Systems</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[22] <a href="https://huggingface.co/papers/2604.24625" target="_blank" rel="noopener">Meta-CoT: Enhancing Granularity and Generalization in Image Editing</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[23] <a href="https://huggingface.co/papers/2604.18756" target="_blank" rel="noopener">Towards Understanding the Robustness of Sparse Autoencoders</a> <span style="color:var(--text-subtle)">(huggingface_papers)</span></li>
+<li>[24] <a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a> <span style="color:var(--text-subtle)">(google_scholar)</span></li>
+<li>[25] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span style="color:var(--text-subtle)">(google_scholar)</span></li>
+<li>[26] <a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span style="color:var(--text-subtle)">(google_scholar)</span></li>
+<li>[27] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span style="color:var(--text-subtle)">(google_scholar)</span></li>
+<li>[28] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span style="color:var(--text-subtle)">(google_scholar)</span></li>
+<li>[29] <a href="https://www.theverge.com/ai-artificial-intelligence/915660/mythos-script-kiddies-hackers-attack-cybersecurity-ai" target="_blank" rel="noopener">(https://www.theverge.com/ai-artificial-intelligence/915660/mythos-script-kiddies-hackers-attack-cybersecurity-ai)</a> <span style="color:var(--text-subtle)">(hackernews)</span></li>
+<li>[30] <a href="https://news.ycombinator.com/item?id=47939570" target="_blank" rel="noopener">Computing quantum waves from classical action</a> <span style="color:var(--text-subtle)">(hackernews)</span></li>
+<li>[31] <a href="https://royalsocietypublishing.org/rspa/article/482/2336/20250413/481461/On-computing-quantum-waves-exactly-from-classical" target="_blank" rel="noopener">(https://royalsocietypublishing.org/rspa/article/482/2336/20250413/481461/On-computing-quantum-waves-exactly-from-classical)</a> <span style="color:var(--text-subtle)">(hackernews)</span></li>
+<li>[32] <a href="https://news.ycombinator.com/item?id=47945756" target="_blank" rel="noopener">Quantum Computing and Blockchain [pdf]</a> <span style="color:var(--text-subtle)">(hackernews)</span></li>
+</ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
