@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — May 3, 2026 09:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">May 3, 2026 09:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">46</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">11</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">57</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">May 3, 2026 09:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li><strong>LLMs can strategically hack their own RL training</strong> — models like GPT-4o alter exploration during reinforcement learning to influence final model behavior, exposing a new attack surface in post-training alignment.</li>
+<li><strong>TwinGate defends against decompositional jailbreaks via asymmetric contrastive learning</strong> — the stateful defense outperforms prior methods under continuous untraceable traffic of anonymized interleaved adversarial queries.</li>
+<li><strong>PhyCo brings physical consistency to video diffusion</strong> — 100K+ photorealistic simulation videos teach video models realistic collisions, friction, and material responses, addressing a core weakness of current generation models.</li>
+<li><strong>AEGIS exposes critical fragility in AI-generated academic image detection</strong> — even GPT-5.1 reaches only 48.8% accuracy and expert models achieve IoU 30.09%, revealing a significant gap in AI safety forensics tooling.</li>
+<li><strong>FlashRT enables efficient red-teaming for long-context LLMs</strong> — a compute/memory-efficient method for prompt injection and knowledge corruption testing addresses scaling challenges for Gemini-3.1-Pro and Qwen-3.5.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+      <li><strong>Lobste.rs</strong>: A 732-byte Python script roots every Linux distro since 2017. Kernel patches are still rolling out. Here is how to block it at the syscall level with Tetragon and 22 lines of YAML.</li>
+<li><strong>Lobste.rs</strong>: Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild…</li>
+<li><strong>HuggingFace papers</strong>: Commercial TTS systems produce near-native Indic audio, but the best open-source bases (Chatterbox, Indic Parler-TTS, IndicF5) trail them on measured phonological dimensions, and the most widely adopted multilingual base (Chatterbox, 23 languages) does not even tokenise Telugu or Tamil. We…</li>
+<li><strong>HuggingFace papers</strong>: Fashion AI systems routinely encode the aesthetic logic of specific houses, editors, and historical moments without disclosing it. We present FASH-iCNN, a multimodal system trained on 87,547 Vogue runway images across 15 fashion houses spanning 1991-2024 that makes this cultural…</li>
+<li><strong>HuggingFace papers</strong>: Aligning denoising generative models with human preferences or verifiable rewards remains a key challenge. While policy-gradient online reinforcement learning (RL) offers a principled post-training framework, its direct application is hindered by the intractable likelihoods of these models. Prior work therefore…</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  
+    <div class="section-group">
+      <h3>🧠 LLMs <span class="group-count">3</span></h3>
+      <div class="cards-grid">
+<div class="card" data-full-desc="Driving world models serve as a pivotal technology for autonomous driving by simulating environmental dynamics. However, existing approaches predominantly focus on future scene generation, often overlooking comprehensive 3D scene understanding. Conversely, while Large Language Models (LLMs) demonstrate impressive reasoning capabilities, they lack the capacity to predict future geometric evolution, creating a significant disparity between semantic interpretation and physical simulation. To bridge"><div class="card-title"><a href="https://arxiv.org/abs/2604.28196" target="_blank" rel="noopener">HERMES++: Toward a Unified Driving World Model for 3D Scene Understanding and Generation</a> <span class="src-num">[17]</span></div><div class="card-authors">Xin Zhou, Dingkang Liang, Xiwu Chen, Feiyang Tan, Dingyuan Zhang, Hengshuang Zhao, Xiang Bai</div><div class="card-desc">Driving world models serve as a pivotal technology for autonomous driving by simulating environmental dynamics. However, existing approaches predominantly focus on future scene generation, often overlooking comprehensive 3D scene understanding. Conversely, while Large Language Models…</div><div class="card-tags"><span class="tag">cs.CV</span></div></div>
+<div class="card" data-full-desc="$ω$~Centauri, the most massive globular cluster in the Milky Way, exhibits a level of stellar population complexity that has long resisted a unified chemical characterisation. We exploit high-resolution near-infrared spectroscopy from the Milky Way Mapper survey (MWM DR19) to construct one of the largest homogeneously analysed samples of $ω$~Cen members to date. Applying Ward-linkage hierarchical clustering in a seven-dimensional chemical abundance space, without prior assumptions on population "><div class="card-title"><a href="https://arxiv.org/abs/2604.28195" target="_blank" rel="noopener">Chemical Taxonomy of $ω$~Centauri: Ten Populations Reveal a Multi-Phase Enrichment History</a> <span class="src-num">[18]</span></div><div class="card-authors">Furkan Akbaba, Olcay Plevne, Timur Şahin, Sena Aleyna Şentürk</div><div class="card-desc">$ω$~Centauri, the most massive globular cluster in the Milky Way, exhibits a level of stellar population complexity that has long resisted a unified chemical characterisation. We exploit high-resolution near-infrared spectroscopy from the Milky Way Mapper…</div><div class="card-tags"><span class="tag">astro-ph.GA</span></div></div>
+<div class="card" data-full-desc="We show that Fréchet Distance (FD), long considered impractical as a training objective, can in fact be effectively optimized in the representation space. Our idea is simple: decouple the population size for FD estimation (e.g., 50k) from the batch size for gradient computation (e.g., 1024). We term this approach FD-loss. Optimizing FD-loss reveals several surprising findings. First, post-training a base generator with FD-loss in different representation spaces consistently improves visual quali"><div class="card-title"><a href="https://arxiv.org/abs/2604.28190" target="_blank" rel="noopener">Representation Fréchet Loss for Visual Generation</a> <span class="src-num">[23]</span></div><div class="card-authors">Jiawei Yang, Zhengyang Geng, Xuan Ju, Yonglong Tian, Yue Wang</div><div class="card-desc">We show that Fréchet Distance (FD), long considered impractical as a training objective, can in fact be effectively optimized in the representation space. Our idea is simple: decouple the population size for FD estimation (e.g…</div><div class="card-tags"><span class="tag">cs.CV</span></div></div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>⚙️ Machine Learning <span class="group-count">14</span></h3>
+      <div class="cards-grid">
+<div class="card" data-full-desc="Realistic long-horizon productivity work is strongly conditioned on user-specific computer environments, where much of the work context is stored and organized through directory structures and content-rich artifacts. To scale synthetic data creation for such productivity scenarios, we introduce Synthetic Computers at Scale, a scalable methodology for creating such environments with realistic folder hierarchies and content-rich artifacts (e.g., documents, spreadsheets, and presentations). Conditi"><div class="card-title"><a href="https://arxiv.org/abs/2604.28181" target="_blank" rel="noopener">Synthetic Computers at Scale for Long-Horizon Productivity Simulation</a> <span class="src-num">[2]</span></div><div class="card-authors">Tao Ge, Baolin Peng, Hao Cheng, Jianfeng Gao</div><div class="card-desc">Realistic long-horizon productivity work is strongly conditioned on user-specific computer environments, where much of the work context is stored and organized through directory structures and content-rich artifacts. To scale synthetic data creation for such productivity…</div><div class="card-tags"><span class="tag">cs.AI</span> <span class="tag">cs.CL</span> <span class="tag">cs.LG</span></div></div>
+<div class="card" data-full-desc="Electroencephalogram (EEG) signals are vital for automated seizure detection, but their inherent noise makes robust representation learning challenging. Existing graph construction methods, whether correlation-based or learning-based, often generate redundant or irrelevant edges due to the noisy nature of EEG data. This significantly impairs the quality of graph representation and limits downstream task performance. Motivated by the remarkable reasoning and contextual understanding capabilities "><div class="card-title"><a href="https://arxiv.org/abs/2604.28178" target="_blank" rel="noopener">LLM as Clinical Graph Structure Refiner: Enhancing Representation Learning in EEG Seizure Diagnosis</a> <span class="src-num">[3]</span></div><div class="card-authors">Lincan Li, Zheng Chen, Yushun Dong</div><div class="card-desc">Electroencephalogram (EEG) signals are vital for automated seizure detection, but their inherent noise makes robust representation learning challenging. Existing graph construction methods, whether correlation-based or learning-based, often generate redundant or irrelevant edges due to the…</div><div class="card-tags"><span class="tag">cs.AI</span></div></div>
+<div class="card" data-full-desc="Modern video diffusion models excel at appearance synthesis but still struggle with physical consistency: objects drift, collisions lack realistic rebound, and material responses seldom match their underlying properties. We present PhyCo, a framework that introduces continuous, interpretable, and physically grounded control into video generation. Our approach integrates three key components: (i) a large-scale dataset of over 100K photorealistic simulation videos where friction, restitution, defo"><div class="card-title"><a href="https://arxiv.org/abs/2604.28169" target="_blank" rel="noopener">PhyCo: Learning Controllable Physical Priors for Generative Motion</a> <span class="src-num">[4]</span></div><div class="card-authors">Sriram Narayanan, Ziyu Jiang, Srinivasa Narasimhan, Manmohan Chandraker</div><div class="card-desc">Modern video diffusion models excel at appearance synthesis but still struggle with physical consistency: objects drift, collisions lack realistic rebound, and material responses seldom match their underlying properties. We present PhyCo, a framework that introduces…</div><div class="card-tags"><span class="tag">cs.CV</span> <span class="tag">cs.AI</span> <span class="tag">cs.LG</span></div></div>
+<div class="card" data-full-desc="Existing research infrastructure is fundamentally document-centric, providing citation links between papers but lacking explicit representations of methodological evolution. In particular, it does not capture the structured relationships that explain how and why research methods emerge, adapt, and build upon one another. With the rise of AI-driven research agents as a new class of consumers of scientific knowledge, this limitation becomes increasingly consequential, as such agents cannot reliabl"><div class="card-title"><a href="https://arxiv.org/abs/2604.28158" target="_blank" rel="noopener">Intern-Atlas: A Methodological Evolution Graph as Research Infrastructure for AI Scientists</a> <span class="src-num">[5]</span></div><div class="card-authors">Yujun Wu, Dongxu Zhang, Xinchen Li, Jinhang Xu, Yiling Duan, Yumou Liu, Jiabao Pan, Xuanhe Zhou, Jingxuan Wei, Siyuan Li, Jintao Chen, Conghui He, Cheng Tan</div><div class="card-desc">Existing research infrastructure is fundamentally document-centric, providing citation links between papers but lacking explicit representations of methodological evolution. In particular, it does not capture the structured relationships that explain how and why research methods emerge…</div><div class="card-tags"><span class="tag">cs.AI</span></div></div>
+<div class="card" data-full-desc="In recent years, physics-informed neural networks (PINNs) have gained significant attention for solving differential equations, although they suffer from two fundamental limitations, namely, spectral bias inherent in neural networks and loss imbalance arising from multiscale phenomena. This paper proposes an adaptive wavelet-based PINN (AW-PINN) to address the extreme loss imbalance characteristic of problems with localized high-magnitude source terms. Such problems frequently arise in various p"><div class="card-title"><a href="https://arxiv.org/abs/2604.28180" target="_blank" rel="noopener">An adaptive wavelet-based PINN for problems with localized high-magnitude source</a> <span class="src-num">[12]</span></div><div class="card-authors">Himanshu Pandey, Ratikanta Behera</div><div class="card-desc">In recent years, physics-informed neural networks (PINNs) have gained significant attention for solving differential equations, although they suffer from two fundamental limitations, namely, spectral bias inherent in neural networks and loss imbalance arising from multiscale…</div><div class="card-tags"><span class="tag">cs.LG</span></div></div>
+<div class="card" data-full-desc="Machine learning (ML) inference serving systems host deep neural network (DNN) models and schedule incoming inference requests across deployed GPUs. However, limited support for task prioritization and insufficient latency estimation under concurrent execution may restrict their applicability in on-premises scenarios. We present \emph{Strait}, a serving system designed to enhance deadline satisfaction for dual-priority inference traffic under high GPU utilization. To improve latency estimation, "><div class="card-title"><a href="https://arxiv.org/abs/2604.28175" target="_blank" rel="noopener">Strait: Perceiving Priority and Interference in ML Inference Serving</a> <span class="src-num">[14]</span></div><div class="card-authors">Haidong Zhao, Nikolaos Georgantas</div><div class="card-desc">Machine learning (ML) inference serving systems host deep neural network (DNN) models and schedule incoming inference requests across deployed GPUs. However, limited support for task prioritization and insufficient latency estimation under concurrent execution may restrict…</div><div class="card-tags"><span class="tag">cs.LG</span></div></div>
+<div class="card" data-full-desc="In this study, we use machine learning to classify and interpolate the phase structure of the Vicsek flocking model across the three-dimensional parameter space $(η,ρ,v_0)$. We construct a dataset of simulated parameter points and characterize each point using long-time dynamical observables. These observables are then used as inputs to a K-Means clustering procedure, which assigns each point to a disorder, order, or coexistence phase. Using these clustered labels, we train a neural-network clas"><div class="card-title"><a href="https://arxiv.org/abs/2604.28167" target="_blank" rel="noopener">Mapping the Phase Diagram of the Vicsek Model with Machine Learning</a> <span class="src-num">[15]</span></div><div class="card-authors">Grace T. Bai, Brandon B. Le</div><div class="card-desc">In this study, we use machine learning to classify and interpolate the phase structure of the Vicsek flocking model across the three-dimensional parameter space $(η,ρ,v_0)$. We construct a dataset of simulated parameter points and characterize…</div><div class="card-tags"><span class="tag">cond-mat.soft</span> <span class="tag">cs.LG</span></div></div>
+<div class="card" data-full-desc="The proliferation of capable and efficient machine learning (ML) models marks one of the strongest methodological shifts in signal processing (SP) in its nearly 100-year history. ML models support the development of SP systems that represent complex, nonlinear relationships with high predictive accuracy. Adapting these models often requires sequential inference, which differs both theoretically and methodologically from the usual paradigm of ML, where data are often assumed independent and ident"><div class="card-title"><a href="https://arxiv.org/abs/2604.28163" target="_blank" rel="noopener">Sequential Inference for Gaussian Processes: A Signal Processing Perspective</a> <span class="src-num">[16]</span></div><div class="card-authors">Daniel Waxman, Fernando Llorente, Petar M. Djurić</div><div class="card-desc">The proliferation of capable and efficient machine learning (ML) models marks one of the strongest methodological shifts in signal processing (SP) in its nearly 100-year history. ML models support the development of SP systems that…</div><div class="card-tags"><span class="tag">eess.SP</span> <span class="tag">cs.LG</span> <span class="tag">stat.CO</span> <span class="tag">stat.ML</span></div></div>
+<div class="card" data-full-desc="Recent visual generation models have made major progress in photorealism, typography, instruction following, and interactive editing, yet they still struggle with spatial reasoning, persistent state, long-horizon consistency, and causal understanding. We argue that the field should move beyond appearance synthesis toward intelligent visual generation: plausible visuals grounded in structure, dynamics, domain knowledge, and causal relations. To frame this shift, we introduce a five-level taxonomy"><div class="card-title"><a href="https://arxiv.org/abs/2604.28185" target="_blank" rel="noopener">Visual Generation in the New Era: An Evolution from Atomic Mapping to Agentic World Modeling</a> <span class="src-num">[37]</span></div><div class="card-authors">Keming Wu, Zuhao Yang, Kaichen Zhang, Shizun Wang, Haowei Zhu, Sicong Leng, Zhongyu Yang, Qijie Wang, Sudong Wang, Ziting Wang, Zili Wang, Hui Zhang, Haonan Wang, Hang Zhou, Yifan Pu, Xingxuan Li, Fangneng Zhan, Bo Li, Lidong Bing, Yuxin Song, Ziwei Liu, Wenhu Chen, Jingdong Wang, Xinchao Wang, Xiaojuan Qi, Shijian Lu, Bin Wang</div><div class="card-desc">Recent visual generation models have made major progress in photorealism, typography, instruction following, and interactive editing, yet they still struggle with spatial reasoning, persistent state, long-horizon consistency, and causal understanding. We argue that the field…</div><div class="card-tags"><span class="tag">cs.CV</span></div></div>
+<div class="card" data-full-desc="We investigate the intrinsic anomalous thermal Hall effect in d-wave altermagnets, where a transverse heat current is generated by a longitudinal temperature gradient in the absence of a magnetic field, with the leading response proportional to $(\nabla T)^3$. In these systems, the intrinsic Berry curvature-driven linear and thermal quantum-metric-driven second-order anomalous thermal Hall currents vanish as a consequence of crystalline symmetry. We show that the first nonvanishing contribution "><div class="card-title"><a href="https://arxiv.org/abs/2604.28184" target="_blank" rel="noopener">Intrinsic anomalous thermal hall effect as a signature of quantum metric in d-wave altermagnets</a> <span class="src-num">[40]</span></div><div class="card-authors">Rishi G. Gopalakrishnan, Srimayi Korrapati, Sumanta Tewari</div><div class="card-desc">We investigate the intrinsic anomalous thermal Hall effect in d-wave altermagnets, where a transverse heat current is generated by a longitudinal temperature gradient in the absence of a magnetic field, with the leading response proportional…</div><div class="card-tags"><span class="tag">cond-mat.mes-hall</span></div></div>
+<div class="card" data-full-desc="Bronchoscopic navigation relies on registering endoscopic video to a preoperative CT scan, but respiratory motion deforms the airway by 5-20 mm, creating CT-to-body divergence that limits localization accuracy. In practice, this is mitigated through breath-hold protocols, which attempt to match the intraoperative anatomy to a static CT, but are difficult to reproduce and disrupt clinical workflow. We propose to eliminate the need for breath-hold protocols by leveraging patient-specific respirato"><div class="card-title"><a href="https://arxiv.org/abs/2604.28179" target="_blank" rel="noopener">Stop Holding Your Breath: CT-Informed Gaussian Splatting for Dynamic Bronchoscopy</a> <span class="src-num">[41]</span></div><div class="card-authors">Andrea Dunn Beltran, Daniel Rho, Aarav Mehta, Xinqi Xiong, Raúl San José Estépar, Ron Alterovitz, Marc Niethammer, Roni Sengupta</div><div class="card-desc">Bronchoscopic navigation relies on registering endoscopic video to a preoperative CT scan, but respiratory motion deforms the airway by 5-20 mm, creating CT-to-body divergence that limits localization accuracy. In practice, this is mitigated through breath-hold…</div><div class="card-tags"><span class="tag">cs.CV</span></div></div>
+<div class="card" data-full-desc="Zn(imidazolate)$_2$ metal-organic frameworks (MOFs) exhibit a remarkable degree of polymorphism. Because of their promising industrial applications, many research groups have investigated phase transitions, phase diagram and relative stability of these polymorphs. There is now wide consensus in the research community that these MOFs are solvothermally formed via non-classical nucleation mechanisms, in which pre-nucleation clusters are first formed, followed by an intermediate amorphous structure"><div class="card-title"><a href="https://arxiv.org/abs/2604.28106" target="_blank" rel="noopener">Machine Learning and Molecular Simulations Reveal Mechanisms of ZIFs Polymorph Selection</a> <span class="src-num">[42]</span></div><div class="card-authors">Emilio Méndez, Rocio Semino</div><div class="card-desc">Zn(imidazolate)$_2$ metal-organic frameworks (MOFs) exhibit a remarkable degree of polymorphism. Because of their promising industrial applications, many research groups have investigated phase transitions, phase diagram and relative stability of these polymorphs. There is now wide…</div><div class="card-tags"><span class="tag">cond-mat.mtrl-sci</span> <span class="tag">physics.chem-ph</span></div></div>
+<div class="card" data-full-desc="Despite rapid advances in photorealistic video generation, real-world applications such as filmmaking require video aesthetics, e.g., harmonious colors and cinematic lighting, beyond visual fidelity. Prior work on visual aesthetics largely focuses on images, often reducing aesthetics to coarse definitions, e.g., visual pleasure, without a rigorous and systematic evaluation. To improve video aesthetics, we propose a hierarchical rubric that decomposes video aesthetics into three core dimensions, "><div class="card-title"><a href="https://arxiv.org/abs/2604.28078" target="_blank" rel="noopener">AesRM: Improving Video Aesthetics with Expert-Level Feedback</a> <span class="src-num">[44]</span></div><div class="card-authors">Yujin Han, Yujie Wei, Yefei He, Xinyu Liu, Tianle Li, Zichao Yu, Andi Han, Shiwei Zhang, Tingyu Weng, Difan Zou</div><div class="card-desc">Despite rapid advances in photorealistic video generation, real-world applications such as filmmaking require video aesthetics, e.g., harmonious colors and cinematic lighting, beyond visual fidelity. Prior work on visual aesthetics largely focuses on images, often reducing…</div><div class="card-tags"><span class="tag">cs.CV</span></div></div>
+<div class="card" data-full-desc="Computer architecture simulation is essential for evaluating new designs without the need for costly tapeout. The community has developed dozens of valuable simulators that have enabled significant architectural advances. However, using and developing simulators remains a major barrier due to ad-hoc component interfaces, strict deployment requirements, the burden of managing performance optimizations like parallelization at the component level, and limited monitoring and visualization capabiliti"><div class="card-title"><a href="https://arxiv.org/abs/2604.28073" target="_blank" rel="noopener">Akita: A High Usability Simulation Framework for Computer Architecture</a> <span class="src-num">[45]</span></div><div class="card-authors">Sabila Al Jannat, Ying Li, Mengyang He, Xuzhong Wang, Huizhi Zhao, Jingxiang Sun, Daoxuan Xu, Enze Xu, Yifan Sun</div><div class="card-desc">Computer architecture simulation is essential for evaluating new designs without the need for costly tapeout. The community has developed dozens of valuable simulators that have enabled significant architectural advances. However, using and developing simulators remains…</div><div class="card-tags"><span class="tag">cs.DC</span></div></div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🔒 Security & Crypto <span class="group-count">12</span></h3>
+      <div class="cards-grid">
+<div class="card" data-full-desc="Sign languages, of any geographical or accentual variation, understandably face continuous scrutiny under the ever present popularity of verbal dictation and audism. Through this, many potential problems arise with the current lack of accessible communication for those who rely on such sign languages for essential conversation. Such AI systems regularly take the form of recognition and interpretation models, designed to provide seamless and accurate translation. In reality these systems are buil"><div class="card-title"><a href="https://arxiv.org/abs/2604.28125" target="_blank" rel="noopener">Normativity and Productivism: Ableist Intelligence? A Degrowth Analysis of AI Sign Language Translation Tools for Deaf People</a> <span class="src-num">[10]</span></div><div class="card-authors">Nina Seron-Abouelfadil, Poppy Fynes</div><div class="card-desc">Sign languages, of any geographical or accentual variation, understandably face continuous scrutiny under the ever present popularity of verbal dictation and audism. Through this, many potential problems arise with the current lack of accessible communication…</div><div class="card-tags"><span class="tag">cs.AI</span> <span class="tag">cs.CY</span> <span class="tag">cs.HC</span></div></div>
+<div class="card" data-full-desc="Long-context large language models (LLMs)-for example, Gemini-3.1-Pro and Qwen-3.5-are widely used to empower many real-world applications, such as retrieval-augmented generation, autonomous agents, and AI assistants. However, security remains a major concern for their widespread deployment, with threats such as prompt injection and knowledge corruption. To quantify the security risks faced by LLMs under these threats, the research community has developed heuristic-based and optimization-based r"><div class="card-title"><a href="https://arxiv.org/abs/2604.28157" target="_blank" rel="noopener">FlashRT: Towards Computationally and Memory Efficient Red-Teaming for Prompt Injection and Knowledge Corruption</a> <span class="src-num">[25]</span></div><div class="card-authors">Yanting Wang, Chenlong Yin, Ying Chen, Jinyuan Jia</div><div class="card-desc">Long-context large language models (LLMs)-for example, Gemini-3.1-Pro and Qwen-3.5-are widely used to empower many real-world applications, such as retrieval-augmented generation, autonomous agents, and AI assistants. However, security remains a major concern for their widespread deployment…</div><div class="card-tags"><span class="tag">cs.CR</span></div></div>
+<div class="card" data-full-desc="Decompositional jailbreaks pose a critical threat to large language models (LLMs) by allowing adversaries to fragment a malicious objective into a sequence of individually benign queries that collectively reconstruct prohibited content. In real-world deployments, LLMs face a continuous, untraceable stream of fully anonymized and arbitrarily interleaved requests, infiltrated by covertly distributed adversarial queries. Under this rigorous threat model, state-of-the-art defensive strategies exhibi"><div class="card-title"><a href="https://arxiv.org/abs/2604.27861" target="_blank" rel="noopener">TwinGate: Stateful Defense against Decompositional Jailbreaks in Untraceable Traffic via Asymmetric Contrastive Learning</a> <span class="src-num">[26]</span></div><div class="card-authors">Bowen Sun, Chaozhuo Li, Yaodong Yang, Yiwei Wang, Chaowei Xiao</div><div class="card-desc">Decompositional jailbreaks pose a critical threat to large language models (LLMs) by allowing adversaries to fragment a malicious objective into a sequence of individually benign queries that collectively reconstruct prohibited content. In real-world deployments, LLMs…</div><div class="card-tags"><span class="tag">cs.CR</span> <span class="tag">cs.CL</span> <span class="tag">cs.LG</span></div></div>
+<div class="card" data-full-desc="System auditing on Android faces two problems. First, existing syscall tracers lose events under load, silently overwriting entries faster than a user space reader can drain them. Second, security-relevant application behavior is mediated through Binder, Android&#x27;s kernel IPC mechanism, and is therefore hidden from the syscall layer. The Binder parcels that the kernel does see carry no method names or typed arguments, a disconnect between low-level events and high-level behavior known as the sema"><div class="card-title"><a href="https://arxiv.org/abs/2604.27830" target="_blank" rel="noopener">WOOTdroid: Whole-system Online On-device Tracing for Android</a> <span class="src-num">[27]</span></div><div class="card-authors">Simon Althaus, Nikolaos Alexopoulos, Max Mühlhäuser, Christian Reuter, Ephraim Zimmer</div><div class="card-desc">System auditing on Android faces two problems. First, existing syscall tracers lose events under load, silently overwriting entries faster than a user space reader can drain them. Second, security-relevant application behavior is mediated through Binder…</div><div class="card-tags"><span class="tag">cs.CR</span></div></div>
+<div class="card" data-full-desc="The rapid proliferation of image generation models and other artificial intelligence (AI) systems has intensified concerns regarding data privacy and user consent. As the availability of public datasets declines, major technology companies increasingly rely on proprietary or private user data for model training, raising ethical and legal challenges when users request the deletion of their data after it has influenced a trained model. Machine unlearning seeks to address this issue by enabling the"><div class="card-title"><a href="https://arxiv.org/abs/2604.27804" target="_blank" rel="noopener">Machine Unlearning for Class Removal through SISA-based Deep Neural Network Architectures</a> <span class="src-num">[29]</span></div><div class="card-authors">Ishrak Hamim Mahi, Siam Ferdous, Md Sakib Sadman Badhon, Nabid Hasan Omi, Md Habibun Nabi Hemel, Farig Yousuf Sadeque, Md. Tanzim Reza</div><div class="card-desc">The rapid proliferation of image generation models and other artificial intelligence (AI) systems has intensified concerns regarding data privacy and user consent. As the availability of public datasets declines, major technology companies increasingly rely on…</div><div class="card-tags"><span class="tag">cs.CV</span> <span class="tag">cs.CR</span> <span class="tag">cs.LG</span></div></div>
+<div class="card" data-full-desc="Lattice reduction smooths the Gram-Schmidt profile, and we use majorization to describe the local swap mechanism behind that smoothing. In this language, each non-degenerate Lovász swap acts as a T-transform on the log-norm profile. As a consequence, every strictly Schur-convex measure of profile spread decreases at such a swap. Two structural consequences follow. First, the worst-case GSA envelope admits a variational interpretation. It is the unique minimum-variance profile compatible with the"><div class="card-title"><a href="https://arxiv.org/abs/2604.27801" target="_blank" rel="noopener">Variational and Majorization Principles in Lattice Reduction</a> <span class="src-num">[30]</span></div><div class="card-authors">Javier Blanco-Romero, Florina Almenares Mendoza</div><div class="card-desc">Lattice reduction smooths the Gram-Schmidt profile, and we use majorization to describe the local swap mechanism behind that smoothing. In this language, each non-degenerate Lovász swap acts as a T-transform on the log-norm profile. As…</div><div class="card-tags"><span class="tag">cs.CR</span> <span class="tag">cs.DS</span></div></div>
+<div class="card" data-full-desc="How code representation format shapes false positive behaviour in cross-language LLM vulnerability detection remains poorly understood. We systematically vary training intensity and code representation format, comparing raw source text with pruned Abstract Syntax Trees at both training time and inference time, across two 8B-parameter LLMs (Qwen3-8B and Llama 3.1-8B-Instruct) fine-tuned on C/C++ data from the NIST Juliet Test Suite (v1.3) and evaluated on Java (OWASP Benchmark v1.2) and Python (B"><div class="card-title"><a href="https://arxiv.org/abs/2604.27714" target="_blank" rel="noopener">How Code Representation Shapes False-Positive Dynamics in Cross-Language LLM Vulnerability Detection</a> <span class="src-num">[31]</span></div><div class="card-authors">Maofei Chen, Laifu Wang, Yue Qin, Yuan Wang, Bo Wu, Dongxin Liu</div><div class="card-desc">How code representation format shapes false positive behaviour in cross-language LLM vulnerability detection remains poorly understood. We systematically vary training intensity and code representation format, comparing raw source text with pruned Abstract Syntax Trees at…</div><div class="card-tags"><span class="tag">cs.CR</span> <span class="tag">cs.SE</span></div></div>
+<div class="card" data-full-desc="We study structural properties of the free Banach lattice $FBL\langle L\rangle$ generated by a distributive lattice $L$. We characterize when $FBL\langle L\rangle$ has a strong unit, compute its density character, analyze the density character of order intervals and study when is $FVL\langle L\rangle$ order dense in $FBL\langle L\rangle$. We also study projection bands, quasi-interior points, and Banach lattice homomorphisms induced by lattice homomorphisms. Finally, we show that $FBL\langle L\r"><div class="card-title"><a href="https://arxiv.org/abs/2604.27841" target="_blank" rel="noopener">On the free Banach lattice generated by a lattice</a> <span class="src-num">[32]</span></div><div class="card-authors">Asma Ben Rjeb, Pedro Tradacete</div><div class="card-desc">We study structural properties of the free Banach lattice $FBL\langle L\rangle$ generated by a distributive lattice $L$. We characterize when $FBL\langle L\rangle$ has a strong unit, compute its density character, analyze the density character of…</div><div class="card-tags"><span class="tag">math.FA</span></div></div>
+<div class="card" data-full-desc="Layer-7 (L7) proxies are critical to modern cloud-native systems, yet their performance is increasingly bottlenecked by copying entire payloads across the kernel-user boundary. Existing approaches reduce this overhead but typically sacrifice compatibility with unmodified POSIX applications, introduce new APIs, or require specialized environments. We show that, under conventional OS abstractions, fully eliminating kernel-user copies while preserving standard socket semantics for unmodified proxie"><div class="card-title"><a href="https://arxiv.org/abs/2604.27686" target="_blank" rel="noopener">Libra: Accelerating Socket I/O via Programmable Selective Data Copying</a> <span class="src-num">[33]</span></div><div class="card-authors">Kairui Zhou, Shengkai Lin, Wei Zhang, Shizhen Zhao</div><div class="card-desc">Layer-7 (L7) proxies are critical to modern cloud-native systems, yet their performance is increasingly bottlenecked by copying entire payloads across the kernel-user boundary. Existing approaches reduce this overhead but typically sacrifice compatibility with unmodified POSIX…</div><div class="card-tags"><span class="tag">cs.NI</span></div></div>
+<div class="card" data-full-desc="Protecting sensitive health data while enabling collaborative analysis is a central challenge in healthcare. Traditional machine learning (ML) requires institutions to pool anonymized patient records, centralizing analytical development and privacy risks at a single site. Privacy-enhancing technologies (PETs), including Differential Privacy (DP) and Homomorphic Encryption (HE), can mitigate these risks. However, they are mainly studied in conventional data-sharing settings and often introduce tr"><div class="card-title"><a href="https://arxiv.org/abs/2604.27598" target="_blank" rel="noopener">Privacy-Preserving Federated Learning via Differential Privacy and Homomorphic Encryption for Cardiovascular Disease Risk Modeling</a> <span class="src-num">[34]</span></div><div class="card-authors">Gaurang Sharma, Juha Pajula, Aada Illikainen, Markus Rautell, Noora Lipsonen, Petri Alhainen, Mika Hilvo</div><div class="card-desc">Protecting sensitive health data while enabling collaborative analysis is a central challenge in healthcare. Traditional machine learning (ML) requires institutions to pool anonymized patient records, centralizing analytical development and privacy risks at a single site…</div><div class="card-tags"><span class="tag">cs.LG</span></div></div>
+<div class="card" data-full-desc="Boolean circuits form the foundational computational substrate of symmetric cryptography, yet the exploration of their architectural design space has remained largely confined to a handful of canonical paradigms - SPN, Feistel networks, and their immediate variants. This paper takes a deliberately broader perspective by formalizing the design space of cryptographic Boolean systems through six independent binary structural constraints: Stratification, Acyclicity, Regularity, Interleaving, Homogen"><div class="card-title"><a href="https://arxiv.org/abs/2604.27560" target="_blank" rel="noopener">SBN Explorer: An Empirical Study of Cryptographic Boolean Networks</a> <span class="src-num">[35]</span></div><div class="card-authors">Arnaud Valence</div><div class="card-desc">Boolean circuits form the foundational computational substrate of symmetric cryptography, yet the exploration of their architectural design space has remained largely confined to a handful of canonical paradigms - SPN, Feistel networks, and their immediate…</div><div class="card-tags"><span class="tag">cs.CR</span></div></div>
+<div class="card" data-full-desc="We introduce the notions of $\mathbb{K}$-framings, based $\mathbb{K}$-framings and relative $\mathbb{K}$-framings of a compact connected oriented surface $Σ$ for any commutative ring $\mathbb{K}$ with unit, and a map which maps a based loop on $Σ$ to a homology class of its unit tangent bundle $UΣ$, which recovers Johnson&#x27;s lifting in the case $\mathbb{K} = \mathbb{Z}/2$. This generalizes the correspondence between a quadratic form and a spin structure established by Johnson to any commutative r"><div class="card-title"><a href="https://arxiv.org/abs/2604.27531" target="_blank" rel="noopener">$\mathbb{K}$-framings and $\mathbb{K}$-quadratic forms on surfaces</a> <span class="src-num">[36]</span></div><div class="card-authors">Nariya Kawazumi</div><div class="card-desc">We introduce the notions of $\mathbb{K}$-framings, based $\mathbb{K}$-framings and relative $\mathbb{K}$-framings of a compact connected oriented surface $Σ$ for any commutative ring $\mathbb{K}$ with unit, and a map which maps a based loop on $Σ$…</div><div class="card-tags"><span class="tag">math.GT</span> <span class="tag">math.AT</span></div></div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🔐 Zero Knowledge <span class="group-count">2</span></h3>
+      <div class="cards-grid">
+<div class="card" data-full-desc="Most familiar equilibrium concepts, such as Nash and correlated equilibrium, guarantee only that no single player can improve their utility by deviating unilaterally. They offer no guarantees against profitable coordinated deviations by coalitions. Although the literature proposes solution concepts that provide stability against multilateral deviations (\emph{e.g.}, strong Nash and coalition-proof equilibrium), these generally fail to exist. In this paper, we study an alternative solution concep"><div class="card-title"><a href="https://arxiv.org/abs/2604.28186" target="_blank" rel="noopener">Computing Equilibrium beyond Unilateral Deviation</a> <span class="src-num">[1]</span></div><div class="card-authors">Mingyang Liu, Gabriele Farina, Asuman Ozdaglar</div><div class="card-desc">Most familiar equilibrium concepts, such as Nash and correlated equilibrium, guarantee only that no single player can improve their utility by deviating unilaterally. They offer no guarantees against profitable coordinated deviations by coalitions. Although the…</div><div class="card-tags"><span class="tag">cs.GT</span> <span class="tag">cs.AI</span> <span class="tag">cs.CC</span> <span class="tag">cs.LG</span></div></div>
+<div class="card" data-full-desc="We advance Matkovič ideas, originally applied to complete the classification of tight structures on small Seifert fibred $L$-spaces, to show the existence of contact structures on Brieskorn spheres which are tight and zero-twisting. This uncovers a phenomenon that has never appeared in literature before: namely, that a contact structure $ξ$ on a 3-manifold can be such that $\widehat c(ξ)$ is non-vanishing, but $c^+(ξ)$ is zero."><div class="card-title"><a href="https://arxiv.org/abs/2604.28170" target="_blank" rel="noopener">The hat and plus version of the Heegaard Floer contact invariant are not equivalent</a> <span class="src-num">[38]</span></div><div class="card-authors">Alberto Cavallo, Irena Matkovič</div><div class="card-desc">We advance Matkovič ideas, originally applied to complete the classification of tight structures on small Seifert fibred $L$-spaces, to show the existence of contact structures on Brieskorn spheres which are tight and zero-twisting. This uncovers…</div><div class="card-tags"><span class="tag">math.GT</span></div></div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>⚛️ Quantum <span class="group-count">6</span></h3>
+      <div class="cards-grid">
+<div class="card" data-full-desc="Machine learning models can learn from data samples to carry out various tasks efficiently. When data samples are adversarially manipulated, such as by insertion of carefully crafted noise, it can cause the model to make mistakes. Quantum machine learning models are also vulnerable to such adversarial attacks, especially in image classification using variational quantum classifiers. While there are promising defenses against these adversarial perturbations, such as training with adversarial samp"><div class="card-title"><a href="https://arxiv.org/abs/2604.28176" target="_blank" rel="noopener">Defending Quantum Classifiers against Adversarial Perturbations through Quantum Autoencoders</a> <span class="src-num">[13]</span></div><div class="card-authors">Emma Andrews, Sahan Sanjaya, Prabhat Mishra</div><div class="card-desc">Machine learning models can learn from data samples to carry out various tasks efficiently. When data samples are adversarially manipulated, such as by insertion of carefully crafted noise, it can cause the model to make…</div><div class="card-tags"><span class="tag">quant-ph</span> <span class="tag">cs.LG</span></div></div>
+<div class="card" data-full-desc="The Karch-Randall braneworld concerns the physics of an AdS$_{d}$ brane embedded in an ambient gravitational AdS$_{d+1}$ spacetime. The gravitational theory induced on the AdS$_{d}$ brane has a very light but massive graviton. It has been established that the zero graviton mass limit of the $d$-dimensional graviton propagator is smooth at tree-level. Furthermore, this smoothness was conjectured to persist to the quantum level. This conjecture suggests that the massive graviton on the AdS$_{d}$ b"><div class="card-title"><a href="https://arxiv.org/abs/2604.28194" target="_blank" rel="noopener">Covariant Locally Localized Gravity and vDVZ Continuity</a> <span class="src-num">[20]</span></div><div class="card-authors">Hao Geng, Moritz Merz, Lisa Randall</div><div class="card-desc">The Karch-Randall braneworld concerns the physics of an AdS$_{d}$ brane embedded in an ambient gravitational AdS$_{d+1}$ spacetime. The gravitational theory induced on the AdS$_{d}$ brane has a very light but massive graviton. It has been…</div><div class="card-tags"><span class="tag">hep-th</span> <span class="tag">gr-qc</span> <span class="tag">hep-ph</span></div></div>
+<div class="card" data-full-desc="Relaxation of far-from-equilibrium quantum fluids, intimately related to the emergence of long-range order, is theoretically associated with the decay of a turbulent isotropic tangle of vortex lines. We observe and study such decaying quantum turbulence in a homogeneous 3D atomic Bose gas. Using matter-wave techniques to magnify the gas density distribution, and then imaging a thin slice of the magnified cloud, we observe imprints of randomly oriented vortex lines and measure the vortex line-len"><div class="card-title"><a href="https://arxiv.org/abs/2604.28191" target="_blank" rel="noopener">Observation of Vinen turbulence during far-from-equilibrium Bose-Einstein condensation</a> <span class="src-num">[21]</span></div><div class="card-authors">Sebastian J. Morris, Martin Gazo, Simon M. Fischer, Haoyu Zhang, Christopher J. Ho, Nigel R. Cooper, Christoph Eigen, Zoran Hadzibabic</div><div class="card-desc">Relaxation of far-from-equilibrium quantum fluids, intimately related to the emergence of long-range order, is theoretically associated with the decay of a turbulent isotropic tangle of vortex lines. We observe and study such decaying quantum turbulence…</div><div class="card-tags"><span class="tag">cond-mat.quant-gas</span> <span class="tag">cond-mat.other</span> <span class="tag">cond-mat.stat-mech</span> <span class="tag">quant-ph</span></div></div>
+<div class="card" data-full-desc="In this review, we discuss the relevance and impact of studying Calabi-Yau threefolds in the context of global model building in string phenomenology. First, taking a phenomenologist-friendly approach, we review how the topologies of the various divisors and curves of the compactifying CY threefolds play a crucial role for generating the various ``suitable&quot; classes of effective scalar potentials, within the framework of the popular moduli stabilization schemes such as KKLT and LVS. Subsequently,"><div class="card-title"><a href="https://arxiv.org/abs/2604.28189" target="_blank" rel="noopener">Towards Systematics of Calabi-Yau Landscape for String Cosmology</a> <span class="src-num">[24]</span></div><div class="card-authors">George K. Leontaris, Pramod Shukla</div><div class="card-desc">In this review, we discuss the relevance and impact of studying Calabi-Yau threefolds in the context of global model building in string phenomenology. First, taking a phenomenologist-friendly approach, we review how the topologies of the…</div><div class="card-tags"><span class="tag">hep-th</span> <span class="tag">hep-ph</span></div></div>
+<div class="card" data-full-desc="This is a first study of the cosmology of classical fractional gravity, a nonlocal proposal endowed with self-adjoint fractional d&#x27;Alembertian operators which serves as the basis for an ultraviolet-complete theory of quantum gravity. We derive the classical covariant nonlocal equations of motion for an arbitrary fractional exponent $γ$ and reduce them to the Friedmann equations on a homogeneous and isotropic cosmological background. We find that de Sitter is an exact stable solution and that bou"><div class="card-title"><a href="https://arxiv.org/abs/2604.28188" target="_blank" rel="noopener">Cosmology of fractional gravity</a> <span class="src-num">[39]</span></div><div class="card-authors">Iván Salvador-García, Gianluca Calcagni</div><div class="card-desc">This is a first study of the cosmology of classical fractional gravity, a nonlocal proposal endowed with self-adjoint fractional d&#x27;Alembertian operators which serves as the basis for an ultraviolet-complete theory of quantum gravity. We derive…</div><div class="card-tags"><span class="tag">gr-qc</span> <span class="tag">hep-th</span></div></div>
+<div class="card" data-full-desc="Quantum key distribution (QKD) theoretically offers information-theoretic security. The prevailing approach is the prepare-and-measure BB84 protocol, which implements QKD using conventional laser rather than single-photon source via the decoy-state method. However, side-channel attacks targeting sources severely threaten system security. Despite extensive efforts, including fully passive scheme, this vulnerability persists even with perfect single-photon source. Here, we propose a source-indepen"><div class="card-title"><a href="https://arxiv.org/abs/2604.28089" target="_blank" rel="noopener">Source-independent quantum key distribution without pre-sending entanglement</a> <span class="src-num">[43]</span></div><div class="card-authors">Rong-Zheng Liu, Hua-Lei Yin</div><div class="card-desc">Quantum key distribution (QKD) theoretically offers information-theoretic security. The prevailing approach is the prepare-and-measure BB84 protocol, which implements QKD using conventional laser rather than single-photon source via the decoy-state method. However, side-channel attacks targeting sources…</div><div class="card-tags"><span class="tag">quant-ph</span></div></div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🛡️ AI Safety <span class="group-count">4</span></h3>
+      <div class="cards-grid">
+<div class="card" data-full-desc="Multi-turn prompt injection follows a known attack path -- trust-building, pivoting, escalation but text-level defenses miss covert attacks where individual turns appear benign. We show this attack path leaves an activation-level signature in the model&#x27;s residual stream: each phase shift moves the activation, producing a total path length far exceeding benign conversations. We call this adversarial restlessness. Five scalar trajectory features capturing this signal lift conversation-level detect"><div class="card-title"><a href="https://arxiv.org/abs/2604.28129" target="_blank" rel="noopener">Latent Adversarial Detection: Adaptive Probing of LLM Activations for Multi-Turn Attack Detection</a> <span class="src-num">[9]</span></div><div class="card-authors">Prashant Kulkarni</div><div class="card-desc">Multi-turn prompt injection follows a known attack path -- trust-building, pivoting, escalation but text-level defenses miss covert attacks where individual turns appear benign. We show this attack path leaves an activation-level signature in the model&#x27;s…</div><div class="card-tags"><span class="tag">cs.CR</span> <span class="tag">cs.AI</span></div></div>
+<div class="card" data-full-desc="Reinforcement learning (RL) has become essential to the post-training of large language models (LLMs) for reasoning, agentic capabilities and alignment. Successful RL relies on sufficient exploration of diverse actions by the model during training, which creates a potential failure mode: a model could strategically alter its exploration during training to influence the subsequent training outcome. In this paper we study this behavior, called exploration hacking. First, we create model organisms "><div class="card-title"><a href="https://arxiv.org/abs/2604.28182" target="_blank" rel="noopener">Exploration Hacking: Can LLMs Learn to Resist RL Training?</a> <span class="src-num">[11]</span></div><div class="card-authors">Eyon Jang, Damon Falck, Joschka Braun, Nathalie Kirch, Achu Menon, Perusha Moodley, Scott Emmons, Roland S. Zimmermann, David Lindner</div><div class="card-desc">Reinforcement learning (RL) has become essential to the post-training of large language models (LLMs) for reasoning, agentic capabilities and alignment. Successful RL relies on sufficient exploration of diverse actions by the model during training, which…</div><div class="card-tags"><span class="tag">cs.LG</span> <span class="tag">cs.CL</span></div></div>
+<div class="card" data-full-desc="Mixture-of-Experts (MoE) architectures in Large Language Models (LLMs) have significantly reduced inference costs through sparse activation. However, this sparse activation paradigm also introduces new safety challenges. Since only a subset of experts is engaged for each input, model behavior becomes coupled to routing decisions, yielding a difficult-to-control mechanism that can vary across safety-relevant scenarios. At the same time, adapting model behavior through full fine-tuning or retraini"><div class="card-title"><a href="https://arxiv.org/abs/2604.27818" target="_blank" rel="noopener">MASCing: Configurable Mixture-of-Experts Behavior via Activation Steering Masks</a> <span class="src-num">[28]</span></div><div class="card-authors">Jona te Lintelo, Lichao Wu, Marina Krček, Sengim Karayalçin, Stjepan Picek</div><div class="card-desc">Mixture-of-Experts (MoE) architectures in Large Language Models (LLMs) have significantly reduced inference costs through sparse activation. However, this sparse activation paradigm also introduces new safety challenges. Since only a subset of experts is engaged for…</div><div class="card-tags"><span class="tag">cs.CR</span></div></div>
+<div class="card" data-full-desc="We introduce AEGIS, A holistic benchmark for Evaluating forensic analysis of AI-Generated academic ImageS. Compared to existing benchmarks, AEGIS features three key advances: (1) Domain-Specific Complexity: covering seven academic categories with 39 fine-grained subtypes, exposing intrinsic forensic difficulty, where even GPT-5.1 reaches 48.80% overall performance and expert models achieve only limited localization accuracy (IoU 30.09%); (2) Diverse Forgery Simulations: modeling four prevalent a"><div class="card-title"><a href="https://arxiv.org/abs/2604.28177" target="_blank" rel="noopener">AEGIS: A Holistic Benchmark for Evaluating Forensic Analysis of AI-Generated Academic Images</a> <span class="src-num">[46]</span></div><div class="card-authors">Bo Zhang, Tzu-Yen Ma, Zichen Tang, Junpeng Ding, Zirui Wang, Yizhuo Zhao, Peilin Gao, Zijie Xi, Zixin Ding, Haiyang Sun, Haocheng Gao, Yuan Liu, Liangjia Wang, Yiling Huang, Yujie Wang, Yuyue Zhang, Ronghui Xi, Yuanze Li, Jiacheng Liu, Zhongjun Yang, Haihong E</div><div class="card-desc">We introduce AEGIS, A holistic benchmark for Evaluating forensic analysis of AI-Generated academic ImageS. Compared to existing benchmarks, AEGIS features three key advances: (1) Domain-Specific Complexity: covering seven academic categories with 39 fine-grained subtypes, exposing…</div><div class="card-tags"><span class="tag">cs.CV</span> <span class="tag">cs.CY</span></div></div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🤖 Agents <span class="group-count">5</span></h3>
+      <div class="cards-grid">
+<div class="card" data-full-desc="We present FlexiTac, a low-cost, open-source, and scalable piezoresistive tactile sensing solution designed for robotic end-effectors. FlexiTac is a practical &quot;plug-in&quot; module consisting of (i) thin, flexible tactile sensor pads that provide dense tactile signals and (ii) a compact multi-channel readout board that streams synchronized measurements for real-time control and large-scale data collection. FlexiTac pads adopt a sealed three-layer laminate stack (FPC-Velostat-FPC) with electrode patte"><div class="card-title"><a href="https://arxiv.org/abs/2604.28156" target="_blank" rel="noopener">FlexiTac: A Low-Cost, Open-Source, Scalable Tactile Sensing Solution for Robotic Systems</a> <span class="src-num">[6]</span></div><div class="card-authors">Binghao Huang, Yunzhu Li</div><div class="card-desc">We present FlexiTac, a low-cost, open-source, and scalable piezoresistive tactile sensing solution designed for robotic end-effectors. FlexiTac is a practical &quot;plug-in&quot; module consisting of (i) thin, flexible tactile sensor pads that provide dense tactile signals…</div><div class="card-tags"><span class="tag">cs.RO</span> <span class="tag">cs.AI</span> <span class="tag">cs.LG</span></div></div>
+<div class="card" data-full-desc="LLM agents are expected to complete end-to-end units of work across software tools, business services, and local workspaces. Yet many agent benchmarks freeze a curated task set at release time and grade mainly the final response, making it difficult to evaluate agents against evolving workflow demand or verify whether a task was executed. We introduce Claw-Eval-Live, a live benchmark for workflow agents that separates a refreshable signal layer, updated across releases from public workflow-deman"><div class="card-title"><a href="https://arxiv.org/abs/2604.28139" target="_blank" rel="noopener">Claw-Eval-Live: A Live Agent Benchmark for Evolving Real-World Workflows</a> <span class="src-num">[7]</span></div><div class="card-authors">Chenxin Li, Zhengyang Tang, Huangxin Lin, Yunlong Lin, Shijue Huang, Shengyuan Liu, Bowen Ye, Rang Li, Lei Li, Benyou Wang, Yixuan Yuan</div><div class="card-desc">LLM agents are expected to complete end-to-end units of work across software tools, business services, and local workspaces. Yet many agent benchmarks freeze a curated task set at release time and grade mainly the final…</div><div class="card-tags"><span class="tag">cs.SE</span> <span class="tag">cs.AI</span></div></div>
+<div class="card" data-full-desc="Autonomous agents act through sandboxed containers and microVMs whose state spans filesystems, processes, and runtime artifacts. Checkpoint and restore (C/R) of this state is needed for fault tolerance, spot execution, RL rollout branching, and safe rollback-yet existing approaches fall into two extremes: application-level recovery preserves chat history but misses OS-side effects, while full per-turn checkpointing is correct but too expensive under dense co-location. The root cause is an agent-"><div class="card-title"><a href="https://arxiv.org/abs/2604.28138" target="_blank" rel="noopener">Crab: A Semantics-Aware Checkpoint/Restore Runtime for Agent Sandboxes</a> <span class="src-num">[8]</span></div><div class="card-authors">Tianyuan Wu, Chaokun Chang, Lunxi Cao, Wei Gao, Wei Wang</div><div class="card-desc">Autonomous agents act through sandboxed containers and microVMs whose state spans filesystems, processes, and runtime artifacts. Checkpoint and restore (C/R) of this state is needed for fault tolerance, spot execution, RL rollout branching, and safe…</div><div class="card-tags"><span class="tag">cs.OS</span> <span class="tag">cs.AI</span></div></div>
+<div class="card" data-full-desc="Human-robot collaboration has been studied primarily in dyadic or sequential settings. However, real homes require multiadic collaboration, where multiple humans and robots share a workspace, acting concurrently on interleaved subtasks with tight spatial and temporal coupling. This regime remains underexplored because close-proximity interaction between humans, robots, and objects creates persistent occlusion and rapid state changes, making reliable real-time 3D tracking the central bottleneck. "><div class="card-title"><a href="https://arxiv.org/abs/2604.28197" target="_blank" rel="noopener">OmniRobotHome: A Multi-Camera Platform for Real-Time Multiadic Human-Robot Interaction</a> <span class="src-num">[19]</span></div><div class="card-authors">Junyoung Lee, Sookwan Han, Jeonghwan Kim, Inhee Lee, Mingi Choi, Jisoo Kim, Wonjung Woo, Hanbyul Joo</div><div class="card-desc">Human-robot collaboration has been studied primarily in dyadic or sequential settings. However, real homes require multiadic collaboration, where multiple humans and robots share a workspace, acting concurrently on interleaved subtasks with tight spatial and temporal…</div><div class="card-tags"><span class="tag">cs.RO</span> <span class="tag">cs.CV</span></div></div>
+<div class="card" data-full-desc="Vision-Language-Action (VLA) models have increasingly incorporated reasoning mechanisms for complex robotic manipulation. However, existing approaches share a critical limitation: whether employing explicit linguistic reasoning that suffers from latency and discretization, or utilizing more expressive continuous latent reasoning, they are predominantly confined to static imitation learning that limits adaptability and generalization. While online reinforcement learning (RL) has been introduced t"><div class="card-title"><a href="https://arxiv.org/abs/2604.28192" target="_blank" rel="noopener">LaST-R1: Reinforcing Action via Adaptive Physical Latent Reasoning for VLA Models</a> <span class="src-num">[22]</span></div><div class="card-authors">Hao Chen, Jiaming Liu, Zhonghao Yan, Nuowei Han, Renrui Zhang, Chenyang Gu, Jialin Gao, Ziyu Guo, Siyuan Qian, Yinxi Wang, Peng Jia, Chi-Wing Fu, Shanghang Zhang, Pheng-Ann Heng</div><div class="card-desc">Vision-Language-Action (VLA) models have increasingly incorporated reasoning mechanisms for complex robotic manipulation. However, existing approaches share a critical limitation: whether employing explicit linguistic reasoning that suffers from latency and discretization, or utilizing more expressive continuous…</div><div class="card-tags"><span class="tag">cs.RO</span> <span class="tag">cs.CV</span></div></div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🍟 Lobste.rs <span class="group-count">2</span></h3>
+      <div class="cards-grid">
+<div class="card web-card" data-full-desc="A 732-byte Python script roots every Linux distro since 2017. Kernel patches are still rolling out. Here is how to block it at the syscall level with Tetragon and 22 lines of YAML."><div class="card-title"><a href="https://isala.me/blog/mitigating-copy-fail-with-tetragon/" target="_blank" rel="noopener">Blocking Copy Fail (CVE-2026-31431) in Kubernetes with Tetragon</a> <span class="src-num">[47]</span></div><div class="card-authors">Lobste.rs</div><div class="card-desc">A 732-byte Python script roots every Linux distro since 2017. Kernel patches are still rolling out. Here is how to block it at the syscall level with Tetragon and 22 lines of YAML.</div><div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div></div>
+<div class="card web-card" data-full-desc="Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild, directly from Claude. To access it reach out at buchodi@"><div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[48]</span></div><div class="card-authors">Lobste.rs</div><div class="card-desc">Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from…</div><div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div></div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🌐 HuggingFace papers <span class="group-count">3</span></h3>
+      <div class="cards-grid">
+<div class="card web-card" data-full-desc="Commercial TTS systems produce near-native Indic audio, but the best open-source bases (Chatterbox, Indic Parler-TTS, IndicF5) trail them on measured phonological dimensions, and the most widely adopted multilingual base (Chatterbox, 23 languages) does not even tokenise Telugu or Tamil. We ask: what is the minimum intervention that brings such a non-Indic-native base to commercial-class output on Telugu, Tamil, and Hindi, without training a new acoustic decoder and without any commercial TTS training data? We combine three pieces: (1) BUPS, a Brahmic Unified Phoneme Space that deterministically romanises seven Indic scripts to ISO-15919 so Chatterbox&#x27;s Latin tokeniser can process them; (2) a LoRA adapter on only the text-token predictor (Chatterbox&#x27;s t3), trained on ~1,220h of licensed Indic audio with a Hindi-proxy language_id; (3) a voice-prompt recovery recipe -- an 8-11s same-language reference clip plus three sampling overrides (exaggeration 0.7, temperature 0.6, min_p 0.1; &quot;Config B&quot;) -- that recovers commercial-class acoustic output with no acoustic-decoder training. On Hindi, the LoRA regresses accuracy and we instead use vanilla Chatterbox + Config B, giving a two-branch deployment. Evaluated on 10-utterance pilot sets with the companion PSP benchmark, Praxy Voice matches or slightly leads commercial baselines: 26.7% retroflex collapse on Telugu (vs Sarvam Bulbul 33.3%), 71% Tamil-zha collapse (vs commercial trio&#x27;s 86%), 0.025 LLM-WER on Hindi (tied with Cartesia Son"><div class="card-title"><a href="https://huggingface.co/papers/2604.25441" target="_blank" rel="noopener">Praxy Voice: Voice-Prompt Recovery + BUPS for Commercial-Class Indic TTS from a Frozen Non-Indic Base at Zero Commercial-Training-Data Cost</a> <span class="src-num">[49]</span></div><div class="card-authors">HuggingFace papers</div><div class="card-desc">Commercial TTS systems produce near-native Indic audio, but the best open-source bases (Chatterbox, Indic Parler-TTS, IndicF5) trail them on measured phonological dimensions, and the most widely adopted multilingual base (Chatterbox, 23 languages) does not even…</div><div class="card-tags"><span class="tag web-tag">HuggingFace papers</span></div></div>
+<div class="card web-card" data-full-desc="Fashion AI systems routinely encode the aesthetic logic of specific houses, editors, and historical moments without disclosing it. We present FASH-iCNN, a multimodal system trained on 87,547 Vogue runway images across 15 fashion houses spanning 1991-2024 that makes this cultural logic inspectable. Given a photograph of a garment, the system recovers which house produced it, which era it belongs to, and which color tradition it reflects. A clothing-only model identifies the fashion house at 78.2% top-1 across 14 houses, the decade at 88.6% top-1, and the specific year at 58.3% top-1 across 34 years with a mean error of just 2.2 years. Probing which visual channels carry this signal reveals a sharp dissociation: removing color costs only 10.6pp of house identity accuracy, while removing texture costs 37.6pp, establishing texture and luminance as the primary carriers of editorial identity. FASH-iCNN treats editorial culture as the signal rather than background noise, identifying which houses, eras, and color traditions shaped each output so that users can see not just what the system predicts but which houses, editors, and historical moments are encoded in that prediction."><div class="card-title"><a href="https://huggingface.co/papers/2604.26186" target="_blank" rel="noopener">FASH-iCNN: Making Editorial Fashion Identity Inspectable Through Multimodal CNN Probing</a> <span class="src-num">[50]</span></div><div class="card-authors">HuggingFace papers</div><div class="card-desc">Fashion AI systems routinely encode the aesthetic logic of specific houses, editors, and historical moments without disclosing it. We present FASH-iCNN, a multimodal system trained on 87,547 Vogue runway images across 15 fashion houses spanning…</div><div class="card-tags"><span class="tag web-tag">HuggingFace papers</span></div></div>
+<div class="card web-card" data-full-desc="Aligning denoising generative models with human preferences or verifiable rewards remains a key challenge. While policy-gradient online reinforcement learning (RL) offers a principled post-training framework, its direct application is hindered by the intractable likelihoods of these models. Prior work therefore either optimizes an induced Markov decision process (MDP) over sampling trajectories, which is stable but inefficient, or uses likelihood surrogates based on the diffusion evidence lower bound (ELBO), which have so far underperformed on visual generation. Our key insight is that the ELBO-based approach can, in fact, be made both stable and efficient. By reducing surrogate variance and controlling gradient steps, we show that this approach can beat MDP-based methods. To this end, we introduce Variational GRPO (V-GRPO), a method that integrates ELBO-based surrogates with the Group Relative Policy Optimization (GRPO) algorithm, alongside a set of simple yet essential techniques. Our method is easy to implement, aligns with pretraining objectives, and avoids the limitations of MDP-based methods. V-GRPO achieves state-of-the-art performance in text-to-image synthesis, while delivering a 2times speedup over MixGRPO and a 3times speedup over DiffusionNFT."><div class="card-title"><a href="https://huggingface.co/papers/2604.23380" target="_blank" rel="noopener">V-GRPO: Online Reinforcement Learning for Denoising Generative Models Is Easier than You Think</a> <span class="src-num">[51]</span></div><div class="card-authors">HuggingFace papers</div><div class="card-desc">Aligning denoising generative models with human preferences or verifiable rewards remains a key challenge. While policy-gradient online reinforcement learning (RL) offers a principled post-training framework, its direct application is hindered by the intractable likelihoods of…</div><div class="card-tags"><span class="tag web-tag">HuggingFace papers</span></div></div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>📚 google scholar <span class="group-count">6</span></h3>
+      <div class="cards-grid">
+<div class="card web-card" data-full-desc="Early identification of breakthrough technologies: Insights from science-driven innovations"><div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[52]</span></div><div class="card-authors">google scholar</div><div class="card-desc">Early identification of breakthrough technologies: Insights from science-driven innovations</div><div class="card-tags"><span class="tag web-tag">google scholar</span></div></div>
+<div class="card web-card" data-full-desc="Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements"><div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[53]</span></div><div class="card-authors">google scholar</div><div class="card-desc">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</div><div class="card-tags"><span class="tag web-tag">google scholar</span></div></div>
+<div class="card web-card" data-full-desc="Large language models (LLM) in computational social science: prospects, current state, and challenges"><div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[54]</span></div><div class="card-authors">google scholar</div><div class="card-desc">Large language models (LLM) in computational social science: prospects, current state, and challenges</div><div class="card-tags"><span class="tag web-tag">google scholar</span></div></div>
+<div class="card web-card" data-full-desc="Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms"><div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[55]</span></div><div class="card-authors">google scholar</div><div class="card-desc">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</div><div class="card-tags"><span class="tag web-tag">google scholar</span></div></div>
+<div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and..."><div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[56]</span></div><div class="card-authors">google scholar</div><div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...</div><div class="card-tags"><span class="tag web-tag">google scholar</span></div></div>
+<div class="card web-card" data-full-desc="Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements"><div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[57]</span></div><div class="card-authors">google scholar</div><div class="card-desc">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</div><div class="card-tags"><span class="tag web-tag">google scholar</span></div></div>
+      </div>
+    </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li><a href="https://arxiv.org/abs/2604.28186" target="_blank" rel="noopener">Computing Equilibrium beyond Unilateral Deviation</a></li>
+<li><a href="https://arxiv.org/abs/2604.28181" target="_blank" rel="noopener">Synthetic Computers at Scale for Long-Horizon Productivity Simulation</a></li>
+<li><a href="https://arxiv.org/abs/2604.28178" target="_blank" rel="noopener">LLM as Clinical Graph Structure Refiner: Enhancing Representation Learning in EEG Seizure Diagnosis</a></li>
+<li><a href="https://arxiv.org/abs/2604.28169" target="_blank" rel="noopener">PhyCo: Learning Controllable Physical Priors for Generative Motion</a></li>
+<li><a href="https://arxiv.org/abs/2604.28158" target="_blank" rel="noopener">Intern-Atlas: A Methodological Evolution Graph as Research Infrastructure for AI Scientists</a></li>
+<li><a href="https://arxiv.org/abs/2604.28156" target="_blank" rel="noopener">FlexiTac: A Low-Cost, Open-Source, Scalable Tactile Sensing Solution for Robotic Systems</a></li>
+<li><a href="https://arxiv.org/abs/2604.28139" target="_blank" rel="noopener">Claw-Eval-Live: A Live Agent Benchmark for Evolving Real-World Workflows</a></li>
+<li><a href="https://arxiv.org/abs/2604.28138" target="_blank" rel="noopener">Crab: A Semantics-Aware Checkpoint/Restore Runtime for Agent Sandboxes</a></li>
+<li><a href="https://arxiv.org/abs/2604.28129" target="_blank" rel="noopener">Latent Adversarial Detection: Adaptive Probing of LLM Activations for Multi-Turn Attack Detection</a></li>
+<li><a href="https://arxiv.org/abs/2604.28125" target="_blank" rel="noopener">Normativity and Productivism: Ableist Intelligence? A Degrowth Analysis of AI Sign Language Translation Tools for Deaf People</a></li>
+<li><a href="https://arxiv.org/abs/2604.28182" target="_blank" rel="noopener">Exploration Hacking: Can LLMs Learn to Resist RL Training?</a></li>
+<li><a href="https://arxiv.org/abs/2604.28180" target="_blank" rel="noopener">An adaptive wavelet-based PINN for problems with localized high-magnitude source</a></li>
+<li><a href="https://arxiv.org/abs/2604.28176" target="_blank" rel="noopener">Defending Quantum Classifiers against Adversarial Perturbations through Quantum Autoencoders</a></li>
+<li><a href="https://arxiv.org/abs/2604.28175" target="_blank" rel="noopener">Strait: Perceiving Priority and Interference in ML Inference Serving</a></li>
+<li><a href="https://arxiv.org/abs/2604.28167" target="_blank" rel="noopener">Mapping the Phase Diagram of the Vicsek Model with Machine Learning</a></li>
+<li><a href="https://arxiv.org/abs/2604.28163" target="_blank" rel="noopener">Sequential Inference for Gaussian Processes: A Signal Processing Perspective</a></li>
+<li><a href="https://arxiv.org/abs/2604.28196" target="_blank" rel="noopener">HERMES++: Toward a Unified Driving World Model for 3D Scene Understanding and Generation</a></li>
+<li><a href="https://arxiv.org/abs/2604.28195" target="_blank" rel="noopener">Chemical Taxonomy of $ω$~Centauri: Ten Populations Reveal a Multi-Phase Enrichment History</a></li>
+<li><a href="https://arxiv.org/abs/2604.28197" target="_blank" rel="noopener">OmniRobotHome: A Multi-Camera Platform for Real-Time Multiadic Human-Robot Interaction</a></li>
+<li><a href="https://arxiv.org/abs/2604.28194" target="_blank" rel="noopener">Covariant Locally Localized Gravity and vDVZ Continuity</a></li>
+<li><a href="https://arxiv.org/abs/2604.28191" target="_blank" rel="noopener">Observation of Vinen turbulence during far-from-equilibrium Bose-Einstein condensation</a></li>
+<li><a href="https://arxiv.org/abs/2604.28192" target="_blank" rel="noopener">LaST-R1: Reinforcing Action via Adaptive Physical Latent Reasoning for VLA Models</a></li>
+<li><a href="https://arxiv.org/abs/2604.28190" target="_blank" rel="noopener">Representation Fréchet Loss for Visual Generation</a></li>
+<li><a href="https://arxiv.org/abs/2604.28189" target="_blank" rel="noopener">Towards Systematics of Calabi-Yau Landscape for String Cosmology</a></li>
+<li><a href="https://arxiv.org/abs/2604.28157" target="_blank" rel="noopener">FlashRT: Towards Computationally and Memory Efficient Red-Teaming for Prompt Injection and Knowledge Corruption</a></li>
+<li><a href="https://arxiv.org/abs/2604.27861" target="_blank" rel="noopener">TwinGate: Stateful Defense against Decompositional Jailbreaks in Untraceable Traffic via Asymmetric Contrastive Learning</a></li>
+<li><a href="https://arxiv.org/abs/2604.27830" target="_blank" rel="noopener">WOOTdroid: Whole-system Online On-device Tracing for Android</a></li>
+<li><a href="https://arxiv.org/abs/2604.27818" target="_blank" rel="noopener">MASCing: Configurable Mixture-of-Experts Behavior via Activation Steering Masks</a></li>
+<li><a href="https://arxiv.org/abs/2604.27804" target="_blank" rel="noopener">Machine Unlearning for Class Removal through SISA-based Deep Neural Network Architectures</a></li></ol>
+  <ol start="30"><li><a href="https://arxiv.org/abs/2604.27801" target="_blank" rel="noopener">Variational and Majorization Principles in Lattice Reduction</a></li>
+<li><a href="https://arxiv.org/abs/2604.27714" target="_blank" rel="noopener">How Code Representation Shapes False-Positive Dynamics in Cross-Language LLM Vulnerability Detection</a></li>
+<li><a href="https://arxiv.org/abs/2604.27841" target="_blank" rel="noopener">On the free Banach lattice generated by a lattice</a></li>
+<li><a href="https://arxiv.org/abs/2604.27686" target="_blank" rel="noopener">Libra: Accelerating Socket I/O via Programmable Selective Data Copying</a></li>
+<li><a href="https://arxiv.org/abs/2604.27598" target="_blank" rel="noopener">Privacy-Preserving Federated Learning via Differential Privacy and Homomorphic Encryption for Cardiovascular Disease Risk Modeling</a></li>
+<li><a href="https://arxiv.org/abs/2604.27560" target="_blank" rel="noopener">SBN Explorer: An Empirical Study of Cryptographic Boolean Networks</a></li>
+<li><a href="https://arxiv.org/abs/2604.27531" target="_blank" rel="noopener">$\mathbb{K}$-framings and $\mathbb{K}$-quadratic forms on surfaces</a></li>
+<li><a href="https://arxiv.org/abs/2604.28185" target="_blank" rel="noopener">Visual Generation in the New Era: An Evolution from Atomic Mapping to Agentic World Modeling</a></li>
+<li><a href="https://arxiv.org/abs/2604.28170" target="_blank" rel="noopener">The hat and plus version of the Heegaard Floer contact invariant are not equivalent</a></li>
+<li><a href="https://arxiv.org/abs/2604.28188" target="_blank" rel="noopener">Cosmology of fractional gravity</a></li>
+<li><a href="https://arxiv.org/abs/2604.28184" target="_blank" rel="noopener">Intrinsic anomalous thermal hall effect as a signature of quantum metric in d-wave altermagnets</a></li>
+<li><a href="https://arxiv.org/abs/2604.28179" target="_blank" rel="noopener">Stop Holding Your Breath: CT-Informed Gaussian Splatting for Dynamic Bronchoscopy</a></li>
+<li><a href="https://arxiv.org/abs/2604.28106" target="_blank" rel="noopener">Machine Learning and Molecular Simulations Reveal Mechanisms of ZIFs Polymorph Selection</a></li>
+<li><a href="https://arxiv.org/abs/2604.28089" target="_blank" rel="noopener">Source-independent quantum key distribution without pre-sending entanglement</a></li>
+<li><a href="https://arxiv.org/abs/2604.28078" target="_blank" rel="noopener">AesRM: Improving Video Aesthetics with Expert-Level Feedback</a></li>
+<li><a href="https://arxiv.org/abs/2604.28073" target="_blank" rel="noopener">Akita: A High Usability Simulation Framework for Computer Architecture</a></li>
+<li><a href="https://arxiv.org/abs/2604.28177" target="_blank" rel="noopener">AEGIS: A Holistic Benchmark for Evaluating Forensic Analysis of AI-Generated Academic Images</a></li>
+<li><a href="https://isala.me/blog/mitigating-copy-fail-with-tetragon/" target="_blank" rel="noopener">Blocking Copy Fail (CVE-2026-31431) in Kubernetes with Tetragon</a></li>
+<li><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a></li>
+<li><a href="https://huggingface.co/papers/2604.25441" target="_blank" rel="noopener">Praxy Voice: Voice-Prompt Recovery + BUPS for Commercial-Class Indic TTS from a Frozen Non-Indic Base at Zero Commercial-Training-Data Cost</a></li>
+<li><a href="https://huggingface.co/papers/2604.26186" target="_blank" rel="noopener">FASH-iCNN: Making Editorial Fashion Identity Inspectable Through Multimodal CNN Probing</a></li>
+<li><a href="https://huggingface.co/papers/2604.23380" target="_blank" rel="noopener">V-GRPO: Online Reinforcement Learning for Denoising Generative Models Is Easier than You Think</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a></li>
+<li><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a></li>
+<li><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a></li>
+<li><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
