@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — May 4, 2026 11:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">May 4, 2026 11:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">21</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">21</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">May 4, 2026 11:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li><strong>LLM Writing Distortion:</strong> Research explores how widespread LLM assistance is measurably altering human prose patterns at scale, raising questions about linguistic diversity and authentic voice.</li>
+<li><strong>AI Critical-Thinking Debate:</strong> Commentary argues that AI-generated summaries may erode cognitive sovereignty by removing the productive friction that deep reading provides.</li>
+<li><strong>Red-Teaming Breakthrough:</strong> Stable-GFlowNet (S-GFN) applies generative flow networks to LLM vulnerability discovery, achieving superior attack diversity and training stability via contrastive trajectory balance.</li>
+<li><strong>Biological AI Infrastructure:</strong> Sigmoid attention replaces softmax in single-cell foundation models, delivering 25% better cell-type separation, 10% faster training, and elimination of catastrophic gradient explosion on 8K-token sequences.</li>
+<li><strong>Agentic Web Search:</strong> Web2BigTable's bi-level multi-agent architecture reaches 38.50 Avg@4 on WideSearch (7.5× the prior best) and 73.0 accuracy on depth-oriented XBench-DeepSearch, setting a new state of the art.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+      <li><strong>Lingustic Impact of LLMs:</strong> A growing body of evidence shows LLMs are distorting written language at billion-user scale — with subtle but measurable effects on prose style and authorial voice.</li>
+<li><strong>Cognitive Friction & AI Summaries:</strong> Critics argue that removing the "productive friction" of deep reading via AI summaries poses a threat to critical thinking and independent reasoning.</li>
+<li><strong>Package Manager Security:</strong> Research cataloguing recurring weakness classes (CWEs) in package managers highlights systemic supply-chain vulnerabilities that continue to affect open-source ecosystems.</li>
+<li><strong>Privacy: ChatGPT & Cloudflare Telemetry:</strong> A technical deep-dive revealed that ChatGPT's React-state analysis via Cloudflare runs before users can type, exposing a non-obvious client-side privacy mechanism.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>💬 Lobste.rs <span class="group-count">5</span></h3>
+      <div class="cards-grid">
+<div class="card web-card" data-full-desc="Executive Summary LLMs are used by over a billion people globally, and the most frequent use case is to assist with writing. LLMs can provide a huge efficiency boost, but are they actually writing what we want? Many users recognize the &quot;feel&quot; of LLM prose, but few people realize the extent to">
+  <div class="card-title"><a href="https://sites.google.com/view/llmwritingdistortion/home" target="_blank" rel="noopener">How LLMs Distort Our Written Language</a> <span class="src-num">[1]</span></div>
+  <div class="card-authors">via Lobste.rs</div>
+  <div class="card-desc">Executive Summary LLMs are used by over a billion people globally, and the most frequent use case is to assist with writing. LLMs can provide a huge efficiency boost, but…</div>
+  <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+</div>
+<div class="card web-card" data-full-desc="The friction of reading isn’t the obstacle to understanding, but the mechanism. And we’re engineering it away.">
+  <div class="card-title"><a href="https://medium.com/blueprint-for-disaster/ai-summaries-are-a-threat-to-our-cognitive-sovereignty-917afc37692f" target="_blank" rel="noopener">Do AI summaries hurt critical thinking?</a> <span class="src-num">[2]</span></div>
+  <div class="card-authors">via Lobste.rs</div>
+  <div class="card-desc">The friction of reading isn’t the obstacle to understanding, but the mechanism. And we’re engineering it away.</div>
+  <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+</div>
+<div class="card web-card" data-full-desc="Recurring weakness classes in package managers">
+  <div class="card-title"><a href="https://nesbitt.io/2026/05/04/package-manager-cwes.html" target="_blank" rel="noopener">Package Manager CWEs</a> <span class="src-num">[3]</span></div>
+  <div class="card-authors">via Lobste.rs</div>
+  <div class="card-desc">Recurring weakness classes in package managers</div>
+  <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+</div>
+<div class="card web-card" data-full-desc="Hands-on review of Brave Origin, the lightweight privacy-first Brave without the extras, plus the new experimental Containers feature for easy account isolation.">
+  <div class="card-title"><a href="https://incognitocat.me/in-the-lab-inside-brave-origin-containers/" target="_blank" rel="noopener">In the Lab: Inside Brave Origin &amp; Containers</a> <span class="src-num">[4]</span></div>
+  <div class="card-authors">via Lobste.rs</div>
+  <div class="card-desc">Hands-on review of Brave Origin, the lightweight privacy-first Brave without the extras, plus the new experimental Containers feature for easy account isolation.</div>
+  <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+</div>
+<div class="card web-card" data-full-desc="Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild, directly from Claude. To access it reach out at buchodi@">
+  <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[5]</span></div>
+  <div class="card-authors">via Lobste.rs</div>
+  <div class="card-desc">Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live…</div>
+  <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+</div>
+
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🤗 HuggingFace <span class="group-count">8</span></h3>
+      <div class="cards-grid">
+<div class="card web-card" data-full-desc="Large Language Model (LLM) Red-Teaming, which proactively identifies vulnerabilities of LLMs, is an essential process for ensuring safety. Finding effective and diverse attacks in red-teaming is important, but achieving both is challenging. Generative Flow Networks (GFNs) that perform distribution matching are a promising methods, but they are notorious for training instability and mode collapse. In particular, unstable rewards in red-teaming accelerate mode collapse. We propose Stable-GFN (S-GFN), which eliminates partition function Z estimation in GFN and reduces training instability. S-GFN avoids Z-estimation through pairwise comparisons and employs a robust masking methodology against noisy rewards. Additionally, we propose a fluency stabilizer to prevent the model from getting stuck in local optima that produce gibberish. S-GFN provides more stable training while maintaining the optimal policy of GFN. We demonstrate the overwhelming attack performance and diversity of S-GFN across various settings.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.00553" target="_blank" rel="noopener">Stable-GFlowNet: Toward Diverse and Robust LLM Red-Teaming via Contrastive Trajectory Balance</a> <span class="src-num">[1]</span></div>
+  <div class="card-authors">via HuggingFace</div>
+  <div class="card-desc">Large Language Model (LLM) Red-Teaming, which proactively identifies vulnerabilities of LLMs, is an essential process for ensuring safety. Finding effective and diverse attacks in red-teaming is important, but achieving both…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Training stable biological foundation models requires rethinking attention mechanisms: we find that using sigmoid attention as a drop in replacement for softmax attention a) produces better learned representations: on six diverse single-cell datasets, sigmoid achieves 25% higher cell-type separation, better cell-type cohesion metrics, and lower validation loss, b) faster training, models with sigmoid attention train up to 10% faster than their softmax counterparts, and c) more stable training by eliminating inherent sources of instability in softmax attention. We establish that sigmoid attention has globally bounded derivatives (leq 0.25) as opposed to softmax, and a diagonal Jacobian structure in contrast with softmax&#x27;s dense coupling, which together help alleviate training instabilities. In stress tests on 160M-parameter bidirectional attention models trained without gradient clipping on 8K-token sequences, softmax diverges catastrophically, with gradients exploding by four orders of magnitude, while sigmoid remains stable. Finally, we implement and open-source TritonSigmoid, an efficient GPU kernel that achieves 515 TFLOPS on H100 GPUs, outperforming both FlashAttention-2 and FlashSigmoid, with native padding support, which is essential for biological sequences. Our results establish sigmoid attention as both theoretically grounded and empirically superior for biological foundation models. Code is available at https://github.com/MSDLLCpapers/triton-sigmoid">
+  <div class="card-title"><a href="https://huggingface.co/papers/2604.27124" target="_blank" rel="noopener">Better Models, Faster Training: Sigmoid Attention for single-cell Foundation Models</a> <span class="src-num">[2]</span></div>
+  <div class="card-authors">via HuggingFace</div>
+  <div class="card-desc">Training stable biological foundation models requires rethinking attention mechanisms: we find that using sigmoid attention as a drop in replacement for softmax attention a) produces better learned representations: on six…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Text-based 2D image editing models have recently reached an impressive level of maturity, motivating a growing body of work that heavily depends on these models to drive 3D edits. While effective for appearance-based modifications, such 2D-centric 3D editing pipelines often struggle with fine-grained 3D editing, where localized structural changes must be applied while strictly preserving an object&#x27;s overall identity. To address this limitation, we propose Prox-E, a training-free framework that enables fine-grained 3D control through an explicit, primitive-based geometric abstraction. Our framework first abstracts an input 3D shape into a compact set of geometric primitives. A pretrained vision-language model (VLM) then edits this abstraction to specify primitive-level changes. These structural edits are subsequently used to guide a 3D generative model, enabling fine-grained, localized modifications while preserving unchanged regions of the original shape. Through extensive experiments, we demonstrate that our method consistently balances identity preservation, shape quality, and instruction fidelity more effectively than various existing approaches, including 2D-based 3D editors and training-based methods.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2604.23774" target="_blank" rel="noopener">Prox-E: Fine-Grained 3D Shape Editing via Primitive-Based Abstractions</a> <span class="src-num">[3]</span></div>
+  <div class="card-authors">via HuggingFace</div>
+  <div class="card-desc">Text-based 2D image editing models have recently reached an impressive level of maturity, motivating a growing body of work that heavily depends on these models to drive 3D edits. While…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Text-to-image diffusion models achieve impressive visual fidelity, yet they remain unreliable in multi-object generation. Despite extensive empirical evidence of these failures, the underlying causes remain unclear. We begin by asking how much of this limitation arises from the data itself. To disentangle data effects, we consider two regimes across different dataset sizes: (1) concept generalization, where each individual concept is observed during training under potentially imbalanced data distributions, and (2) compositional generalization, where specific combinations of concepts are systematically held out. To study these regimes, we introduce mosaic (Multi-Object Spatial relations, AttrIbution, Counting), a controlled framework for dataset generation. By training diffusion models on mosaic, we find that scene complexity plays a dominant role rather than concept imbalance, and that counting is uniquely difficult to learn in low-data regimes. Moreover, compositional generalization collapses as more concept combinations are held out during training. These findings highlight fundamental limitations of diffusion models and motivate stronger inductive biases and data design for robust multi-object compositional generation.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.00273" target="_blank" rel="noopener">When Do Diffusion Models learn to Generate Multiple Objects?</a> <span class="src-num">[4]</span></div>
+  <div class="card-authors">via HuggingFace</div>
+  <div class="card-desc">Text-to-image diffusion models achieve impressive visual fidelity, yet they remain unreliable in multi-object generation. Despite extensive empirical evidence of these failures, the underlying causes remain unclear. We begin by asking…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Decision trees and diffusion models are ostensibly disparate model classes, one discrete and hierarchical, the other continuous and dynamic. This work unifies the two by establishing a crisp mathematical correspondence between hierarchical decision trees and diffusion processes in appropriate limiting regimes. Our unification reveals a shared optimization principle: Global Trajectory Score Matching (GTSM), for which gradient boosting (in an idealized version) is asymptotically optimal. We underscore the conceptual value of our work through two key practical instantiations: \treeflow, which achieves competitive generation quality on tabular data with higher fidelity and a 2\times computational speedup, and \dsmtree, a novel distillation method that transfers hierarchical decision logic into neural networks, matching teacher performance within 2\% on many benchmarks.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.00414" target="_blank" rel="noopener">Trees to Flows and Back: Unifying Decision Trees and Diffusion Models</a> <span class="src-num">[5]</span></div>
+  <div class="card-authors">via HuggingFace</div>
+  <div class="card-desc">Decision trees and diffusion models are ostensibly disparate model classes, one discrete and hierarchical, the other continuous and dynamic. This work unifies the two by establishing a crisp mathematical correspondence…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Agentic web search increasingly faces two distinct demands: deep reasoning over a single target, and structured aggregation across many entities and heterogeneous sources. Current systems struggle on both fronts. Breadth-oriented tasks demand schema-aligned outputs with wide coverage and cross-entity consistency, while depth-oriented tasks require coherent reasoning over long, branching search trajectories. We introduce Web2BigTable, a multi-agent framework for web-to-table search that supports both regimes. Web2BigTable adopts a bi-level architecture in which an upper-level orchestrator decomposes the task into sub-problems and lower-level worker agents solve them in parallel. Through a closed-loop run--verify--reflect process, the framework jointly improves decomposition and execution over time via persistent, human-readable external memory, with self-evolving updates to each single-agent. During execution, workers coordinate through a shared workspace that makes partial findings visible, allowing them to reduce redundant exploration, reconcile conflicting evidence, and adapt to emerging coverage gaps. Web2BigTable sets a new state of the art on WideSearch, reaching an Avg@4 Success Rate of 38.50 (7.5times the second best at 5.10), Row F1 of 63.53 (+25.03 over the second best), and Item F1 of 80.12 (+14.42 over the second best). It also generalises to depth-oriented search on XBench-DeepSearch, achieving 73.0 accuracy. Code is available at https://github.com/web2bigtable/we">
+  <div class="card-title"><a href="https://huggingface.co/papers/2604.27221" target="_blank" rel="noopener">Web2BigTable: A Bi-Level Multi-Agent LLM System for Internet-Scale Information Search and Extraction</a> <span class="src-num">[6]</span></div>
+  <div class="card-authors">via HuggingFace</div>
+  <div class="card-desc">Agentic web search increasingly faces two distinct demands: deep reasoning over a single target, and structured aggregation across many entities and heterogeneous sources. Current systems struggle on both fronts. Breadth-oriented…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Joint audio-video generation models have shown that unified generation yields stronger cross-modal coherence than cascaded approaches. However, existing models couple modalities throughout denoising via pervasive attention, treating high-level semantics and low-level details in a fully entangled manner. This is suboptimal for talking head synthesis: while audio and facial motion are semantically correlated, their low-level realizations (acoustic signals and visual textures) follow distinct rendering processes. Enforcing joint modeling across all levels causes unnecessary entanglement and reduces efficiency. We propose Talker-T2AV, an autoregressive diffusion framework where high-level cross-modal modeling occurs in a shared backbone, while low-level refinement uses modality-specific decoders. A shared autoregressive language model jointly reasons over audio and video in a unified patch-level token space. Two lightweight diffusion transformer heads decode the hidden states into frame-level audio and video latents. Experiments on talking portrait benchmarks show Talker-T2AV outperforms dual-branch baselines in lip-sync accuracy, video quality, and audio quality, achieving stronger cross-modal consistency than cascaded pipelines.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2604.23586" target="_blank" rel="noopener">Talker-T2AV: Joint Talking Audio-Video Generation with Autoregressive Diffusion Modeling</a> <span class="src-num">[7]</span></div>
+  <div class="card-authors">via HuggingFace</div>
+  <div class="card-desc">Joint audio-video generation models have shown that unified generation yields stronger cross-modal coherence than cascaded approaches. However, existing models couple modalities throughout denoising via pervasive attention, treating high-level semantics and…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Commercial TTS systems produce near-native Indic audio, but the best open-source bases (Chatterbox, Indic Parler-TTS, IndicF5) trail them on measured phonological dimensions, and the most widely adopted multilingual base (Chatterbox, 23 languages) does not even tokenise Telugu or Tamil. We ask: what is the minimum intervention that brings such a non-Indic-native base to commercial-class output on Telugu, Tamil, and Hindi, without training a new acoustic decoder and without any commercial TTS training data? We combine three pieces: (1) BUPS, a Brahmic Unified Phoneme Space that deterministically romanises seven Indic scripts to ISO-15919 so Chatterbox&#x27;s Latin tokeniser can process them; (2) a LoRA adapter on only the text-token predictor (Chatterbox&#x27;s t3), trained on ~1,220h of licensed Indic audio with a Hindi-proxy language_id; (3) a voice-prompt recovery recipe -- an 8-11s same-language reference clip plus three sampling overrides (exaggeration 0.7, temperature 0.6, min_p 0.1; &quot;Config B&quot;) -- that recovers commercial-class acoustic output with no acoustic-decoder training. On Hindi, the LoRA regresses accuracy and we instead use vanilla Chatterbox + Config B, giving a two-branch deployment. Evaluated on 10-utterance pilot sets with the companion PSP benchmark, Praxy Voice matches or slightly leads commercial baselines: 26.7% retroflex collapse on Telugu (vs Sarvam Bulbul 33.3%), 71% Tamil-zha collapse (vs commercial trio&#x27;s 86%), 0.025 LLM-WER on Hindi (tied with Cartesia Son">
+  <div class="card-title"><a href="https://huggingface.co/papers/2604.25441" target="_blank" rel="noopener">Praxy Voice: Voice-Prompt Recovery + BUPS for Commercial-Class Indic TTS from a Frozen Non-Indic Base at Zero Commercial-Training-Data Cost</a> <span class="src-num">[8]</span></div>
+  <div class="card-authors">via HuggingFace</div>
+  <div class="card-desc">Commercial TTS systems produce near-native Indic audio, but the best open-source bases (Chatterbox, Indic Parler-TTS, IndicF5) trail them on measured phonological dimensions, and the most widely adopted multilingual base (Chatterbox,…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>📚 Google Scholar <span class="group-count">8</span></h3>
+      <div class="cards-grid">
+<div class="card web-card" data-full-desc="Essay arguing that … on artificial intelligence (AI) use in evidence synthesis across Cochrane, the Campbell Collaboration, JBI, and the Collaboration for Environmental Evidence 2025">
+  <div class="card-title"><a href="https://journals.sagepub.com/doi/abs/10.1002/cl2.70074" target="_blank" rel="noopener">… on artificial intelligence (AI) use in evidence synthesis across Cochrane, the Campbell Collaboration, JBI, and the Collaboration for Environmental Evidence 2025</a> <span class="src-num">[1]</span></div>
+  <div class="card-authors">via Google Scholar</div>
+  <div class="card-desc">Essay arguing that … on artificial intelligence (AI) use in evidence synthesis across Cochrane, the Campbell Collaboration, JBI, and the Collaboration for Environmental Evidence 2025</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+<div class="card web-card" data-full-desc="Essay arguing that Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements">
+  <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[2]</span></div>
+  <div class="card-authors">via Google Scholar</div>
+  <div class="card-desc">Essay arguing that Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+<div class="card web-card" data-full-desc="This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original quantitative analysis of Epoch AI notable AI models dataset and combining with available literature. With focus on key breakthroughs, evolving trends, industry impacts and future directions, the paper shows important shifts from academia to industry in AI research leadership from the year 2014 when industry started leading in release of notable AI models. Despite abundance of literature about AI and allied fields, there are not many papers or a">
+  <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a> <span class="src-num">[3]</span></div>
+  <div class="card-authors">via Google Scholar</div>
+  <div class="card-desc">This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original quantitative analysis of Epoch AI notable AI models…</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+<div class="card web-card" data-full-desc="Essay arguing that Large language models (LLM) in computational social science: prospects, current state, and challenges">
+  <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[4]</span></div>
+  <div class="card-authors">via Google Scholar</div>
+  <div class="card-desc">Essay arguing that Large language models (LLM) in computational social science: prospects, current state, and challenges</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+<div class="card web-card" data-full-desc="Essay arguing that Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms">
+  <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[5]</span></div>
+  <div class="card-authors">via Google Scholar</div>
+  <div class="card-desc">Essay arguing that Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+<div class="card web-card" data-full-desc="The fast development of digital technologies has caused the volume and complexity of cyber threats to become very serious risk to information security and user privacy. Traditional methods of cybersecurity are becoming insufficient to handle advanced and emerging attacks.">
+  <div class="card-title"><a href="https://jecir.com/index.php/jecir/article/view/35" target="_blank" rel="noopener">AI-based cybersecurity solutions: Securing information and privacy in the evolving digital age</a> <span class="src-num">[6]</span></div>
+  <div class="card-authors">via Google Scholar</div>
+  <div class="card-desc">The fast development of digital technologies has caused the volume and complexity of cyber threats to become very serious risk to information security and user privacy. Traditional methods of cybersecurity…</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+<div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+  <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[7]</span></div>
+  <div class="card-authors">via Google Scholar</div>
+  <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+<div class="card web-card" data-full-desc="Essay arguing that Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements">
+  <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[8]</span></div>
+  <div class="card-authors">via Google Scholar</div>
+  <div class="card-desc">Essay arguing that Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol>
+<li>[Lobste.rs] <a href="https://sites.google.com/view/llmwritingdistortion/home" target="_blank" rel="noopener">How LLMs Distort Our Written Language</a></li>
+<li>[Lobste.rs] <a href="https://medium.com/blueprint-for-disaster/ai-summaries-are-a-threat-to-our-cognitive-sovereignty-917afc37692f" target="_blank" rel="noopener">Do AI summaries hurt critical thinking?</a></li>
+<li>[Lobste.rs] <a href="https://nesbitt.io/2026/05/04/package-manager-cwes.html" target="_blank" rel="noopener">Package Manager CWEs</a></li>
+<li>[Lobste.rs] <a href="https://incognitocat.me/in-the-lab-inside-brave-origin-containers/" target="_blank" rel="noopener">In the Lab: Inside Brave Origin &amp; Containers</a></li>
+<li>[Lobste.rs] <a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a></li>
+<li>[HuggingFace] <a href="https://huggingface.co/papers/2605.00553" target="_blank" rel="noopener">Stable-GFlowNet: Toward Diverse and Robust LLM Red-Teaming via Contrastive Trajectory Balance</a></li>
+<li>[HuggingFace] <a href="https://huggingface.co/papers/2604.27124" target="_blank" rel="noopener">Better Models, Faster Training: Sigmoid Attention for single-cell Foundation Models</a></li>
+<li>[HuggingFace] <a href="https://huggingface.co/papers/2604.23774" target="_blank" rel="noopener">Prox-E: Fine-Grained 3D Shape Editing via Primitive-Based Abstractions</a></li>
+<li>[HuggingFace] <a href="https://huggingface.co/papers/2605.00273" target="_blank" rel="noopener">When Do Diffusion Models learn to Generate Multiple Objects?</a></li>
+<li>[HuggingFace] <a href="https://huggingface.co/papers/2605.00414" target="_blank" rel="noopener">Trees to Flows and Back: Unifying Decision Trees and Diffusion Models</a></li>
+<li>[HuggingFace] <a href="https://huggingface.co/papers/2604.27221" target="_blank" rel="noopener">Web2BigTable: A Bi-Level Multi-Agent LLM System for Internet-Scale Information Search and Extraction</a></li>
+</ol>
+<ol start=12>
+<li>[HuggingFace] <a href="https://huggingface.co/papers/2604.23586" target="_blank" rel="noopener">Talker-T2AV: Joint Talking Audio-Video Generation with Autoregressive Diffusion Modeling</a></li>
+<li>[HuggingFace] <a href="https://huggingface.co/papers/2604.25441" target="_blank" rel="noopener">Praxy Voice: Voice-Prompt Recovery + BUPS for Commercial-Class Indic TTS from a Frozen Non-Indic Base at Zero Commercial-Training-Data Cost</a></li>
+<li>[Google Scholar] <a href="https://journals.sagepub.com/doi/abs/10.1002/cl2.70074" target="_blank" rel="noopener">… on artificial intelligence (AI) use in evidence synthesis across Cochrane, the Campbell Collaboration, JBI, and the Collaboration for Environmental Evidence 2025</a></li>
+<li>[Google Scholar] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a></li>
+<li>[Google Scholar] <a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a></li>
+<li>[Google Scholar] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a></li>
+<li>[Google Scholar] <a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a></li>
+<li>[Google Scholar] <a href="https://jecir.com/index.php/jecir/article/view/35" target="_blank" rel="noopener">AI-based cybersecurity solutions: Securing information and privacy in the evolving digital age</a></li>
+<li>[Google Scholar] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a></li>
+<li>[Google Scholar] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a></li>
+</ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
