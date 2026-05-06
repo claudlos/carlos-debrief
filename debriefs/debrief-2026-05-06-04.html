@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — May 06, 2026 04:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">May 06, 2026 04:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">26</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">26</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">May 06, 2026 04:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li><strong>No arXiv papers</strong> this cycle — the arXiv API fetch timed out, but the web scouts completed successfully.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+      <li><strong>AI Agent Benchmarks Surge:</strong> Multiple new papers push agent evaluation forward — ESARBench benchmarks UAV rescue agents, Workspace-Bench tests AI on realistic office file workflows, and WindowWorld reveals all leading GUI agents still score under 21% on multi-app tasks.</li>
+      <li><strong>Search Agents Go Academic:</strong> OpenSeeker-v2 achieves state-of-the-art search agent performance using only supervised fine-tuning on 10.6K trajectories, challenging the assumption that industrial-scale RL is required for frontier-level web research agents.</li>
+      <li><strong>Multimodal Alignment Gets Systematic:</strong> PRISM addresses distributional drift between SFT and RL for multimodal models via an explicit pre-alignment stage, while X2SAM unifies image and video segmentation under one model with a Mask Memory module.</li>
+      <li><strong>Post-Quantum Messaging Goes Consumer:</strong> Quildra launches a private messaging app with post-quantum cryptography on iOS and Android, marking a rare practical deployment of quantum-resistant encryption for everyday consumers alongside growing HN debate about quantum computing's near-term viability.</li>
+      <li><strong>Medical AI Agents Clear First Randomized Trial:</strong> SymptomAI's differential diagnosis AI significantly outperforms independent clinicians (OR=2.47) in a 13,917-participant Fitbit study — the largest randomized evaluation of clinical AI agents in real-world conditions to date.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  <div class="section">
+  <h2>🌐 Web Findings</h2>
+  <div class="section-group">
+    <h3>🦞 Lobste.rs <span class="group-count">1</span></h3>
+    <div class="cards-grid">
+      <div class="card web-card" data-full-desc="A researcher reverse-engineered how Cloudflare&#39;s program detection system reads React component state before ChatGPT allows typing, exposing the privacy implications of client-side telemetry in AI tooling.">
+        <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#39;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[1]</span></div>
+        <div class="card-authors">Lobste.rs</div>
+        <div class="card-desc">A researcher reverse-engineered how Cloudflare&#39;s program detection system reads React component state before ChatGPT allows typing, exposing the privacy implications of client-side telemetry in AI tooling.</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🤗 HuggingFace Papers <span class="group-count">19</span></h3>
+    <div class="cards-grid">
+      <div class="card web-card" data-full-desc="X2SAM is a unified multimodal LLM that extends any-segmentation capabilities from images to video, coupling an LLM with a Mask Memory module for temporally consistent video mask generation. It supports open-vocabulary, referring, reasoning, and interactive segmentation across both image and video inputs, achieving strong performance while preserving general visual chat ability.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.00891" target="_blank" rel="noopener">X2SAM: Any Segmentation in Images and Videos</a> <span class="src-num">[2]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">X2SAM is a unified multimodal LLM that extends any-segmentation capabilities from images to video, coupling an LLM with a Mask Memory module for temporally consistent video mask generation.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="A TTS-to-STT flywheel synthesizes ~22,000 entity-dense Indic-English code-mix utterances at under $50, enabling a LoRA fine-tune of Whisper that achieves 17x improvement over open-source SOTA and 3x over commercial systems on entity recognition for Telugu, with cross-language gains on Hindi and Tamil.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.03073" target="_blank" rel="noopener">The TTS-STT Flywheel: Synthetic Entity-Dense Audio Closes the Indic ASR Gap Where Commercial and Open-Source Systems Fail</a> <span class="src-num">[3]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">A TTS-to-STT flywheel synthesizes ~22,000 entity-dense Indic-English code-mix utterances at under $50, enabling a LoRA fine-tune of Whisper that achieves 17x improvement over open-source SOTA and 3x over commercial systems on entity recognition for Telugu.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="ESARBench is the first comprehensive benchmark for MLLM-driven UAV agents in embodied Search and Rescue, using Unreal Engine 5 and AirSim with GIS-mapped photorealistic environments, 600 realistic tasks, dynamic weather and time-of-day variables, revealing significant gaps between heuristics-based and learning-based aerial agents.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.01371" target="_blank" rel="noopener">ESARBench: A Benchmark for Agentic UAV Embodied Search and Rescue</a> <span class="src-num">[4]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">ESARBench is the first comprehensive benchmark for MLLM-driven UAV agents in embodied Search and Rescue, using Unreal Engine 5 and AirSim with GIS-mapped photorealistic environments, 600 realistic tasks, dynamic weather and time-of-day variables.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="StateSMix couples an online-trained Mamba SSM with nine sparse n-gram hash tables and arithmetic coding to achieve lossless compression requiring no pre-trained weights or GPU, beating xz-9e by 8.7% on enwik8-1MB while running in pure C with AVX2 SIMD.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.02904" target="_blank" rel="noopener">StateSMix: Online Lossless Compression via Mamba State Space Models and Sparse N-gram Context Mixing</a> <span class="src-num">[5]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">StateSMix couples an online-trained Mamba SSM with nine sparse n-gram hash tables and arithmetic coding to achieve lossless compression requiring no pre-trained weights or GPU, beating xz-9e by 8.7% on enwik8-1MB.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="TCDA combines Thread-Constrained DAG and Discourse-Aware RoPE (D-RoPE) to model multi-turn conversation structure for aspect-based sentiment extraction, filtering cross-thread noise while capturing utterance-level temporal progression, achieving state-of-the-art on two benchmark datasets.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.01717" target="_blank" rel="noopener">TCDA: Thread-Constrained Discourse-Aware Modeling for Conversational Sentiment Quadruple Analysis</a> <span class="src-num">[6]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">TCDA combines Thread-Constrained DAG and Discourse-Aware RoPE (D-RoPE) to model multi-turn conversation structure for aspect-based sentiment extraction, filtering cross-thread noise while capturing utterance-level temporal progression.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Chain of Evidence (CoE) is a vision-language RAG framework that feeds VLM models screenshots of retrieved documents to output precise bounding boxes around relevant evidence, eliminating text parsing bottlenecks and preserving spatial layout cues.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.01284" target="_blank" rel="noopener">Chain of Evidence: Pixel-Level Visual Attribution for Iterative Retrieval-Augmented Generation</a> <span class="src-num">[7]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">Chain of Evidence (CoE) is a vision-language RAG framework that feeds VLM models screenshots of retrieved documents to output precise bounding boxes around relevant evidence, eliminating text parsing bottlenecks.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="PatRe is the first benchmark modeling the full patent examination lifecycle (Office Action plus applicant rebuttal) across 480 real-world cases, reframing it as dynamic multi-turn justification-and-response and revealing critical differences between proprietary and open-source LLMs on legal reasoning tasks.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.03571" target="_blank" rel="noopener">PatRe: A Full-Stage Office Action and Rebuttal Generation Benchmark for Patent Examination</a> <span class="src-num">[8]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">PatRe is the first benchmark modeling the full patent examination lifecycle (Office Action plus applicant rebuttal) across 480 real-world cases, reframing it as dynamic multi-turn justification-and-response.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="This paper frames RL for LLM multi-agent systems through orchestration traces, identifying three axes: eight reward families, eight credit-bearing units, and five sub-decisions (spawn, delegate, communicate, aggregate, stop), finding no prior explicit RL method for the stopping decision.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.02801" target="_blank" rel="noopener">Reinforcement Learning for LLM-based Multi-Agent Systems through Orchestration Traces</a> <span class="src-num">[9]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">This paper frames RL for LLM multi-agent systems through orchestration traces, identifying three axes: eight reward families, eight credit-bearing units, and five sub-decisions (spawn, delegate, communicate, aggregate, stop).</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="SplAttN replaces hard projection in multi-modal point cloud completion with Differentiable Gaussian Splatting, preventing Cross-Modal Entropy Collapse and enabling dense gradient flow between 2D images and 3D geometry, achieving SOTA on PCN and ShapeNet-55/34.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.01466" target="_blank" rel="noopener">SplAttN: Bridging 2D and 3D with Gaussian Soft Splatting and Attention for Point Cloud Completion</a> <span class="src-num">[10]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">SplAttN replaces hard projection in multi-modal point cloud completion with Differentiable Gaussian Splatting, preventing Cross-Modal Entropy Collapse and enabling dense gradient flow between 2D images and 3D geometry.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="PRISM inserts an explicit distribution-alignment stage between SFT and RLVR for multimodal models using a MoE discriminator for disentangled perception and reasoning corrective signals, improving RLVR performance across GRPO, DAPO, GSPO on Qwen3-VL.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.28123" target="_blank" rel="noopener">Beyond SFT-to-RL: Pre-alignment via Black-Box On-Policy Distillation for Multimodal RL</a> <span class="src-num">[11]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">PRISM inserts an explicit distribution-alignment stage between SFT and RLVR for multimodal models using a MoE discriminator for disentangled perception and reasoning corrective signals, improving RLVR performance across GRPO, DAPO, GSPO on Qwen3-VL.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="HeavySkill reframes heavy thinking as an inner skill internalized in model parameters rather than an orchestration-layer abstraction, consistently outperforming Best-of-N strategies and scaling via RL toward self-evolving LLMs that solve complex tasks without brittle harness engineering.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.02396" target="_blank" rel="noopener">HeavySkill: Heavy Thinking as the Inner Skill in Agentic Harness</a> <span class="src-num">[12]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">HeavySkill reframes heavy thinking as an inner skill internalized in model parameters rather than an orchestration-layer abstraction, consistently outperforming Best-of-N strategies and scaling via RL toward self-evolving LLMs.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="A gymnasium-compatible medical RL environment spanning 10 clinical domains, 3,600+ tasks, and 135 tools identifies agentic collapse (verbose single-turn monologue, eroded tool use) from reward misalignment, and proposes TT-OPD to stabilize GRPO training with dense KL regularization.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.02943" target="_blank" rel="noopener">Healthcare AI GYM for Medical Agents</a> <span class="src-num">[13]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">A gymnasium-compatible medical RL environment spanning 10 clinical domains, 3,600+ tasks, and 135 tools identifies agentic collapse (verbose single-turn monologue, eroded tool use) from reward misalignment, and proposes TT-OPD to stabilize GRPO.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="SVGS extends Gaussian Splatting with spatially varying colors and opacity per primitive using bilinear interpolation, movable kernels, or tiny neural networks, treating 2D Gaussian surfels as richer primitives that significantly enhance novel-view synthesis while maintaining geometric reconstruction quality.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2411.18966" target="_blank" rel="noopener">SVGS: Enhancing Gaussian Splatting Using Primitives with Spatially Varying Colors</a> <span class="src-num">[14]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">SVGS extends Gaussian Splatting with spatially varying colors and opacity per primitive using bilinear interpolation, movable kernels, or tiny neural networks, treating 2D Gaussian surfels as richer primitives.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="iWorld-Bench evaluates world models on 4,900+ interaction-related test samples (distance perception, memory, trajectory following) from 330K video clips, proposing an Action Generation Framework to unify heterogeneous interaction modalities across 14 models.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.03941" target="_blank" rel="noopener">A Benchmark for Interactive World Models with a Unified Action Generation Framework</a> <span class="src-num">[15]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">iWorld-Bench evaluates world models on 4,900+ interaction-related test samples (distance perception, memory, trajectory following) from 330K video clips, proposing an Action Generation Framework to unify heterogeneous interaction modalities.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Workspace-Bench evaluates AI agents on 388 realistic workspace tasks with up to 20GB of heterogeneous files across 74 file types, requiring cross-file retrieval and contextual reasoning; the best agent achieves only 68.7% versus 80.7% human baseline, with average performance at 47.4%.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.03596" target="_blank" rel="noopener">Workspace-Bench 1.0: Benchmarking AI Agents on Workspace Tasks with Large-Scale File Dependencies</a> <span class="src-num">[16]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">Workspace-Bench evaluates AI agents on 388 realistic workspace tasks with up to 20GB of heterogeneous files across 74 file types, requiring cross-file retrieval and contextual reasoning; the best agent achieves only 68.7% versus 80.7% human baseline.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="OpenSeeker-v2 trains a frontier-level search agent using only SFT on 10.6K high-quality trajectories with three data synthesis tricks, achieving SOTA across 4 benchmarks at 30B scale and outperforming Tongyi DeepResearch despite lacking CPT and RL stages.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.04036" target="_blank" rel="noopener">OpenSeeker-v2: Pushing the Limits of Search Agents with Informative and High-Difficulty Trajectories</a> <span class="src-num">[17]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">OpenSeeker-v2 trains a frontier-level search agent using only SFT on 10.6K high-quality trajectories with three data synthesis tricks, achieving SOTA across 4 benchmarks at 30B scale and outperforming Tongyi DeepResearch.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="SymptomAI deployed via Fitbit in a 13,917-participant randomized trial shows conversational AI agents significantly outperform independent clinicians in differential diagnosis (OR=2.47), with dedicated symptom interviews before diagnosis substantially better than user-guided conversations.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.04012" target="_blank" rel="noopener">SymptomAI: Towards a Conversational AI Agent for Everyday Symptom Assessment</a> <span class="src-num">[18]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">SymptomAI deployed via Fitbit in a 13,917-participant randomized trial shows conversational AI agents significantly outperform independent clinicians in differential diagnosis (OR=2.47), with dedicated symptom interviews substantially better than user-guided conversations.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="WindowsWorld benchmarks GUI agents on 181 multi-step tasks across 17 desktop applications (78% multi-application), revealing that all leading agents achieve under 21% success on multi-application workflows, with failures concentrated in conditional cross-app reasoning.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.27776" target="_blank" rel="noopener">WindowsWorld: A Process-Centric Benchmark of Autonomous GUI Agents in Professional Cross-Application Environments</a> <span class="src-num">[19]</span></div>
+        <div class="card-authors">HuggingFace Papers</div>
+        <div class="card-desc">WindowsWorld benchmarks GUI agents on 181 multi-step tasks across 17 desktop applications (78% multi-application), revealing that all leading agents achieve under 21% success on multi-application workflows.</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🔬 Google Scholar <span class="group-count">5</span></h3>
+    <div class="cards-grid">
+      <div class="card web-card" data-full-desc="A science-driven framework leveraging machine learning link prediction to identify technological breakthroughs before they reach mainstream adoption, with implications for early-stage innovation scouting and R&amp;D prioritization.">
+        <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[20]</span></div>
+        <div class="card-authors">Google Scholar</div>
+        <div class="card-desc">A science-driven framework leveraging machine learning link prediction to identify technological breakthroughs before they reach mainstream adoption, with implications for early-stage innovation scouting and R&amp;D prioritization.</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Machine learning accelerates the discovery of catalysts for methane dry reforming, a process that converts CO2 and methane into useful chemicals, offering a dual benefit of greenhouse gas utilization and clean energy production.">
+        <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[21]</span></div>
+        <div class="card-authors">Google Scholar</div>
+        <div class="card-desc">Machine learning accelerates the discovery of catalysts for methane dry reforming, a process that converts CO2 and methane into useful chemicals, offering a dual benefit of greenhouse gas utilization and clean energy production.</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="A comprehensive review of LLM applications in computational social science, examining current capabilities, data bias and privacy challenges, and the potential for integrating LLMs into large-scale social behavior modeling.">
+        <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[22]</span></div>
+        <div class="card-authors">Google Scholar</div>
+        <div class="card-desc">A comprehensive review of LLM applications in computational social science, examining current capabilities, data bias and privacy challenges, and the potential for integrating LLMs into large-scale social behavior modeling.</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="A survey of AI and ML techniques in cybersecurity covering adversarial AI, automated threat intelligence, and AI-driven security orchestration, mapping key application areas and identifying open research challenges.">
+        <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[23]</span></div>
+        <div class="card-authors">Google Scholar</div>
+        <div class="card-desc">A survey of AI and ML techniques in cybersecurity covering adversarial AI, automated threat intelligence, and AI-driven security orchestration, mapping key application areas and identifying open research challenges.</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="An analysis of post-quantum cryptographic approaches for securing IoT devices against quantum attacks, surveying lattice-based, hash-based, and code-based schemes for authentication and privacy in resource-constrained environments.">
+        <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[24]</span></div>
+        <div class="card-authors">Google Scholar</div>
+        <div class="card-desc">An analysis of post-quantum cryptographic approaches for securing IoT devices against quantum attacks, surveying lattice-based, hash-based, and code-based schemes for authentication and privacy in resource-constrained environments.</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>💬 Hacker News <span class="group-count">2</span></h3>
+    <div class="cards-grid">
+      <div class="card web-card" data-full-desc="A Hacker News community discussion debating whether quantum computing&#39;s current practical limitations and error rates justify continued investment, with perspectives spanning skepticism about near-term utility to optimism about long-term potential.">
+        <div class="card-title"><a href="https://news.ycombinator.com/item?id=48033532" target="_blank" rel="noopener">Ask HN: Is quantum computing worth the struggle?</a> <span class="src-num">[25]</span></div>
+        <div class="card-authors">Hacker News</div>
+        <div class="card-desc">A Hacker News community discussion debating whether quantum computing&#39;s current practical limitations and error rates justify continued investment, with perspectives spanning skepticism about near-term utility to optimism about long-term potential.</div>
+        <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Quildra is a private messaging app using post-quantum cryptography where encryption keys stay on the user&#39;s device, available on iOS and Android, representing practical deployment of quantum-resistant encryption in consumer messaging.">
+        <div class="card-title"><a href="https://quldra.com/" target="_blank" rel="noopener">Quildra: Private Messaging with Post-Quantum Cryptography</a> <span class="src-num">[26]</span></div>
+        <div class="card-authors">Hacker News</div>
+        <div class="card-desc">Quildra is a private messaging app using post-quantum cryptography where encryption keys stay on the user&#39;s device, available on iOS and Android, representing practical deployment of quantum-resistant encryption in consumer messaging.</div>
+        <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol>
+  <li><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won't Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span style="color:var(--text-subtle)">(Lobste.rs)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.00891" target="_blank" rel="noopener">X2SAM: Any Segmentation in Images and Videos</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.03073" target="_blank" rel="noopener">The TTS-STT Flywheel: Synthetic Entity-Dense Audio Closes the Indic ASR Gap Where Commercial and Open-Source Systems Fail</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.01371" target="_blank" rel="noopener">ESARBench: A Benchmark for Agentic UAV Embodied Search and Rescue</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.02904" target="_blank" rel="noopener">StateSMix: Online Lossless Compression via Mamba State Space Models and Sparse N-gram Context Mixing</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.01717" target="_blank" rel="noopener">TCDA: Thread-Constrained Discourse-Aware Modeling for Conversational Sentiment Quadruple Analysis</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.01284" target="_blank" rel="noopener">Chain of Evidence: Pixel-Level Visual Attribution for Iterative Retrieval-Augmented Generation</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.03571" target="_blank" rel="noopener">PatRe: A Full-Stage Office Action and Rebuttal Generation Benchmark for Patent Examination</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.02801" target="_blank" rel="noopener">Reinforcement Learning for LLM-based Multi-Agent Systems through Orchestration Traces</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.01466" target="_blank" rel="noopener">SplAttN: Bridging 2D and 3D with Gaussian Soft Splatting and Attention for Point Cloud Completion</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2604.28123" target="_blank" rel="noopener">Beyond SFT-to-RL: Pre-alignment via Black-Box On-Policy Distillation for Multimodal RL</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.02396" target="_blank" rel="noopener">HeavySkill: Heavy Thinking as the Inner Skill in Agentic Harness</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.02943" target="_blank" rel="noopener">Healthcare AI GYM for Medical Agents</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+</ol>
+<ol>
+  <li><a href="https://huggingface.co/papers/2411.18966" target="_blank" rel="noopener">SVGS: Enhancing Gaussian Splatting Using Primitives with Spatially Varying Colors</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.03941" target="_blank" rel="noopener">A Benchmark for Interactive World Models with a Unified Action Generation Framework</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.03596" target="_blank" rel="noopener">Workspace-Bench 1.0: Benchmarking AI Agents on Workspace Tasks with Large-Scale File Dependencies</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.04036" target="_blank" rel="noopener">OpenSeeker-v2: Pushing the Limits of Search Agents with Informative and High-Difficulty Trajectories</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2605.04012" target="_blank" rel="noopener">SymptomAI: Towards a Conversational AI Agent for Everyday Symptom Assessment</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://huggingface.co/papers/2604.27776" target="_blank" rel="noopener">WindowsWorld: A Process-Centric Benchmark of Autonomous GUI Agents in Professional Cross-Application Environments</a> <span style="color:var(--text-subtle)">(HuggingFace Papers)</span></li>
+  <li><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span style="color:var(--text-subtle)">(Google Scholar)</span></li>
+  <li><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span style="color:var(--text-subtle)">(Google Scholar)</span></li>
+  <li><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span style="color:var(--text-subtle)">(Google Scholar)</span></li>
+  <li><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span style="color:var(--text-subtle)">(Google Scholar)</span></li>
+  <li><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span style="color:var(--text-subtle)">(Google Scholar)</span></li>
+  <li><a href="https://news.ycombinator.com/item?id=48033532" target="_blank" rel="noopener">Ask HN: Is quantum computing worth the struggle?</a> <span style="color:var(--text-subtle)">(Hacker News)</span></li>
+  <li><a href="https://quldra.com/" target="_blank" rel="noopener">Quildra: Private Messaging with Post-Quantum Cryptography</a> <span style="color:var(--text-subtle)">(Hacker News)</span></li>
+</ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
