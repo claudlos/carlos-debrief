@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — May 06, 2026 00:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">May 06, 2026 00:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">11</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">14</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">25</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">May 06, 2026 00:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li><strong>Agents lack help-seeking judgment</strong>: HiL-Bench introduces Ask-F1 to measure when AI agents should escalate to humans -- finding all frontier models fail at this core judgment task.</li><li><strong>LLMs use finite counting states, not true arithmetic</strong>: Across 100+ model variants, stable counting breaks below context limits; fluent benchmarks mask unreliable rule-following.</li><li><strong>Faithful uncertainty as hallucination antidote</strong>: Rather than expand knowledge or abstain, a metacognition framework teaches LLMs to express calibrated uncertainty -- enabling trustworthy AI.</li><li><strong>Attention replaced by dynamic MLP parameters</strong>: WeightFormer reframes attention as dynamically-generated MLP weights, achieving Transformer-level modeling at linear complexity.</li><li><strong>Tabular models need RL-driven data cleaning</strong>: L2C2 uses deep RL to sequence data cleaning operators, closing the dirty-input gap that degrades Tabular Foundation Model accuracy.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+      <li><strong>Quantum Threat to Blockchain</strong>: A Coinbase panel of six cryptographers concludes a quantum computer capable of breaking blockchain encryption is inevitable, with the window to prepare defenses narrowing rapidly.</li><li><strong>New Container &amp; Nix CVEs Surface</strong>: CVE-2026-31431 (Copy Fail rootless container exploit) and CVE-2026-44028 (Lix integer overflow) highlight active kernel-level and package-manager vulnerability research.</li><li><strong>LLM Hallucination Persists, Metacognition Proposed</strong>: Research argues that factual gains come from expanded knowledge rather than boundary awareness, proposing 'faithful uncertainty' -- calibrated linguistic doubt as the antidote to confident errors.</li><li><strong>AI Agents Universally Fail at Help-Seeking Judgment</strong>: HiL-Bench's Ask-F1 metric reveals all frontier models suffer a systemic judgment gap: they cannot reliably decide when to ask a human vs. guessing.</li><li><strong>Sim-to-Real Gap: Hybrid FLUX+REGEN Narrows the Gap</strong>: Combining diffusion-based geometry transforms with image-to-image translation outperforms either approach alone for photorealizing game engine synthetic datasets.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  
+    <div class="section-group">
+      <h3>🧠 LLMs <span class="group-count">4</span></h3>
+      <div class="cards-grid">
+        <div class="card" data-full-desc="We introduce Stable Counting Capacity, an assay in which models count repeated symbols until failure. The assay removes knowledge dependencies, semantics and ambiguity from evaluation, avoids lexical and tokenization confounds, and provides a direct measure of procedural reliability. Across more than 100 model variants, stable counting capacity remains far below advertised context limits. Model behavior is consistent neither with open-ended logic nor with stable application of a learned rule, but instead with use of a finite set of count-like internal states, analogous to counting on fingers. Once this resource is exhausted, the appearance of rule following disappears and exact execution collapses into guessing, even with additional test-time compute. Fluent performance in current language models does not guarantee general, reliable rule following.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.02028" target="_blank" rel="noopener">Counting as a minimal probe of language model reliability</a> <span class="src-num">[13]</span></div>
+    <div class="card-authors">Tianxiang Dai, Jonathan Fan</div>
+    <div class="card-desc">We introduce Stable Counting Capacity, an assay in which models count repeated symbols until failure. The assay removes knowledge dependencies, semantics and ambiguity from evaluation, avoids lexical and tokenization confounds, and provides a direct measure of procedural reliability. Across more…</div>
+    <div class="card-tags"><span class="tag">arXiv:2605.02028</span><span class="tag">LLMs</span></div>
+  </div>
+<div class="card" data-full-desc="Most factuality gains in LLM research have come from expanding the model's knowledge boundary rather than improving awareness of that boundary. We conjecture that distinguishing known from unknown is inherently difficult: models may lack discriminative power to perfectly separate truths from errors, creating an unavoidable tradeoff between eliminating hallucinations and preserving utility. If we understand hallucinations as confident errors -- incorrect information delivered without appropriate qualification -- a third path emerges: expressing uncertainty. We propose faithful uncertainty: aligning linguistic uncertainty with intrinsic uncertainty. This is one facet of metacognition -- the ability to be aware of one's own uncertainty and act on it. For agentic systems, metacognition becomes the control layer governing when to search and what to trust. Metacognition is thus essential for trustworthy LLMs.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.01428" target="_blank" rel="noopener">Hallucinations Undermine Trust; Metacognition is a Way Forward</a> <span class="src-num">[14]</span></div>
+    <div class="card-authors">Gal Yona, Mor Geva, Yossi Matias</div>
+    <div class="card-desc">Most factuality gains in LLM research have come from expanding the model's knowledge boundary rather than improving awareness of that boundary. We conjecture that distinguishing known from unknown is inherently difficult: models may lack discriminative power to perfectly separate truths…</div>
+    <div class="card-tags"><span class="tag">arXiv:2605.01428</span><span class="tag">LLMs</span></div>
+  </div>
+<div class="card" data-full-desc="Automatic generation of executable Blender code from natural language remains challenging, with state-of-the-art LLMs producing frequent syntactic errors and geometrically inconsistent objects. We present BlenderRAG, a retrieval-augmented generation system operating on a curated multimodal dataset of 500 expert-validated examples across 50 object categories. By retrieving semantically similar examples during generation, BlenderRAG improves compilation success rates from 40.8% to 70.0% and semantic normalized alignment from 0.41 to 0.77 (CLIP similarity) across four state-of-the-art LLMs, without requiring fine-tuning or specialized hardware.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.00632" target="_blank" rel="noopener">BlenderRAG: High-Fidelity 3D Object Generation via Retrieval-Augmented Code Synthesis</a> <span class="src-num">[15]</span></div>
+    <div class="card-authors">Massimo Rondelli, Francesco Pivi, Maurizio Gabbrielli</div>
+    <div class="card-desc">Automatic generation of executable Blender code from natural language remains challenging, with state-of-the-art LLMs producing frequent syntactic errors and geometrically inconsistent objects. We present BlenderRAG, a retrieval-augmented generation system operating on a curated multimodal dataset of 500 expert-validated examples across…</div>
+    <div class="card-tags"><span class="tag">arXiv:2605.00632</span><span class="tag">LLMs</span></div>
+  </div>
+<div class="card" data-full-desc="Joint audio-video generation models yield stronger cross-modal coherence than cascaded approaches, but existing models couple modalities throughout denoising via pervasive attention, treating high-level semantics and low-level details in a fully entangled manner. We propose Talker-T2AV, an autoregressive diffusion framework where high-level cross-modal modeling occurs in a shared backbone while low-level refinement uses modality-specific decoders. A shared autoregressive language model jointly reasons over audio and video in a unified patch-level token space, with two lightweight diffusion transformer heads decoding into frame-level audio and video latents. Experiments on talking portrait benchmarks show Talker-T2AV outperforms dual-branch baselines in lip-sync accuracy, video quality, and audio quality.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.23586" target="_blank" rel="noopener">Talker-T2AV: Joint Talking Audio-Video Generation with Autoregressive Diffusion Modeling</a> <span class="src-num">[17]</span></div>
+    <div class="card-authors">Zhen Ye, Xu Tan, Aoxiong Yin, Hongzhan Lin, Guangyan Zhang</div>
+    <div class="card-desc">Joint audio-video generation models yield stronger cross-modal coherence than cascaded approaches, but existing models couple modalities throughout denoising via pervasive attention, treating high-level semantics and low-level details in a fully entangled manner. We propose Talker-T2AV, an autoregressive diffusion framework where…</div>
+    <div class="card-tags"><span class="tag">arXiv:2604.23586</span><span class="tag">LLMs</span></div>
+  </div>
+      </div>
+    </div>
+
+    <div class="section-group">
+      <h3>🤖 Agents <span class="group-count">2</span></h3>
+      <div class="cards-grid">
+        <div class="card" data-full-desc="Frontier coding agents solve complex tasks when given complete context but collapse when specifications are incomplete. The bottleneck is not raw capability but judgment: knowing when to act autonomously and when to ask for help. Current benchmarks are blind to this failure mode. HiL-Bench (Human-in-the-Loop Benchmark) measures selective escalation skill with human-validated blockers. Our core metric, Ask-F1, captures the tension between over-asking and silent guessing. Evaluation across SWE and text-to-SQL domains reveals a large universal judgment gap: no frontier model recovers more than a fraction of its full-information performance when deciding whether to ask. Failure analysis identifies three key help-seeking failure patterns: overconfident wrong beliefs with no gap detection; high uncertainty detection yet persistent errors; broad, imprecise escalation without self-correction.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.09408" target="_blank" rel="noopener">HiL-Bench (Human-in-Loop Benchmark): Do Agents Know When to Ask for Help?</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors">Mohamed Elfeki, Tu Trinh, Kelvin Luu, Guangze Luo, Nathan Hunt</div>
+    <div class="card-desc">Frontier coding agents solve complex tasks when given complete context but collapse when specifications are incomplete. The bottleneck is not raw capability but judgment: knowing when to act autonomously and when to ask for help. Current benchmarks are blind to…</div>
+    <div class="card-tags"><span class="tag">arXiv:2604.09408</span><span class="tag">Agents</span></div>
+  </div>
+<div class="card" data-full-desc="This position paper argues that agentic AI systems should be designed and evaluated as marginal token allocation economies rather than as text generators priced by the unit. Following a single request -- a developer asking a coding agent to fix a failing test -- through four economic layers (router, agent, serving stack, training pipeline), we show all four layers solve the same first-order condition: marginal benefit equals marginal cost plus latency cost plus risk cost. Adopting marginal token allocation as the shared accounting object explains why systems that locally minimize tokens globally misallocate them, predicts recurring failure modes (over-routing, over-delegation, under-verification, serving congestion, stale rollouts, cache misuse), and points to a research agenda in token-aware evaluation, autonomy pricing, congestion-priced serving, and risk-adjusted RL budgeting.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.01214" target="_blank" rel="noopener">Agentic AI Systems Should Be Designed as Marginal Token Allocators</a> <span class="src-num">[9]</span></div>
+    <div class="card-authors">Siqi Zhu</div>
+    <div class="card-desc">This position paper argues that agentic AI systems should be designed and evaluated as marginal token allocation economies rather than as text generators priced by the unit. Following a single request -- a developer asking a coding agent to fix…</div>
+    <div class="card-tags"><span class="tag">arXiv:2605.01214</span><span class="tag">Agents</span></div>
+  </div>
+      </div>
+    </div>
+
+    <div class="section-group">
+      <h3>🛡️ AI Safety <span class="group-count">1</span></h3>
+      <div class="cards-grid">
+        <div class="card" data-full-desc="Tabular Foundation Models (TFMs) achieve state-of-the-art zero-shot accuracy on small tabular datasets by meta-learning over synthetic data-generating processes. However, their in-context learning assumes approximately clean inputs: missing values, outliers, and duplicates create a prior mismatch that degrades both accuracy and confidence calibration. Correcting this requires sequential decisions over cleaning operators whose interactions no static preprocessing rule can anticipate -- a natural fit for reinforcement learning. We introduce L2C2, the first deep RL framework framing tabular data cleaning as prior alignment: a learned policy sequences operators to minimize the distributional gap between dirty input and the TFM's synthetic prior. Parameterized cleaning actions improve best-found pipeline reward on 9/10 datasets, and novel TFMAwareReward achieves higher TabPFN accuracy on datasets where it selects structurally distinct pipelines.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25154" target="_blank" rel="noopener">Prior-Aligned Data Cleaning for Tabular Foundation Models</a> <span class="src-num">[16]</span></div>
+    <div class="card-authors">Laure Berti-Equille</div>
+    <div class="card-desc">Tabular Foundation Models (TFMs) achieve state-of-the-art zero-shot accuracy on small tabular datasets by meta-learning over synthetic data-generating processes. However, their in-context learning assumes approximately clean inputs: missing values, outliers, and duplicates create a prior mismatch that degrades both accuracy and…</div>
+    <div class="card-tags"><span class="tag">arXiv:2604.25154</span><span class="tag">AI Safety</span></div>
+  </div>
+      </div>
+    </div>
+
+    <div class="section-group">
+      <h3>🔬 Machine Learning <span class="group-count">4</span></h3>
+      <div class="cards-grid">
+        <div class="card" data-full-desc="Here we present Haiku, a tri-modal contrastive learning model trained on multiplexed immunofluorescence (mIF). It comprises 26.7 million spatial proteomics patches from 3,218 tissue sections across 1,606 patients spanning 11 organ types, with matched hematoxylin and eosin (H&amp;E) histology and clinical metadata aligned in a shared embedding space. Haiku enables three-way cross-modal retrieval, improves downstream classification and clinical prediction tasks over unimodal baselines, and supports zero-shot biomarker inference. Across tasks, Haiku achieves cross-modal retrieval (Recall@50 up to 0.611), survival prediction (C-index 0.737, +7.91% relative improvement), and zero-shot biomarker inference (mean Pearson correlation 0.718 across 52 biomarkers). A counterfactual prediction framework surfaces niche-specific molecular shifts associated with breast cancer stage progression and lung cancer survival outcomes.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.00925" target="_blank" rel="noopener">Linking spatial biology and clinical histology via Haiku</a> <span class="src-num">[7]</span></div>
+    <div class="card-authors">Yan Cui, Jacob S. Leiby, Wenhui Lei, Dokyoon Kim, Yanxiang Deng</div>
+    <div class="card-desc">Here we present Haiku, a tri-modal contrastive learning model trained on multiplexed immunofluorescence (mIF). It comprises 26.7 million spatial proteomics patches from 3,218 tissue sections across 1,606 patients spanning 11 organ types, with matched hematoxylin and eosin (H&amp;E) histology and…</div>
+    <div class="card-tags"><span class="tag">arXiv:2605.00925</span><span class="tag">Machine Learning</span></div>
+  </div>
+<div class="card" data-full-desc="Surgical resection is the only potentially curative treatment for pancreatic ductal adenocarcinoma (PDAC), and eligibility depends on accurate assessment of vascular invasion (VI). We introduce CURVAS-PDACVI, an open benchmark for uncertainty-aware AI in PDAC staging based on a densely annotated dataset with five independent expert annotations per scan. We propose a multi-metric evaluation framework extending beyond spatial overlap to include probabilistic calibration and VI assessment. Evaluation of six state-of-the-art methods shows that strong global volumetric overlap does not necessarily translate into reliable performance at clinically critical tumor-vessel interfaces. Methods optimized for binary segmentation often degrade in high-complexity cases with low expert consensus, whereas methods modeling inter-rater disagreement produce better calibrated probabilistic maps.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.27582" target="_blank" rel="noopener">Assessing Pancreatic Ductal Adenocarcinoma Vascular Invasion: the PDACVI Benchmark</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors">M. Riera-Marin, O. K. Sikha, J. Rodriguez-Comas, M. S. May, T. Kirscher</div>
+    <div class="card-desc">Surgical resection is the only potentially curative treatment for pancreatic ductal adenocarcinoma (PDAC), and eligibility depends on accurate assessment of vascular invasion (VI). We introduce CURVAS-PDACVI, an open benchmark for uncertainty-aware AI in PDAC staging based on a densely annotated…</div>
+    <div class="card-tags"><span class="tag">arXiv:2604.27582</span><span class="tag">Machine Learning</span></div>
+  </div>
+<div class="card" data-full-desc="Video game engines generate large volumes of visual synthetic datasets for training computer vision algorithms, but a notable sim2real appearance gap limits real-world applicability. This letter investigates using FLUX.2-4B Klein (a diffusion model) and REGEN (an image-to-image translation model) to enhance photorealism of synthetic datasets. We propose a hybrid approach combining diffusion-based geometry and material transformations with the distribution-matching of image-to-image translation. Experiments show REGEN outperforms FLUX.2-4B Klein alone, and combining both achieves better visual realism than either individually while maintaining semantic consistency.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.02291" target="_blank" rel="noopener">A Hybrid Approach for Closing the Sim2real Appearance Gap in Game Engine Synthetic Datasets</a> <span class="src-num">[11]</span></div>
+    <div class="card-authors">Stefanos Pasios</div>
+    <div class="card-desc">Video game engines generate large volumes of visual synthetic datasets for training computer vision algorithms, but a notable sim2real appearance gap limits real-world applicability. This letter investigates using FLUX.2-4B Klein (a diffusion model) and REGEN (an image-to-image translation model) to…</div>
+    <div class="card-tags"><span class="tag">arXiv:2605.02291</span><span class="tag">Machine Learning</span></div>
+  </div>
+<div class="card" data-full-desc="We demonstrate that attention can be mathematically reframed as a Multi-Layer Perceptron (MLP) equipped with dynamically predicted parameters. Through this lens, attention's global modeling power is explained not as explicit token-wise aggregation but as an implicit process where dynamically generated parameters act as a compressed representation of global context. We investigate whether Transformer-level sequence global modeling can be achieved entirely through dynamic parameterization while maintaining linear complexity. We design various dynamic parameter prediction strategies and integrate them into standard network layers. Extensive empirical studies on vision models demonstrate that dynamic parameterization serves as a highly effective, linear-complexity alternative to explicit attention, opening new pathways for efficient sequence modeling.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.01711" target="_blank" rel="noopener">Linear-Time Global Visual Modeling without Explicit Attention</a> <span class="src-num">[12]</span></div>
+    <div class="card-authors">Ruize He, Dongchen Han, Gao Huang</div>
+    <div class="card-desc">We demonstrate that attention can be mathematically reframed as a Multi-Layer Perceptron (MLP) equipped with dynamically predicted parameters. Through this lens, attention's global modeling power is explained not as explicit token-wise aggregation but as an implicit process where dynamically generated…</div>
+    <div class="card-tags"><span class="tag">arXiv:2605.01711</span><span class="tag">Machine Learning</span></div>
+  </div>
+      </div>
+    </div>
+
+    <div class="section-group">
+      <h3>🔗 Lobste.rs <span class="group-count">6</span></h3>
+      <div class="cards-grid">
+        <div class="card web-card" data-full-desc="Yesterday I shared here my own report on trying out Copy Fail with rootless containers. Someone else also published an article on this, but going a lot deeper into the implementation details of the exploit and its interaction with the kernel.">
+    <div class="card-title"><a href="https://www.dragonsreach.it/2026/05/04/cve-2026-31431-copy-fail-rootless-containers/" target="_blank" rel="noopener">CVE-2026-31431: Copy Fail vs. rootless containers</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Yesterday I shared here my own report on trying out Copy Fail with rootless containers. Someone else also published an article on this, but going a lot deeper into the implementation details of the exploit and its interaction with the…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Companies make it too challenging to report security bugs and data leaks. Having a dedicated security email address could save your company from a damaging hack.">
+    <div class="card-title"><a href="https://this.weekinsecurity.com/why-every-organization-should-make-it-easy-to-report-security-flaws/" target="_blank" rel="noopener">Why every organization should make it easy to report security flaws</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Companies make it too challenging to report security bugs and data leaks. Having a dedicated security email address could save your company from a damaging hack.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+<div class="card web-card" data-full-desc="DigiCert revoked certificates that hackers obtained through its internal support portal as part of a social engineering attack.">
+    <div class="card-title"><a href="https://www.securityweek.com/digicert-revokes-certificates-after-support-portal-hack/" target="_blank" rel="noopener">DigiCert Revokes Certificates After Support Portal Hack</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">DigiCert revoked certificates that hackers obtained through its internal support portal as part of a social engineering attack.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Security researchers have found a security issue in Lix. This issue has been assigned CVE-2026-44028. The issues are different between Lix and CppNix but MITRE copied the wrong information into the CVE, which should have gone into the CppNix entry.">
+    <div class="card-title"><a href="https://lix.systems/blog/2026-05-05-lix-unsigned-integer-overflow/" target="_blank" rel="noopener">An exploitable integer overflow in Lix (CVE-2026-44028)</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Security researchers have found a security issue in Lix. This issue has been assigned CVE-2026-44028. The issues are different between Lix and CppNix but MITRE copied the wrong information into the CVE, which should have gone into the CppNix entry.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+<div class="card web-card" data-full-desc="The open web handles highly sensitive data from private communications to financial transactions and medical records. Traditionally servers are trusted to deliver code, but new approaches aim to make JavaScript itself trustworthy end-to-end.">
+    <div class="card-title"><a href="https://hacks.mozilla.org/2026/05/trustworthy-javascript-for-the-open-web/" target="_blank" rel="noopener">Trustworthy JavaScript for the Open Web</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">The open web handles highly sensitive data from private communications to financial transactions and medical records. Traditionally servers are trusted to deliver code, but new approaches aim to make JavaScript itself trustworthy end-to-end.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+<div class="card web-card" data-full-desc="A security researcher reverse-engineered the obfuscated JavaScript that Cloudflare uses to read React component state in ChatGPT's input field before allowing typing, revealing the surveillance mechanism built into the AI's client-side code.">
+    <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won't Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">A security researcher reverse-engineered the obfuscated JavaScript that Cloudflare uses to read React component state in ChatGPT's input field before allowing typing, revealing the surveillance mechanism built into the AI's client-side code.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+      </div>
+    </div>
+
+    <div class="section-group">
+      <h3>📚 Google Scholar <span class="group-count">6</span></h3>
+      <div class="cards-grid">
+        <div class="card web-card" data-full-desc="This paper presents a framework for identifying breakthrough technologies using science-driven innovation data and machine learning-based link prediction to detect which innovations have the potential to trigger technological breakthroughs.">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[18]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">This paper presents a framework for identifying breakthrough technologies using science-driven innovation data and machine learning-based link prediction to detect which innovations have the potential to trigger technological breakthroughs.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Rising levels of atmospheric carbon dioxide and methane have sparked interest in methane dry reforming as a pathway to reduce greenhouse gases. Machine learning is being employed to discover and optimize catalysts for this reaction, accelerating the development of more efficient and durable catalytic systems.">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[22]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Rising levels of atmospheric carbon dioxide and methane have sparked interest in methane dry reforming as a pathway to reduce greenhouse gases. Machine learning is being employed to discover and optimize catalysts for this reaction, accelerating the development of more…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div>
+<div class="card web-card" data-full-desc="This review examines the use of large language models in computational social science, discussing their emerging capabilities for automated text analysis, social simulation, and behavioral modeling, while identifying key challenges around data bias, privacy, and model integration.">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[20]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">This review examines the use of large language models in computational social science, discussing their emerging capabilities for automated text analysis, social simulation, and behavioral modeling, while identifying key challenges around data bias, privacy, and model integration.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div>
+<div class="card web-card" data-full-desc="This survey provides a comprehensive overview of AI and machine learning applications in cybersecurity, covering adversarial AI, automated threat intelligence, AI-driven security orchestration, and the evolving role of AI in both offensive and defensive security operations.">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[21]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">This survey provides a comprehensive overview of AI and machine learning applications in cybersecurity, covering adversarial AI, automated threat intelligence, AI-driven security orchestration, and the evolving role of AI in both offensive and defensive security operations.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div>
+<div class="card web-card" data-full-desc="With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure IoT devices. This paper surveys various post-quantum cryptographic algorithms and their applicability to resource-constrained IoT environments.">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[22]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure IoT devices. This paper surveys various post-quantum cryptographic algorithms and their applicability to resource-constrained IoT environments.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div>
+<div class="card web-card" data-full-desc="This review covers the integration of AI with quantum computing across the spectrum from quantum-enhanced classical ML to native quantum algorithms, with applications in optimization, drug discovery, and quantum-secured communications.">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[23]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">This review covers the integration of AI with quantum computing across the spectrum from quantum-enhanced classical ML to native quantum algorithms, with applications in optimization, drug discovery, and quantum-secured communications.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div>
+      </div>
+    </div>
+
+    <div class="section-group">
+      <h3>💬 Hacker News <span class="group-count">2</span></h3>
+      <div class="cards-grid">
+        <div class="card web-card" data-full-desc="A Coinbase panel of six cryptographers concludes that a quantum computer powerful enough to break blockchain encryption will be built, and the window for organizations to transition to post-quantum cryptography is narrowing.">
+    <div class="card-title"><a href="https://thequantuminsider.com/2026/04/25/coinbase-advisers-warn-quantum-computing-will-crack-blockchain-encryption-and-the-window-to-prepare-is-narrowing/" target="_blank" rel="noopener">Coinbase Advisers Warn Quantum Computing Will Crack Blockchain Encryption</a> <span class="src-num">[24]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">A Coinbase panel of six cryptographers concludes that a quantum computer powerful enough to break blockchain encryption will be built, and the window for organizations to transition to post-quantum cryptography is narrowing.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Quldra is a post-quantum messenger that uses true random numbers from quantum key distribution devices to achieve unconditional security, unlike computational security approaches that rely on mathematical hardness assumptions.">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=47952537" target="_blank" rel="noopener">Show HN: Quldra – A true device based post quantum messenger</a> <span class="src-num">[25]</span></div>
+    <div class="card-authors"></div>
+    <div class="card-desc">Quldra is a post-quantum messenger that uses true random numbers from quantum key distribution devices to achieve unconditional security, unlike computational security approaches that rely on mathematical hardness assumptions.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div>
+      </div>
+    </div>
+
+    <div class="section-group">
+      <h3>🤗 HuggingFace <span class="group-count">11</span></h3>
+      <div class="cards-grid">
+        <div class="card web-card" data-full-desc="Here we present Haiku, a tri-modal contrastive learning model trained on multiplexed immunofluorescence (mIF). It comprises 26.7 million spatial proteomics patches from 3,218 tissue sections across 1,606 patients spanning 11 organ types, with matched hematoxylin and eosin (H&amp;E) histology and clinical metadata aligned in a shared embedding space. Haiku enables three-way cross-modal retrieval, improves downstream classification and clinical prediction tasks over unimodal baselines, and supports zero-shot biomarker inference. Across tasks, Haiku achieves cross-modal retrieval (Recall@50 up to 0.611), survival prediction (C-index 0.737, +7.91% relative improvement), and zero-shot biomarker inference (mean Pearson correlation 0.718 across 52 biomarkers). A counterfactual prediction framework surfaces niche-specific molecular shifts associated with breast cancer stage progression and lung cancer survival outcomes.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.00925" target="_blank" rel="noopener">Linking spatial biology and clinical histology via Haiku</a> <span class="src-num">[7]</span></div>
+    <div class="card-authors">Yan Cui, Jacob S. Leiby, Wenhui Lei, Dokyoon Kim, Yanxiang Deng</div>
+    <div class="card-desc">Here we present Haiku, a tri-modal contrastive learning model trained on multiplexed immunofluorescence (mIF). It comprises 26.7 million spatial proteomics patches from 3,218 tissue sections across 1,606 patients spanning 11 organ types, with matched hematoxylin and eosin (H&amp;E) histology and…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Frontier coding agents solve complex tasks when given complete context but collapse when specifications are incomplete. The bottleneck is not raw capability but judgment: knowing when to act autonomously and when to ask for help. Current benchmarks are blind to this failure mode. HiL-Bench (Human-in-the-Loop Benchmark) measures selective escalation skill with human-validated blockers. Our core metric, Ask-F1, captures the tension between over-asking and silent guessing. Evaluation across SWE and text-to-SQL domains reveals a large universal judgment gap: no frontier model recovers more than a fraction of its full-information performance when deciding whether to ask. Failure analysis identifies three key help-seeking failure patterns: overconfident wrong beliefs with no gap detection; high uncertainty detection yet persistent errors; broad, imprecise escalation without self-correction.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.09408" target="_blank" rel="noopener">HiL-Bench (Human-in-Loop Benchmark): Do Agents Know When to Ask for Help?</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors">Mohamed Elfeki, Tu Trinh, Kelvin Luu, Guangze Luo, Nathan Hunt</div>
+    <div class="card-desc">Frontier coding agents solve complex tasks when given complete context but collapse when specifications are incomplete. The bottleneck is not raw capability but judgment: knowing when to act autonomously and when to ask for help. Current benchmarks are blind to…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="This position paper argues that agentic AI systems should be designed and evaluated as marginal token allocation economies rather than as text generators priced by the unit. Following a single request -- a developer asking a coding agent to fix a failing test -- through four economic layers (router, agent, serving stack, training pipeline), we show all four layers solve the same first-order condition: marginal benefit equals marginal cost plus latency cost plus risk cost. Adopting marginal token allocation as the shared accounting object explains why systems that locally minimize tokens globally misallocate them, predicts recurring failure modes (over-routing, over-delegation, under-verification, serving congestion, stale rollouts, cache misuse), and points to a research agenda in token-aware evaluation, autonomy pricing, congestion-priced serving, and risk-adjusted RL budgeting.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.01214" target="_blank" rel="noopener">Agentic AI Systems Should Be Designed as Marginal Token Allocators</a> <span class="src-num">[9]</span></div>
+    <div class="card-authors">Siqi Zhu</div>
+    <div class="card-desc">This position paper argues that agentic AI systems should be designed and evaluated as marginal token allocation economies rather than as text generators priced by the unit. Following a single request -- a developer asking a coding agent to fix…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Surgical resection is the only potentially curative treatment for pancreatic ductal adenocarcinoma (PDAC), and eligibility depends on accurate assessment of vascular invasion (VI). We introduce CURVAS-PDACVI, an open benchmark for uncertainty-aware AI in PDAC staging based on a densely annotated dataset with five independent expert annotations per scan. We propose a multi-metric evaluation framework extending beyond spatial overlap to include probabilistic calibration and VI assessment. Evaluation of six state-of-the-art methods shows that strong global volumetric overlap does not necessarily translate into reliable performance at clinically critical tumor-vessel interfaces. Methods optimized for binary segmentation often degrade in high-complexity cases with low expert consensus, whereas methods modeling inter-rater disagreement produce better calibrated probabilistic maps.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.27582" target="_blank" rel="noopener">Assessing Pancreatic Ductal Adenocarcinoma Vascular Invasion: the PDACVI Benchmark</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors">M. Riera-Marin, O. K. Sikha, J. Rodriguez-Comas, M. S. May, T. Kirscher</div>
+    <div class="card-desc">Surgical resection is the only potentially curative treatment for pancreatic ductal adenocarcinoma (PDAC), and eligibility depends on accurate assessment of vascular invasion (VI). We introduce CURVAS-PDACVI, an open benchmark for uncertainty-aware AI in PDAC staging based on a densely annotated…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Video game engines generate large volumes of visual synthetic datasets for training computer vision algorithms, but a notable sim2real appearance gap limits real-world applicability. This letter investigates using FLUX.2-4B Klein (a diffusion model) and REGEN (an image-to-image translation model) to enhance photorealism of synthetic datasets. We propose a hybrid approach combining diffusion-based geometry and material transformations with the distribution-matching of image-to-image translation. Experiments show REGEN outperforms FLUX.2-4B Klein alone, and combining both achieves better visual realism than either individually while maintaining semantic consistency.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.02291" target="_blank" rel="noopener">A Hybrid Approach for Closing the Sim2real Appearance Gap in Game Engine Synthetic Datasets</a> <span class="src-num">[11]</span></div>
+    <div class="card-authors">Stefanos Pasios</div>
+    <div class="card-desc">Video game engines generate large volumes of visual synthetic datasets for training computer vision algorithms, but a notable sim2real appearance gap limits real-world applicability. This letter investigates using FLUX.2-4B Klein (a diffusion model) and REGEN (an image-to-image translation model) to…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="We demonstrate that attention can be mathematically reframed as a Multi-Layer Perceptron (MLP) equipped with dynamically predicted parameters. Through this lens, attention's global modeling power is explained not as explicit token-wise aggregation but as an implicit process where dynamically generated parameters act as a compressed representation of global context. We investigate whether Transformer-level sequence global modeling can be achieved entirely through dynamic parameterization while maintaining linear complexity. We design various dynamic parameter prediction strategies and integrate them into standard network layers. Extensive empirical studies on vision models demonstrate that dynamic parameterization serves as a highly effective, linear-complexity alternative to explicit attention, opening new pathways for efficient sequence modeling.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.01711" target="_blank" rel="noopener">Linear-Time Global Visual Modeling without Explicit Attention</a> <span class="src-num">[12]</span></div>
+    <div class="card-authors">Ruize He, Dongchen Han, Gao Huang</div>
+    <div class="card-desc">We demonstrate that attention can be mathematically reframed as a Multi-Layer Perceptron (MLP) equipped with dynamically predicted parameters. Through this lens, attention's global modeling power is explained not as explicit token-wise aggregation but as an implicit process where dynamically generated…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="We introduce Stable Counting Capacity, an assay in which models count repeated symbols until failure. The assay removes knowledge dependencies, semantics and ambiguity from evaluation, avoids lexical and tokenization confounds, and provides a direct measure of procedural reliability. Across more than 100 model variants, stable counting capacity remains far below advertised context limits. Model behavior is consistent neither with open-ended logic nor with stable application of a learned rule, but instead with use of a finite set of count-like internal states, analogous to counting on fingers. Once this resource is exhausted, the appearance of rule following disappears and exact execution collapses into guessing, even with additional test-time compute. Fluent performance in current language models does not guarantee general, reliable rule following.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.02028" target="_blank" rel="noopener">Counting as a minimal probe of language model reliability</a> <span class="src-num">[13]</span></div>
+    <div class="card-authors">Tianxiang Dai, Jonathan Fan</div>
+    <div class="card-desc">We introduce Stable Counting Capacity, an assay in which models count repeated symbols until failure. The assay removes knowledge dependencies, semantics and ambiguity from evaluation, avoids lexical and tokenization confounds, and provides a direct measure of procedural reliability. Across more…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Most factuality gains in LLM research have come from expanding the model's knowledge boundary rather than improving awareness of that boundary. We conjecture that distinguishing known from unknown is inherently difficult: models may lack discriminative power to perfectly separate truths from errors, creating an unavoidable tradeoff between eliminating hallucinations and preserving utility. If we understand hallucinations as confident errors -- incorrect information delivered without appropriate qualification -- a third path emerges: expressing uncertainty. We propose faithful uncertainty: aligning linguistic uncertainty with intrinsic uncertainty. This is one facet of metacognition -- the ability to be aware of one's own uncertainty and act on it. For agentic systems, metacognition becomes the control layer governing when to search and what to trust. Metacognition is thus essential for trustworthy LLMs.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.01428" target="_blank" rel="noopener">Hallucinations Undermine Trust; Metacognition is a Way Forward</a> <span class="src-num">[14]</span></div>
+    <div class="card-authors">Gal Yona, Mor Geva, Yossi Matias</div>
+    <div class="card-desc">Most factuality gains in LLM research have come from expanding the model's knowledge boundary rather than improving awareness of that boundary. We conjecture that distinguishing known from unknown is inherently difficult: models may lack discriminative power to perfectly separate truths…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Automatic generation of executable Blender code from natural language remains challenging, with state-of-the-art LLMs producing frequent syntactic errors and geometrically inconsistent objects. We present BlenderRAG, a retrieval-augmented generation system operating on a curated multimodal dataset of 500 expert-validated examples across 50 object categories. By retrieving semantically similar examples during generation, BlenderRAG improves compilation success rates from 40.8% to 70.0% and semantic normalized alignment from 0.41 to 0.77 (CLIP similarity) across four state-of-the-art LLMs, without requiring fine-tuning or specialized hardware.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.00632" target="_blank" rel="noopener">BlenderRAG: High-Fidelity 3D Object Generation via Retrieval-Augmented Code Synthesis</a> <span class="src-num">[15]</span></div>
+    <div class="card-authors">Massimo Rondelli, Francesco Pivi, Maurizio Gabbrielli</div>
+    <div class="card-desc">Automatic generation of executable Blender code from natural language remains challenging, with state-of-the-art LLMs producing frequent syntactic errors and geometrically inconsistent objects. We present BlenderRAG, a retrieval-augmented generation system operating on a curated multimodal dataset of 500 expert-validated examples across…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Tabular Foundation Models (TFMs) achieve state-of-the-art zero-shot accuracy on small tabular datasets by meta-learning over synthetic data-generating processes. However, their in-context learning assumes approximately clean inputs: missing values, outliers, and duplicates create a prior mismatch that degrades both accuracy and confidence calibration. Correcting this requires sequential decisions over cleaning operators whose interactions no static preprocessing rule can anticipate -- a natural fit for reinforcement learning. We introduce L2C2, the first deep RL framework framing tabular data cleaning as prior alignment: a learned policy sequences operators to minimize the distributional gap between dirty input and the TFM's synthetic prior. Parameterized cleaning actions improve best-found pipeline reward on 9/10 datasets, and novel TFMAwareReward achieves higher TabPFN accuracy on datasets where it selects structurally distinct pipelines.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.25154" target="_blank" rel="noopener">Prior-Aligned Data Cleaning for Tabular Foundation Models</a> <span class="src-num">[16]</span></div>
+    <div class="card-authors">Laure Berti-Equille</div>
+    <div class="card-desc">Tabular Foundation Models (TFMs) achieve state-of-the-art zero-shot accuracy on small tabular datasets by meta-learning over synthetic data-generating processes. However, their in-context learning assumes approximately clean inputs: missing values, outliers, and duplicates create a prior mismatch that degrades both accuracy and…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Joint audio-video generation models yield stronger cross-modal coherence than cascaded approaches, but existing models couple modalities throughout denoising via pervasive attention, treating high-level semantics and low-level details in a fully entangled manner. We propose Talker-T2AV, an autoregressive diffusion framework where high-level cross-modal modeling occurs in a shared backbone while low-level refinement uses modality-specific decoders. A shared autoregressive language model jointly reasons over audio and video in a unified patch-level token space, with two lightweight diffusion transformer heads decoding into frame-level audio and video latents. Experiments on talking portrait benchmarks show Talker-T2AV outperforms dual-branch baselines in lip-sync accuracy, video quality, and audio quality.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2604.23586" target="_blank" rel="noopener">Talker-T2AV: Joint Talking Audio-Video Generation with Autoregressive Diffusion Modeling</a> <span class="src-num">[17]</span></div>
+    <div class="card-authors">Zhen Ye, Xu Tan, Aoxiong Yin, Hongzhan Lin, Guangyan Zhang</div>
+    <div class="card-desc">Joint audio-video generation models yield stronger cross-modal coherence than cascaded approaches, but existing models couple modalities throughout denoising via pervasive attention, treating high-level semantics and low-level details in a fully entangled manner. We propose Talker-T2AV, an autoregressive diffusion framework where…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+      </div>
+    </div>
+
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://www.dragonsreach.it/2026/05/04/cve-2026-31431-copy-fail-rootless-containers/" target="_blank" rel="noopener">CVE-2026-31431: Copy Fail vs. rootless containers</a></li><li>[2] <a href="https://this.weekinsecurity.com/why-every-organization-should-make-it-easy-to-report-security-flaws/" target="_blank" rel="noopener">Why every organization should make it easy to report security flaws</a></li><li>[3] <a href="https://www.securityweek.com/digicert-revokes-certificates-after-support-portal-hack/" target="_blank" rel="noopener">DigiCert Revokes Certificates After Support Portal Hack</a></li><li>[4] <a href="https://lix.systems/blog/2026-05-05-lix-unsigned-integer-overflow/" target="_blank" rel="noopener">An exploitable integer overflow in Lix (CVE-2026-44028)</a></li><li>[5] <a href="https://hacks.mozilla.org/2026/05/trustworthy-javascript-for-the-open-web/" target="_blank" rel="noopener">Trustworthy JavaScript for the Open Web</a></li><li>[6] <a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won't Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a></li><li>[7] <a href="https://huggingface.co/papers/2605.00925" target="_blank" rel="noopener">Linking spatial biology and clinical histology via Haiku</a></li><li>[8] <a href="https://huggingface.co/papers/2604.09408" target="_blank" rel="noopener">HiL-Bench (Human-in-Loop Benchmark): Do Agents Know When to Ask for Help?</a></li><li>[9] <a href="https://huggingface.co/papers/2605.01214" target="_blank" rel="noopener">Agentic AI Systems Should Be Designed as Marginal Token Allocators</a></li><li>[10] <a href="https://huggingface.co/papers/2604.27582" target="_blank" rel="noopener">Assessing Pancreatic Ductal Adenocarcinoma Vascular Invasion: the PDACVI Benchmark</a></li><li>[11] <a href="https://huggingface.co/papers/2605.02291" target="_blank" rel="noopener">A Hybrid Approach for Closing the Sim2real Appearance Gap in Game Engine Synthetic Datasets</a></li><li>[12] <a href="https://huggingface.co/papers/2605.01711" target="_blank" rel="noopener">Linear-Time Global Visual Modeling without Explicit Attention</a></li><li>[13] <a href="https://huggingface.co/papers/2605.02028" target="_blank" rel="noopener">Counting as a minimal probe of language model reliability</a></li></ol>
+      <ol><li>[14] <a href="https://huggingface.co/papers/2605.01428" target="_blank" rel="noopener">Hallucinations Undermine Trust; Metacognition is a Way Forward</a></li><li>[15] <a href="https://huggingface.co/papers/2605.00632" target="_blank" rel="noopener">BlenderRAG: High-Fidelity 3D Object Generation via Retrieval-Augmented Code Synthesis</a></li><li>[16] <a href="https://huggingface.co/papers/2604.25154" target="_blank" rel="noopener">Prior-Aligned Data Cleaning for Tabular Foundation Models</a></li><li>[17] <a href="https://huggingface.co/papers/2604.23586" target="_blank" rel="noopener">Talker-T2AV: Joint Talking Audio-Video Generation with Autoregressive Diffusion Modeling</a></li><li>[18] <a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a></li><li>[19] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a></li><li>[20] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a></li><li>[21] <a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a></li><li>[22] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a></li><li>[23] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a></li><li>[24] <a href="https://thequantuminsider.com/2026/04/25/coinbase-advisers-warn-quantum-computing-will-crack-blockchain-encryption-and-the-window-to-prepare-is-narrowing/" target="_blank" rel="noopener">Coinbase Advisers Warn Quantum Computing Will Crack Blockchain Encryption</a></li><li>[25] <a href="https://news.ycombinator.com/item?id=47952537" target="_blank" rel="noopener">Show HN: Quldra – A true device based post quantum messenger</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
