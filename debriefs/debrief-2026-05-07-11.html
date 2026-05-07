@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — May 7, 2026 11:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">May 7, 2026 11:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">20</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">20</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">May 7, 2026 11:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li><strong>Stream-R1 video generation:</strong> Proposes reliability-perplexity aware reward distillation that selectively emphasizes high-quality spatiotemporal regions and trustworthy rollouts, significantly improving autoregressive streaming video models.</li>
+      <li><strong>MiniCPM-o 4.5 full-duplex omni-modal:</strong> Achieves simultaneous perception and response in a 9B-parameter model via Omni-Flow temporal alignment, approaching Gemini 2.5 Flash vision benchmarks while enabling proactive behavior.</li>
+      <li><strong>Workspace-Bench 1.0:</strong> Introduces a 388-task benchmark with 20K+ real files and 20GB of workspace data; best AI agent scores 68.7% vs 80.7% human baseline, exposing significant gaps in cross-file dependency reasoning.</li>
+      <li><strong>When to Think, When to Speak:</strong> Introduces Side-by-Side interleaved reasoning that separates private deliberation from public disclosure, improving accuracy-latency Pareto trade-offs on Qwen3 models across AIME25 and GPQA-Diamond.</li>
+      <li><strong>The First Token Knows:</strong> Shows that single-decode first-token confidence (phi_first) matches multi-sample semantic self-consistency for hallucination detection at 0.820 AUROC, offering a low-cost uncertainty estimation baseline.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>Open-weights models:</strong> Industry analysts warn that open-weights model releases are slowing, raising concerns about market concentration among a few frontier labs that could extract higher consumer prices.</li>
+      <li><strong>DNSSEC outage hits .de domains:</strong> A major DNS outage on May 5, 2026 knocked out .de German domains due to a DNSSEC validation failure, highlighting critical infrastructure fragility.</li>
+      <li><strong>Cloudflare-OpenAI React state integration:</strong> A detailed technical analysis reveals how ChatGPT's interface reads React component state via Cloudflare workers before accepting user input, raising privacy questions.</li>
+      <li><strong>AI coding agent platforms underperforming:</strong> SWE-WebDevBench finds current vibe-coding platforms consistently produce visually polished UIs with broken backends, scoring below 65% on security benchmarks.</li>
+      <li><strong>XLog knowledge-base tool trending on Hacker News:</strong> XLog, a fast Git-native static site generator for personal wikis with automatic backlinks, gained significant traction on HN.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+
+     <div class="section-group">
+       <h3>🌐 Lobste.rs <span class="group-count">3</span></h3>
+       <div class="cards-grid"><div class="card web-card" data-full-desc="Open weights models keep frontier labs honest on price. If they disappear, we end up with a handful of oligopolists extracting consumer surplus.">
+  <div class="card-title"><a href="https://martinalderson.com/posts/open-weights-are-quietly-closing-up/" target="_blank" rel="noopener">Open weights are quietly closing up - and that&#x27;s a problem</a> <span class="src-num">[1]</span></div>
+  <div class="card-authors">Lobste.rs</div>
+  <div class="card-desc">Open weights models keep frontier labs honest on price. If they disappear, we end up with a handful of oligopolists extracting consumer surplus.</div>
+  <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+</div>
+<div class="card web-card" data-full-desc="Major DNS Outage Hits .de Domains: DNSSEC Failure on May 5, 2026">
+  <div class="card-title"><a href="https://www.ip.network/blog/de-domain-dnssec-outage-may-2026" target="_blank" rel="noopener">Major DNS Outage Hits .de Domains: DNSSEC Failure on May 5, 2026</a> <span class="src-num">[2]</span></div>
+  <div class="card-authors">Lobste.rs</div>
+  <div class="card-desc">Major DNS Outage Hits .de Domains: DNSSEC Failure on May 5, 2026</div>
+  <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+</div>
+<div class="card web-card" data-full-desc="Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild, directly from Claude. To access it reach out at buchodi@">
+  <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[3]</span></div>
+  <div class="card-authors">Lobste.rs</div>
+  <div class="card-desc">Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuou…</div>
+  <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+</div>
+       </div>
+     </div>
+     <div class="section-group">
+       <h3>🌐 HuggingFace <span class="group-count">9</span></h3>
+       <div class="cards-grid"><div class="card web-card" data-full-desc="The emergence of &quot;vibe coding&quot; platforms, where users describe applications in natural language and AI agents autonomously generate full-stack software, has created a need for rigorous evaluation beyond code-level benchmarks. In order to assess them as virtual software development agencies on understanding business requirements, making architectural decisions, writing production code, handling iterative modifications, and maintaining business readiness, we introduce SWE-WebDev Bench, a 68-metric evaluation framework spanning 25 primary and 43 diagnostic metrics across seven groups, organized along three dimensions: Interaction Mode (App Creation Request (ACR) vs. App Modification Request (AMR)), Agency Angle (Product Manager (PM), Engineering, Ops), and Complexity Tier (T4 multi-role SaaS, T5 AI-native).
+  Our evaluation (six platforms, three domains, 18 evaluation cells) reveals four recurring shortcomings in the current generation of AI app builders: (1) A specification bottleneck, where platforms compress rich business requirements into oversimplified technical plans, (2) A pervasive frontend-backend decoupling, where visually polished UIs mask absent or broken backend infrastructure, (3) A steep production-readiness cliff, where no platform scores above 60% on engineering quality and post-generation human effort varies substantially across platforms and (4) Widespread security and infrastructure failures, with no platform exceeding 65% Security Score against a 90% target ">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.04637" target="_blank" rel="noopener">SWE-WebDevBench: Evaluating Coding Agent Application Platforms as Virtual Software Agencies</a> <span class="src-num">[4]</span></div>
+  <div class="card-authors">HuggingFace</div>
+  <div class="card-desc">The emergence of &quot;vibe coding&quot; platforms, where users describe applications in natural language and AI agents autonomously generate full-stack software, has created a need for rigorous evaluation beyo…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Self-consistency detects hallucinations by generating multiple sampled answers to a question and measuring agreement, but this requires repeated decoding and can be sensitive to lexical variation. Semantic self-consistency improves this by clustering sampled answers by meaning using natural language inference, but it adds both sampling cost and external inference overhead. We show that first-token confidence, phi_first, computed from the normalized entropy of the top-K logits at the first content-bearing answer token of a single greedy decode, matches or modestly exceeds semantic self-consistency on closed-book short-answer factual question answering. Across three 7-8B instruction-tuned models and two benchmarks, phi_first achieves a mean AUROC of 0.820, compared with 0.793 for semantic agreement and 0.791 for standard surface-form self-consistency. A subsumption test shows that phi_first is moderately to strongly correlated with semantic agreement, and combining the two signals yields only a small AUROC improvement over phi_first alone. These results suggest that much of the uncertainty information captured by multi-sample agreement is already available in the model&#x27;s initial token distribution. We argue that phi_first should be reported as a default low-cost baseline before invoking sampling-based uncertainty estimation.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.05166" target="_blank" rel="noopener">The First Token Knows: Single-Decode Confidence for Hallucination Detection</a> <span class="src-num">[5]</span></div>
+  <div class="card-authors">HuggingFace</div>
+  <div class="card-desc">Self-consistency detects hallucinations by generating multiple sampled answers to a question and measuring agreement, but this requires repeated decoding and can be sensitive to lexical variation. Sem…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Recent progress in multimodal large language models (MLLMs) has brought AI capabilities from static offline data processing to real-time streaming interaction, yet they still remain far from human-level multimodal interaction. The key bottlenecks are no longer modality coverage or latency alone, but the interaction paradigm itself. First, perception and response are still separated into alternating phases, preventing models from incorporating new inputs for timely adjustment during generation. Second, most current models remain reactive, responding only to explicit user requests instead of acting proactively in the evolving multimodal environment. We present MiniCPM-o 4.5, our latest effort towards human-like multimodal interaction, which mitigates these gaps by real-time full-duplex omni-modal interaction. It can see, listen, and speak simultaneously in real-time, while also exhibiting proactive behaviors such as issuing reminders or comments based on its continuous understanding of the live scene. The key technique behind MiniCPM-o 4.5 is Omni-Flow, a unified streaming framework that aligns omni-modal inputs and outputs along a shared temporal axis. This formulation converts conventional turn-based interaction into a full-duplex, time-aligned process, enabling simultaneous perception and response and allowing proactive behavior to arise within the same framework. With a total of 9B parameters, MiniCPM-o 4.5 approaches Gemini 2.5 Flash in vision-language capabilities, delive">
+  <div class="card-title"><a href="https://huggingface.co/papers/2604.27393" target="_blank" rel="noopener">MiniCPM-o 4.5: Towards Real-Time Full-Duplex Omni-Modal Interaction</a> <span class="src-num">[6]</span></div>
+  <div class="card-authors">HuggingFace</div>
+  <div class="card-desc">Recent progress in multimodal large language models (MLLMs) has brought AI capabilities from static offline data processing to real-time streaming interaction, yet they still remain far from human-lev…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="We present TT4D, a large-scale, high-fidelity table tennis dataset. It provides 140+ hours of reconstructed singles and doubles gameplay from monocular broadcast videos, featuring multimodal annotations like high-quality camera calibrations, precise 3D ball positions, ball spin, time segmentation, and 3D human meshes over time. This rich data provides a new foundation for virtual replay, in-depth player analysis, and robot learning. The dataset&#x27;s combination of scale and precision is achieved through a novel reconstruction pipeline. Prior methods first partition a game sequence into individual shot segments based on the 2D ball track, and only then attempt reconstruction. However, 2D-based time segmentation collapses under occlusion and varied camera viewpoints, preventing reliable reconstruction. We invert this paradigm by first lifting the entire unsegmented 2D ball track to 3D through a learned lifting network. This 3D trajectory then allows us to reliably perform time segmentation. The learned lifting network also infers the ball&#x27;s spin, handles unreliable ball detections, and successfully reconstructs the ball trajectory in cases of high occlusion. This lift-first design is necessary, as our pipeline is the only method capable of reconstructing table tennis gameplay from general-view broadcast monocular videos. We demonstrate the dataset&#x27;s fidelity through two downstream tasks: estimating the racket&#x27;s pose \&amp; velocity at impact, and training a generative model of competi">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.01234" target="_blank" rel="noopener">TT4D: A Pipeline and Dataset for Table Tennis 4D Reconstruction From Monocular Videos</a> <span class="src-num">[7]</span></div>
+  <div class="card-authors">HuggingFace</div>
+  <div class="card-desc">We present TT4D, a large-scale, high-fidelity table tennis dataset. It provides 140+ hours of reconstructed singles and doubles gameplay from monocular broadcast videos, featuring multimodal annotatio…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="In single-stream autoregressive interfaces, the same tokens both update the model state and constitute an irreversible public commitment. This coupling creates a silence tax: additional deliberation postpones the first task-relevant content, while naive early streaming risks premature commitments that bias subsequent generations. We introduce Side-by-Side (SxS) Interleaved Reasoning, which makes disclosure timing a controllable decision within standard autoregressive generation. SxS interleaves partial disclosures with continued private reasoning in the same context, but releases content only when it is supported by the reasoning so far. To learn such pacing without incentivizing filler, we construct entailment-aligned interleaved trajectories by matching answer prefixes to supporting reasoning prefixes, then train with SFT to acquire the dual-action semantics and RL to recover reasoning performance under the new format. Across two Qwen3 architectures/scales (MoE Qwen3-30B-A3B, dense Qwen3-4B) and both in-domain (AIME25) and out-of-domain (GPQA-Diamond) benchmarks, SxS improves accuracy--content-latency Pareto trade-offs under token-level proxies such as inter-update waiting.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.03314" target="_blank" rel="noopener">When to Think, When to Speak: Learning Disclosure Policies for LLM Reasoning</a> <span class="src-num">[8]</span></div>
+  <div class="card-authors">HuggingFace</div>
+  <div class="card-desc">In single-stream autoregressive interfaces, the same tokens both update the model state and constitute an irreversible public commitment. This coupling creates a silence tax: additional deliberation p…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Distillation-based acceleration has become foundational for making autoregressive streaming video diffusion models practical, with distribution matching distillation (DMD) as the de facto choice. Existing methods, however, train the student to match the teacher&#x27;s output indiscriminately, treating every rollout, frame, and pixel as equally reliable supervision. We argue that this caps distilled quality, since it overlooks two complementary axes of variance in DMD supervision: Inter-Reliability across student rollouts whose supervision varies in reliability, and Intra-Perplexity across spatial regions and temporal frames that contribute unequally to where quality can still be improved. The objective thus conflates two questions under a uniform weight: whether to learn from each rollout, and where to concentrate optimization within it. To address this, we propose Stream-R1, a Reliability-Perplexity Aware Reward Distillation framework that adaptively reweights the distillation objective at both rollout and spatiotemporal-element levels through a single shared reward-guided mechanism. At the Inter-Reliability level, Stream-R1 rescales each rollout&#x27;s loss by an exponential of a pretrained video reward score, so that rollouts with reliable supervision dominate optimization. At the Intra-Perplexity level, it back-propagates the same reward model to extract per-pixel gradient saliency, which is factored into spatial and temporal weights that concentrate optimization pressure on region">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.03849" target="_blank" rel="noopener">Stream-R1: Reliability-Perplexity Aware Reward Distillation for Streaming Video Generation</a> <span class="src-num">[9]</span></div>
+  <div class="card-authors">HuggingFace</div>
+  <div class="card-desc">Distillation-based acceleration has become foundational for making autoregressive streaming video diffusion models practical, with distribution matching distillation (DMD) as the de facto choice. Exis…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Adapting reasoning models to new tasks during post-training with only output-level supervision stalls under reinforcement learning from verifiable rewards (RLVR) when the initial success probability p_0 is small. Using the Tsallis q-logarithm, we define a loss family J_Q that interpolates between RLVR (at q{=}0, the exploitation pole) and the log-marginal-likelihood over latent trajectories (at q{=}1, the density-estimation pole). All members share the same per-example gradient direction, differing only by a scalar amplification P_{θ^{-q}} that reweights each instance independently of the learning rate. This amplification is the mechanism that addresses cold-start stalling: under gradient flow, the exploitation pole requires Ω(1{p_0}) time to escape cold start, while the density-estimation pole escapes in Θbig(log(1{p_0})big); intermediate q trades escape speed against noise memorization. Because P_θ is intractable, we derive two Monte Carlo estimators from the two factorizations of the gradient: Gradient-Amplified RL (GARL) samples from the prior and amplifies the RL gradient, and Posterior-Attenuated Fine-Tuning (PAFT) importance-resamples from the posterior and runs standard SFT. Both have bias Obig(q{M P_θ^{q+1}}big); GARL has lower variance, PAFT has semantically coherent gradients. On FinQA, HotPotQA, and MuSiQue, GARL at q{=}0.75 substantially mitigates cold-start stalling, escaping cold start where GRPO fails entirely. In warm start, GARL at low q dominates FinQA wher">
+  <div class="card-title"><a href="https://huggingface.co/papers/2604.25907" target="_blank" rel="noopener">How Fast Should a Model Commit to Supervision? Training Reasoning Models on the Tsallis Loss Continuum</a> <span class="src-num">[10]</span></div>
+  <div class="card-authors">HuggingFace</div>
+  <div class="card-desc">Adapting reasoning models to new tasks during post-training with only output-level supervision stalls under reinforcement learning from verifiable rewards (RLVR) when the initial success probability p…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Reinforcement learning (RL) has become a central post-training tool for improving the reasoning abilities of large language models (LLMs). In these systems, the rollout, the trajectory sampled from a prompt to termination, including intermediate reasoning steps and optional tool or environment interactions, determines the data the optimizer learns from, yet rollout design is often underreported. This survey provides an optimizer-agnostic view of rollout strategies for RL-based post-training of reasoning LLMs. We formalize rollout pipelines with unified notation and introduce Generate-Filter-Control-Replay (GFCR), a lifecycle taxonomy that decomposes rollout pipelines into four modular stages: Generate proposes candidate trajectories and topologies; Filter constructs intermediate signals via verifiers, judges, critics; Control allocates compute and makes continuation/branching/stopping decisions under budgets; and Replay retains and reuses artifacts across rollouts without weight updates, including self-evolving curricula that autonomously generate new training tasks. We complement GFCR with a criterion taxonomy of reliability, coverage, and cost sensitivity that characterizes rollout trade-offs. Using this framework, we synthesize methods spanning RL with verifiable rewards, process supervision, judge-based gating, guided and tree/segment rollouts, adaptive compute allocation, early-exit and partial rollouts, throughput optimization, and replay/recomposition for self-improvem">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.02913" target="_blank" rel="noopener">Generate, Filter, Control, Replay: A Comprehensive Survey of Rollout Strategies for LLM Reinforcement Learning</a> <span class="src-num">[11]</span></div>
+  <div class="card-authors">HuggingFace</div>
+  <div class="card-desc">Reinforcement learning (RL) has become a central post-training tool for improving the reasoning abilities of large language models (LLMs). In these systems, the rollout, the trajectory sampled from a …</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+<div class="card web-card" data-full-desc="Workspace learning requires AI agents to identify, reason over, exploit, and update explicit and implicit dependencies among heterogeneous files in a worker&#x27;s workspace, enabling them to complete both routine and advanced tasks effectively. Despite its importance, existing relevant benchmarks largely evaluate agents on pre-specified or synthesized files with limited real-world dependencies, leaving workspace-level evaluation underexplored. To this end, we introduce Workspace-Bench, a benchmark for evaluating AI agents on Workspace Learning invOlving Large-Scale File Dependencies. We construct realistic workspaces with 5 worker profiles, 74 file types, 20,476 files (up to 20GB) and curate 388 tasks, each with its own file dependency graph, evaluated across 7,399 total rubrics that require cross-file retrieval, contextual reasoning, and adaptive decision-making. We further provide Workspace-Bench-Lite, a 100-task subset that preserves the benchmark distribution while reducing evaluation costs by about 70%. We evaluate 4 popular agent harnesses and 7 foundation models. Experimental results show that current agents remain far from reliable workspace learning, where the best reaches only 68.7%, substantially below the human result of 80.7%, and the average performance across agents is only 47.4%.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.03596" target="_blank" rel="noopener">Workspace-Bench 1.0: Benchmarking AI Agents on Workspace Tasks with Large-Scale File Dependencies</a> <span class="src-num">[12]</span></div>
+  <div class="card-authors">HuggingFace</div>
+  <div class="card-desc">Workspace learning requires AI agents to identify, reason over, exploit, and update explicit and implicit dependencies among heterogeneous files in a worker&#x27;s workspace, enabling them to complete both…</div>
+  <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+</div>
+       </div>
+     </div>
+     <div class="section-group">
+       <h3>🌐 Google Scholar <span class="group-count">6</span></h3>
+       <div class="cards-grid"><div class="card web-card" data-full-desc="Early identification of breakthrough technologies: Insights from science-driven innovations">
+  <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[13]</span></div>
+  <div class="card-authors">Google Scholar</div>
+  <div class="card-desc">Early identification of breakthrough technologies: Insights from science-driven innovations</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+<div class="card web-card" data-full-desc="Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements">
+  <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[14]</span></div>
+  <div class="card-authors">Google Scholar</div>
+  <div class="card-desc">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+<div class="card web-card" data-full-desc="Large language models (LLM) in computational social science: prospects, current state, and challenges">
+  <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[15]</span></div>
+  <div class="card-authors">Google Scholar</div>
+  <div class="card-desc">Large language models (LLM) in computational social science: prospects, current state, and challenges</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+<div class="card web-card" data-full-desc="Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms">
+  <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[16]</span></div>
+  <div class="card-authors">Google Scholar</div>
+  <div class="card-desc">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+<div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+  <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[17]</span></div>
+  <div class="card-authors">Google Scholar</div>
+  <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+<div class="card web-card" data-full-desc="Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements">
+  <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[18]</span></div>
+  <div class="card-authors">Google Scholar</div>
+  <div class="card-desc">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div>
+       </div>
+     </div>
+     <div class="section-group">
+       <h3>🌐 Hacker News <span class="group-count">2</span></h3>
+       <div class="cards-grid"><div class="card web-card" data-full-desc="Show HN: XLog Static site generator for knowledge bases with automatic backlinks">
+  <div class="card-title"><a href="https://news.ycombinator.com/item?id=48049018" target="_blank" rel="noopener">Show HN: XLog Static site generator for knowledge bases with automatic backlinks</a> <span class="src-num">[19]</span></div>
+  <div class="card-authors">Hacker News</div>
+  <div class="card-desc">Show HN: XLog Static site generator for knowledge bases with automatic backlinks</div>
+  <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+</div>
+<div class="card web-card" data-full-desc="💥 Fast, Git-native framework for building knowledge bases - Static site generator for digital gardens and personal wikis - emad-elsaid/xlog">
+  <div class="card-title"><a href="https://github.com/emad-elsaid/xlog" target="_blank" rel="noopener">(https://github.com/emad-elsaid/xlog)</a> <span class="src-num">[20]</span></div>
+  <div class="card-authors">Hacker News</div>
+  <div class="card-desc">💥 Fast, Git-native framework for building knowledge bases - Static site generator for digital gardens and personal wikis - emad-elsaid/xlog</div>
+  <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+</div>
+       </div>
+     </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li><a href="https://martinalderson.com/posts/open-weights-are-quietly-closing-up/" target="_blank" rel="noopener">Open weights are quietly closing up - and that&#x27;s a problem</a></li>
+<li><a href="https://www.ip.network/blog/de-domain-dnssec-outage-may-2026" target="_blank" rel="noopener">Major DNS Outage Hits .de Domains: DNSSEC Failure on May 5, 2026</a></li>
+<li><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a></li>
+<li><a href="https://huggingface.co/papers/2605.04637" target="_blank" rel="noopener">SWE-WebDevBench: Evaluating Coding Agent Application Platforms as Virtual Software Agencies</a></li>
+<li><a href="https://huggingface.co/papers/2605.05166" target="_blank" rel="noopener">The First Token Knows: Single-Decode Confidence for Hallucination Detection</a></li>
+<li><a href="https://huggingface.co/papers/2604.27393" target="_blank" rel="noopener">MiniCPM-o 4.5: Towards Real-Time Full-Duplex Omni-Modal Interaction</a></li>
+<li><a href="https://huggingface.co/papers/2605.01234" target="_blank" rel="noopener">TT4D: A Pipeline and Dataset for Table Tennis 4D Reconstruction From Monocular Videos</a></li>
+<li><a href="https://huggingface.co/papers/2605.03314" target="_blank" rel="noopener">When to Think, When to Speak: Learning Disclosure Policies for LLM Reasoning</a></li>
+<li><a href="https://huggingface.co/papers/2605.03849" target="_blank" rel="noopener">Stream-R1: Reliability-Perplexity Aware Reward Distillation for Streaming Video Generation</a></li>
+<li><a href="https://huggingface.co/papers/2604.25907" target="_blank" rel="noopener">How Fast Should a Model Commit to Supervision? Training Reasoning Models on the Tsallis Loss Continuum</a></li>
+<li><a href="https://huggingface.co/papers/2605.02913" target="_blank" rel="noopener">Generate, Filter, Control, Replay: A Comprehensive Survey of Rollout Strategies for LLM Reinforcement Learning</a></li></ol>
+      <ol><li><a href="https://huggingface.co/papers/2605.03596" target="_blank" rel="noopener">Workspace-Bench 1.0: Benchmarking AI Agents on Workspace Tasks with Large-Scale File Dependencies</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a></li>
+<li><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a></li>
+<li><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a></li>
+<li><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a></li>
+<li><a href="https://news.ycombinator.com/item?id=48049018" target="_blank" rel="noopener">Show HN: XLog Static site generator for knowledge bases with automatic backlinks</a></li>
+<li><a href="https://github.com/emad-elsaid/xlog" target="_blank" rel="noopener">(https://github.com/emad-elsaid/xlog)</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
