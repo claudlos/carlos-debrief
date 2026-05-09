@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — May 09, 2026 09:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">May 09, 2026 09:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">38</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">9</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">47</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">May 09, 2026 09:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li><strong>Recursive Agent Optimization (RAO)</strong> introduces a reinforcement learning approach for training agents that recursively spawn sub-task agents, implementing inference-time scaling via divide-and-conquer that naturally generalizes to longer contexts and harder problems.</li><li><strong>EMO</strong> demonstrates that Mixture-of-Experts models pretrained with flexible expert routing develop emergent modular structure, enabling narrow capability subsets without incurring full-model overhead — a significant step toward efficient specialized LLMs.</li><li><strong>PACZero</strong> achieves PAC-private LLM fine-tuning via sign quantization, bounding membership-inference attack success rate to near-random chance ($I(S^*;Y_{1:T})=0$) while maintaining usable model utility.</li><li><strong>Global LLM Leaderboards are Misleading</strong>: analysis of 89K pairwise comparisons across 52 models reveals the best-fit global Bradley-Terry model is outperformed by small, task-specific model subsets, questioning the universality of current ranking methodologies.</li><li><strong>Benchmarkless Comparative LLM Safety Scoring</strong> formalizes a novel framework for validating safety differences between language models without any ground-truth labels, enabling safety comparisons in low-resource languages and regulatory regimes where benchmarks don't yet exist.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+      <li><strong>Linux Kernel io_uring ZCRX Exploit</strong>: Security researchers publish a local privilege escalation attack exploiting the io_uring kernel subsystem's ZCRX freelist management, demonstrating root access from an unprivileged u32 — a reminder that kernel attack surfaces remain active even in mature subsystems.</li><li><strong>Cloudflare Intercepts ChatGPT Prompts at Client-Side</strong>: A security researcher dissects how ChatGPT's Cloudflare integration reads React component state before the user's prompt reaches OpenAI's servers, raising fresh questions about client-side prompt injection and third-party middleware interception.</li><li><strong>Per-Function killswitch Merged into Linux Kernel</strong>: A new kernel mitigation primitive allows individual functions to be short-circuited at runtime, providing a fine-grained mechanism for security hardening that can disable buggy or vulnerable code paths without full system recompilation.</li><li><strong>Post-Quantum Cryptography for IoT Authentication</strong>: Research reviews the landscape of NIST-standardized post-quantum algorithms (CRYSTALS-Kyber, Dilithium, Falcon) for resource-constrained IoT devices, finding hybrid classical-PQC schemes currently offer the most practical path to quantum-resistant authentication.</li><li><strong>Quantum Machine Learning Integration Accelerating</strong>: A comprehensive review finds growing convergence between quantum algorithms and classical ML techniques, with quantum-speedup demonstrated in optimization, drug discovery, and quantum-secured communication applications — though near-term practical advantage remains limited.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+    <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+      <h3>🧠 LLMs <span class="group-count">11</span></h3>
+      <div class="cards-grid">
+  <div class="card" data-full-desc="Large Language Models (LLMs) demonstrate strong capabilities for solving scientific and mathematical problems, yet they struggle to produce valid, challenging, and novel problems - an essential component for advancing LLM training and enabling autonomous scientific research. Existing problem generation approaches either depend on expensive human expert involvement or adopt naive self-play paradigms, which frequently yield invalid problems due to reward hacking. This work introduces VHG, a verifi">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06660" target="_blank" rel="noopener">Verifier-Backed Hard Problem Generation for Mathematical Reasoning</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">Yuhang Lai, Jiazhan Feng, Yee Whye Teh, Ning Miao</div>
+    <div class="card-desc">Large Language Models (LLMs) demonstrate strong capabilities for solving scientific and mathematical problems, yet they struggle to produce valid, challenging, and novel problems…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span><span class="tag">cs.CL</span></div>
+  </div>
+  <div class="card" data-full-desc="Optimizers play an important role in both pretraining and finetuning stages when training large language models (LLMs). In this paper, we present an observation that full finetuning with the same optimizer as in pretraining achieves a better learning-forgetting tradeoff, i.e., forgetting less while achieving the same or better performance on the new task, than other optimizers and, possibly surprisingly, LoRA, during the supervised finetuning (SFT) stage. We term this phenomenon optimizer-model">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06654" target="_blank" rel="noopener">Optimizer-Model Consistency: Full Finetuning with the Same Optimizer as Pretraining Forgets Less</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors">Yuxing Liu, Jianyu Wang, Tong Zhang</div>
+    <div class="card-desc">Optimizers play an important role in both pretraining and finetuning stages when training large language models (LLMs). In this paper, we present an observation that full…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span><span class="tag">math.OC</span></div>
+  </div>
+  <div class="card" data-full-desc="Many deployments must compare candidate language models for safety before a labeled benchmark exists for the relevant language, sector, or regulatory regime. We formalize this setting as benchmarkless comparative safety scoring and specify the contract under which a scenario-based audit can be interpreted as deployment evidence. Scores are valid only under a fixed scenario pack, rubric, auditor, judge, sampling configuration, and rerun budget. Because no labels are available, we replace ground-t">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06652" target="_blank" rel="noopener">When No Benchmark Exists: Validating Comparative LLM Safety Scoring Without Ground-Truth Labels</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors">Sushant Gautam, Finn Schwall, Annika Willoch Olstad, Fernando Vallecillos Ruiz, Birk Torpmann-Hagen, Sunniva Maria Stordal Bjørklund, Leon Moonen, Klas Pettersen, Michael A. Riegler</div>
+    <div class="card-desc">Many deployments must compare candidate language models for safety before a labeled benchmark exists for the relevant language, sector, or regulatory regime. We formalize this…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span><span class="tag">cs.CL</span></div>
+  </div>
+  <div class="card" data-full-desc="Large language models (LLMs) are increasingly used as interactive agents, but optimizing them for long-horizon decision making remains difficult because current methods are largely purely reactive, which weakens both exploration and credit assignment over extended trajectories. In this work, we present Strategic Trajectory Abstraction (StraTA), a simple framework that introduces an explicit trajectory-level strategy into agentic reinforcement learning (RL). StraTA samples a compact strategy from">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06642" target="_blank" rel="noopener">StraTA: Incentivizing Agentic Reinforcement Learning with Strategic Trajectory Abstraction</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors">Xiangyuan Xue, Yifan Zhou, Zidong Wang, Shengji Tang, Philip Torr, Wanli Ouyang, Lei Bai, Zhenfei Yin</div>
+    <div class="card-desc">Large language models (LLMs) are increasingly used as interactive agents, but optimizing them for long-horizon decision making remains difficult because current methods are…</div>
+    <div class="card-tags"><span class="tag">cs.CL</span><span class="tag">cs.AI</span></div>
+  </div>
+  <div class="card" data-full-desc="Ranking LLMs via pairwise human feedback underpins current leaderboards for open-ended tasks, such as creative writing and problem-solving. We analyze ~89K comparisons in 116 languages from 52 LLMs from Arena, and show that the best-fit global Bradley-Terry (BT) ranking is misleading. Nearly 2/3 of the decisive votes cancel out, and even the top 50 models according to the global BT ranking are statistically indistinguishable (pairwise win probabilities are at most 0.53 within the top 50 models).">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06656" target="_blank" rel="noopener">Why Global LLM Leaderboards Are Misleading: Small Portfolios for Heterogeneous Supervised ML</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors">Jai Moondra, Ayela Chughtai, Bhargavi Lanka, Swati Gupta</div>
+    <div class="card-desc">Ranking LLMs via pairwise human feedback underpins current leaderboards for open-ended tasks, such as creative writing and problem-solving. We analyze ~89K comparisons in 116…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.DM</span><span class="tag">cs.ET</span><span class="tag">math.OC</span></div>
+  </div>
+  <div class="card" data-full-desc="Large language models are typically deployed as monolithic systems, requiring the full model even when applications need only a narrow subset of capabilities, e.g., code, math, or domain-specific knowledge. Mixture-of-Experts (MoEs) seemingly offer a potential alternative by activating only a subset of experts per input, but in practice, restricting inference to a subset of experts for a given domain leads to severe performance degradation. This limits their practicality in memory-constrained se">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06663" target="_blank" rel="noopener">EMO: Pretraining Mixture of Experts for Emergent Modularity</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors">Ryan Wang, Akshita Bhagia, Sewon Min</div>
+    <div class="card-desc">Large language models are typically deployed as monolithic systems, requiring the full model even when applications need only a narrow subset of capabilities, e.g., code, math, or…</div>
+    <div class="card-tags"><span class="tag">cs.CL</span></div>
+  </div>
+  <div class="card" data-full-desc="Watermark radioactivity testing type of methods can detect whether a model was trained on watermarked documents, and have become key tools for protecting data ownership in the fine-tuning of large language models (LLMs). Existing works have proved their effectiveness in centralized LLM fine-tuning. However, this type of method faces several challenges and remains underexplored in federated learning (FL), a widely-applied paradigm for fine-tuning LLMs collaboratively on private data across differ">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06596" target="_blank" rel="noopener">FedAttr: Towards Privacy-preserving Client-Level Attribution in Federated LLM Fine-tuning</a> <span class="src-num">[7]</span></div>
+    <div class="card-authors">Su Zhang, Junfeng Guo, Heng Huang</div>
+    <div class="card-desc">Watermark radioactivity testing type of methods can detect whether a model was trained on watermarked documents, and have become key tools for protecting data ownership in the…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.LG</span></div>
+  </div>
+  <div class="card" data-full-desc="We introduce PACZero, a family of PAC-private zeroth-order mechanisms for fine-tuning large language models that delivers usable utility at $I(S^*; Y_{1:T})=0$. This privacy regime bounds the membership-inference attack (MIA) posterior success rate at the prior, an MIA-resistance level the DP framework matches only at $\varepsilon=0$ and infinite noise. All DP-ZO comparisons below are matched at the MIA posterior level. The key insight is that PAC Privacy charges mutual information only when the">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06505" target="_blank" rel="noopener">PACZero: PAC-Private Fine-Tuning of Language Models via Sign Quantization</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors">Murat Bilgehan Ertan, Xiaochen Zhu, Phuong Ha Nguyen, Marten van Dijk, Srinivas Devadas</div>
+    <div class="card-desc">We introduce PACZero, a family of PAC-private zeroth-order mechanisms for fine-tuning large language models that delivers usable utility at $I(S^*; Y_{1:T})=0$. This privacy…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span><span class="tag">cs.CR</span></div>
+  </div>
+  <div class="card" data-full-desc="Language Model Agents (LMAs) are emerging as a powerful primitive for augmenting red-team operations. They can support attack planning, adversary emulation, and the orchestration of multi-step activity such as lateral movement, a core enabling capability of advanced persistent threat (APT) campaigns. Using frameworks such as MITRE ATT&amp;CK, we analyze where these agents intersect with core offensive functions and assess current strengths and limitations of LMAs with an emphasis on governance and r">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06486" target="_blank" rel="noopener">Autonomous Adversary: Red-Teaming in the age of LLM</a> <span class="src-num">[9]</span></div>
+    <div class="card-authors">Mohammad Mamun, Mohamed Gaber, Scott Buffett, Sherif Saad</div>
+    <div class="card-desc">Language Model Agents (LMAs) are emerging as a powerful primitive for augmenting red-team operations. They can support attack planning, adversary emulation, and the orchestration…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div>
+  <div class="card" data-full-desc="Large language models (LLMs) show strong performance across many applications, but their ability to memorize and potentially reveal training data raises serious privacy concerns. We introduce the PopQuiz Attack, a black-box membership inference attack that tests whether a model can recall specific training examples. The core idea is to turn target data into quiz-style multiple-choice questions and infer membership from the model&#x27;s answers. Across six widely used LLMs (GPT-3.5, GPT-4o, LLaMA2-7b,">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06423" target="_blank" rel="noopener">Pop Quiz Attack: Black-box Membership Inference Attacks Against Large Language Models</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors">Zeyuan Chen, Yihan Ma, Xinyue Shen, Michael Backes, Yang Zhang</div>
+    <div class="card-desc">Large language models (LLMs) show strong performance across many applications, but their ability to memorize and potentially reveal training data raises serious privacy concerns.…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div>
+  <div class="card" data-full-desc="Large audio language models (LALMs) are increasingly used to reason over long audio clips, yet deployment often compresses audio before inference to reduce memory and latency. The risk is that compression can leave aggregate accuracy acceptable while sharply degrading answers for a deployment-critical query family. We study answer-preserving audio compression, judging a compressor by the excess answer-error it induces, especially for the worst-affected family. We formulate this theoretically as">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06631" target="_blank" rel="noopener">Task-Aware Answer Preservation under Audio Compression for Large Audio Language Models</a> <span class="src-num">[11]</span></div>
+    <div class="card-authors">Amir Ivry</div>
+    <div class="card-desc">Large audio language models (LALMs) are increasingly used to reason over long audio clips, yet deployment often compresses audio before inference to reduce memory and latency. The…</div>
+    <div class="card-tags"><span class="tag">eess.AS</span></div>
+  </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>⚙️ Machine Learning <span class="group-count">7</span></h3>
+      <div class="cards-grid">
+  <div class="card" data-full-desc="Modern Mixture-of-Experts (MoE) architectures allocate expert capacity through a rigid per-layer rule: each transformer layer owns a separate expert set. This convention couples depth scaling with linear expert-parameter growth and assumes that every layer needs isolated expert capacity. However, recent analyses and our routing probe challenge this allocation rule: replacing a deeper layer&#x27;s learned top-k router with uniform random routing drops downstream accuracy by only 1.0-1.6 points across">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06665" target="_blank" rel="noopener">UniPool: A Globally Shared Expert Pool for Mixture-of-Experts</a> <span class="src-num">[12]</span></div>
+    <div class="card-authors">Minbin Huang, Han Shi, Chuanyang Zheng, Yimeng Wu, Guoxuan Chen, Xintong Yu, Yichun Yin, Hong Cheng</div>
+    <div class="card-desc">Modern Mixture-of-Experts (MoE) architectures allocate expert capacity through a rigid per-layer rule: each transformer layer owns a separate expert set. This convention couples…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span></div>
+  </div>
+  <div class="card" data-full-desc="Venn-Abers predictors are probabilistic predictors that enjoy appealing properties of validity, but their major limitation is that they are applicable only to the case of binary classification, with a recent extension to bounded regression. We generalize them to the case of unbounded regression, which requires adding an element of conformal prediction. In our simulation and empirical studies we investigate the predictive efficiency of point regressors derived from Venn-Abers regressors and argue">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06646" target="_blank" rel="noopener">Inductive Venn-Abers and related regressors</a> <span class="src-num">[13]</span></div>
+    <div class="card-authors">Ivan Petej, Vladimir Vovk</div>
+    <div class="card-desc">Venn-Abers predictors are probabilistic predictors that enjoy appealing properties of validity, but their major limitation is that they are applicable only to the case of binary…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span></div>
+  </div>
+  <div class="card" data-full-desc="In this paper, a $\mathbb{Q}$HD singularity is a weighted homogeneous normal surface singularity admitting a rational homology disk ($\mathbb{Q}$HD) smoothing. These singularities are rational but often not log canonical. We classify all $\mathbb{Q}$HD degenerations of nonsingular projective elliptic surfaces, extending Kawamata&#x27;s classification of the case with only Wahl singularities (i.e., log terminal $\mathbb{Q}$HD singularities). We also realize all $\mathbb{Q}$HD degenerations of Dolgache">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06668" target="_blank" rel="noopener">Rational homology disk degenerations of elliptic surfaces</a> <span class="src-num">[14]</span></div>
+    <div class="card-authors">Marcos Canedo, Giancarlo Urzúa</div>
+    <div class="card-desc">In this paper, a $\mathbb{Q}$HD singularity is a weighted homogeneous normal surface singularity admitting a rational homology disk ($\mathbb{Q}$HD) smoothing. These singularities…</div>
+    <div class="card-tags"><span class="tag">math.AG</span><span class="tag">math.GN</span><span class="tag">math.SG</span></div>
+  </div>
+  <div class="card" data-full-desc="This paper presents a Vehicle-to-Everything (V2X) communication framework that enables decentralized cooperation among social robots operating in complex urban traffic environments. Building on ETSI Cooperative Awareness and Maneuver Coordination services, the framework introduces two robot-centric facility-layer services: the Robot Awareness Service (RAS) and the Robot Maneuver Coordination Service (RMCS), realized through the Robot Awareness Message (RAM) and the Robot Maneuver Coordination Me">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06662" target="_blank" rel="noopener">Multi-Robot Coordination in V2X Environments</a> <span class="src-num">[15]</span></div>
+    <div class="card-authors">John Pravin Arockiasamy, Alexey Vinel</div>
+    <div class="card-desc">This paper presents a Vehicle-to-Everything (V2X) communication framework that enables decentralized cooperation among social robots operating in complex urban traffic…</div>
+    <div class="card-tags"><span class="tag">cs.RO</span></div>
+  </div>
+  <div class="card" data-full-desc="The Kripke semantics of various logics arises via categorical dualities between a category of relational frames and their maps, and a category of algebras and logical homomorphisms. When the relational frames are considered as computational systems (e.g. the states of a machine), the corresponding algebra is one of logical predicates on these systems (e.g. predicates on these states, i.e. program logics). Our aim is to extend this phenomenon to relations, putting well-behaved relations between s">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06533" target="_blank" rel="noopener">Relational Dualities and Bisimulation</a> <span class="src-num">[16]</span></div>
+    <div class="card-authors">Piotr Kozicki, Alex Kavvos</div>
+    <div class="card-desc">The Kripke semantics of various logics arises via categorical dualities between a category of relational frames and their maps, and a category of algebras and logical…</div>
+    <div class="card-tags"><span class="tag">cs.LO</span></div>
+  </div>
+  <div class="card" data-full-desc="Covariate adjustment is a general method for improving precision when estimating treatment effects in randomized trials and is recommended by the FDA in its 2023 guidance when baseline variables are prognostic for the primary outcome. We focus on a method highlighted in that guidance called ``standardization&quot; (or ``g-computation&quot;) for estimating the marginal treatment effect. We address the question of how to reliably estimate variance for binary outcomes when marginal outcome probabilities are">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06655" target="_blank" rel="noopener">Improving Variance Estimation for Covariate Adjustment with Binary Outcomes</a> <span class="src-num">[17]</span></div>
+    <div class="card-authors">Kaitlyn Lee, Alex Ocampo, Courtney Schiffman, Michael Friesenhahn, Christina Rabe, Michael Rosenblum</div>
+    <div class="card-desc">Covariate adjustment is a general method for improving precision when estimating treatment effects in randomized trials and is recommended by the FDA in its 2023 guidance when…</div>
+    <div class="card-tags"><span class="tag">stat.ME</span></div>
+  </div>
+  <div class="card" data-full-desc="This paper demonstrates the expand-contract plasticity of the unit spheres of $\ell_1$, $\ell_{\infty}$, and $c$. Furthermore, it establishes the strong plasticity of the unit spheres of Hilbert spaces.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06622" target="_blank" rel="noopener">On the plasticity of the unit spheres of $\ell_1$, $\ell_{\infty}$, $c$, and Hilbert spaces</a> <span class="src-num">[18]</span></div>
+    <div class="card-authors">Maksym Levchenko, Olesia Zavarzina</div>
+    <div class="card-desc">This paper demonstrates the expand-contract plasticity of the unit spheres of $\ell_1$, $\ell_{\infty}$, and $c$. Furthermore, it establishes the strong plasticity of the unit…</div>
+    <div class="card-tags"><span class="tag">math.FA</span></div>
+  </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🤖 Agents <span class="group-count">6</span></h3>
+      <div class="cards-grid">
+  <div class="card" data-full-desc="GUI grounding is a critical capability for enabling GUI agents to execute tasks such as clicking and dragging. However, in complex scenarios like the ScreenSpot-Pro benchmark, existing models often suffer from suboptimal performance. Utilizing the proposed \textbf{Masked Prediction Distribution (MPD)} attribution method, we identify that the primary sources of errors are twofold: high image resolution (leading to precision bias) and intricate interface elements (resulting in ambiguity bias). To">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06664" target="_blank" rel="noopener">BAMI: Training-Free Bias Mitigation in GUI Grounding</a> <span class="src-num">[19]</span></div>
+    <div class="card-authors">Borui Zhang, Bo Zhang, Bo Wang, Wenzhao Zheng, Yuhao Cheng, Liang Tang, Yiqiang Yan, Jie Zhou, Jiwen Lu</div>
+    <div class="card-desc">GUI grounding is a critical capability for enabling GUI agents to execute tasks such as clicking and dragging. However, in complex scenarios like the ScreenSpot-Pro benchmark,…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span></div>
+  </div>
+  <div class="card" data-full-desc="We introduce the AI co-mathematician, a workbench for mathematicians to interactively leverage AI agents to pursue open-ended research. The AI co-mathematician is optimized to provide holistic support for the exploratory and iterative reality of mathematical workflows, including ideation, literature search, computational exploration, theorem proving and theory building. By providing an asynchronous, stateful workspace that manages uncertainty, refines user intent, tracks failed hypotheses, and o">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06651" target="_blank" rel="noopener">AI Co-Mathematician: Accelerating Mathematicians with Agentic AI</a> <span class="src-num">[20]</span></div>
+    <div class="card-authors">Daniel Zheng, Ingrid von Glehn, Yori Zwols, Iuliya Beloshapka, Lars Buesing, Daniel M. Roy, Martin Wattenberg, Bogdan Georgiev, Tatiana Schmidt, Andrew Cowie, Fernanda Viegas, Dimitri Kanevsky, Vineet Kahlon, Hartmut Maennel, Sophia Alj, George Holland, Alex Davies, Pushmeet Kohli</div>
+    <div class="card-desc">We introduce the AI co-mathematician, a workbench for mathematicians to interactively leverage AI agents to pursue open-ended research. The AI co-mathematician is optimized to…</div>
+    <div class="card-tags"><span class="tag">cs.AI</span></div>
+  </div>
+  <div class="card" data-full-desc="Retrieval-augmented agents are increasingly the interface to large organizational knowledge bases, yet most still treat retrieval as a black box: they issue exploratory queries, inspect returned snippets, and iteratively reformulate until useful evidence emerges. This approach resembles how a newcomer searches an unfamiliar database rather than how an expert navigates it with strong priors about terminology and likely evidence, and results in unnecessary retrieval rounds, increased latency, and">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06647" target="_blank" rel="noopener">Superintelligent Retrieval Agent: The Next Frontier of Information Retrieval</a> <span class="src-num">[21]</span></div>
+    <div class="card-authors">Zeyu Yang, Qi Ma, Jason Chen, Anshumali Shrivastava</div>
+    <div class="card-desc">Retrieval-augmented agents are increasingly the interface to large organizational knowledge bases, yet most still treat retrieval as a black box: they issue exploratory queries,…</div>
+    <div class="card-tags"><span class="tag">cs.IR</span><span class="tag">cs.AI</span><span class="tag">cs.LG</span></div>
+  </div>
+  <div class="card" data-full-desc="Security updates create a short but important window in which defenders and attackers can compare vulnerable and patched software. Yet in many operational settings, the most accessible artifacts are binary packages rather than source patches or advisory text. This paper asks whether a language-model agent, restricted to local binary-derived evidence, can reconstruct the security meaning of Linux distribution updates. Patch2Vuln is a local, resumable pipeline that extracts old/new ELF pairs, diff">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06601" target="_blank" rel="noopener">Patch2Vuln: Agentic Reconstruction of Vulnerabilities from Linux Distribution Binary Patches</a> <span class="src-num">[22]</span></div>
+    <div class="card-authors">Isaac David, Arthur Gervais</div>
+    <div class="card-desc">Security updates create a short but important window in which defenders and attackers can compare vulnerable and patched software. Yet in many operational settings, the most…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.AI</span></div>
+  </div>
+  <div class="card" data-full-desc="We introduce Recursive Agent Optimization (RAO), a reinforcement learning approach for training recursive agents: agents that can spawn and delegate sub-tasks to new instantiations of themselves recursively. Recursive agents implement an inference-time scaling algorithm that naturally allows agents to scale to longer contexts and generalize to more difficult problems via divide-and-conquer. RAO provides a method to train models to best take advantage of such recursive inference, teaching agents">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06639" target="_blank" rel="noopener">Recursive Agent Optimization</a> <span class="src-num">[23]</span></div>
+    <div class="card-authors">Apurva Gandhi, Satyaki Chakraborty, Xiangjun Wang, Aviral Kumar, Graham Neubig</div>
+    <div class="card-desc">We introduce Recursive Agent Optimization (RAO), a reinforcement learning approach for training recursive agents: agents that can spawn and delegate sub-tasks to new…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span><span class="tag">cs.CL</span><span class="tag">cs.MA</span></div>
+  </div>
+  <div class="card" data-full-desc="Safety-critical autonomy in adversarial settings demands more than Lyapunov stability of tracking error signals. An agent executing a goal-directed trajectory is intrinsically legible to a passive observer running online Bayesian inference, because the contractive dynamics of any Lyapunov basin of attraction concentrates posterior belief over the latent intent parameters. We initiates the study of intent privacy over a continuous state space as a joint control problem on the physical state combi">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06630" target="_blank" rel="noopener">Quantifying Trade-Offs Between Stability and Goal-Obfuscation</a> <span class="src-num">[24]</span></div>
+    <div class="card-authors">Yixuan Wang, Dan Guralnik, Warren Dixon</div>
+    <div class="card-desc">Safety-critical autonomy in adversarial settings demands more than Lyapunov stability of tracking error signals. An agent executing a goal-directed trajectory is intrinsically…</div>
+    <div class="card-tags"><span class="tag">eess.SY</span></div>
+  </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>👁️ Computer Vision <span class="group-count">4</span></h3>
+      <div class="cards-grid">
+  <div class="card" data-full-desc="For artistic applications, video generation requires fine-grained control over both performance and cinematography, i.e., the actor&#x27;s motion and the camera trajectory. We present ActCam, a zero-shot method for video generation that jointly transfers character motion from a driving video into a new scene and enables per-frame control of intrinsic and extrinsic camera parameters. ActCam builds on any pretrained image-to-video diffusion model that accepts conditioning in terms of scene depth and ch">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06667" target="_blank" rel="noopener">ActCam: Zero-Shot Joint Camera and 3D Motion Control for Video Generation</a> <span class="src-num">[25]</span></div>
+    <div class="card-authors">Omar El Khalifi, Thomas Rossi, Oscar Fossey, Thibault Fouque, Ulysse Mizrahi, Philip Torr, Ivan Laptev, Fabio Pizzati, Baptiste Bellot-Gurlet</div>
+    <div class="card-desc">For artistic applications, video generation requires fine-grained control over both performance and cinematography, i.e., the actor&#x27;s motion and the camera trajectory. We present…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span><span class="tag">cs.LG</span></div>
+  </div>
+  <div class="card" data-full-desc="Despite the growing popularity of Multimodal Domain Generalization (MMDG) for enhancing model robustness, it remains unclear whether reported performance gains reflect genuine algorithmic progress or are artifacts of inconsistent evaluation protocols. Current research is fragmented, with studies varying significantly across datasets, modality configurations, and experimental settings. Furthermore, existing benchmarks focus predominantly on action recognition, often neglecting critical real-world">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06643" target="_blank" rel="noopener">Are We Making Progress in Multimodal Domain Generalization? A Comprehensive Benchmark Study</a> <span class="src-num">[26]</span></div>
+    <div class="card-authors">Hao Dong, Hongzhao Li, Shupan Li, Muhammad Haris Khan, Eleni Chatzi, Olga Fink</div>
+    <div class="card-desc">Despite the growing popularity of Multimodal Domain Generalization (MMDG) for enhancing model robustness, it remains unclear whether reported performance gains reflect genuine…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span><span class="tag">cs.LG</span><span class="tag">cs.MM</span></div>
+  </div>
+  <div class="card" data-full-desc="Recent advances have shown that large-scale video diffusion models can be repurposed as neural renderers by first decomposing videos into intrinsic scene representations and then performing forward rendering under novel illumination. While promising, this paradigm fundamentally relies on accurate intrinsic decomposition, which remains highly unreliable for real-world videos and often leads to distorted appearances, broken materials, and accumulated temporal artifacts during relighting. In this w">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06658" target="_blank" rel="noopener">Relit-LiVE: Relight Video by Jointly Learning Environment Video</a> <span class="src-num">[27]</span></div>
+    <div class="card-authors">Weiqing Xiao, Hong Li, Xiuyu Yang, Houyuan Chen, Wenyi Li, Tianqi Liu, Shaocong Xu, Chongjie Ye, Hao Zhao, Beibei Wang</div>
+    <div class="card-desc">Recent advances have shown that large-scale video diffusion models can be repurposed as neural renderers by first decomposing videos into intrinsic scene representations and then…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span></div>
+  </div>
+  <div class="card" data-full-desc="*Concept-based explanations* offer a promising approach for explaining the predictions of deep neural networks in terms of high-level, human-understandable concepts. However, existing methods either do not establish a causal connection between the concepts and model predictions or are limited in expressivity and only able to infer causal explanations involving single concepts. At the same time, the parallel line of work on *formal abductive and contrastive explanations* computes the minimal set">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06640" target="_blank" rel="noopener">Concept-Based Abductive and Contrastive Explanations for Behaviors of Vision Models</a> <span class="src-num">[28]</span></div>
+    <div class="card-authors">Ronaldo Canizales, Divya Gopinath, Corina Păsăreanu, Ravi Mangal</div>
+    <div class="card-desc">*Concept-based explanations* offer a promising approach for explaining the predictions of deep neural networks in terms of high-level, human-understandable concepts. However,…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span></div>
+  </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🔒 Security &amp; Crypto <span class="group-count">7</span></h3>
+      <div class="cards-grid">
+  <div class="card" data-full-desc="The rapid expansion of the Internet of Things (IoT) and Industrial IoT (IIoT) has created a massive, heterogeneous attack surface that challenges traditional network security mechanisms. While Federated Learning (FL) offers a privacy-preserving alternative to centralized Intrusion Detection Systems (IDS), standard approaches struggle to generalize across diverse device behaviors and typically fail to utilize the vast amounts of unlabeled data present in realistic edge environments. To bridge the">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06571" target="_blank" rel="noopener">CLAD: A Clustered Label-Agnostic Federated Learning Framework for Joint Anomaly Detection and Attack Classification</a> <span class="src-num">[29]</span></div>
+    <div class="card-authors">Iason Ofeidis, Nikos Papadis, Randeep Bhatia, Leandros Tassiulas, TV Lakshman</div>
+    <div class="card-desc">The rapid expansion of the Internet of Things (IoT) and Industrial IoT (IIoT) has created a massive, heterogeneous attack surface that challenges traditional network security…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.CR</span><span class="tag">cs.DC</span><span class="tag">cs.NI</span></div>
+  </div>
+  <div class="card" data-full-desc="Research artifacts are widely shared to support reproducibility, and artifact evaluation (AE) has become common at many leading conferences. However, AE mainly checks whether artifacts work as claimed and can be reproduced. It largely overlooks potential security risks. Since these artifacts are publicly released and reused, they may unintentionally create opportunities for misuse and raise concerns about safe and responsible sharing. We study 509 research artifacts from top-tier security venues">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06508" target="_blank" rel="noopener">On the Security of Research Artifacts</a> <span class="src-num">[30]</span></div>
+    <div class="card-authors">Nanda Rani, Christian Rossow</div>
+    <div class="card-desc">Research artifacts are widely shared to support reproducibility, and artifact evaluation (AE) has become common at many leading conferences. However, AE mainly checks whether…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.AI</span></div>
+  </div>
+  <div class="card" data-full-desc="We show that an &quot;old dog&quot;, the classical discrete Laplace (aka.~geometric) mechanism, can &quot;perform new tricks&quot;: 1. It can be post-processed to yield a simple, unbiased estimator of any subexponential function $f$ of the original data, giving a simple, discrete, multivariate version of the recent unbiasing result for the Laplace mechanism by Calmon et al. (FORC &#x27;25). 2. It can be post-processed to output the same distribution as the Laplace mechanism or the Staircase mechanism with identical">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06502" target="_blank" rel="noopener">Privacy by Postprocessing the Discrete Laplace Mechanism</a> <span class="src-num">[31]</span></div>
+    <div class="card-authors">Quentin Hillebrand, Jacob Imola, Rasmus Pagh, Sia Sejer</div>
+    <div class="card-desc">We show that an &quot;old dog&quot;, the classical discrete Laplace (aka.~geometric) mechanism, can &quot;perform new tricks&quot;: 1. It can be post-processed to yield a simple, unbiased estimator…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div>
+  <div class="card" data-full-desc="Low-latency anonymity networks such as Tor remain vulnerable to infrastructure-level traffic analysis that exploits side-channel information observable from encrypted communications. We introduce NATA, a non-invasive active traffic-correlation analysis algorithm that injects distinguishable throughput patterns into traffic flows through controlled bandwidth perturbations. Unlike passive correlation methods, NATA does not require endpoint compromise, Tor-browser modification, or packet-payload de">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.05887" target="_blank" rel="noopener">ActiveFlowMark: Assessing Tor Anonymity under Active Bandwidth Watermarking</a> <span class="src-num">[32]</span></div>
+    <div class="card-authors">Zilve Fan, Zijian Zhang, Yangnan Guo, Jiaqi Gao, Zhen Li, Mengyu Wang, Chengxiang Si, Liehuang Zhu</div>
+    <div class="card-desc">Low-latency anonymity networks such as Tor remain vulnerable to infrastructure-level traffic analysis that exploits side-channel information observable from encrypted…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div>
+  <div class="card" data-full-desc="As Edge Intelligence (EI) becomes increasingly prevalent in domains such as smart healthcare, manufacturing, and critical infrastructure, ensuring data privacy while maintaining system efficiency is a growing challenge. This paper presents a new privacy-preserving machine learning (PPML) framework tailored for EI applications, including a four-layer system architecture and training and inference algorithms. We focus on three leading approaches: Differential Privacy (DP), Secure Multi-party Compu">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.05751" target="_blank" rel="noopener">A Privacy-Preserving Machine Learning Framework for Edge Intelligence: An Empirical Analysis</a> <span class="src-num">[33]</span></div>
+    <div class="card-authors">Quoc Lap Trieu, Bahman Javadi, Jim Basilakis</div>
+    <div class="card-desc">As Edge Intelligence (EI) becomes increasingly prevalent in domains such as smart healthcare, manufacturing, and critical infrastructure, ensuring data privacy while maintaining…</div>
+    <div class="card-tags"><span class="tag">cs.DC</span></div>
+  </div>
+  <div class="card" data-full-desc="Privacy-preserving action recognition (PPAR) enables machines to understand human activities in videos without revealing sensitive visual content. Among the various strategies for PPAR, encryption-based methods achieve strong privacy protection while maintaining high recognition performance. However, these methods lead to a catastrophic decrease in recognition performance and visual quality when the encrypted videos are compressed. That is, the previous methods are not compression-friendly. To a">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.05692" target="_blank" rel="noopener">CFE-PPAR: Compression-friendly encryption for privacy-preserving action recognition leveraging video transformers</a> <span class="src-num">[34]</span></div>
+    <div class="card-authors">Haiwei Lin, Shoko Imaizumi, Hitoshi Kiya</div>
+    <div class="card-desc">Privacy-preserving action recognition (PPAR) enables machines to understand human activities in videos without revealing sensitive visual content. Among the various strategies for…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span><span class="tag">cs.CR</span></div>
+  </div>
+  <div class="card" data-full-desc="As security demands increase, the importance of secure computation technologies grows, yet these technologies can often seem overwhelming to practitioners. Furthermore, many approaches focus only on a single technology, potentially overlooking superior alternatives. This work aims to address the issue of selecting the right technology for secure computation by presenting a comparative analysis of two highly relevant cryptographic methods and their software implementations, with a particular focu">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.04858" target="_blank" rel="noopener">A Pragmatic Comparison of Cryptographic Computation Technologies for Machine Learning</a> <span class="src-num">[35]</span></div>
+    <div class="card-authors">Marcus Taubert, Adam Skuta, Thomas Loruenser</div>
+    <div class="card-desc">As security demands increase, the importance of secure computation technologies grows, yet these technologies can often seem overwhelming to practitioners. Furthermore, many…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>⚛️ Quantum <span class="group-count">3</span></h3>
+      <div class="cards-grid">
+  <div class="card" data-full-desc="Fluorescent protein quantum yield (QY) is governed by the mature chromophore and its three-dimensional microenvironment rather than sequence identity alone. Protein language models and emission-band averages capture global trends, but do not model how local physical signals act on specific chromophore regions. We present a chromophore-centred mechanism graph algorithm for QY prediction. Each PDB structure is converted into a typed 3D residue graph, registered to a mature-CRO state, partitioned">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06644" target="_blank" rel="noopener">Edge-specific signal propagation on mature chromophore-region 3D mechanism graphs for fluorescent protein quantum-yield prediction</a> <span class="src-num">[36]</span></div>
+    <div class="card-authors">Yuchen Xiong, Swee Keong Yeap, Steven Aw Yoong Kit</div>
+    <div class="card-desc">Fluorescent protein quantum yield (QY) is governed by the mature chromophore and its three-dimensional microenvironment rather than sequence identity alone. Protein language…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span></div>
+  </div>
+  <div class="card" data-full-desc="We introduce the pro-tensor network, a categorification of the tensor network, as a fully rigorous yet graphically transparent framework for studying the collection of many many-body theories, which we dub many-many-body theory. We provide a comprehensive toolbox for the graphical calculations using pro-tensor networks. As applications, we recover the Levin-Wen model as a &quot;uniform&quot; pro-tensor network and generalize a result of Kitaev and Kong by characterizing particles as modules over promonads">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06661" target="_blank" rel="noopener">Pro-Tensor Network</a> <span class="src-num">[37]</span></div>
+    <div class="card-authors">Gen Yue, Ansi Bai, Linqian Wu, Tian Lan</div>
+    <div class="card-desc">We introduce the pro-tensor network, a categorification of the tensor network, as a fully rigorous yet graphically transparent framework for studying the collection of many…</div>
+    <div class="card-tags"><span class="tag">cond-mat.str-el</span><span class="tag">hep-th</span><span class="tag">math-ph</span><span class="tag">math.CT</span></div>
+  </div>
+  <div class="card" data-full-desc="Quantum thermalization describes how interacting quantum systems relax toward thermal equilibrium, a central problem in modern physics. Yet most experimental information on many-body systems comes from short-time transition spectroscopy, typically interpreted within Kubo&#x27;s linear-response framework. These perspectives - long-time equilibration versus short-time response - seem fundamentally disconnected. Here we establish an exact link between them: the Kubo-Thermalization correspondence, which">
+    <div class="card-title"><a href="https://arxiv.org/abs/2605.06666" target="_blank" rel="noopener">The Kubo-Thermalization Correspondence</a> <span class="src-num">[38]</span></div>
+    <div class="card-authors">Songtao Huang, Xingyu Li, Jianyi Chen, Alan Tsidilkovski, Gabriel G. T. Assumpção, Pengfei Zhang, Hui Zhai, Nir Navon</div>
+    <div class="card-desc">Quantum thermalization describes how interacting quantum systems relax toward thermal equilibrium, a central problem in modern physics. Yet most experimental information on…</div>
+    <div class="card-tags"><span class="tag">cond-mat.quant-gas</span><span class="tag">cond-mat.stat-mech</span><span class="tag">physics.atom-ph</span><span class="tag">quant-ph</span></div>
+  </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🦞 Lobste.rs <span class="group-count">3</span></h3>
+      <div class="cards-grid">
+  <div class="card web-card" data-full-desc="linux, security |  4">
+    <div class="card-title"><a href="https://lwn.net/ml/all/20260507070547.2268452-1-sashal@kernel.org/" target="_blank" rel="noopener">killswitch: per-function short-circuit mitigation primitive</a> <span class="src-num">[39]</span></div>
+    <div class="card-desc">killswitch: per-function short-circuit mitigation primitive</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="linux, security |  1">
+    <div class="card-title"><a href="https://ze3tar.github.io/post-zcrx.html" target="_blank" rel="noopener">You gave me a u32. I gave you root. (io_uring ZCRX freelist LPE)</a> <span class="src-num">[40]</span></div>
+    <div class="card-desc">You gave me a u32. I gave you root. (io_uring ZCRX freelist LPE)</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild, directly from Claude. To access it reach out at buchodi@">
+    <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[41]</span></div>
+    <div class="card-desc">Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🔬 Google Scholar <span class="group-count">6</span></h3>
+      <div class="cards-grid">
+  <div class="card web-card" data-full-desc="Rising levels of atmospheric carbon dioxide (CO 2 ) and methane (CH 4 ) have sparked the interest of researchers in resolving this issue. Various technologies have been utilized such …">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[42]</span></div>
+    <div class="card-desc">Rising levels of atmospheric carbon dioxide (CO 2 ) and methane (CH 4 ) have sparked the interest of researchers in resolving this issue. Various technologies have been utilized…</div>
+    <div class="card-tags"><span class="tag web-tag">Scholar</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original quantitative analysis of Epoch AI notable AI models dataset and combining with available literature. With focus on key breakthroughs, evolving trends, industry impacts and future directions, the paper shows important shifts from academia to industry in AI research leadership from the year 2014 when industry started leading in release of notable AI models. Despite abundance of literature about AI and allied fields, there are not many papers or a">
+    <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a> <span class="src-num">[43]</span></div>
+    <div class="card-desc">This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original quantitative analysis of…</div>
+    <div class="card-tags"><span class="tag web-tag">Scholar</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="… The advent of large language models (LLMs) has marked a new … LLM usage. We further present the challenges associated with data bias, privacy, and the integration of these models …">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[44]</span></div>
+    <div class="card-desc">… The advent of large language models (LLMs) has marked a new … LLM usage. We further present the challenges associated with data bias, privacy, and the integration of these…</div>
+    <div class="card-tags"><span class="tag web-tag">Scholar</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="… in adversarial AI, automated threat intelligence, and AI-driven security orchestration, this … AI’s role in cybersecurity. Figure 1 shows the key areas where Artificial intelligence (AI) and …">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[45]</span></div>
+    <div class="card-desc">… in adversarial AI, automated threat intelligence, and AI-driven security orchestration, this … AI’s role in cybersecurity. Figure 1 shows the key areas where Artificial…</div>
+    <div class="card-tags"><span class="tag web-tag">Scholar</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[46]</span></div>
+    <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to…</div>
+    <div class="card-tags"><span class="tag web-tag">Scholar</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="… in quantum-enhanced classical ML to native quantum algorithms and hybrid quantum-… It varies from applications in optimization, drug discovery, and quantum-secured communications, …">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[47]</span></div>
+    <div class="card-desc">… in quantum-enhanced classical ML to native quantum algorithms and hybrid quantum-… It varies from applications in optimization, drug discovery, and quantum-secured…</div>
+    <div class="card-tags"><span class="tag web-tag">Scholar</span></div>
+  </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://arxiv.org/abs/2605.06660" target="_blank" rel="noopener">Verifier-Backed Hard Problem Generation for Mathematical Reasoning</a></li><li>[2] <a href="https://arxiv.org/abs/2605.06654" target="_blank" rel="noopener">Optimizer-Model Consistency: Full Finetuning with the Same Optimizer as Pretraining Forgets Less</a></li><li>[3] <a href="https://arxiv.org/abs/2605.06652" target="_blank" rel="noopener">When No Benchmark Exists: Validating Comparative LLM Safety Scoring Without Ground-Truth Labels</a></li><li>[4] <a href="https://arxiv.org/abs/2605.06642" target="_blank" rel="noopener">StraTA: Incentivizing Agentic Reinforcement Learning with Strategic Trajectory Abstraction</a></li><li>[5] <a href="https://arxiv.org/abs/2605.06656" target="_blank" rel="noopener">Why Global LLM Leaderboards Are Misleading: Small Portfolios for Heterogeneous Supervised ML</a></li><li>[6] <a href="https://arxiv.org/abs/2605.06663" target="_blank" rel="noopener">EMO: Pretraining Mixture of Experts for Emergent Modularity</a></li><li>[7] <a href="https://arxiv.org/abs/2605.06596" target="_blank" rel="noopener">FedAttr: Towards Privacy-preserving Client-Level Attribution in Federated LLM Fine-tuning</a></li><li>[8] <a href="https://arxiv.org/abs/2605.06505" target="_blank" rel="noopener">PACZero: PAC-Private Fine-Tuning of Language Models via Sign Quantization</a></li><li>[9] <a href="https://arxiv.org/abs/2605.06486" target="_blank" rel="noopener">Autonomous Adversary: Red-Teaming in the age of LLM</a></li><li>[10] <a href="https://arxiv.org/abs/2605.06423" target="_blank" rel="noopener">Pop Quiz Attack: Black-box Membership Inference Attacks Against Large Language Models</a></li><li>[11] <a href="https://arxiv.org/abs/2605.06631" target="_blank" rel="noopener">Task-Aware Answer Preservation under Audio Compression for Large Audio Language Models</a></li><li>[12] <a href="https://arxiv.org/abs/2605.06665" target="_blank" rel="noopener">UniPool: A Globally Shared Expert Pool for Mixture-of-Experts</a></li><li>[13] <a href="https://arxiv.org/abs/2605.06646" target="_blank" rel="noopener">Inductive Venn-Abers and related regressors</a></li><li>[14] <a href="https://arxiv.org/abs/2605.06668" target="_blank" rel="noopener">Rational homology disk degenerations of elliptic surfaces</a></li><li>[15] <a href="https://arxiv.org/abs/2605.06662" target="_blank" rel="noopener">Multi-Robot Coordination in V2X Environments</a></li><li>[16] <a href="https://arxiv.org/abs/2605.06533" target="_blank" rel="noopener">Relational Dualities and Bisimulation</a></li><li>[17] <a href="https://arxiv.org/abs/2605.06655" target="_blank" rel="noopener">Improving Variance Estimation for Covariate Adjustment with Binary Outcomes</a></li><li>[18] <a href="https://arxiv.org/abs/2605.06622" target="_blank" rel="noopener">On the plasticity of the unit spheres of $\ell_1$, $\ell_{\infty}$, $c$, and Hilbert spaces</a></li><li>[19] <a href="https://arxiv.org/abs/2605.06664" target="_blank" rel="noopener">BAMI: Training-Free Bias Mitigation in GUI Grounding</a></li><li>[20] <a href="https://arxiv.org/abs/2605.06651" target="_blank" rel="noopener">AI Co-Mathematician: Accelerating Mathematicians with Agentic AI</a></li><li>[21] <a href="https://arxiv.org/abs/2605.06647" target="_blank" rel="noopener">Superintelligent Retrieval Agent: The Next Frontier of Information Retrieval</a></li><li>[22] <a href="https://arxiv.org/abs/2605.06601" target="_blank" rel="noopener">Patch2Vuln: Agentic Reconstruction of Vulnerabilities from Linux Distribution Binary Patches</a></li><li>[23] <a href="https://arxiv.org/abs/2605.06639" target="_blank" rel="noopener">Recursive Agent Optimization</a></li><li>[24] <a href="https://arxiv.org/abs/2605.06630" target="_blank" rel="noopener">Quantifying Trade-Offs Between Stability and Goal-Obfuscation</a></li></ol>
+      <ol><li>[25] <a href="https://arxiv.org/abs/2605.06667" target="_blank" rel="noopener">ActCam: Zero-Shot Joint Camera and 3D Motion Control for Video Generation</a></li><li>[26] <a href="https://arxiv.org/abs/2605.06643" target="_blank" rel="noopener">Are We Making Progress in Multimodal Domain Generalization? A Comprehensive Benchmark Study</a></li><li>[27] <a href="https://arxiv.org/abs/2605.06658" target="_blank" rel="noopener">Relit-LiVE: Relight Video by Jointly Learning Environment Video</a></li><li>[28] <a href="https://arxiv.org/abs/2605.06640" target="_blank" rel="noopener">Concept-Based Abductive and Contrastive Explanations for Behaviors of Vision Models</a></li><li>[29] <a href="https://arxiv.org/abs/2605.06571" target="_blank" rel="noopener">CLAD: A Clustered Label-Agnostic Federated Learning Framework for Joint Anomaly Detection and Attack Classification</a></li><li>[30] <a href="https://arxiv.org/abs/2605.06508" target="_blank" rel="noopener">On the Security of Research Artifacts</a></li><li>[31] <a href="https://arxiv.org/abs/2605.06502" target="_blank" rel="noopener">Privacy by Postprocessing the Discrete Laplace Mechanism</a></li><li>[32] <a href="https://arxiv.org/abs/2605.05887" target="_blank" rel="noopener">ActiveFlowMark: Assessing Tor Anonymity under Active Bandwidth Watermarking</a></li><li>[33] <a href="https://arxiv.org/abs/2605.05751" target="_blank" rel="noopener">A Privacy-Preserving Machine Learning Framework for Edge Intelligence: An Empirical Analysis</a></li><li>[34] <a href="https://arxiv.org/abs/2605.05692" target="_blank" rel="noopener">CFE-PPAR: Compression-friendly encryption for privacy-preserving action recognition leveraging video transformers</a></li><li>[35] <a href="https://arxiv.org/abs/2605.04858" target="_blank" rel="noopener">A Pragmatic Comparison of Cryptographic Computation Technologies for Machine Learning</a></li><li>[36] <a href="https://arxiv.org/abs/2605.06644" target="_blank" rel="noopener">Edge-specific signal propagation on mature chromophore-region 3D mechanism graphs for fluorescent protein quantum-yield prediction</a></li><li>[37] <a href="https://arxiv.org/abs/2605.06661" target="_blank" rel="noopener">Pro-Tensor Network</a></li><li>[38] <a href="https://arxiv.org/abs/2605.06666" target="_blank" rel="noopener">The Kubo-Thermalization Correspondence</a></li><li>[39] <a href="https://lwn.net/ml/all/20260507070547.2268452-1-sashal@kernel.org/" target="_blank" rel="noopener">killswitch: per-function short-circuit mitigation primitive</a></li><li>[40] <a href="https://ze3tar.github.io/post-zcrx.html" target="_blank" rel="noopener">You gave me a u32. I gave you root. (io_uring ZCRX freelist LPE)</a></li><li>[41] <a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a></li><li>[42] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a></li><li>[43] <a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a></li><li>[44] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a></li><li>[45] <a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a></li><li>[46] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a></li><li>[47] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
