@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — May 11, 2026 04:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">May 11, 2026 04:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">47</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">47</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">May 11, 2026 04:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>AI Security</strong>: Anthropic's unreleased Mythos model can autonomously find real security vulnerabilities in source code — raising urgent questions about AI-assisted zero-day discovery.</li>
+      <li><strong>LLM Agents in Production</strong>: New research on agent memory (CASCADE), red-teaming platforms (DTap), and autonomous video generation (A²RD) shows AI agents are moving beyond demos toward deployable systems.</li>
+      <li><strong>Efficiency Breakthroughs</strong>: Multiple papers tackle LLM inference efficiency: SPEED reduces KV-cache memory 25% via asymmetric layer visibility; MISA cuts sparse attention costs 4-8x; UniPrefill achieves 2.1x prefill speedup in vLLM.</li>
+      <li><strong>Agentic RL & Reasoning</strong>: Listwise Policy Optimization (LPO) reframes RLVR as geometric target-projection on the response simplex; AutoTTS discovers test-time scaling strategies autonomously for $39.</li>
+      <li><strong>Long-Context & Multimodal</strong>: STARFlow2 unifies LLMs and normalizing flows for interleaved text-image generation; 4DThinker gives VLMs internal dynamic mental imagery for spatial reasoning.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🧠 LLMs <span class="group-count">32</span></h3>
+      <div class="cards-grid">
+    <div class="card web-card" data-full-desc="Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild, directly from Claude. To access it reach out at buchodi@">
+      <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[3]</span></div>
+      <div class="card-authors">Lobste.rs</div>
+      <div class="card-desc">Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets…</div>
+      <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Modern Text-to-SQL systems generate multiple candidate SQL queries and rank them to judge a final prediction. However, existing methods face two limitations. First, they often score functionally equivalent SQL queries inconsistently despite identical execution results. Second, ranking cannot recover when the correct SQL is absent from the candidate pool. We propose R^3-SQL, a Text-to-SQL framework that addresses both issues through unified reward for ranking and resampling. R^3-SQL first groups candidates by execution result and ranks groups for consistency. To score each group, it combines a pairwise preference across groups with a pointwise utility from the best group rank and size, capturing relative preference, consistency, and candidate quality. To improve candidate recall, R^3-SQL introduces agentic resampling, which judges the generated candidate pool and selectively resamples when the correct SQL is likely absent. R^3-SQL achieves 75.03 execution accuracy on BIRD-dev, a new state of the art among methods using models with disclosed sizes, with consistent gains across five benchmarks.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2604.25325" target="_blank" rel="noopener">R^3-SQL: Ranking Reward and Resampling for Text-to-SQL</a> <span class="src-num">[4]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Modern Text-to-SQL systems generate multiple candidate SQL queries and rank them to judge a final prediction. However, existing methods face two limitations.…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Scaling Diffusion Transformers (DiTs) to hundreds of layers introduces a structural vulnerability: networks can enter a silent, mean-dominated collapse state that homogenizes token representations and suppresses centered variation. Through mechanistic auditing, we isolate the trigger event of this collapse as Mean Mode Screaming (MMS). MMS can occur even when training appears stable, with a mean-coherent backward shock on residual writers that opens deep residual branches and drives the network into a mean-dominated state. We show this behavior is driven by an exact decomposition of these gradients into mean-coherent and centered components, compounded by the structural suppression of attention-logit gradients through the null space of the Softmax Jacobian once values homogenize.
+  To address this, we propose Mean-Variance Split (MV-Split) Residuals, which combine a separately gained centered residual update with a leaky trunk-mean replacement. On a 400-layer single-stream DiT, MV-Split prevents the divergent collapse that crashes the un-stabilized baseline; it tracks close to the baseline&#x27;s pre-crash trajectory while remaining substantially better than token-isotropic gating methods such as LayerScale across the full schedule. Finally, we present a 1000-layer DiT as a scale-validation run at boundary scales, establishing that the architecture remains stably trainable at extreme depth.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06169" target="_blank" rel="noopener">Mean Mode Screaming: Mean--Variance Split Residuals for 1000-Layer Diffusion Transformers</a> <span class="src-num">[5]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Scaling Diffusion Transformers (DiTs) to hundreds of layers introduces a structural vulnerability: networks can enter a silent, mean-dominated collapse state…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Fast Weight Programmers (FWPs) encode temporal dependencies through dynamically updated parameters rather than recurrent hidden states. Quantum FWPs (QFWPs) extend this idea with variational quantum circuits (VQCs), but existing implementations rely on multi-qubit architectures that are difficult to scale on noisy intermediate-scale quantum (NISQ) devices and expensive to simulate classically. We propose gated QKAN-FWP, a fast-weight framework that integrates FWP with Quantum-inspired Kolmogorov-Arnold Network (QKAN) using single-qubit data re-uploading circuits as learnable nonlinear activation, known as DatA Re-Uploading ActivatioN (DARUAN). We further introduce a scalar-gated fast-weight update rule that stabilizes parameter evolution, supported by a theoretical analysis of its adaptive memory kernel, geometric boundedness, and parallelizable gradient paths. We evaluate the framework across time-series benchmarks, MiniGrid reinforcement learning, and highlight real-world solar cycle forecasting as our main practical result. In the long-horizon setting with 528-month input window and 132-month forecast horizon, our 12.5k-parameter model achieves lower scaled Mean Square Error (MSE), peak amplitude error, and peak timing error than a suite of classical recurrent baselines with up to 13x more parameters, including Long Short-Term Memory (LSTM) networks (25.9k-89.1k parameters), WaveNet-LSTM (167k), Vanilla recurrent neural network (11.5k), and a Modified Echo State Network (1">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06734" target="_blank" rel="noopener">Gated QKAN-FWP: Scalable Quantum-inspired Sequence Learning</a> <span class="src-num">[7]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Fast Weight Programmers (FWPs) encode temporal dependencies through dynamically updated parameters rather than recurrent hidden states. Quantum FWPs (QFWPs)…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="AI agents are increasingly deployed across diverse domains to automate complex workflows through long-horizon and high-stakes action executions. Due to their high capability and flexibility, such agents raise significant security and safety concerns. A growing number of real-world incidents have shown that adversaries can easily manipulate agents into performing harmful actions, such as leaking API keys, deleting user data, or initiating unauthorized transactions. Evaluating agent security is inherently challenging, as agents operate in dynamic, untrusted environments involving external tools, heterogeneous data sources, and frequent user interactions. However, realistic, controllable, and reproducible environments for large-scale risk assessment remain largely underexplored. To address this gap, we introduce the DecodingTrust-Agent Platform (DTap), the first controllable and interactive red-teaming platform for AI agents, spanning 14 real-world domains and over 50 simulation environments that replicate widely used systems such as Google Workspace, Paypal, and Slack. To scale the risk assessment of agents in DTap, we further propose DTap-Red, the first autonomous red-teaming agent that systematically explores diverse injection vectors (e.g., prompt, tool, skill, environment, combinations) and autonomously discovers effective attack strategies tailored to varying malicious goals. Using DTap-Red, we curate DTap-Bench, a large-scale red-teaming dataset comprising high-quality in">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.04808" target="_blank" rel="noopener">DecodingTrust-Agent Platform (DTap): A Controllable and Interactive Red-Teaming Platform for AI Agents</a> <span class="src-num">[8]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">AI agents are increasingly deployed across diverse domains to automate complex workflows through long-horizon and high-stakes action executions. Due to their…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="The theory of state tracking in recurrent architectures has predominantly focused on expressive capacity: whether a fixed architecture can theoretically realize a set of symbolic transition rules. We argue that equally important is error control, the dynamics governing hidden-state drift along the directions that distinguish symbolic states. We prove that affine recurrent networks, a class of models encompassing State-Space Models and Linear Attention, cannot correct errors along state-separating subspaces once they preserve state representations. Consequently, practical affine trackers do not learn robust state tracking; rather, they learn finite horizon solutions governed by accumulated state-relevant error. We characterize the mechanics of this failure, showing that tracking remains readable only while the accumulating within-class spread remains small relative to the initial between-class separation. We demonstrate empirically on group state-tracking tasks that this breakdown is predictable: tracking collapses when the distinguishability ratio crosses the readability threshold of the trained decoder. Across trained models, the point of this crossing predicts the horizon at which downstream accuracy fails. These results establish that robust state tracking is determined not only by an architecture&#x27;s theoretical expressivity but crucially by its error control.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.07755" target="_blank" rel="noopener">Rethinking State Tracking in Recurrent Models Through Error Control Dynamics</a> <span class="src-num">[9]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">The theory of state tracking in recurrent architectures has predominantly focused on expressive capacity: whether a fixed architecture can theoretically…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Long-context inference in decoder-only language models is costly because long prompts are processed during Prefill, cached at every layer, and repeatedly attended to during autoregressive Decode. We introduce Shallow Prefill, dEEp Decode (SPEED), a phase-asymmetric KV-visibility policy that materializes non-anchor prompt-token KV states only in lower layers while keeping Decode-phase tokens full-depth. Unlike previous approaches that make upper-layer prompt KV states cheaper to store or construct, SPEED removes prefill tokens from the upper-layer Decode visibility set altogether. With a minimal BoS anchor, this simple change preserves broad benchmark quality while reducing long-context cost. In a controlled Llama-3.1-8B instruction-tuning study, SPEED using only 75\% of layers for prefill tokens reaches 51.2 average score on OLMES-style benchmarks, compared with 51.4 for the full-depth baseline, while improving TTFT by 33\%, TPOT by 22\%, and reducing active KV memory by 25.0\% at 128K context. Layer-wise diagnostics suggest that this cutoff retains the main prompt-selection and representation-stabilization regions of the full-depth model. These results show that long-context prompt tokens need not always persist as full-depth KV-cache objects when Decode-phase tokens remain full-depth.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06105" target="_blank" rel="noopener">Shallow Prefill, Deep Decoding: Efficient Long-Context Inference via Layer-Asymmetric KV Visibility</a> <span class="src-num">[10]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Long-context inference in decoder-only language models is costly because long prompts are processed during Prefill, cached at every layer, and repeatedly…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Reinforcement learning (RL) has substantially improved the ability of large language model (LLM) agents to interact with environments and solve multi-turn tasks. However, effective agentic RL remains challenging: sparse outcome-only rewards provide limited guidance for assigning credit to individual steps within long interaction trajectories. Existing approaches often introduce dense intermediate supervision, such as process reward models or auxiliary self-supervised signals, which increases supervision and tuning complexity and may limit generalization across tasks and domains. We present AEM, a supervision-free credit assignment method that adaptively modulates entropy dynamics during RL training to improve the exploration-exploitation trade-off. Since in agentic RL the environment is typically affected by a complete response, rather than an individual token, our analysis lifts entropy dynamics from the token level to the response level, aligning uncertainty estimation with the effective action granularity of LLM agents and reducing sensitivity to token-level sampling noise. We further show that entropy drift under natural-gradient updates is governed by the interaction between the sampled-response advantage and its relative surprisal. Motivated by this result, AEM derives a practical response-level uncertainty proxy and uses it to rescale advantages, leveraging the evolving balance between positive and negative samples to naturally transition from exploration to exploitati">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.00425" target="_blank" rel="noopener">AEM: Adaptive Entropy Modulation for Multi-Turn Agentic Reinforcement Learning</a> <span class="src-num">[12]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Reinforcement learning (RL) has substantially improved the ability of large language model (LLM) agents to interact with environments and solve multi-turn…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Speculative decoding accelerates LLM inference by drafting a tree of candidate continuations and verifying it in one target forward. Existing drafters fall into two camps with opposite weaknesses. Autoregressive drafters such as EAGLE-3 preserve dependence along each draft path but call the drafter once per tree depth, making drafting a non-trivial share of per-iteration latency. Parallel drafters cut drafter calls by predicting multiple future positions in one forward, but each position is predicted without seeing the others, producing paths the verifier rejects. In this paper, we propose SpecBlock, a block-iterative drafter that combines path dependence with cheap drafting. Each drafter forward produces K dependent positions and we call this a block. The draft tree grows through repeated block expansions. Two mechanisms explicitly carry path dependence to keep later draft positions accurate. Within each block, a layer-wise shift carries the previous position&#x27;s hidden state into every decoder layer. Across blocks, each new block can start from any position of the previous block, inheriting its hidden state to extend the path. To spend verifier budget where acceptance is likely, a co-trained rank head replaces the fixed top-k tree by allocating per-position branching during drafting. To avoid training the drafter on prefixes it never produces at inference, a valid-prefix mask drops the loss at later positions once an earlier one is wrong. Beyond static drafting, a cost-aware ">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.07243" target="_blank" rel="noopener">SpecBlock: Block-Iterative Speculative Decoding with Dynamic Tree Drafting</a> <span class="src-num">[14]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Speculative decoding accelerates LLM inference by drafting a tree of candidate continuations and verifying it in one target forward. Existing drafters fall…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Diffusion Transformers (DiT) trained with flow matching in a VAE latent space have unified visual generation across images and videos. A natural next step toward a single architecture for both generation (visual synthesis) and understanding (text generation) is to apply this framework to language modeling. We propose TextLDM, which transfers the visual latent diffusion recipe to text generation with minimal architectural modification. A Transformer-based VAE maps discrete tokens to continuous latents, enhanced by Representation Alignment (REPA) with a frozen pretrained language model to produce representations effective for conditional denoising. A standard DiT then performs flow matching in this latent space, identical in architecture to its visual counterpart. The central challenge we address is obtaining high-quality continuous text representations: we find that reconstruction fidelity alone is insufficient, and that aligning latent features with a pretrained language model via REPA is critical for downstream generation quality. Trained from scratch on OpenWebText2, TextLDM substantially outperforms prior diffusion language models and matches GPT-2 under the same settings. Our results establish that the visual DiT recipe transfers effectively to language, taking a concrete step toward unified diffusion architectures for multimodal generation and understanding.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.07748" target="_blank" rel="noopener">TextLDM: Language Modeling with Continuous Latent Diffusion</a> <span class="src-num">[15]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Diffusion Transformers (DiT) trained with flow matching in a VAE latent space have unified visual generation across images and videos. A natural next step…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Existing multimodal search agents process target entities sequentially, issuing one tool call per entity and accumulating redundant interaction rounds whenever a query decomposes into independent sub-retrievals. We argue that effective multimodal agents should search wider rather than longer: dispatching multiple grounded queries concurrently within a round. To this end, we present HyperEyes, a parallel multimodal search agent that fuses visual grounding and retrieval into a single atomic action, enabling concurrent search across multiple entities while treating inference efficiency as a first-class training objective. HyperEyes is trained in two stages. For cold-start supervision, we develop a Parallel-Amenable Data Synthesis Pipeline covering visual multi-entity and textual multi-constraint queries, curating efficiency-oriented trajectories via Progressive Rejection Sampling. Building on this, our central contribution, a Dual-Grained Efficiency-Aware Reinforcement Learning framework, operates at two levels. At the macro level, we propose TRACE (Tool-use Reference-Adaptive Cost Efficiency), a trajectory-level reward whose reference is monotonically tightened during training to suppress superfluous tool calls without restricting genuine multi-hop search. At the micro level, we adapt On-Policy Distillation to inject dense token-level corrective signals from an external teacher on failed rollouts, mitigating the credit-assignment deficiency of sparse outcome rewards. Since exis">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.07177" target="_blank" rel="noopener">HyperEyes: Dual-Grained Efficiency-Aware Reinforcement Learning for Parallel Multimodal Search Agents</a> <span class="src-num">[18]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Existing multimodal search agents process target entities sequentially, issuing one tool call per entity and accumulating redundant interaction rounds whenever…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Training multimodal large language models has long been limited by the scarcity of high-quality paired multimodal data. Recent studies show that the shared representation space of pretrained multimodal contrastive models can serve as a bridge, enabling models to perform multimodal training with unimodal data. However, the key premise of this paradigm remains insufficiently understood: can representations from different modalities be reliably interchanged? The core obstacle lies in the persistent Modality Gap in the shared space. In this work, we revisit the geometric nature of the modality gap. We find that modality representations already share compatible dominant semantic geometry. What truly hinders modality interchangeability is not a simple global shift, but an anisotropic residual structure concentrated along a small number of dominant directions. Based on this finding, we further propose the principle of anisotropic modality gap alignment: effective modality alignment should align with the target-modality distribution while preserving the semantic structure of the source modality. Guided by this principle, we propose an anisotropic geometric correction framework, AnisoAlign, for unpaired modality alignment. This framework leverages the internal geometric prior of the target modality and performs bounded correction on source-modality representations, thereby constructing substitute representations in the target modality. Experiments confirm its benefits in both geometri">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.07825" target="_blank" rel="noopener">Anisotropic Modality Align</a> <span class="src-num">[19]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Training multimodal large language models has long been limited by the scarcity of high-quality paired multimodal data. Recent studies show that the shared…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Existing Flow Matching (FM) text-to-image models suffer from two critical bottlenecks under multi-task alignment: the reward sparsity induced by scalar-valued rewards, and the gradient interference arising from jointly optimizing heterogeneous objectives, which together give rise to a &#x27;seesaw effect&#x27; of competing metrics and pervasive reward hacking. Inspired by the success of On-Policy Distillation (OPD) in the large language model community, we propose Flow-OPD, the first unified post-training framework that integrates on-policy distillation into Flow Matching models. Flow-OPD adopts a two-stage alignment strategy: it first cultivates domain-specialized teacher models via single-reward GRPO fine-tuning, allowing each expert to reach its performance ceiling in isolation; it then establishes a robust initial policy through a Flow-based Cold-Start scheme and seamlessly consolidates heterogeneous expertise into a single student via a three-step orchestration of on-policy sampling, task-routing labeling, and dense trajectory-level supervision. We further introduce Manifold Anchor Regularization (MAR), which leverages a task-agnostic teacher to provide full-data supervision that anchors generation to a high-quality manifold, effectively mitigating the aesthetic degradation commonly observed in purely RL-driven alignment. Built upon Stable Diffusion 3.5 Medium, Flow-OPD raises the GenEval score from 63 to 92 and the OCR accuracy from 59 to 94, yielding an overall improvement of ro">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.08063" target="_blank" rel="noopener">Flow-OPD: On-Policy Distillation for Flow Matching Models</a> <span class="src-num">[20]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Existing Flow Matching (FM) text-to-image models suffer from two critical bottlenecks under multi-task alignment: the reward sparsity induced by scalar-valued…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Tokenizers are a crucial component of latent diffusion models, as they define the latent space in which diffusion models operate. However, existing tokenizers are primarily designed to improve reconstruction fidelity or inherit pretrained representations, leaving unclear what kind of latent space is truly friendly for generative modeling. In this paper, we study this question from the perspective of latent manifold organization. By constructing controlled tokenizer variants, we identify three key properties of a diffusion-friendly latent manifold: coherent spatial structure, local manifold continuity, and global manifold semantics. We find that these properties are more consistent with downstream generation quality than reconstruction fidelity. Motivated by this finding, we propose the Prior-Aligned AutoEncoder (PAE), which explicitly shapes the latent manifold instead of leaving diffusion-friendly manifold to emerge indirectly from reconstruction or inheritance. Specifically, PAE leverages refined priors derived from VFMs and perturbation-based regularization to turn spatial structure, local continuity, and global semantics into explicit training objectives. On ImageNet 256x256, PAE improves both training efficiency and generation quality over existing tokenizers, reaching performance comparable to RAE with up to 13x faster convergence under the same training setup and achieving a new state-of-the-art gFID of 1.03. These results highlight the importance of organizing the lat">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.07915" target="_blank" rel="noopener">What Matters for Diffusion-Friendly Latent Manifold? Prior-Aligned Autoencoders for Latent Diffusion</a> <span class="src-num">[21]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Tokenizers are a crucial component of latent diffusion models, as they define the latent space in which diffusion models operate. However, existing tokenizers…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Modern sensors generate rich, high-fidelity data, yet applications operating on wearable or remote sensing devices remain constrained by bandwidth and power budgets. Standardized codecs such as JPEG and MPEG achieve efficient trade-offs between bitrate and perceptual quality but are designed for human perception, limiting their applicability to machine-perception tasks and non-traditional modalities such as spatial audio arrays, hyperspectral images, and 3D medical images. General-purpose compression schemes based on scalar quantization or resolution reduction are broadly applicable but fail to exploit inherent signal redundancies, resulting in suboptimal rate-distortion performance. Recent generative neural codecs, or tokenizers, model complex signal dependencies but are often over-parameterized, data-hungry, and modality-specific, making them impractical for resource-constrained environments. We introduce a Lightweight, Versatile, and Asymmetric neural codec architecture (LiVeAction), that addresses these limitations through two key ideas. (1) To reduce the complexity of the encoder to meet the resource constraints of the execution environments, we impose an FFT-like structure and reduce the overall size and depth of the neural-network-based analysis transform. (2) To allow arbitrary signal modalities and simplify training, we replace adversarial and perceptual losses with a variance-based rate penalty. Our design produces codecs that deliver superior rate-distortion perfor">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06628" target="_blank" rel="noopener">LiVeAction: a Lightweight, Versatile, and Asymmetric Neural Codec Design for Real-time Operation</a> <span class="src-num">[24]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Modern sensors generate rich, high-fidelity data, yet applications operating on wearable or remote sensing devices remain constrained by bandwidth and power…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Self-distillation (SD) offers a promising path for adapting large language models (LLMs) without relying on stronger external teachers. However, SD in autoregressive LLMs remains challenging because self-generated trajectories are free-form, correctness is task-dependent, and plausible rationales can still provide unstable or unreliable supervision. Existing methods mainly examine isolated design choices, leaving their effectiveness, roles, and interactions unclear. In this paper, we propose UniSD, a unified framework to systematically study self-distillation. UniSD integrates complementary mechanisms that address supervision reliability, representation alignment, and training stability, including multi-teacher agreement, EMA teacher stabilization, token-level contrastive learning, feature matching, and divergence clipping. Across six benchmarks and six models from three model families, UniSD reveals when self-distillation improves over static imitation, which components drive the gains, and how these components interact across tasks. Guided by these insights, we construct UniSDfull, an integrated pipeline that combines complementary components and achieves the strongest overall performance, improving over the base model by +5.4 points and the strongest baseline by +2.8 points. Extensive evaluation highlights self-distillation as a practical and steerable approach for efficient LLM adaptation without stronger external teachers.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06597" target="_blank" rel="noopener">UniSD: Towards a Unified Self-Distillation Framework for Large Language Models</a> <span class="src-num">[25]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Self-distillation (SD) offers a promising path for adapting large language models (LLMs) without relying on stronger external teachers. However, SD in…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Linear Attention (LA) offers a promising paradigm for scaling large language models (LLMs) to long sequences by avoiding the quadratic complexity of self-attention. Recent LA models such as Mamba2 and GDN interpret linear recurrences as closed-form online stochastic gradient descent (SGD), but naive SGD updates suffer from rapid information decay and suboptimal convergence in optimization. While momentum-based optimizers provide a natural remedy, they pose challenges in simultaneously achieving training efficiency and effectiveness. To address this, we develop a chunkwise parallel algorithm for LA with a stepwise momentum rule by geometrically reordering the update coefficients. Further, from a dynamical systems perspective, we analyze the momentum-based recurrence as a second-order system that introduces complex conjugate eigenvalues. This analysis guides the design of stable gating constraints. The resulting model, Momentum DeltaNet (MDN), leverages Triton kernels to achieve comparable training throughput with competitive linear models such as Mamba2 and KDA. Extensive experiments on the 400M and 1.3B parameter models demonstrate consistent performance improvements over strong baselines, including Transformers, Mamba2 and GDN, across diverse downstream evaluation benchmarks. Code: https://github.com/HuuYuLong/MomentumDeltaNet .">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.05838" target="_blank" rel="noopener">MDN: Parallelizing Stepwise Momentum for Delta Linear Attention</a> <span class="src-num">[26]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Linear Attention (LA) offers a promising paradigm for scaling large language models (LLMs) to long sequences by avoiding the quadratic complexity of…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="As large language models (LLMs) continue to advance rapidly, they are becoming increasingly capable while simultaneously demanding ever-longer context lengths. To improve the inference efficiency of long-context processing, several novel low-complexity hybrid architectures have recently been proposed, effectively alleviating the computational burden of long-context inference. However, existing research on long-context prefill acceleration remains predominantly focused on sparse attention mechanisms, which achieve their maximum speedup only on full-attention models. When transferred to emerging architectures--such as linear/full attention hybrids or sliding window/full attention hybrids--these prefill acceleration approaches suffer significant performance degradation. Furthermore, such methods are generally incompatible with continuous batching, making them difficult to integrate into modern inference engines such as vLLM. To this end, we propose UniPrefill, a prefill acceleration framework applicable to virtually any model architecture, which directly accelerates the model&#x27;s computation at the token level. We further implement UniPrefill as a continuous batching operator and extend vLLM&#x27;s scheduling strategy to natively support prefill-decode co-processing and tensor parallel for UniPrefill, enabling its seamless integration into vLLM. UniPrefill achieves up to 2.1x speedup in Time-To-First-Token (TTFT), with the acceleration becoming increasingly pronounced as the number of ">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06221" target="_blank" rel="noopener">UniPrefill: Universal Long-Context Prefill Acceleration via Block-wise Dynamic Sparsification</a> <span class="src-num">[28]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">As large language models (LLMs) continue to advance rapidly, they are becoming increasingly capable while simultaneously demanding ever-longer context lengths.…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Large Language Model (LLM)-based agents have fundamentally reshaped artificial intelligence by integrating external tools and planning capabilities. While memory mechanisms have emerged as the architectural cornerstone of these systems, current research remains fragmented, oscillating between operating system engineering and cognitive science. This theoretical divide prevents a unified view of technological synthesis and a coherent evolutionary perspective. To bridge this gap, this survey proposes a novel evolutionary framework for LLM agent memory mechanisms, formalizing the development process into three stages: Storage (trajectory preservation), Reflection (trajectory refinement), and Experience (trajectory abstraction). We first formally define these three stages before analyzing the three core drivers of this evolution: the necessity for long-range consistency, the challenges in dynamic environments, and the ultimate goal of continual learning. Furthermore, we specifically explore two transformative mechanisms in the frontier Experience stage: proactive exploration and cross-trajectory abstraction. By synthesizing these disparate views, this work offers robust design principles and a clear roadmap for the development of next-generation LLM agents.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06716" target="_blank" rel="noopener">From Storage to Experience: A Survey on the Evolution of LLM Agent Memory Mechanisms</a> <span class="src-num">[29]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Large Language Model (LLM)-based agents have fundamentally reshaped artificial intelligence by integrating external tools and planning capabilities. While…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Existing benchmarks for multimodal agentic search evaluate multimodal search and visual browsing, but visual evidence is either confined to the input or treated as an answer endpoint rather than part of an interleaved search trajectory. We introduce InterLV-Search, a benchmark for Interleaved Language-Vision Agentic Search, in which textual and visual evidence is repeatedly used to condition later search. It contains 2,061 examples across three levels: active visual evidence seeking, controlled offline interleaved multimodal search, and open-web interleaved multimodal search. Beyond existing benchmarks, it also includes multimodal multi-branch samples that involve comparison between multiple entities during the evidence search. We construct Level 1 and Level 2 with automated pipelines and Level 3 with a machine-led, human-supervised open-web pipeline. We further provide InterLV-Agent for standardized tool use, trajectory logging, and evaluation. Experiments on proprietary and open-source multimodal agents show that current systems remain far from solving interleaved multimodal search, with the best model below 50% overall accuracy, highlighting challenges in visual evidence seeking, search control, and multimodal evidence integration. We release the benchmark data and evaluation code at https://github.com/hbhalpha/InterLV-Search-Bench">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.07510" target="_blank" rel="noopener">InterLV-Search: Benchmarking Interleaved Multimodal Agentic Search</a> <span class="src-num">[30]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Existing benchmarks for multimodal agentic search evaluate multimodal search and visual browsing, but visual evidence is either confined to the input or…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Deep generative models have advanced rapidly across text and vision, motivating unified multimodal systems that can understand, reason over, and generate interleaved text-image sequences. Most existing approaches combine autoregressive language modeling with diffusion-based image generators, inheriting a structural mismatch between causal text generation and iterative visual denoising. We observe that autoregressive normalizing flows are autoregressive Transformers--sharing the same causal mask, KV-cache mechanism, and left-to-right structure as LLMs--making them the most natural paradigm for true unified multimodal generation. We present STARFlow2, built on the Pretzel architecture that vertically interleaves a pretrained VLM stream with a TarFlow stream via residual skip connections, both operating under the same causal mask. Combined with a deep-shallow flow design and a unified FAE latent space, STARFlow2 enables cache-friendly interleaved generation where both text and visual outputs directly enter the KV-cache without re-encoding. Experiments demonstrate strong performance across image generation and multimodal understanding benchmarks, validating autoregressive flows as a viable foundation for unified multimodal modeling.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.08029" target="_blank" rel="noopener">STARFlow2: Bridging Language Models and Normalizing Flows for Unified Multimodal Generation</a> <span class="src-num">[31]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Deep generative models have advanced rapidly across text and vision, motivating unified multimodal systems that can understand, reason over, and generate…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Diffusion-based models decompose sampling into many small Gaussian denoising steps -- an assumption that breaks down when generation is compressed to a few coarse transitions. Existing few-step methods address this through distillation, consistency training, or adversarial objectives, but sacrifice the likelihood framework in the process. We introduce Normalizing Trajectory Models (NTM), which models each reverse step as an expressive conditional normalizing flow with exact likelihood training. Architecturally, NTM combines shallow invertible blocks within each step with a deep parallel predictor across the trajectory, forming an end-to-end network trainable from scratch or initializable from pretrained flow-matching models. Its exact trajectory likelihood further enables self-distillation: a lightweight denoiser trained on the model&#x27;s own score produces high-quality samples in four steps. On text-to-image benchmarks, NTM matches or outperforms strong image generation baselines in just four sampling steps while uniquely retaining exact likelihood over the generative trajectory.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.08078" target="_blank" rel="noopener">Normalizing Trajectory Models</a> <span class="src-num">[32]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Diffusion-based models decompose sampling into many small Gaussian denoising steps -- an assumption that breaks down when generation is compressed to a few…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Recent byte-level language models (LMs) match the performance of token-level models without relying on subword vocabularies, yet their utility is limited by slow, byte-by-byte autoregressive generation. We address this bottleneck in the Byte Latent Transformer (BLT) through new training and generation techniques. First, we introduce BLT Diffusion (BLT-D), a new model and our fastest BLT variant, trained with an auxiliary block-wise diffusion objective alongside the standard next-byte prediction loss. This enables an inference procedure that generates multiple bytes in parallel per decoding step, substantially reducing the number of forward passes required to generate a sequence. Second, we propose two extensions inspired by speculative decoding that trade some of this speed for higher generation quality: BLT Self-speculation (BLT-S), in which BLT&#x27;s local decoder continues generating past its normal patch boundaries to draft bytes, which are then verified with a single full-model forward pass; and BLT Diffusion+Verification (BLT-DV), which augments BLT-D with an autoregressive verification step after diffusion-based generation. All methods may achieve an estimated memory-bandwidth cost over 50% lower than BLT on generation tasks. Each approach offers its own unique advantages, together removing key barriers to the practical use of byte-level LMs.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.08044" target="_blank" rel="noopener">Fast Byte Latent Transformer</a> <span class="src-num">[33]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Recent byte-level language models (LMs) match the performance of token-level models without relying on subword vocabularies, yet their utility is limited by…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Test-time scaling (TTS) has become an effective approach for improving large language model performance by allocating additional computation during inference. However, existing TTS strategies are largely hand-crafted: researchers manually design reasoning patterns and tune heuristics by intuition, leaving much of the computation-allocation space unexplored. We propose an environment-driven framework, AutoTTS, that changes what researchers design: from individual TTS heuristics to environments where TTS strategies can be discovered automatically. The key to AutoTTS lies in environment construction: the discovery environment must make the control space tractable and provide cheap, frequent feedback for TTS search. As a concrete instantiation, we formulate width--depth TTS as controller synthesis over pre-collected reasoning trajectories and probe signals, where controllers decide when to branch, continue, probe, prune, or stop and can be evaluated cheaply without repeated LLM calls. We further introduce beta parameterization to make the search tractable and fine-grained execution trace feedback to improve discovery efficiency by helping the agent diagnose why a TTS program fails. Experiments on mathematical reasoning benchmarks show that the discovered strategies improve the overall accuracy--cost tradeoff over strong manually designed baselines. The discovered strategies generalize to held-out benchmarks and model scales, while the entire discovery costs only $39.9 and 160 min">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.08083" target="_blank" rel="noopener">LLMs Improving LLMs: Agentic Discovery for Test-Time Scaling</a> <span class="src-num">[34]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Test-time scaling (TTS) has become an effective approach for improving large language model performance by allocating additional computation during inference.…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="A natural intuition about the economics of AI agents is that, because agents can be replicated at very low marginal cost, agent labor may be supplied highly elastically, placing downward pressure on cognitive-labor wages when it closely substitutes for human labor. We argue this framing is wrong in mechanism but partially correct in conclusion, and that the correction matters for both theory and policy. Agents are not labor; they are a production technology that converts compute capital K_c into effective units of cognitive labor L_A. Once this is recognized, the elastic-supply margin that anchors the equilibrium wage migrates from the labor market to the compute capital market. Building on the classic factor-pricing framework mankiw2020, we derive a Compute-Anchored Wage (CAW) bound stating that, on tasks where human and agent-produced cognitive labor are substitutes, the competitive human wage is bounded above by λcdot k cdot r_c, where r_c is the rental rate of compute capital, k is the compute intensity of one effective agent-produced cognitive labor unit, and λ is the relative human-to-agent productivity. We generalize the result through constant elasticity of substitution (CES) aggregation, separate substitutable from complementary tasks, and discuss factor-share consequences. The conclusion is concise: the price-setter for cognitive labor is no longer the labor market.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.05558" target="_blank" rel="noopener">Who Prices Cognitive Labor in the Age of Agents? Compute-Anchored Wages</a> <span class="src-num">[35]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">A natural intuition about the economics of AI agents is that, because agents can be replicated at very low marginal cost, agent labor may be supplied highly…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Synthesizing consistent and coherent long video remains a fundamental challenge. Existing methods suffer from semantic drift and narrative collapse over long horizons. We present A^2RD, an Agentic Auto-Regressive Diffusion architecture that decouples creative synthesis from consistency enforcement. A^2RD formulates long video synthesis as a closed-loop process that synthesizes and self-improves video segment-by-segment through a Retrieve--Synthesize--Refine--Update cycle. It comprises three core components: (i) Multimodal Video Memory that tracks video progression across modalities; (ii) Adaptive Segment Generation that switches among generation modes for natural progression and visual consistency; and (iii) Hierarchical Test-Time Self-Improvement that self-improves each segment at frame and video levels to prevent error propagation. We further introduce LVBench-C, a challenging benchmark with non-linear entity and environment transitions to stress-test long-horizon consistency. Across public and LVBench-C benchmarks spanning one- to ten-minute videos, A^2RD outperforms state-of-the-art baselines by up to 30% in consistency and 20% in narrative coherence. Human evaluations corroborate these gains while also highlighting notable improvements in motion and transition smoothness.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06924" target="_blank" rel="noopener">A^2RD: Agentic Autoregressive Diffusion for Long Video Consistency</a> <span class="src-num">[36]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Synthesizing consistent and coherent long video remains a fundamental challenge. Existing methods suffer from semantic drift and narrative collapse over long…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Dynamic spatial reasoning from monocular video is essential for bridging visual intelligence and the physical world, yet remains challenging for vision-language models (VLMs). Prior approaches either verbalize spatial-temporal reasoning entirely as text, which is inherently verbose and imprecise for complex dynamics, or rely on external geometric modules that increase inference complexity without fostering intrinsic model capability. In this paper, we present 4DThinker, the first framework that enables VLMs to &quot;think with 4D&quot; through dynamic latent mental imagery, i.e., internally simulating how scenes evolve within the continuous hidden space. Specifically, we first introduce a scalable, annotation-free data generation pipeline that synthesizes 4D reasoning data from raw videos. We then propose Dynamic-Imagery Fine-Tuning (DIFT), which jointly supervises textual tokens and 4D latents to ground the model in dynamic visual semantics. Building on this, 4D Reinforcement Learning (4DRL) further tackles complex reasoning tasks via outcome-based rewards, restricting policy gradients to text tokens to ensure stable optimization. Extensive experiments across multiple dynamic spatial reasoning benchmarks demonstrate that 4DThinker consistently outperforms strong baselines and offers a new perspective toward 4D reasoning in VLMs. Our code is available at https://github.com/zhangquanchen/4DThinker.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.05997" target="_blank" rel="noopener">4DThinker: Thinking with 4D Imagery for Dynamic Spatial Understanding</a> <span class="src-num">[37]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Dynamic spatial reasoning from monocular video is essential for bridging visual intelligence and the physical world, yet remains challenging for…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Large language models (LLMs) have become a central foundation of modern artificial intelligence, yet their lifecycle remains constrained by a rigid separation between training and deployment, after which learning effectively ceases. This limitation contrasts with natural intelligence, which continually adapts through interaction with its environment. In this paper, we formalise deployment-time learning (DTL) as the third stage in the LLM lifecycle that enables LLM agents to improve from experience during deployment without modifying model parameters. We present CASCADE (CASe-based Continual Adaptation during DEployment), a general and principled framework that equips LLM agents with an explicit, evolving episodic memory. CASCADE formulates experience reuse as a contextual bandit problem, enabling principled exploration-exploitation trade-offs and establishing no-regret guarantees over long-term interactions. This design allows agents to accumulate, select, and refine task-relevant cases, transforming past experience into actionable knowledge. Across 16 diverse tasks spanning medical diagnosis, legal analysis, code generation, web search, tool use, and embodied interaction, CASCADE improves macro-averaged success rate by 20.9% over zero-shot prompting while consistently outperforming gradient-based and memory-based baselines. By reframing deployment as an adaptive learning process, this work establishes a foundation for continually improving AI systems.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06702" target="_blank" rel="noopener">CASCADE: Case-Based Continual Adaptation for Large Language Models During Deployment</a> <span class="src-num">[38]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Large language models (LLMs) have become a central foundation of modern artificial intelligence, yet their lifecycle remains constrained by a rigid separation…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Reinforcement learning with verifiable rewards (RLVR) has become a standard approach for large language models (LLMs) post-training to incentivize reasoning capacity. Among existing recipes, group-based policy gradient is prevalent, which samples a group of responses per prompt and updates the policy via group-relative advantage signals. This work reveals that these optimization strategies share a common geometric structure: each implicitly defines a target distribution on the response simplex and projects toward it via first-order approximation. Building on this insight, we propose Listwise Policy Optimization (LPO) to explicitly conduct the target-projection, which demystifies the implicit target by restricting the proximal RL objective to the response simplex, and then projects the policy via exact divergence minimization. This framework provides (i) monotonic improvement on the listwise objective with bounded, zero-sum, and self-correcting projection gradients, and (ii) flexibility in divergence selection with distinct structural properties through the decoupled projection step. On diverse reasoning tasks and LLM backbones, LPO consistently improves training performance over typical policy gradient baselines under matched targets, while intrinsically preserving optimization stability and response diversity.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06139" target="_blank" rel="noopener">Listwise Policy Optimization: Group-based RLVR as Target-Projection on the LLM Response Simplex</a> <span class="src-num">[39]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Reinforcement learning with verifiable rewards (RLVR) has become a standard approach for large language models (LLMs) post-training to incentivize reasoning…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Accurately understanding the intent behind speech, conversation, and writing is crucial to the development of helpful Large Language Model (LLM) assistants. This paper introduces IntentGrasp, a comprehensive benchmark for evaluating the intent understanding capability of LLMs. Derived from 49 high-quality, open-licensed corpora spanning 12 diverse domains, IntentGrasp is constructed through source datasets curation, intent label contextualization, and task format unification. IntentGrasp contains a large-scale training set of 262,759 instances and two evaluation sets: an All Set of 12,909 test cases and a more balanced and challenging Gem Set of 470 cases. Extensive evaluations on 20 LLMs across 7 families (including frontier models such as GPT-5.4, Gemini-3.1-Pro, and Claude-Opus-4.7) demonstrate unsatisfactory performance, with scores below 60% on All Set and below 25% on Gem set. Notably, 17 out of 20 tested models perform worse than a random-guess baseline (15.2%) on Gem Set, while the estimated human performance is ~81.1%, showing substantial room for improvement. To enhance such ability, this paper proposes Intentional Fine-Tuning (IFT), which fine-tunes the models on the training set in IntentGrasp, yielding significant gains of 30+ F1 points on All Set and 20+ points on Gem Set. Tellingly, the leave-one-domain-out (Lodo) experiments further demonstrate the strong cross-domain generalizability of IFT, verifying that it is a promising approach to substantially enhancing">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06832" target="_blank" rel="noopener">IntentGrasp: A Comprehensive Benchmark for Intent Understanding</a> <span class="src-num">[40]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Accurately understanding the intent behind speech, conversation, and writing is crucial to the development of helpful Large Language Model (LLM) assistants.…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="DeepSeek Sparse Attention (DSA) sets the state of the art for fine-grained inference-time sparse attention by introducing a learned token-wise indexer that scores every prefix token and selects the most relevant ones for the main attention. To remain expressive, the indexer uses many query heads (for example, 64 on DeepSeek-V3.2) that share the same selected token set; this multi-head design is precisely what makes the indexer the dominant cost on long contexts. We propose MISA (Mixture of Indexer Sparse Attention), a drop-in replacement for the DSA indexer that treats its indexer heads as a pool of mixture-of-experts. A lightweight router uses cheap block-level statistics to pick a query-dependent subset of only a few active heads, and only those heads run the heavy token-level scoring. This preserves the diversity of the original indexer pool while reducing the per-query cost from scoring every prefix token with every head to scoring it with only a handful of routed heads, plus a negligible router term computed on a small set of pooled keys. We further introduce a hierarchical variant of MISA that uses the routed pass to keep an enlarged candidate set and then re-ranks it with the original DSA indexer to recover the final selected tokens almost exactly. With only eight active heads and no additional training, MISA matches the dense DSA indexer on LongBench across DeepSeek-V3.2 and GLM-5 while running with eight and four times fewer indexer heads respectively, and outperform">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.07363" target="_blank" rel="noopener">MISA: Mixture of Indexer Sparse Attention for Long-Context LLM Inference</a> <span class="src-num">[41]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">DeepSeek Sparse Attention (DSA) sets the state of the art for fine-grained inference-time sparse attention by introducing a learned token-wise indexer that…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Large language models (LLM) in computational social science: prospects, current state, and challenges">
+      <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[44]</span></div>
+      <div class="card-authors">Google Scholar</div>
+      <div class="card-desc">Large language models (LLM) in computational social science: prospects, current state, and challenges</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🤖 Agents <span class="group-count">3</span></h3>
+      <div class="cards-grid">
+    <div class="card web-card" data-full-desc="With the rise of online dance-video platforms and rapid advances in AI-generated content (AIGC), music-driven dance generation has emerged as a compelling research direction. Despite substantial progress in related domains such as music-driven 3D dance generation, pose-driven image animation, and audio-driven talking-head synthesis, existing methods cannot be directly adapted to this task. Moreover, the limited studies in this area still struggle to jointly achieve high-quality visual appearance and realistic human motion. Accordingly, we present MACE-Dance, a music-driven dance video generation framework with cascaded Mixture-of-Experts (MoE). The Motion Expert performs music-to-3D motion generation while enforcing kinematic plausibility and artistic expressiveness, whereas the Appearance Expert carries out motion- and reference-conditioned video synthesis, preserving visual identity with spatiotemporal coherence. Specifically, the Motion Expert adopts a diffusion model with a BiMamba-Transformer hybrid architecture and a Guidance-Free Training (GFT) strategy, achieving state-of-the-art (SOTA) performance in 3D dance generation. The Appearance Expert employs a decoupled kinematic-aesthetic fine-tuning strategy, achieving state-of-the-art (SOTA) performance in pose-driven image animation. To better benchmark this task, we curate a large-scale and diverse dataset and design a motion-appearance evaluation protocol. Based on this protocol, MACE-Dance also achieves state-of-the-a">
+      <div class="card-title"><a href="https://huggingface.co/papers/2512.18181" target="_blank" rel="noopener">MACE-Dance: Motion-Appearance Cascaded Experts for Music-Driven Dance Video Generation</a> <span class="src-num">[6]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">With the rise of online dance-video platforms and rapid advances in AI-generated content (AIGC), music-driven dance generation has emerged as a compelling…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="While text-to-image models have made strong progress in visual fidelity, faithfully realizing complex visual intents remains challenging because many requirements must be tracked across grounding, generation, and verification. We refer to these requirements as semantic commitments and formalize their lifecycle discontinuity as the Conceptual Rift, where commitments may be locally resolved or checked but fail to remain identifiable as the same operational units throughout the generation lifecycle. To address this, we propose SCOPE, a specification-guided skill orchestration framework that maintains semantic commitments in an evolving structured specification and conditionally invokes retrieval, reasoning, and repair skills around unresolved or violated commitments. To evaluate commitment-level intent realization, we introduce Gen-Arena, a human-annotated benchmark with entity- and constraint-level specifications, together with Entity-Gated Intent Pass Rate (EGIP), a strict entity-first pass criterion. SCOPE substantially outperforms all evaluated baselines on Gen-Arena, achieving 0.60 EGIP, and further achieves strong results on WISE-V (0.907) and MindBench (0.61), demonstrating the effectiveness of persistent commitment tracking for complex image generation.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.08043" target="_blank" rel="noopener">SCOPE: Structured Decomposition and Conditional Skill Orchestration for Complex Image Generation</a> <span class="src-num">[13]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">While text-to-image models have made strong progress in visual fidelity, faithfully realizing complex visual intents remains challenging because many…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Progress in embodied intelligence increasingly depends on scalable data infrastructure. While vision and language have scaled with internet corpora, learning physical interaction remains constrained by the lack of large, diverse, and richly annotated human activity data. We present HumanNet, a one-million-hour human-centric video corpus that captures how humans interact with the physical world at scale. HumanNet spans both first-person and third-person perspectives and covers fine-grained activities, human-object interactions, tool use, and long-horizon behaviors across diverse real-world environments. Beyond raw video, the dataset provides interaction-centric annotations, including captions, motion descriptions, and hand and body-related signals, enabling motion-aware and interaction-aware learning. Beyond scale, HumanNet introduces a systematic data curation paradigm for embodied learning, where human-centric filtering, temporal structuring, viewpoint diversity, and annotation enrichment are treated as first-class design principles. This design transforms unstructured internet video into a scalable substrate for representation learning, activity understanding, motion generation, and human-to-robot transfer. We conduct a first-step validation on the value of this design through controlled vision-language-action ablation: under a fixed set of validation data, continued training from the Qwen VLM model with 1000 hours of egocentric video drawn from HumanNet surpasses the conti">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06747" target="_blank" rel="noopener">HumanNet: Scaling Human-centric Video Learning to One Million Hours</a> <span class="src-num">[27]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Progress in embodied intelligence increasingly depends on scalable data infrastructure. While vision and language have scaled with internet corpora, learning…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🛡️ AI Safety <span class="group-count">2</span></h3>
+      <div class="cards-grid">
+    <div class="card web-card" data-full-desc="Understanding the topology of decision regions is central to explaining the inner workings of deep neural networks. Prior empirical work has provided evidence that these regions are path connected. We study a stronger topological question: whether closed loops inside a decision region can be contracted without leaving that region. To this end, we propose an iterative quad-mesh filling procedure that constructs a finite-resolution label-preserving surface bounded by a given loop and lying entirely within the same decision region. We further connect this construction to natural Coons patches in order to quantify its deviation from a canonical geometric interpolation of the loop. By evaluating our method across several modern image-classification models, we provide empirical evidence supporting the hypothesis that decision regions in deep neural networks are not only path connected, but also simply connected.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.06380" target="_blank" rel="noopener">Empirical Evidence for Simply Connected Decision Regions in Image Classifiers</a> <span class="src-num">[11]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Understanding the topology of decision regions is central to explaining the inner workings of deep neural networks. Prior empirical work has provided evidence…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Unified multimodal models are envisioned to bridge the gap between understanding and generation. Yet, to achieve competitive performance, state-of-the-art models adopt largely decoupled understanding and generation components. This design, while effective for individual tasks, weakens the connection required for mutual enhancement, leaving the potential synergy empirically uncertain. We propose to explicitly restore this synergy by introducing Understanding-Oriented Post-Training (UNO), a lightweight framework that treats understanding not only as a distinct task, but also a direct supervisory signal to steer generative representations. By incorporating objectives that encode semantic abstraction (captioning) and structural details (visual regression), we enable effective gradient flow from understanding to generation. Extensive experiments on image generation and editing demonstrate that understanding can serve as an effective catalyst for generation.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.05781" target="_blank" rel="noopener">Steering Visual Generation in Unified Multimodal Models with Understanding Supervision</a> <span class="src-num">[17]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Unified multimodal models are envisioned to bridge the gap between understanding and generation. Yet, to achieve competitive performance, state-of-the-art…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>⚙️ Machine Learning <span class="group-count">6</span></h3>
+      <div class="cards-grid">
+    <div class="card web-card" data-full-desc="Domain Generalization (DG) aims to learn representations that remain robust under out-of-distribution (OOD) shifts and generalize effectively to unseen target domains. While recent invariant learning strategies and architectural advances have achieved strong performance, explicitly discovering a structured domain-invariant subspace through second-order statistics remains underexplored. In this work, we propose CPCANet, a novel framework grounded in Common Principal Component Analysis (CPCA), which unrolls the iterative Flury-Gautschi (FG) algorithm into fully differentiable neural layers. This approach integrates the statistical properties of CPCA into an end-to-end trainable framework, enforcing the discovery of a shared subspace across diverse domains while preserving interpretability. Experiments on four standard DG benchmarks demonstrate that CPCANet achieves state-of-the-art (SOTA) performance in zero-shot transfer. Moreover, CPCANet is architecture-agnostic and requires no dataset-specific tuning, providing a simple and efficient approach to learning robust representations under distribution shift. Code is available at https://github.com/wish44165/CPCANet.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.05136" target="_blank" rel="noopener">CPCANet: Deep Unfolding Common Principal Component Analysis for Domain Generalization</a> <span class="src-num">[16]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Domain Generalization (DG) aims to learn representations that remain robust under out-of-distribution (OOD) shifts and generalize effectively to unseen target…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Code search has usually been evaluated as first-stage retrieval, even though production systems rely on broader pipelines with reranking and developer-style queries. Existing benchmarks also suffer from data contamination, label noise, and degenerate binary relevance. In this paper, we introduce CoREB, a contamination-limited, multitask code retrieval and reranking benchmark, together with a fine-tuned code reranker, that goes beyond retrieval to cover the full code search pipeline. CoREB is built from counterfactually rewritten LiveCodeBench problems in five programming languages and delivered as timed releases with graded relevance judgments. We benchmark eleven embedding models and five rerankers across three tasks: text-to-code, code-to-text, and code-to-code. Our experiments reveal that: \circone code-specialised embeddings dominate code-to-code retrieval ({sim}2{times} over general encoders), yet no single model wins all three tasks; \circtwo short keyword queries, the format closest to real developer search, collapse every model to near-zero nDCG@10; \circthree off-the-shelf rerankers are task-asymmetric, with a 12-point swing on code-to-code and no baseline net-positive across all tasks; \circfour our fine-tuned CoREB-Reranker is the first to achieve consistent gains across all three tasks. The data and model are released.">
+      <div class="card-title"><a href="https://huggingface.co/papers/2605.04615" target="_blank" rel="noopener">Beyond Retrieval: A Multitask Benchmark and Model for Code Search</a> <span class="src-num">[22]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Code search has usually been evaluated as first-stage retrieval, even though production systems rely on broader pipelines with reranking and developer-style…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Continual learning, especially class-incremental learning (CIL), on the basis of a pre-trained model (PTM) has garnered substantial research interest in recent years. However, how to effectively learn both discriminative and comprehensive feature representations while maintaining stability and plasticity over very long task sequences remains an open problem. We propose CaRE, a scalable {C}ontinual Le{a}rner with efficient Bi-Level {R}outing Mixture-of-{E}xperts (BR-MoE). The core idea of BR-MoE is a bi-level routing mechanism: a router selection stage that dynamically activates relevant task-specific routers, followed by an expert routing phase that dynamically activates and aggregates experts, aiming to inject discriminative and comprehensive representations into every intermediate network layer. On the other hand, we introduce a challenging dataset, OmniBenchmark-1K, for CIL performance evaluation on very long task sequences with hundreds of tasks. Extensive experiments show that CaRE demonstrates leading performance across a variety of datasets and task settings, including commonly used CIL datasets with classical CIL settings (e.g., 5-20 tasks). To the best of our knowledge, CaRE is the first continual learner that scales to very long task sequences (ranging from 100 to over 300 non-overlapping tasks), while outperforming all baselines by a large margin on such task sequences. We hope that this work will inspire further research into continual learning over extremely long">
+      <div class="card-title"><a href="https://huggingface.co/papers/2602.03473" target="_blank" rel="noopener">Scaling Continual Learning to 300+ Tasks with Bi-Level Routing Mixture-of-Experts</a> <span class="src-num">[23]</span></div>
+      <div class="card-authors">HuggingFace</div>
+      <div class="card-desc">Continual learning, especially class-incremental learning (CIL), on the basis of a pre-trained model (PTM) has garnered substantial research interest in recent…</div>
+      <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements">
+      <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[42]</span></div>
+      <div class="card-authors">Google Scholar</div>
+      <div class="card-desc">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original quantitative analysis of Epoch AI notable AI models dataset and combining with available literature. With focus on key breakthroughs, evolving trends, industry impacts and future directions, the paper shows important shifts from academia to industry in AI research leadership from the year 2014 when industry started leading in release of notable AI models. Despite abundance of literature about AI and allied fields, there are not many papers or a">
+      <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a> <span class="src-num">[43]</span></div>
+      <div class="card-authors">Google Scholar</div>
+      <div class="card-desc">This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original…</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+      <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[46]</span></div>
+      <div class="card-authors">Google Scholar</div>
+      <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum…</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🔐 Security & Crypto <span class="group-count">3</span></h3>
+      <div class="cards-grid">
+    <div class="card web-card" data-full-desc="yes, as in singular one. Back in April 2026 Anthropic caused a lot of media noise when they concluded that their new AI model Mythos is dangerously good at finding security flaws in source code. Apparently Mythos was so good at this that Anthropic would not release this model to the public yet but instead … Continue reading Mythos finds a curl vulnerability →">
+      <div class="card-title"><a href="https://daniel.haxx.se/blog/2026/05/11/mythos-finds-a-curl-vulnerability/" target="_blank" rel="noopener">Mythos finds a curl vulnerability</a> <span class="src-num">[1]</span></div>
+      <div class="card-authors">Lobste.rs</div>
+      <div class="card-desc">yes, as in singular one. Back in April 2026 Anthropic caused a lot of media noise when they concluded that their new AI model Mythos is dangerously good at…</div>
+      <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Using Revaulter to safely unlock encrypted ZFS volumes at boot with WebAuthn and PRF">
+      <div class="card-title"><a href="https://withblue.ink/2026/05/09/revaulter-encrypted-zfs-passkey.html" target="_blank" rel="noopener">Unlocking Encrypted ZFS Volumes with a Passkey</a> <span class="src-num">[2]</span></div>
+      <div class="card-authors">Lobste.rs</div>
+      <div class="card-desc">Using Revaulter to safely unlock encrypted ZFS volumes at boot with WebAuthn and PRF</div>
+      <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+    </div>
+    <div class="card web-card" data-full-desc="Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms">
+      <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[45]</span></div>
+      <div class="card-authors">Google Scholar</div>
+      <div class="card-desc">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future…</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>⚛️ Quantum <span class="group-count">1</span></h3>
+      <div class="cards-grid">
+    <div class="card web-card" data-full-desc="Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements">
+      <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[47]</span></div>
+      <div class="card-authors">Google Scholar</div>
+      <div class="card-desc">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</div>
+      <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+    </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://daniel.haxx.se/blog/2026/05/11/mythos-finds-a-curl-vulnerability/" target="_blank" rel="noopener">Mythos finds a curl vulnerability</a></li>
+<li>[2] <a href="https://withblue.ink/2026/05/09/revaulter-encrypted-zfs-passkey.html" target="_blank" rel="noopener">Unlocking Encrypted ZFS Volumes with a Passkey</a></li>
+<li>[3] <a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decry</a></li>
+<li>[4] <a href="https://huggingface.co/papers/2604.25325" target="_blank" rel="noopener">R^3-SQL: Ranking Reward and Resampling for Text-to-SQL</a></li>
+<li>[5] <a href="https://huggingface.co/papers/2605.06169" target="_blank" rel="noopener">Mean Mode Screaming: Mean--Variance Split Residuals for 1000-Layer Diffusio</a></li>
+<li>[6] <a href="https://huggingface.co/papers/2512.18181" target="_blank" rel="noopener">MACE-Dance: Motion-Appearance Cascaded Experts for Music-Driven Dance Video</a></li>
+<li>[7] <a href="https://huggingface.co/papers/2605.06734" target="_blank" rel="noopener">Gated QKAN-FWP: Scalable Quantum-inspired Sequence Learning</a></li>
+<li>[8] <a href="https://huggingface.co/papers/2605.04808" target="_blank" rel="noopener">DecodingTrust-Agent Platform (DTap): A Controllable and Interactive Red-Tea</a></li>
+<li>[9] <a href="https://huggingface.co/papers/2605.07755" target="_blank" rel="noopener">Rethinking State Tracking in Recurrent Models Through Error Control Dynamic</a></li>
+<li>[10] <a href="https://huggingface.co/papers/2605.06105" target="_blank" rel="noopener">Shallow Prefill, Deep Decoding: Efficient Long-Context Inference via Layer-</a></li>
+<li>[11] <a href="https://huggingface.co/papers/2605.06380" target="_blank" rel="noopener">Empirical Evidence for Simply Connected Decision Regions in Image Classifie</a></li>
+<li>[12] <a href="https://huggingface.co/papers/2605.00425" target="_blank" rel="noopener">AEM: Adaptive Entropy Modulation for Multi-Turn Agentic Reinforcement Learn</a></li>
+<li>[13] <a href="https://huggingface.co/papers/2605.08043" target="_blank" rel="noopener">SCOPE: Structured Decomposition and Conditional Skill Orchestration for Com</a></li>
+<li>[14] <a href="https://huggingface.co/papers/2605.07243" target="_blank" rel="noopener">SpecBlock: Block-Iterative Speculative Decoding with Dynamic Tree Drafting</a></li>
+<li>[15] <a href="https://huggingface.co/papers/2605.07748" target="_blank" rel="noopener">TextLDM: Language Modeling with Continuous Latent Diffusion</a></li>
+<li>[16] <a href="https://huggingface.co/papers/2605.05136" target="_blank" rel="noopener">CPCANet: Deep Unfolding Common Principal Component Analysis for Domain Gene</a></li>
+<li>[17] <a href="https://huggingface.co/papers/2605.05781" target="_blank" rel="noopener">Steering Visual Generation in Unified Multimodal Models with Understanding </a></li>
+<li>[18] <a href="https://huggingface.co/papers/2605.07177" target="_blank" rel="noopener">HyperEyes: Dual-Grained Efficiency-Aware Reinforcement Learning for Paralle</a></li>
+<li>[19] <a href="https://huggingface.co/papers/2605.07825" target="_blank" rel="noopener">Anisotropic Modality Align</a></li>
+<li>[20] <a href="https://huggingface.co/papers/2605.08063" target="_blank" rel="noopener">Flow-OPD: On-Policy Distillation for Flow Matching Models</a></li>
+<li>[21] <a href="https://huggingface.co/papers/2605.07915" target="_blank" rel="noopener">What Matters for Diffusion-Friendly Latent Manifold? Prior-Aligned Autoenco</a></li>
+<li>[22] <a href="https://huggingface.co/papers/2605.04615" target="_blank" rel="noopener">Beyond Retrieval: A Multitask Benchmark and Model for Code Search</a></li>
+<li>[23] <a href="https://huggingface.co/papers/2602.03473" target="_blank" rel="noopener">Scaling Continual Learning to 300+ Tasks with Bi-Level Routing Mixture-of-E</a></li>
+<li>[24] <a href="https://huggingface.co/papers/2605.06628" target="_blank" rel="noopener">LiVeAction: a Lightweight, Versatile, and Asymmetric Neural Codec Design fo</a></li></ol>
+      <ol start="25"><li>[1] <a href="https://huggingface.co/papers/2605.06597" target="_blank" rel="noopener">UniSD: Towards a Unified Self-Distillation Framework for Large Language Mod</a></li>
+<li>[2] <a href="https://huggingface.co/papers/2605.05838" target="_blank" rel="noopener">MDN: Parallelizing Stepwise Momentum for Delta Linear Attention</a></li>
+<li>[3] <a href="https://huggingface.co/papers/2605.06747" target="_blank" rel="noopener">HumanNet: Scaling Human-centric Video Learning to One Million Hours</a></li>
+<li>[4] <a href="https://huggingface.co/papers/2605.06221" target="_blank" rel="noopener">UniPrefill: Universal Long-Context Prefill Acceleration via Block-wise Dyna</a></li>
+<li>[5] <a href="https://huggingface.co/papers/2605.06716" target="_blank" rel="noopener">From Storage to Experience: A Survey on the Evolution of LLM Agent Memory M</a></li>
+<li>[6] <a href="https://huggingface.co/papers/2605.07510" target="_blank" rel="noopener">InterLV-Search: Benchmarking Interleaved Multimodal Agentic Search</a></li>
+<li>[7] <a href="https://huggingface.co/papers/2605.08029" target="_blank" rel="noopener">STARFlow2: Bridging Language Models and Normalizing Flows for Unified Multi</a></li>
+<li>[8] <a href="https://huggingface.co/papers/2605.08078" target="_blank" rel="noopener">Normalizing Trajectory Models</a></li>
+<li>[9] <a href="https://huggingface.co/papers/2605.08044" target="_blank" rel="noopener">Fast Byte Latent Transformer</a></li>
+<li>[10] <a href="https://huggingface.co/papers/2605.08083" target="_blank" rel="noopener">LLMs Improving LLMs: Agentic Discovery for Test-Time Scaling</a></li>
+<li>[11] <a href="https://huggingface.co/papers/2605.05558" target="_blank" rel="noopener">Who Prices Cognitive Labor in the Age of Agents? Compute-Anchored Wages</a></li>
+<li>[12] <a href="https://huggingface.co/papers/2605.06924" target="_blank" rel="noopener">A^2RD: Agentic Autoregressive Diffusion for Long Video Consistency</a></li>
+<li>[13] <a href="https://huggingface.co/papers/2605.05997" target="_blank" rel="noopener">4DThinker: Thinking with 4D Imagery for Dynamic Spatial Understanding</a></li>
+<li>[14] <a href="https://huggingface.co/papers/2605.06702" target="_blank" rel="noopener">CASCADE: Case-Based Continual Adaptation for Large Language Models During D</a></li>
+<li>[15] <a href="https://huggingface.co/papers/2605.06139" target="_blank" rel="noopener">Listwise Policy Optimization: Group-based RLVR as Target-Projection on the </a></li>
+<li>[16] <a href="https://huggingface.co/papers/2605.06832" target="_blank" rel="noopener">IntentGrasp: A Comprehensive Benchmark for Intent Understanding</a></li>
+<li>[17] <a href="https://huggingface.co/papers/2605.07363" target="_blank" rel="noopener">MISA: Mixture of Indexer Sparse Attention for Long-Context LLM Inference</a></li>
+<li>[18] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning</a></li>
+<li>[19] <a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the </a></li>
+<li>[20] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, cur</a></li>
+<li>[21] <a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive </a></li>
+<li>[22] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication</a></li>
+<li>[23] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with qua</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
