@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — May 15, 2026 04:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">May 15, 2026 04:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">59</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">59</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">May 15, 2026 04:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li>Autonomous AI agents (Codex/Claude) ran 10,000 nanoGPT optimization attempts over two weeks, setting a new 2,930-step record and revealing critical failure modes in self-directed research loops.</li>
+      <li>SU-01 reasoning model reaches IMO gold-medal level on a 30B-A3B backbone using reverse-perplexity curriculum SFT and two-stage RL, with stable trajectories exceeding 100K tokens.</li>
+      <li>Orchard open-source agentic framework achieves 67.5% on SWE-bench (new open-source SOTA) and 74.1% on WebVoyager with a 4B vision-language computer-use agent trained on just 2.2K tasks.</li>
+      <li>Darwin evolutionary merging produces a 27B model ranking #6 of 1,252 models on GPQA Diamond without any gradient training, using MRI-Trust fusion across 14-dimensional merge genomes.</li>
+      <li>WildClawBench reveals frontier agents (Claude Opus 4.7 best at 62.2%) still struggle with long-horizon native-runtime CLI tasks averaging 8 minutes and 20+ tool calls.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>AI-assisted CVE discovery is flooding disclosure volumes:</strong> A VulnCheck analysis shows public CVE disclosures are surging, with AI-assisted vulnerability discovery increasingly identified as the primary driver.</li>
+      <li><strong>Linux kernel 0-day exposes /etc/shadow to unprivileged users:</strong> A new ptrace-based exploit allows stealing SSH host keys and shadow password files on unpatched kernels.</li>
+      <li><strong>Mullvad VPN server fleet enables user fingerprinting:</strong> With only 578 servers versus Proton VPN's 20,000, Mullvad's per-user exit IP assignment creates a trackable fingerprint across sites.</li>
+      <li><strong>ChatGPT client-side Cloudflare gate reads React state before input is allowed:</strong> Reverse-engineering reveals Cloudflare middleware intercepts and inspects ChatGPT's internal React component state.</li>
+      <li><strong>Vibe coding eroding programmers' edge-case reasoning:</strong> A widely-discussed essay argues AI-assisted bug handling is silently degrading developers' ability to reason through complex code paths.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  <div class="section">
+  <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+    <h3>🦠 LLMs <span class="group-count">14</span></h3>
+    <div class="cards-grid">
+  <div class="card" data-full-desc="We let Codex and Claude Code autonomously iterate on the nanoGPT speedrun optimizer track for two weeks, producing ~10k runs, a new 2930-step record, and a detailed look at where autonomous research agents work and break down.">
+    <div class="card-title"><a href="https://www.primeintellect.ai/auto-nanogpt" target="_blank" rel="noopener">Autonomous AI research for nanogpt speedrun</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">Tags: ai | Score: 1</div>
+    <div class="card-desc">We let Codex and Claude Code autonomously iterate on the nanoGPT speedrun optimizer track for two weeks, producing ~10k runs, a new 2930-step record, and a detailed look at where autonomous research…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Reverse-engineering how Cloudflare&#x27;s JavaScript middleware reads ChatGPT&#x27;s React component state before allowing user input.">
+    <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors">Tags: privacy, web | Score: 69</div>
+    <div class="card-desc">Reverse-engineering how Cloudflare&#x27;s JavaScript middleware reads ChatGPT&#x27;s React component state before allowing user input.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="BEAM introduces trainable binary masks for token-adaptive expert selection in Mixture-of-Experts models, achieving 85% MoE FLOP reduction while retaining over 98% of model performance via a custom vLLM-integrated CUDA kernel.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14438" target="_blank" rel="noopener">BEAM: Binary Expert Activation Masking for Dynamic Routing in MoE</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors">2605.14438 |  Juntong Wu, Jialiang Cheng, Qishen Yin, Yue Dai et al.</div>
+    <div class="card-desc">BEAM introduces trainable binary masks for token-adaptive expert selection in Mixture-of-Experts models, achieving 85% MoE FLOP reduction while retaining over 98% of model performance via a custom…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="CurveBench tests hierarchical topological reasoning from visual input; even Gemini 3.1 Pro achieves only 71.1% on easy and 19.1% on hard configurations, revealing topology-aware reasoning remains unsolved.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14068" target="_blank" rel="noopener">CurveBench: A Benchmark for Exact Topological Reasoning over Nested Jordan Curves</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors">2605.14068 |  Amirreza Mohseni, Mona Mohammadi, Morteza Saghafian, Naser Talebizadeh Saradari |  1</div>
+    <div class="card-desc">CurveBench tests hierarchical topological reasoning from visual input; even Gemini 3.1 Pro achieves only 71.1% on easy and 19.1% on hard configurations, revealing topology-aware reasoning remains…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="ATESD addresses teacher-side exposure mismatch in LLM self-distillation by treating teacher exposure as a learnable Beta-policy controller conditioned on training-state statistics.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.11458" target="_blank" rel="noopener">Adaptive Teacher Exposure for Self-Distillation in LLM Reasoning</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors">2605.11458 |  Zihao Han, Tiangang Zhang, Huaibin Wang, Yilun Sun |  3</div>
+    <div class="card-desc">ATESD addresses teacher-side exposure mismatch in LLM self-distillation by treating teacher exposure as a learnable Beta-policy controller conditioned on training-state statistics.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="PanoWorld introduces pano-native understanding for MLLMs, requiring reasoning over equirectangular panorama as continuous observer-centered space, with Spherical Spatial Cross-Attention and PanoSpace-Bench benchmark.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13169" target="_blank" rel="noopener">PanoWorld: Towards Spatial Supersensing in 360 Degree Panorama World</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors">2605.13169 |  Changpeng Wang, Xin Lin, Junhan Liu, Yuheng Liu et al.</div>
+    <div class="card-desc">PanoWorld introduces pano-native understanding for MLLMs, requiring reasoning over equirectangular panorama as continuous observer-centered space, with Spherical Spatial Cross-Attention and…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="RouteProfile characterizes LLM profiling along four dimensions, showing structured query-level profiles outperform flat ones for routing.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.00180" target="_blank" rel="noopener">RouteProfile: Elucidating the Design Space of LLM Profiles for Routing</a> <span class="src-num">[7]</span></div>
+    <div class="card-authors">2605.00180 |  Jingjun Xu, Hongji Pu, Tao Feng, Haozhen Zhang et al.</div>
+    <div class="card-desc">RouteProfile characterizes LLM profiling along four dimensions, showing structured query-level profiles outperform flat ones for routing.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="SU-01 applies reverse-perplexity curriculum SFT followed by two-stage RL and test-time scaling to a 30B-A3B backbone, reaching IMO gold-medal level with 100K+ token trajectories.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13301" target="_blank" rel="noopener">Achieving Gold-Medal-Level Olympiad Reasoning via Simple and Unified Scaling</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors">2605.13301 |  Yafu Li, Runzhe Zhan, Haoran Zhang, Shunkai Zhang et al.</div>
+    <div class="card-desc">SU-01 applies reverse-perplexity curriculum SFT followed by two-stage RL and test-time scaling to a 30B-A3B backbone, reaching IMO gold-medal level with 100K+ token trajectories.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Nexus decomposes time-series forecasting into specialized macro/micro temporal stages with contextual integration, outperforming state-of-the-art TSFMs on real estate and stock market data strictly after LLM knowledge cutoffs.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14389" target="_blank" rel="noopener">Nexus: An Agentic Framework for Time Series Forecasting</a> <span class="src-num">[9]</span></div>
+    <div class="card-authors">2605.14389 |  Sarkar Snigdha Sarathi Das, Palash Goyal, Mihir Parmar, Nanyun Peng et al.</div>
+    <div class="card-desc">Nexus decomposes time-series forecasting into specialized macro/micro temporal stages with contextual integration, outperforming state-of-the-art TSFMs on real estate and stock market data strictly…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="EvoEnv synthesizes Python environments from seed tasks with staged validation and solver-relative difficulty calibration, reframing self-improvement as environment construction with reusable executable objects.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14392" target="_blank" rel="noopener">Learning to Build the Environment: Self-Evolving Reasoning RL via Verifiable Environment Synthesis</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors">2605.14392 |  Yucheng Shi, Zhenwen Liang, Kishan Panaganti, Dian Yu et al.</div>
+    <div class="card-desc">EvoEnv synthesizes Python environments from seed tasks with staged validation and solver-relative difficulty calibration, reframing self-improvement as environment construction with reusable…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="ATLAS uses a single discrete functional token as both an agentic operation and latent visual reasoning unit, with Latent-Anchored GRPO stabilizing RL training without architectural modifications.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15198" target="_blank" rel="noopener">ATLAS: Agentic or Latent Visual Reasoning? One Word is Enough for Both</a> <span class="src-num">[11]</span></div>
+    <div class="card-authors">2605.15198 |  Ziyu Guo, Rain Liu, Xinyan Chen, Pheng-Ann Heng |  15</div>
+    <div class="card-desc">ATLAS uses a single discrete functional token as both an agentic operation and latent visual reasoning unit, with Latent-Anchored GRPO stabilizing RL training without architectural modifications.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="SPIN combines validated DAG planning with prefix-based execution control for industrial LLM agents, reducing executed tasks by 41% and tool calls by 42% on AssetOpsBench.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14051" target="_blank" rel="noopener">SPIN: Structural LLM Planning via Iterative Navigation for Industrial Tasks</a> <span class="src-num">[12]</span></div>
+    <div class="card-authors">2605.14051 |  Yusuke Ozaki, Dhaval Patel |  1</div>
+    <div class="card-desc">SPIN combines validated DAG planning with prefix-based execution control for industrial LLM agents, reducing executed tasks by 41% and tool calls by 42% on AssetOpsBench.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="A comprehensive review covering how LLMs are applied in computational social science, including social phenomenon analysis, data bias and privacy challenges.">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[13]</span></div>
+    <div class="card-authors">The advent of large language models (LLMs) has marked a new era in computational social science.</div>
+    <div class="card-desc">A comprehensive review covering how LLMs are applied in computational social science, including social phenomenon analysis, data bias and privacy challenges.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="A study examining how generative AI personas function as teammates in collaborative moral reasoning, finding that AI teammates alter the process and distribution of moral frames among human participants.">
+    <div class="card-title"><a href="https://bera-journals.onlinelibrary.wiley.com/doi/abs/10.1111/bjet.70067" target="_blank" rel="noopener">When machines join the moral circle: The persona effect of generative AI agents in collaborative reasoning</a> <span class="src-num">[14]</span></div>
+    <div class="card-authors">Overall, AI teammates altered the process, the distribution and connection of moral frames...</div>
+    <div class="card-desc">A study examining how generative AI personas function as teammates in collaborative moral reasoning, finding that AI teammates alter the process and distribution of moral frames among human…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>⚙️ Machine Learning <span class="group-count">29</span></h3>
+    <div class="cards-grid">
+  <div class="card" data-full-desc="An essay on how the rise of AI-assisted coding is degrading programmers&#x27; ability to reason through bugs and edge cases independently.">
+    <div class="card-title"><a href="https://caio.ca/blog/what-coding-is-starting-to-lose" target="_blank" rel="noopener">What Coding Is Starting to Lose</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">Tags: ai, culture, practices, programming et al.</div>
+    <div class="card-desc">An essay on how the rise of AI-assisted coding is degrading programmers&#x27; ability to reason through bugs and edge cases independently.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Realiz3D decouples control signals from visual domain in diffusion model training via co-variate residual adapters, preventing models from learning spurious associations between controls and synthetic appearance.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13852" target="_blank" rel="noopener">Realiz3D: 3D Generation Made Photorealistic via Domain-Aware Learning</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors">2605.13852 |  Ido Sobol, Kihyuk Sohn, Yoav Blum, Egor Zakharov et al.</div>
+    <div class="card-desc">Realiz3D decouples control signals from visual domain in diffusion model training via co-variate residual adapters, preventing models from learning spurious associations between controls and…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="FrontierSmith automatically evolves open-ended coding problems from closed-ended competitive programming tasks using idea divergence metrics to select problems that elicit diverse solutions.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14445" target="_blank" rel="noopener">FrontierSmith: Synthesizing Open-Ended Coding Problems at Scale</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors">2605.14445 |  Runyuan He, Qiuyang Mang, Shang Zhou, Kaiyuan Liu et al.</div>
+    <div class="card-desc">FrontierSmith automatically evolves open-ended coding problems from closed-ended competitive programming tasks using idea divergence metrics to select problems that elicit diverse solutions.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="RewardHarness reframes reward modeling as context evolution, iteratively refining a library of tools and skills from as few as 100 preference demonstrations to align image-edit evaluation with human preferences.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.08703" target="_blank" rel="noopener">RewardHarness: Self-Evolving Agentic Post-Training</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors">2605.08703 |  Yuxuan Zhang, Penghui Du, Bo Li, Cong Wei et al.</div>
+    <div class="card-desc">RewardHarness reframes reward modeling as context evolution, iteratively refining a library of tools and skills from as few as 100 preference demonstrations to align image-edit evaluation with human…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Pace-and-Path Correction is a training-free inference-time operator for Vision-Language-Action models that decomposes motion correction into pace and path channels, improving success rates by up to 28.8% in dynamic environments.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.11459" target="_blank" rel="noopener">Overcoming Dynamics-Blindness: Training-Free Pace-and-Path Correction for VLA Models</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors">2605.11459 |  Yanyan Zhang, Chaoda Song, Vikash Singh, Xinpeng Li et al.</div>
+    <div class="card-desc">Pace-and-Path Correction is a training-free inference-time operator for Vision-Language-Action models that decomposes motion correction into pace and path channels, improving success rates by up to…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="PRISM addresses unreliable text conditions and ambiguous stroke boundaries in text-image super-resolution through Flow-Matching Prior Rectification and Structure-guided Uncertainty-aware Residual Encoder.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13027" target="_blank" rel="noopener">PRISM: Prior Rectification and Uncertainty-Aware Structure Modeling for Diffusion-Based Text Image Super-Resolution</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors">2605.13027 |  Zihang Xu, Xiaoyang Liu, Zheng Chen, Yulun Zhang et al.</div>
+    <div class="card-desc">PRISM addresses unreliable text conditions and ambiguous stroke boundaries in text-image super-resolution through Flow-Matching Prior Rectification and Structure-guided Uncertainty-aware Residual…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="CLVR couples visual-language planning with pixel-level diffusion generation via automated step-level visual verification and Proxy Prompt Reinforcement Learning to resolve long-context optimization instabilities.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14876" target="_blank" rel="noopener">Unlocking Complex Visual Generation via Closed-Loop Verified Reasoning</a> <span class="src-num">[7]</span></div>
+    <div class="card-authors">2605.14876 |  Hanbo Cheng, Limin Lin, Ruo Zhang, Yicheng Pan et al.</div>
+    <div class="card-desc">CLVR couples visual-language planning with pixel-level diffusion generation via automated step-level visual verification and Proxy Prompt Reinforcement Learning to resolve long-context optimization…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Forcing-KV classifies attention heads into static and dynamic categories and applies hybrid KV cache pruning, achieving 29 fps on H200 with 30% cache memory reduction.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.09681" target="_blank" rel="noopener">Forcing-KV: Hybrid KV Cache Compression for Efficient Autoregressive Video Diffusion Models</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors">2605.09681 |  Yicheng Ji, Zhizhou Zhong, Jun Zhang, Qin Yang et al.</div>
+    <div class="card-desc">Forcing-KV classifies attention heads into static and dynamic categories and applies hybrid KV cache pruning, achieving 29 fps on H200 with 30% cache memory reduction.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="DLR jointly learns discrete latent codes, routing policies, and model parameters through dynamic search in a single training stage, matching or outperforming SFT with a mean gain of 6.6 percentage points.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14323" target="_blank" rel="noopener">Dynamic Latent Routing</a> <span class="src-num">[9]</span></div>
+    <div class="card-authors">2605.14323 |  Fangyuan Yu, Xin Su, Amir Abdullah |  1</div>
+    <div class="card-desc">DLR jointly learns discrete latent codes, routing policies, and model parameters through dynamic search in a single training stage, matching or outperforming SFT with a mean gain of 6.6 percentage…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Causal Forcing++ uses causal consistency distillation for few-step AR video generation initialization, surpassing prior 4-step chunk-wise methods while reducing first-frame latency by 50% and training cost by 4x.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15141" target="_blank" rel="noopener">Causal Forcing++: Scalable Few-Step Autoregressive Diffusion Distillation for Real-Time Interactive Video Generation</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors">2605.15141 |  Min Zhao, Hongzhou Zhu, Kaiwen Zheng, Zihan Zhou et al.</div>
+    <div class="card-desc">Causal Forcing++ uses causal consistency distillation for few-step AR video generation initialization, surpassing prior 4-step chunk-wise methods while reducing first-frame latency by 50% and…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="IntentVLA encodes recent visual observations into a short-horizon intent representation to condition chunk generation, reducing inter-chunk conflict in aliased robot manipulation.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14712" target="_blank" rel="noopener">IntentVLA: Short-Horizon Intent Modeling for Aliased Robot Manipulation</a> <span class="src-num">[11]</span></div>
+    <div class="card-authors">2605.14712 |  Shijie Lian, Bin Yu, Xiaopeng Lin, Zhaolong Shen et al.</div>
+    <div class="card-desc">IntentVLA encodes recent visual observations into a short-horizon intent representation to condition chunk generation, reducing inter-chunk conflict in aliased robot manipulation.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="MemLens benchmarks 27 LVLMs and 7 memory-augmented agents across 789 questions, finding long-context models degrade with conversation length while memory agents lose visual fidelity.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14906" target="_blank" rel="noopener">MemLens: Benchmarking Multimodal Long-Term Memory in Large Vision-Language Models</a> <span class="src-num">[12]</span></div>
+    <div class="card-authors">2605.14906 |  Xiyu Ren, Zhaowei Wang, Yiming Du, Zhongwei Xie et al.</div>
+    <div class="card-desc">MemLens benchmarks 27 LVLMs and 7 memory-augmented agents across 789 questions, finding long-context models degrade with conversation length while memory agents lose visual fidelity.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="DiffusionOPD trains task-specific teachers independently then distills them into a unified student along the student&#x27;s own rollout trajectories, unifying single-task and multi-task RL for diffusion models.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15055" target="_blank" rel="noopener">DiffusionOPD: A Unified Perspective of On-Policy Distillation in Diffusion Models</a> <span class="src-num">[13]</span></div>
+    <div class="card-authors">2605.15055 |  Quanhao Li, Junqiu Yu, Kaixun Jiang, Yujie Wei et al.</div>
+    <div class="card-desc">DiffusionOPD trains task-specific teachers independently then distills them into a unified student along the student&#x27;s own rollout trajectories, unifying single-task and multi-task RL for diffusion…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Pure synthetic layered graphic design data is shown to be a scalable and effective substitute for scarce proprietary layered assets in training layer decomposition models.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15167" target="_blank" rel="noopener">Does Synthetic Layered Design Data Benefit Layered Design Decomposition?</a> <span class="src-num">[14]</span></div>
+    <div class="card-authors">2605.15167 |  Kam Man Wu, Haolin Yang, Qingyu Chen, Yihu Tang et al.</div>
+    <div class="card-desc">Pure synthetic layered graphic design data is shown to be a scalable and effective substitute for scarce proprietary layered assets in training layer decomposition models.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="SANA-WM is a 2.6B open-source world model generating minute-long 720p video with precise camera control, trained on 213K public clips in 15 days on 64 H100s, deployable on a single RTX 5090.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15178" target="_blank" rel="noopener">SANA-WM: Efficient Minute-Scale World Modeling with Hybrid Linear Diffusion Transformer</a> <span class="src-num">[15]</span></div>
+    <div class="card-authors">2605.15178 |  Haoyi Zhu, Haozhe Liu, Yuyang Zhao, Tian Ye et al.</div>
+    <div class="card-desc">SANA-WM is a 2.6B open-source world model generating minute-long 720p video with precise camera control, trained on 213K public clips in 15 days on 64 H100s, deployable on a single RTX 5090.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="VGGT-Edit performs text-conditioned native 3D scene editing in a single forward pass using depth-synchronized text injection and residual 3D geometric displacement prediction.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15186" target="_blank" rel="noopener">VGGT-Edit: Feed-forward Native 3D Scene Editing with Residual Field Prediction</a> <span class="src-num">[16]</span></div>
+    <div class="card-authors">2605.15186 |  Kaixin Zhu, Yiwen Tang, Yifan Yang, Renrui Zhang et al.</div>
+    <div class="card-desc">VGGT-Edit performs text-conditioned native 3D scene editing in a single forward pass using depth-synchronized text injection and residual 3D geometric displacement prediction.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Darwin-27B-Opus achieves 86.9% on GPQA Diamond (#6 of 1,252 models) with no gradient training, using MRI-Trust-weighted evolutionary merging across 14-dimensional adaptive merge genomes.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14386" target="_blank" rel="noopener">Darwin Family: MRI-Trust-Weighted Evolutionary Merging for Training-Free Scaling of Language-Model Reasoning</a> <span class="src-num">[17]</span></div>
+    <div class="card-authors">2605.14386 |  Taebong Kim, Youngsik Hong, Minsik Kim, Sunyoung Choi et al.</div>
+    <div class="card-desc">Darwin-27B-Opus achieves 86.9% on GPQA Diamond (#6 of 1,252 models) with no gradient training, using MRI-Trust-weighted evolutionary merging across 14-dimensional adaptive merge genomes.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Orchard provides open-source scalable agentic modeling with Orchard-SWE achieving 67.5% on SWE-bench (new SOTA for open models) and Orchard-GUI training a 4B computer-use agent from 2.2K open-ended tasks.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15040" target="_blank" rel="noopener">Orchard: An Open-Source Agentic Modeling Framework</a> <span class="src-num">[18]</span></div>
+    <div class="card-authors">2605.15040 |  Baolin Peng, Wenlin Yao, Qianhui Wu, Hao Cheng et al.</div>
+    <div class="card-desc">Orchard provides open-source scalable agentic modeling with Orchard-SWE achieving 67.5% on SWE-bench (new SOTA for open models) and Orchard-GUI training a 4B computer-use agent from 2.2K open-ended…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Hodge Spectral Duality (HSD) isolates topological degrees of freedom from learnable geometric dynamics in neural operators on geometric meshes, achieving superior accuracy and fidelity to physical invariants.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13834" target="_blank" rel="noopener">Topology-Preserving Neural Operator Learning via Hodge Decomposition</a> <span class="src-num">[19]</span></div>
+    <div class="card-authors">2605.13834 |  Dongzhe Zheng, Tao Zhong, Christine Allen-Blanchette |  2</div>
+    <div class="card-desc">Hodge Spectral Duality (HSD) isolates topological degrees of freedom from learnable geometric dynamics in neural operators on geometric meshes, achieving superior accuracy and fidelity to physical…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Warp-as-History is a training-free interface enabling a frozen video model to follow camera trajectories by constructing camera-warped pseudo-history with positional alignment.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15182" target="_blank" rel="noopener">Warp-as-History: Generalizable Camera-Controlled Video Generation from One Training Video</a> <span class="src-num">[20]</span></div>
+    <div class="card-authors">2605.15182 |  Yifan Wang, Tong He |  29</div>
+    <div class="card-desc">Warp-as-History is a training-free interface enabling a frozen video model to follow camera trajectories by constructing camera-warped pseudo-history with positional alignment.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="SDAR treats On-Policy Self-Distillation as a gated auxiliary objective with sigmoid gating for token-level positive-gap reinforcement, improving over GRPO by 9.4% on ALFWorld and 10.2% on WebShop.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15155" target="_blank" rel="noopener">Self-Distilled Agentic Reinforcement Learning</a> <span class="src-num">[21]</span></div>
+    <div class="card-authors">2605.15155 |  Zhengxi Lu, Zhiyuan Yao, Zhuowen Han, Zi-Han Wang et al.</div>
+    <div class="card-desc">SDAR treats On-Policy Self-Distillation as a gated auxiliary objective with sigmoid gating for token-level positive-gap reinforcement, improving over GRPO by 9.4% on ALFWorld and 10.2% on WebShop.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="PDI-Bench introduces projective-geometry residuals (scale-depth alignment, 3D motion consistency, structural rigidity) for quantitative auditing of geometric coherence in generated videos.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15185" target="_blank" rel="noopener">Quantitative Video World Model Evaluation for Geometric-Consistency</a> <span class="src-num">[22]</span></div>
+    <div class="card-authors">2605.15185 |  Jiaxin Wu, Yihao Pi, Yinling Zhang, Yuheng Li et al.</div>
+    <div class="card-desc">PDI-Bench introduces projective-geometry residuals (scale-depth alignment, 3D motion consistency, structural rigidity) for quantitative auditing of geometric coherence in generated videos.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="An unsupervised framework combining few-shot filtering, UMAP dimensionality reduction, and HDBSCAN clustering identifies 41 distinct manipulative narrative clusters from 1.2 million social media posts.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14354" target="_blank" rel="noopener">LLM-based Detection of Manipulative Political Narratives</a> <span class="src-num">[23]</span></div>
+    <div class="card-authors">2605.14354 |  Sinclair Schneider, Florian Steuber, Gabi Dreo Rodosek |  0</div>
+    <div class="card-desc">An unsupervised framework combining few-shot filtering, UMAP dimensionality reduction, and HDBSCAN clustering identifies 41 distinct manipulative narrative clusters from 1.2 million social media…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="PhyMotion recovers SMPL body meshes from generated videos, simulates them in MuJoCo, and scores motion along kinematic plausibility, contact balance, and dynamic feasibility dimensions.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14269" target="_blank" rel="noopener">PhyMotion: Structured 3D Motion Reward for Physics-Grounded Human Video Generation</a> <span class="src-num">[24]</span></div>
+    <div class="card-authors">2605.14269 |  Yidong Huang, Zun Wang, Han Lin, Dong-Ki Kim et al.</div>
+    <div class="card-desc">PhyMotion recovers SMPL body meshes from generated videos, simulates them in MuJoCo, and scores motion along kinematic plausibility, contact balance, and dynamic feasibility dimensions.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="RAVEN repacks self-rollouts into interleaved clean historical endpoints and noisy states for better training-inference alignment in causal AR video diffusion.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15190" target="_blank" rel="noopener">RAVEN: Real-time Autoregressive Video Extrapolation with Consistency-model GRPO</a> <span class="src-num">[25]</span></div>
+    <div class="card-authors">2605.15190 |  Yanzuo Lu, Ronglai Zuo, Jiankang Deng |  4</div>
+    <div class="card-desc">RAVEN repacks self-rollouts into interleaved clean historical endpoints and noisy states for better training-inference alignment in causal AR video diffusion.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="A transformer model projecting German political texts onto a continuous left-right spectrum achieves F1=0.844 in-domain and MAE=0.172 on newspaper out-of-domain tests.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14352" target="_blank" rel="noopener">Ideology Prediction of German Political Texts</a> <span class="src-num">[26]</span></div>
+    <div class="card-authors">2605.14352 |  Sinclair Schneider, Florian Steuber, Joao A. G. Schneider, Gabi Dreo Rodosek |  1</div>
+    <div class="card-desc">A transformer model projecting German political texts onto a continuous left-right spectrum achieves F1=0.844 in-domain and MAE=0.172 on newspaper out-of-domain tests.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="vOPD stabilizes On-Policy Distillation by casting it as policy-gradient RL with a control variate baseline derived from per-token reverse KL divergence, consistently outperforming vanilla OPD.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.07865" target="_blank" rel="noopener">KL for a KL: On-Policy Distillation with Control Variate Baseline</a> <span class="src-num">[27]</span></div>
+    <div class="card-authors">2605.07865 |  Minjae Oh, Sangjun Song, Gyubin Choi, Yunho Choi et al.</div>
+    <div class="card-desc">vOPD stabilizes On-Policy Distillation by casting it as policy-gradient RL with a control variate baseline derived from per-token reverse KL divergence, consistently outperforming vanilla OPD.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="A review of ML-driven catalyst research for converting greenhouse gases (CO2 and methane) into useful chemicals via dry reforming processes.">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[28]</span></div>
+    <div class="card-authors">Rising levels of atmospheric carbon dioxide and methane have sparked the interest of researchers in resolving this issue.</div>
+    <div class="card-desc">A review of ML-driven catalyst research for converting greenhouse gases (CO2 and methane) into useful chemicals via dry reforming processes.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="A review covering quantum-enhanced classical ML to native quantum algorithms, with applications in optimization, drug discovery, and quantum-secured communications.">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[29]</span></div>
+    <div class="card-authors">in quantum-enhanced classical ML to native quantum algorithms and hybrid quantum approaches...</div>
+    <div class="card-desc">A review covering quantum-enhanced classical ML to native quantum algorithms, with applications in optimization, drug discovery, and quantum-secured communications.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🔒 Security & Crypto <span class="group-count">5</span></h3>
+    <div class="cards-grid">
+  <div class="card" data-full-desc="Public CVE disclosure volumes are surging across major software suppliers and open source projects, with evidence increasingly pointing to AI-assisted vulnerability discovery as the driving force.">
+    <div class="card-title"><a href="https://www.vulncheck.com/blog/ai-assisted-vulnerability-discovery" target="_blank" rel="noopener">The First CVE Wave: Signs That AI-Assisted Vulnerability Discovery Is Reshaping Disclosure Volumes</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">Tags: security | Score: 1</div>
+    <div class="card-desc">Public CVE disclosure volumes are surging across major software suppliers and open source projects, with evidence increasingly pointing to AI-assisted vulnerability discovery as the driving force.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Analysis of how Mullvad VPN&#x27;s smaller server fleet creates a fingerprinting vector that tracks users across sites despite its no-logging reputation.">
+    <div class="card-title"><a href="https://tmctmt.com/posts/mullvad-exit-ips-as-a-fingerprinting-vector/" target="_blank" rel="noopener">Mullvad exit IPs as a fingerprinting vector</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors">Tags: privacy, security | Score: 9</div>
+    <div class="card-desc">Analysis of how Mullvad VPN&#x27;s smaller server fleet creates a fingerprinting vector that tracks users across sites despite its no-logging reputation.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="A Linux kernel 0-day exploit allowing an unprivileged user to steal SSH host private keys and /etc/shadow via ptrace_may_access mm-NULL bypass on pre-fixed kernels.">
+    <div class="card-title"><a href="https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn/" target="_blank" rel="noopener">linux 0-day, access root-owned files as an unprivileged user</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors">Tags: linux, security | Score: 34</div>
+    <div class="card-desc">A Linux kernel 0-day exploit allowing an unprivileged user to steal SSH host private keys and /etc/shadow via ptrace_may_access mm-NULL bypass on pre-fixed kernels.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="A review of AI and ML applications in cybersecurity, covering adversarial AI, automated threat intelligence, and AI-driven security orchestration.">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors">in adversarial AI, automated threat intelligence, and AI-driven security orchestration...</div>
+    <div class="card-desc">A review of AI and ML applications in cybersecurity, covering adversarial AI, automated threat intelligence, and AI-driven security orchestration.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="A review of post-quantum cryptographic approaches for securing IoT devices and user privacy against quantum-enabled adversaries.">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors">the need for post-quantum cryptography to secure devices and user privacy against quantum-enabled adversaries.</div>
+    <div class="card-desc">A review of post-quantum cryptographic approaches for securing IoT devices and user privacy against quantum-enabled adversaries.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🛡️ AI Safety <span class="group-count">1</span></h3>
+    <div class="cards-grid">
+  <div class="card" data-full-desc="LiSA is a conservative policy induction framework for lifelong guardrail adaptation in AI agents, converting sparse user-reported failures into reusable policy abstractions with conflict-aware local rules.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14454" target="_blank" rel="noopener">LiSA: Lifelong Safety Adaptation via Conservative Policy Induction</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">2605.14454 |  Minbeom Kim, Lesly Miculicich, Bhavana Dalvi Mishra, Mihir Parmar et al.</div>
+    <div class="card-desc">LiSA is a conservative policy induction framework for lifelong guardrail adaptation in AI agents, converting sparse user-reported failures into reusable policy abstractions with conflict-aware local…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🤖 Agents <span class="group-count">10</span></h3>
+    <div class="cards-grid">
+  <div class="card" data-full-desc="STALE identifies Implicit Conflict as a failure mode where later observations invalidate earlier memories without explicit negation, introducing a 400-scenario benchmark and CUPMem baseline for state-aware memory.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.06527" target="_blank" rel="noopener">STALE: Can LLM Agents Know When Their Memories Are No Longer Valid?</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">2605.06527 |  Hanxiang Chao, Yihan Bai, Rui Sheng, Tianle Li et al.</div>
+    <div class="card-desc">STALE identifies Implicit Conflict as a failure mode where later observations invalidate earlier memories without explicit negation, introducing a 400-scenario benchmark and CUPMem baseline for…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="WildClawBench evaluates agents in native Docker CLI runtimes with 60 bilingual tasks averaging 8 minutes and 20 tool calls; Claude Opus 4.7 reaches only 62.2%, showing long-horizon agent evaluation remains unsolved.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.10912" target="_blank" rel="noopener">WildClawBench: A Benchmark for Real-World, Long-Horizon Agent Evaluation</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors">2605.10912 |  Shuangrui Ding, Xuanlang Dai, Long Xing, Shengyuan Ding et al.</div>
+    <div class="card-desc">WildClawBench evaluates agents in native Docker CLI runtimes with 60 bilingual tasks averaging 8 minutes and 20 tool calls; Claude Opus 4.7 reaches only 62.2%, showing long-horizon agent evaluation…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="Preping uses proposer-guided synthetic practice (Proposer-Solver-Validator) to construct agent memory before any target-environment tasks, achieving competitive performance with 2.99x lower deployment cost.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13880" target="_blank" rel="noopener">PREPING: Building Agent Memory without Tasks</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors">2605.13880 |  Yumin Choi, Sangwoo Park, Minki Kang, Jinheon Baek et al.</div>
+    <div class="card-desc">Preping uses proposer-guided synthetic practice (Proposer-Solver-Validator) to construct agent memory before any target-environment tasks, achieving competitive performance with 2.99x lower…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="MemEye evaluates visual evidence preservation in agent memory across 8 life-scenario tasks, showing current architectures struggle with fine-grained visual details and state change reasoning.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15128" target="_blank" rel="noopener">MemEye: A Visual-Centric Evaluation Framework for Multimodal Agent Memory</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors">2605.15128 |  Minghao Guo, Qingyue Jiao, Zeru Shi, Yihao Quan et al.</div>
+    <div class="card-desc">MemEye evaluates visual evidence preservation in agent memory across 8 life-scenario tasks, showing current architectures struggle with fine-grained visual details and state change reasoning.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="EvolveMem autonomously diagnoses retrieval failures and adjusts its retrieval configuration through LLM-powered meta-analysis, converging on effective strategies including novel configuration dimensions.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13941" target="_blank" rel="noopener">EvolveMem: Self-Evolving Memory Architecture via AutoResearch for LLM Agents</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors">2605.13941 |  Jiaqi Liu, Xinyu Ye, Peng Xia, Zeyu Zheng et al.</div>
+    <div class="card-desc">EvolveMem autonomously diagnoses retrieval failures and adjusts its retrieval configuration through LLM-powered meta-analysis, converging on effective strategies including novel configuration…</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="A unified survey of multi-agent LLM systems organized around the LIFE progression: Lay capability foundation, Integrate agents, Find faults, Evolve, identifying open challenges at stage boundaries.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14892" target="_blank" rel="noopener">Beyond Individual Intelligence: Surveying Collaboration, Failure Attribution, and Self-Evolution in LLM-based Multi-Agent Systems</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors">2605.14892 |  Shihao Qi, Jie Ma, Rui Xing, Wei Guo et al.</div>
+    <div class="card-desc">A unified survey of multi-agent LLM systems organized around the LIFE progression: Lay capability foundation, Integrate agents, Find faults, Evolve, identifying open challenges at stage boundaries.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="FutureSim replays real-world news chronologically to test whether agents can predict world events beyond their knowledge cutoff; the best agent achieves only 25% accuracy.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15188" target="_blank" rel="noopener">FutureSim: Replaying World Events to Evaluate Adaptive Agents</a> <span class="src-num">[7]</span></div>
+    <div class="card-authors">2605.15188 |  Shashwat Goel, Nikhil Chandak, Arvindh Arun, Ameya Prabhu et al.</div>
+    <div class="card-desc">FutureSim replays real-world news chronologically to test whether agents can predict world events beyond their knowledge cutoff; the best agent achieves only 25% accuracy.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="BOOKMARKS uses search-based bookmark management for role-playing agents, actively initializing and synchronizing task-relevant bookmarks at storyline points.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14169" target="_blank" rel="noopener">BOOKMARKS: Efficient Active Storyline Memory for Role-playing</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors">2605.14169 |  Letian Peng, Ziche Liu, Yiming Huang, Longfei Yun et al.</div>
+    <div class="card-desc">BOOKMARKS uses search-based bookmark management for role-playing agents, actively initializing and synchronizing task-relevant bookmarks at storyline points.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="AI CFD Scientist is the first AI scientist for computational fluid dynamics spanning literature-grounded ideation, OpenFOAM execution, vision-based physics verification, and manuscript writing.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.06607" target="_blank" rel="noopener">AI CFD Scientist: Toward Open-Ended Computational Fluid Dynamics Discovery with Physics-Aware AI Agents</a> <span class="src-num">[9]</span></div>
+    <div class="card-authors">2605.06607 |  Nithin Somasekharan, Rabi Pathak, Manushri Dhanakoti, Tingwen Zhang et al.</div>
+    <div class="card-desc">AI CFD Scientist is the first AI scientist for computational fluid dynamics spanning literature-grounded ideation, OpenFOAM execution, vision-based physics verification, and manuscript writing.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+  <div class="card" data-full-desc="PaSaMaster is a self-evolving agentic retrieval system using iterative intent analysis and ranking, improving F1 by 15.6X over keyword search across 38 scientific disciplines.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14306" target="_blank" rel="noopener">Towards Self-Evolving Agentic Literature Retrieval</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors">2605.14306 |  Yuwen Du, Tian Jin, Jing Kang, Xianghe Pang et al.</div>
+    <div class="card-desc">PaSaMaster is a self-evolving agentic retrieval system using iterative intent analysis and ranking, improving F1 by 15.6X over keyword search across 38 scientific disciplines.</div>
+    <div class="card-tags"><span class="tag">HF</span></div>
+  </div>
+    </div>
+  </div></div>
+<div class="section">
+  <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+    <h3>🦞 Lobste.rs <span class="group-count">6</span></h3>
+    <div class="cards-grid">
+  <div class="card web-card" data-full-desc="We let Codex and Claude Code autonomously iterate on the nanoGPT speedrun optimizer track for two weeks, producing ~10k runs, a new 2930-step record, and a detailed look at where autonomous research agents work and break down.">
+    <div class="card-title"><a href="https://www.primeintellect.ai/auto-nanogpt" target="_blank" rel="noopener">Autonomous AI research for nanogpt speedrun</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">Tags: ai | Score: 1</div>
+    <div class="card-desc">We let Codex and Claude Code autonomously iterate on the nanoGPT speedrun optimizer track for two weeks, producing ~10k runs, a new 2930-step record, and a detailed look at where autonomous research…</div>
+    <div class="card-tags"><span class="tag web-tag">LOBSTERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="An essay on how the rise of AI-assisted coding is degrading programmers&#x27; ability to reason through bugs and edge cases independently.">
+    <div class="card-title"><a href="https://caio.ca/blog/what-coding-is-starting-to-lose" target="_blank" rel="noopener">What Coding Is Starting to Lose</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors">Tags: ai, culture, practices, programming et al.</div>
+    <div class="card-desc">An essay on how the rise of AI-assisted coding is degrading programmers&#x27; ability to reason through bugs and edge cases independently.</div>
+    <div class="card-tags"><span class="tag web-tag">LOBSTERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Public CVE disclosure volumes are surging across major software suppliers and open source projects, with evidence increasingly pointing to AI-assisted vulnerability discovery as the driving force.">
+    <div class="card-title"><a href="https://www.vulncheck.com/blog/ai-assisted-vulnerability-discovery" target="_blank" rel="noopener">The First CVE Wave: Signs That AI-Assisted Vulnerability Discovery Is Reshaping Disclosure Volumes</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors">Tags: security | Score: 1</div>
+    <div class="card-desc">Public CVE disclosure volumes are surging across major software suppliers and open source projects, with evidence increasingly pointing to AI-assisted vulnerability discovery as the driving force.</div>
+    <div class="card-tags"><span class="tag web-tag">LOBSTERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Analysis of how Mullvad VPN&#x27;s smaller server fleet creates a fingerprinting vector that tracks users across sites despite its no-logging reputation.">
+    <div class="card-title"><a href="https://tmctmt.com/posts/mullvad-exit-ips-as-a-fingerprinting-vector/" target="_blank" rel="noopener">Mullvad exit IPs as a fingerprinting vector</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors">Tags: privacy, security | Score: 9</div>
+    <div class="card-desc">Analysis of how Mullvad VPN&#x27;s smaller server fleet creates a fingerprinting vector that tracks users across sites despite its no-logging reputation.</div>
+    <div class="card-tags"><span class="tag web-tag">LOBSTERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="A Linux kernel 0-day exploit allowing an unprivileged user to steal SSH host private keys and /etc/shadow via ptrace_may_access mm-NULL bypass on pre-fixed kernels.">
+    <div class="card-title"><a href="https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn/" target="_blank" rel="noopener">linux 0-day, access root-owned files as an unprivileged user</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors">Tags: linux, security | Score: 34</div>
+    <div class="card-desc">A Linux kernel 0-day exploit allowing an unprivileged user to steal SSH host private keys and /etc/shadow via ptrace_may_access mm-NULL bypass on pre-fixed kernels.</div>
+    <div class="card-tags"><span class="tag web-tag">LOBSTERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Reverse-engineering how Cloudflare&#x27;s JavaScript middleware reads ChatGPT&#x27;s React component state before allowing user input.">
+    <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors">Tags: privacy, web | Score: 69</div>
+    <div class="card-desc">Reverse-engineering how Cloudflare&#x27;s JavaScript middleware reads ChatGPT&#x27;s React component state before allowing user input.</div>
+    <div class="card-tags"><span class="tag web-tag">LOBSTERS</span></div>
+  </div>
+    </div>
+  </div>  <div class="section-group">
+    <h3>🤗 HuggingFace Papers <span class="group-count">47</span></h3>
+    <div class="cards-grid">
+  <div class="card web-card" data-full-desc="BEAM introduces trainable binary masks for token-adaptive expert selection in Mixture-of-Experts models, achieving 85% MoE FLOP reduction while retaining over 98% of model performance via a custom vLLM-integrated CUDA kernel.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14438" target="_blank" rel="noopener">BEAM: Binary Expert Activation Masking for Dynamic Routing in MoE</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">2605.14438 |  Juntong Wu, Jialiang Cheng, Qishen Yin, Yue Dai et al.</div>
+    <div class="card-desc">BEAM introduces trainable binary masks for token-adaptive expert selection in Mixture-of-Experts models, achieving 85% MoE FLOP reduction while retaining over 98% of model performance via a custom…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="LiSA is a conservative policy induction framework for lifelong guardrail adaptation in AI agents, converting sparse user-reported failures into reusable policy abstractions with conflict-aware local rules.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14454" target="_blank" rel="noopener">LiSA: Lifelong Safety Adaptation via Conservative Policy Induction</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors">2605.14454 |  Minbeom Kim, Lesly Miculicich, Bhavana Dalvi Mishra, Mihir Parmar et al.</div>
+    <div class="card-desc">LiSA is a conservative policy induction framework for lifelong guardrail adaptation in AI agents, converting sparse user-reported failures into reusable policy abstractions with conflict-aware local…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Realiz3D decouples control signals from visual domain in diffusion model training via co-variate residual adapters, preventing models from learning spurious associations between controls and synthetic appearance.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13852" target="_blank" rel="noopener">Realiz3D: 3D Generation Made Photorealistic via Domain-Aware Learning</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors">2605.13852 |  Ido Sobol, Kihyuk Sohn, Yoav Blum, Egor Zakharov et al.</div>
+    <div class="card-desc">Realiz3D decouples control signals from visual domain in diffusion model training via co-variate residual adapters, preventing models from learning spurious associations between controls and…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="FrontierSmith automatically evolves open-ended coding problems from closed-ended competitive programming tasks using idea divergence metrics to select problems that elicit diverse solutions.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14445" target="_blank" rel="noopener">FrontierSmith: Synthesizing Open-Ended Coding Problems at Scale</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors">2605.14445 |  Runyuan He, Qiuyang Mang, Shang Zhou, Kaiyuan Liu et al.</div>
+    <div class="card-desc">FrontierSmith automatically evolves open-ended coding problems from closed-ended competitive programming tasks using idea divergence metrics to select problems that elicit diverse solutions.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="CurveBench tests hierarchical topological reasoning from visual input; even Gemini 3.1 Pro achieves only 71.1% on easy and 19.1% on hard configurations, revealing topology-aware reasoning remains unsolved.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14068" target="_blank" rel="noopener">CurveBench: A Benchmark for Exact Topological Reasoning over Nested Jordan Curves</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors">2605.14068 |  Amirreza Mohseni, Mona Mohammadi, Morteza Saghafian, Naser Talebizadeh Saradari |  1</div>
+    <div class="card-desc">CurveBench tests hierarchical topological reasoning from visual input; even Gemini 3.1 Pro achieves only 71.1% on easy and 19.1% on hard configurations, revealing topology-aware reasoning remains…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="ATESD addresses teacher-side exposure mismatch in LLM self-distillation by treating teacher exposure as a learnable Beta-policy controller conditioned on training-state statistics.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.11458" target="_blank" rel="noopener">Adaptive Teacher Exposure for Self-Distillation in LLM Reasoning</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors">2605.11458 |  Zihao Han, Tiangang Zhang, Huaibin Wang, Yilun Sun |  3</div>
+    <div class="card-desc">ATESD addresses teacher-side exposure mismatch in LLM self-distillation by treating teacher exposure as a learnable Beta-policy controller conditioned on training-state statistics.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="RewardHarness reframes reward modeling as context evolution, iteratively refining a library of tools and skills from as few as 100 preference demonstrations to align image-edit evaluation with human preferences.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.08703" target="_blank" rel="noopener">RewardHarness: Self-Evolving Agentic Post-Training</a> <span class="src-num">[7]</span></div>
+    <div class="card-authors">2605.08703 |  Yuxuan Zhang, Penghui Du, Bo Li, Cong Wei et al.</div>
+    <div class="card-desc">RewardHarness reframes reward modeling as context evolution, iteratively refining a library of tools and skills from as few as 100 preference demonstrations to align image-edit evaluation with human…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Pace-and-Path Correction is a training-free inference-time operator for Vision-Language-Action models that decomposes motion correction into pace and path channels, improving success rates by up to 28.8% in dynamic environments.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.11459" target="_blank" rel="noopener">Overcoming Dynamics-Blindness: Training-Free Pace-and-Path Correction for VLA Models</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors">2605.11459 |  Yanyan Zhang, Chaoda Song, Vikash Singh, Xinpeng Li et al.</div>
+    <div class="card-desc">Pace-and-Path Correction is a training-free inference-time operator for Vision-Language-Action models that decomposes motion correction into pace and path channels, improving success rates by up to…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="PanoWorld introduces pano-native understanding for MLLMs, requiring reasoning over equirectangular panorama as continuous observer-centered space, with Spherical Spatial Cross-Attention and PanoSpace-Bench benchmark.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13169" target="_blank" rel="noopener">PanoWorld: Towards Spatial Supersensing in 360 Degree Panorama World</a> <span class="src-num">[9]</span></div>
+    <div class="card-authors">2605.13169 |  Changpeng Wang, Xin Lin, Junhan Liu, Yuheng Liu et al.</div>
+    <div class="card-desc">PanoWorld introduces pano-native understanding for MLLMs, requiring reasoning over equirectangular panorama as continuous observer-centered space, with Spherical Spatial Cross-Attention and…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="PRISM addresses unreliable text conditions and ambiguous stroke boundaries in text-image super-resolution through Flow-Matching Prior Rectification and Structure-guided Uncertainty-aware Residual Encoder.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13027" target="_blank" rel="noopener">PRISM: Prior Rectification and Uncertainty-Aware Structure Modeling for Diffusion-Based Text Image Super-Resolution</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors">2605.13027 |  Zihang Xu, Xiaoyang Liu, Zheng Chen, Yulun Zhang et al.</div>
+    <div class="card-desc">PRISM addresses unreliable text conditions and ambiguous stroke boundaries in text-image super-resolution through Flow-Matching Prior Rectification and Structure-guided Uncertainty-aware Residual…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="CLVR couples visual-language planning with pixel-level diffusion generation via automated step-level visual verification and Proxy Prompt Reinforcement Learning to resolve long-context optimization instabilities.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14876" target="_blank" rel="noopener">Unlocking Complex Visual Generation via Closed-Loop Verified Reasoning</a> <span class="src-num">[11]</span></div>
+    <div class="card-authors">2605.14876 |  Hanbo Cheng, Limin Lin, Ruo Zhang, Yicheng Pan et al.</div>
+    <div class="card-desc">CLVR couples visual-language planning with pixel-level diffusion generation via automated step-level visual verification and Proxy Prompt Reinforcement Learning to resolve long-context optimization…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="RouteProfile characterizes LLM profiling along four dimensions, showing structured query-level profiles outperform flat ones for routing.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.00180" target="_blank" rel="noopener">RouteProfile: Elucidating the Design Space of LLM Profiles for Routing</a> <span class="src-num">[12]</span></div>
+    <div class="card-authors">2605.00180 |  Jingjun Xu, Hongji Pu, Tao Feng, Haozhen Zhang et al.</div>
+    <div class="card-desc">RouteProfile characterizes LLM profiling along four dimensions, showing structured query-level profiles outperform flat ones for routing.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Forcing-KV classifies attention heads into static and dynamic categories and applies hybrid KV cache pruning, achieving 29 fps on H200 with 30% cache memory reduction.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.09681" target="_blank" rel="noopener">Forcing-KV: Hybrid KV Cache Compression for Efficient Autoregressive Video Diffusion Models</a> <span class="src-num">[13]</span></div>
+    <div class="card-authors">2605.09681 |  Yicheng Ji, Zhizhou Zhong, Jun Zhang, Qin Yang et al.</div>
+    <div class="card-desc">Forcing-KV classifies attention heads into static and dynamic categories and applies hybrid KV cache pruning, achieving 29 fps on H200 with 30% cache memory reduction.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="DLR jointly learns discrete latent codes, routing policies, and model parameters through dynamic search in a single training stage, matching or outperforming SFT with a mean gain of 6.6 percentage points.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14323" target="_blank" rel="noopener">Dynamic Latent Routing</a> <span class="src-num">[14]</span></div>
+    <div class="card-authors">2605.14323 |  Fangyuan Yu, Xin Su, Amir Abdullah |  1</div>
+    <div class="card-desc">DLR jointly learns discrete latent codes, routing policies, and model parameters through dynamic search in a single training stage, matching or outperforming SFT with a mean gain of 6.6 percentage…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="STALE identifies Implicit Conflict as a failure mode where later observations invalidate earlier memories without explicit negation, introducing a 400-scenario benchmark and CUPMem baseline for state-aware memory.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.06527" target="_blank" rel="noopener">STALE: Can LLM Agents Know When Their Memories Are No Longer Valid?</a> <span class="src-num">[15]</span></div>
+    <div class="card-authors">2605.06527 |  Hanxiang Chao, Yihan Bai, Rui Sheng, Tianle Li et al.</div>
+    <div class="card-desc">STALE identifies Implicit Conflict as a failure mode where later observations invalidate earlier memories without explicit negation, introducing a 400-scenario benchmark and CUPMem baseline for…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Causal Forcing++ uses causal consistency distillation for few-step AR video generation initialization, surpassing prior 4-step chunk-wise methods while reducing first-frame latency by 50% and training cost by 4x.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15141" target="_blank" rel="noopener">Causal Forcing++: Scalable Few-Step Autoregressive Diffusion Distillation for Real-Time Interactive Video Generation</a> <span class="src-num">[16]</span></div>
+    <div class="card-authors">2605.15141 |  Min Zhao, Hongzhou Zhu, Kaiwen Zheng, Zihan Zhou et al.</div>
+    <div class="card-desc">Causal Forcing++ uses causal consistency distillation for few-step AR video generation initialization, surpassing prior 4-step chunk-wise methods while reducing first-frame latency by 50% and…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="WildClawBench evaluates agents in native Docker CLI runtimes with 60 bilingual tasks averaging 8 minutes and 20 tool calls; Claude Opus 4.7 reaches only 62.2%, showing long-horizon agent evaluation remains unsolved.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.10912" target="_blank" rel="noopener">WildClawBench: A Benchmark for Real-World, Long-Horizon Agent Evaluation</a> <span class="src-num">[17]</span></div>
+    <div class="card-authors">2605.10912 |  Shuangrui Ding, Xuanlang Dai, Long Xing, Shengyuan Ding et al.</div>
+    <div class="card-desc">WildClawBench evaluates agents in native Docker CLI runtimes with 60 bilingual tasks averaging 8 minutes and 20 tool calls; Claude Opus 4.7 reaches only 62.2%, showing long-horizon agent evaluation…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="IntentVLA encodes recent visual observations into a short-horizon intent representation to condition chunk generation, reducing inter-chunk conflict in aliased robot manipulation.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14712" target="_blank" rel="noopener">IntentVLA: Short-Horizon Intent Modeling for Aliased Robot Manipulation</a> <span class="src-num">[18]</span></div>
+    <div class="card-authors">2605.14712 |  Shijie Lian, Bin Yu, Xiaopeng Lin, Zhaolong Shen et al.</div>
+    <div class="card-desc">IntentVLA encodes recent visual observations into a short-horizon intent representation to condition chunk generation, reducing inter-chunk conflict in aliased robot manipulation.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="MemLens benchmarks 27 LVLMs and 7 memory-augmented agents across 789 questions, finding long-context models degrade with conversation length while memory agents lose visual fidelity.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14906" target="_blank" rel="noopener">MemLens: Benchmarking Multimodal Long-Term Memory in Large Vision-Language Models</a> <span class="src-num">[19]</span></div>
+    <div class="card-authors">2605.14906 |  Xiyu Ren, Zhaowei Wang, Yiming Du, Zhongwei Xie et al.</div>
+    <div class="card-desc">MemLens benchmarks 27 LVLMs and 7 memory-augmented agents across 789 questions, finding long-context models degrade with conversation length while memory agents lose visual fidelity.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="DiffusionOPD trains task-specific teachers independently then distills them into a unified student along the student&#x27;s own rollout trajectories, unifying single-task and multi-task RL for diffusion models.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15055" target="_blank" rel="noopener">DiffusionOPD: A Unified Perspective of On-Policy Distillation in Diffusion Models</a> <span class="src-num">[20]</span></div>
+    <div class="card-authors">2605.15055 |  Quanhao Li, Junqiu Yu, Kaixun Jiang, Yujie Wei et al.</div>
+    <div class="card-desc">DiffusionOPD trains task-specific teachers independently then distills them into a unified student along the student&#x27;s own rollout trajectories, unifying single-task and multi-task RL for diffusion…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Pure synthetic layered graphic design data is shown to be a scalable and effective substitute for scarce proprietary layered assets in training layer decomposition models.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15167" target="_blank" rel="noopener">Does Synthetic Layered Design Data Benefit Layered Design Decomposition?</a> <span class="src-num">[21]</span></div>
+    <div class="card-authors">2605.15167 |  Kam Man Wu, Haolin Yang, Qingyu Chen, Yihu Tang et al.</div>
+    <div class="card-desc">Pure synthetic layered graphic design data is shown to be a scalable and effective substitute for scarce proprietary layered assets in training layer decomposition models.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="SANA-WM is a 2.6B open-source world model generating minute-long 720p video with precise camera control, trained on 213K public clips in 15 days on 64 H100s, deployable on a single RTX 5090.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15178" target="_blank" rel="noopener">SANA-WM: Efficient Minute-Scale World Modeling with Hybrid Linear Diffusion Transformer</a> <span class="src-num">[22]</span></div>
+    <div class="card-authors">2605.15178 |  Haoyi Zhu, Haozhe Liu, Yuyang Zhao, Tian Ye et al.</div>
+    <div class="card-desc">SANA-WM is a 2.6B open-source world model generating minute-long 720p video with precise camera control, trained on 213K public clips in 15 days on 64 H100s, deployable on a single RTX 5090.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="VGGT-Edit performs text-conditioned native 3D scene editing in a single forward pass using depth-synchronized text injection and residual 3D geometric displacement prediction.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15186" target="_blank" rel="noopener">VGGT-Edit: Feed-forward Native 3D Scene Editing with Residual Field Prediction</a> <span class="src-num">[23]</span></div>
+    <div class="card-authors">2605.15186 |  Kaixin Zhu, Yiwen Tang, Yifan Yang, Renrui Zhang et al.</div>
+    <div class="card-desc">VGGT-Edit performs text-conditioned native 3D scene editing in a single forward pass using depth-synchronized text injection and residual 3D geometric displacement prediction.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Darwin-27B-Opus achieves 86.9% on GPQA Diamond (#6 of 1,252 models) with no gradient training, using MRI-Trust-weighted evolutionary merging across 14-dimensional adaptive merge genomes.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14386" target="_blank" rel="noopener">Darwin Family: MRI-Trust-Weighted Evolutionary Merging for Training-Free Scaling of Language-Model Reasoning</a> <span class="src-num">[24]</span></div>
+    <div class="card-authors">2605.14386 |  Taebong Kim, Youngsik Hong, Minsik Kim, Sunyoung Choi et al.</div>
+    <div class="card-desc">Darwin-27B-Opus achieves 86.9% on GPQA Diamond (#6 of 1,252 models) with no gradient training, using MRI-Trust-weighted evolutionary merging across 14-dimensional adaptive merge genomes.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Preping uses proposer-guided synthetic practice (Proposer-Solver-Validator) to construct agent memory before any target-environment tasks, achieving competitive performance with 2.99x lower deployment cost.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13880" target="_blank" rel="noopener">PREPING: Building Agent Memory without Tasks</a> <span class="src-num">[25]</span></div>
+    <div class="card-authors">2605.13880 |  Yumin Choi, Sangwoo Park, Minki Kang, Jinheon Baek et al.</div>
+    <div class="card-desc">Preping uses proposer-guided synthetic practice (Proposer-Solver-Validator) to construct agent memory before any target-environment tasks, achieving competitive performance with 2.99x lower…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="MemEye evaluates visual evidence preservation in agent memory across 8 life-scenario tasks, showing current architectures struggle with fine-grained visual details and state change reasoning.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15128" target="_blank" rel="noopener">MemEye: A Visual-Centric Evaluation Framework for Multimodal Agent Memory</a> <span class="src-num">[26]</span></div>
+    <div class="card-authors">2605.15128 |  Minghao Guo, Qingyue Jiao, Zeru Shi, Yihao Quan et al.</div>
+    <div class="card-desc">MemEye evaluates visual evidence preservation in agent memory across 8 life-scenario tasks, showing current architectures struggle with fine-grained visual details and state change reasoning.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Orchard provides open-source scalable agentic modeling with Orchard-SWE achieving 67.5% on SWE-bench (new SOTA for open models) and Orchard-GUI training a 4B computer-use agent from 2.2K open-ended tasks.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15040" target="_blank" rel="noopener">Orchard: An Open-Source Agentic Modeling Framework</a> <span class="src-num">[27]</span></div>
+    <div class="card-authors">2605.15040 |  Baolin Peng, Wenlin Yao, Qianhui Wu, Hao Cheng et al.</div>
+    <div class="card-desc">Orchard provides open-source scalable agentic modeling with Orchard-SWE achieving 67.5% on SWE-bench (new SOTA for open models) and Orchard-GUI training a 4B computer-use agent from 2.2K open-ended…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="EvolveMem autonomously diagnoses retrieval failures and adjusts its retrieval configuration through LLM-powered meta-analysis, converging on effective strategies including novel configuration dimensions.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13941" target="_blank" rel="noopener">EvolveMem: Self-Evolving Memory Architecture via AutoResearch for LLM Agents</a> <span class="src-num">[28]</span></div>
+    <div class="card-authors">2605.13941 |  Jiaqi Liu, Xinyu Ye, Peng Xia, Zeyu Zheng et al.</div>
+    <div class="card-desc">EvolveMem autonomously diagnoses retrieval failures and adjusts its retrieval configuration through LLM-powered meta-analysis, converging on effective strategies including novel configuration…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="SU-01 applies reverse-perplexity curriculum SFT followed by two-stage RL and test-time scaling to a 30B-A3B backbone, reaching IMO gold-medal level with 100K+ token trajectories.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13301" target="_blank" rel="noopener">Achieving Gold-Medal-Level Olympiad Reasoning via Simple and Unified Scaling</a> <span class="src-num">[29]</span></div>
+    <div class="card-authors">2605.13301 |  Yafu Li, Runzhe Zhan, Haoran Zhang, Shunkai Zhang et al.</div>
+    <div class="card-desc">SU-01 applies reverse-perplexity curriculum SFT followed by two-stage RL and test-time scaling to a 30B-A3B backbone, reaching IMO gold-medal level with 100K+ token trajectories.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Hodge Spectral Duality (HSD) isolates topological degrees of freedom from learnable geometric dynamics in neural operators on geometric meshes, achieving superior accuracy and fidelity to physical invariants.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.13834" target="_blank" rel="noopener">Topology-Preserving Neural Operator Learning via Hodge Decomposition</a> <span class="src-num">[30]</span></div>
+    <div class="card-authors">2605.13834 |  Dongzhe Zheng, Tao Zhong, Christine Allen-Blanchette |  2</div>
+    <div class="card-desc">Hodge Spectral Duality (HSD) isolates topological degrees of freedom from learnable geometric dynamics in neural operators on geometric meshes, achieving superior accuracy and fidelity to physical…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Warp-as-History is a training-free interface enabling a frozen video model to follow camera trajectories by constructing camera-warped pseudo-history with positional alignment.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15182" target="_blank" rel="noopener">Warp-as-History: Generalizable Camera-Controlled Video Generation from One Training Video</a> <span class="src-num">[31]</span></div>
+    <div class="card-authors">2605.15182 |  Yifan Wang, Tong He |  29</div>
+    <div class="card-desc">Warp-as-History is a training-free interface enabling a frozen video model to follow camera trajectories by constructing camera-warped pseudo-history with positional alignment.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="Nexus decomposes time-series forecasting into specialized macro/micro temporal stages with contextual integration, outperforming state-of-the-art TSFMs on real estate and stock market data strictly after LLM knowledge cutoffs.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14389" target="_blank" rel="noopener">Nexus: An Agentic Framework for Time Series Forecasting</a> <span class="src-num">[32]</span></div>
+    <div class="card-authors">2605.14389 |  Sarkar Snigdha Sarathi Das, Palash Goyal, Mihir Parmar, Nanyun Peng et al.</div>
+    <div class="card-desc">Nexus decomposes time-series forecasting into specialized macro/micro temporal stages with contextual integration, outperforming state-of-the-art TSFMs on real estate and stock market data strictly…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="EvoEnv synthesizes Python environments from seed tasks with staged validation and solver-relative difficulty calibration, reframing self-improvement as environment construction with reusable executable objects.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14392" target="_blank" rel="noopener">Learning to Build the Environment: Self-Evolving Reasoning RL via Verifiable Environment Synthesis</a> <span class="src-num">[33]</span></div>
+    <div class="card-authors">2605.14392 |  Yucheng Shi, Zhenwen Liang, Kishan Panaganti, Dian Yu et al.</div>
+    <div class="card-desc">EvoEnv synthesizes Python environments from seed tasks with staged validation and solver-relative difficulty calibration, reframing self-improvement as environment construction with reusable…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="SDAR treats On-Policy Self-Distillation as a gated auxiliary objective with sigmoid gating for token-level positive-gap reinforcement, improving over GRPO by 9.4% on ALFWorld and 10.2% on WebShop.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15155" target="_blank" rel="noopener">Self-Distilled Agentic Reinforcement Learning</a> <span class="src-num">[34]</span></div>
+    <div class="card-authors">2605.15155 |  Zhengxi Lu, Zhiyuan Yao, Zhuowen Han, Zi-Han Wang et al.</div>
+    <div class="card-desc">SDAR treats On-Policy Self-Distillation as a gated auxiliary objective with sigmoid gating for token-level positive-gap reinforcement, improving over GRPO by 9.4% on ALFWorld and 10.2% on WebShop.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="PDI-Bench introduces projective-geometry residuals (scale-depth alignment, 3D motion consistency, structural rigidity) for quantitative auditing of geometric coherence in generated videos.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15185" target="_blank" rel="noopener">Quantitative Video World Model Evaluation for Geometric-Consistency</a> <span class="src-num">[35]</span></div>
+    <div class="card-authors">2605.15185 |  Jiaxin Wu, Yihao Pi, Yinling Zhang, Yuheng Li et al.</div>
+    <div class="card-desc">PDI-Bench introduces projective-geometry residuals (scale-depth alignment, 3D motion consistency, structural rigidity) for quantitative auditing of geometric coherence in generated videos.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="An unsupervised framework combining few-shot filtering, UMAP dimensionality reduction, and HDBSCAN clustering identifies 41 distinct manipulative narrative clusters from 1.2 million social media posts.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14354" target="_blank" rel="noopener">LLM-based Detection of Manipulative Political Narratives</a> <span class="src-num">[36]</span></div>
+    <div class="card-authors">2605.14354 |  Sinclair Schneider, Florian Steuber, Gabi Dreo Rodosek |  0</div>
+    <div class="card-desc">An unsupervised framework combining few-shot filtering, UMAP dimensionality reduction, and HDBSCAN clustering identifies 41 distinct manipulative narrative clusters from 1.2 million social media…</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="ATLAS uses a single discrete functional token as both an agentic operation and latent visual reasoning unit, with Latent-Anchored GRPO stabilizing RL training without architectural modifications.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15198" target="_blank" rel="noopener">ATLAS: Agentic or Latent Visual Reasoning? One Word is Enough for Both</a> <span class="src-num">[37]</span></div>
+    <div class="card-authors">2605.15198 |  Ziyu Guo, Rain Liu, Xinyan Chen, Pheng-Ann Heng |  15</div>
+    <div class="card-desc">ATLAS uses a single discrete functional token as both an agentic operation and latent visual reasoning unit, with Latent-Anchored GRPO stabilizing RL training without architectural modifications.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="A unified survey of multi-agent LLM systems organized around the LIFE progression: Lay capability foundation, Integrate agents, Find faults, Evolve, identifying open challenges at stage boundaries.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14892" target="_blank" rel="noopener">Beyond Individual Intelligence: Surveying Collaboration, Failure Attribution, and Self-Evolution in LLM-based Multi-Agent Systems</a> <span class="src-num">[38]</span></div>
+    <div class="card-authors">2605.14892 |  Shihao Qi, Jie Ma, Rui Xing, Wei Guo et al.</div>
+    <div class="card-desc">A unified survey of multi-agent LLM systems organized around the LIFE progression: Lay capability foundation, Integrate agents, Find faults, Evolve, identifying open challenges at stage boundaries.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="FutureSim replays real-world news chronologically to test whether agents can predict world events beyond their knowledge cutoff; the best agent achieves only 25% accuracy.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15188" target="_blank" rel="noopener">FutureSim: Replaying World Events to Evaluate Adaptive Agents</a> <span class="src-num">[39]</span></div>
+    <div class="card-authors">2605.15188 |  Shashwat Goel, Nikhil Chandak, Arvindh Arun, Ameya Prabhu et al.</div>
+    <div class="card-desc">FutureSim replays real-world news chronologically to test whether agents can predict world events beyond their knowledge cutoff; the best agent achieves only 25% accuracy.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="PhyMotion recovers SMPL body meshes from generated videos, simulates them in MuJoCo, and scores motion along kinematic plausibility, contact balance, and dynamic feasibility dimensions.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14269" target="_blank" rel="noopener">PhyMotion: Structured 3D Motion Reward for Physics-Grounded Human Video Generation</a> <span class="src-num">[40]</span></div>
+    <div class="card-authors">2605.14269 |  Yidong Huang, Zun Wang, Han Lin, Dong-Ki Kim et al.</div>
+    <div class="card-desc">PhyMotion recovers SMPL body meshes from generated videos, simulates them in MuJoCo, and scores motion along kinematic plausibility, contact balance, and dynamic feasibility dimensions.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="SPIN combines validated DAG planning with prefix-based execution control for industrial LLM agents, reducing executed tasks by 41% and tool calls by 42% on AssetOpsBench.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14051" target="_blank" rel="noopener">SPIN: Structural LLM Planning via Iterative Navigation for Industrial Tasks</a> <span class="src-num">[41]</span></div>
+    <div class="card-authors">2605.14051 |  Yusuke Ozaki, Dhaval Patel |  1</div>
+    <div class="card-desc">SPIN combines validated DAG planning with prefix-based execution control for industrial LLM agents, reducing executed tasks by 41% and tool calls by 42% on AssetOpsBench.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="BOOKMARKS uses search-based bookmark management for role-playing agents, actively initializing and synchronizing task-relevant bookmarks at storyline points.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14169" target="_blank" rel="noopener">BOOKMARKS: Efficient Active Storyline Memory for Role-playing</a> <span class="src-num">[42]</span></div>
+    <div class="card-authors">2605.14169 |  Letian Peng, Ziche Liu, Yiming Huang, Longfei Yun et al.</div>
+    <div class="card-desc">BOOKMARKS uses search-based bookmark management for role-playing agents, actively initializing and synchronizing task-relevant bookmarks at storyline points.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="RAVEN repacks self-rollouts into interleaved clean historical endpoints and noisy states for better training-inference alignment in causal AR video diffusion.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15190" target="_blank" rel="noopener">RAVEN: Real-time Autoregressive Video Extrapolation with Consistency-model GRPO</a> <span class="src-num">[43]</span></div>
+    <div class="card-authors">2605.15190 |  Yanzuo Lu, Ronglai Zuo, Jiankang Deng |  4</div>
+    <div class="card-desc">RAVEN repacks self-rollouts into interleaved clean historical endpoints and noisy states for better training-inference alignment in causal AR video diffusion.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="A transformer model projecting German political texts onto a continuous left-right spectrum achieves F1=0.844 in-domain and MAE=0.172 on newspaper out-of-domain tests.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14352" target="_blank" rel="noopener">Ideology Prediction of German Political Texts</a> <span class="src-num">[44]</span></div>
+    <div class="card-authors">2605.14352 |  Sinclair Schneider, Florian Steuber, Joao A. G. Schneider, Gabi Dreo Rodosek |  1</div>
+    <div class="card-desc">A transformer model projecting German political texts onto a continuous left-right spectrum achieves F1=0.844 in-domain and MAE=0.172 on newspaper out-of-domain tests.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="AI CFD Scientist is the first AI scientist for computational fluid dynamics spanning literature-grounded ideation, OpenFOAM execution, vision-based physics verification, and manuscript writing.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.06607" target="_blank" rel="noopener">AI CFD Scientist: Toward Open-Ended Computational Fluid Dynamics Discovery with Physics-Aware AI Agents</a> <span class="src-num">[45]</span></div>
+    <div class="card-authors">2605.06607 |  Nithin Somasekharan, Rabi Pathak, Manushri Dhanakoti, Tingwen Zhang et al.</div>
+    <div class="card-desc">AI CFD Scientist is the first AI scientist for computational fluid dynamics spanning literature-grounded ideation, OpenFOAM execution, vision-based physics verification, and manuscript writing.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="vOPD stabilizes On-Policy Distillation by casting it as policy-gradient RL with a control variate baseline derived from per-token reverse KL divergence, consistently outperforming vanilla OPD.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.07865" target="_blank" rel="noopener">KL for a KL: On-Policy Distillation with Control Variate Baseline</a> <span class="src-num">[46]</span></div>
+    <div class="card-authors">2605.07865 |  Minjae Oh, Sangjun Song, Gyubin Choi, Yunho Choi et al.</div>
+    <div class="card-desc">vOPD stabilizes On-Policy Distillation by casting it as policy-gradient RL with a control variate baseline derived from per-token reverse KL divergence, consistently outperforming vanilla OPD.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="PaSaMaster is a self-evolving agentic retrieval system using iterative intent analysis and ranking, improving F1 by 15.6X over keyword search across 38 scientific disciplines.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14306" target="_blank" rel="noopener">Towards Self-Evolving Agentic Literature Retrieval</a> <span class="src-num">[47]</span></div>
+    <div class="card-authors">2605.14306 |  Yuwen Du, Tian Jin, Jing Kang, Xianghe Pang et al.</div>
+    <div class="card-desc">PaSaMaster is a self-evolving agentic retrieval system using iterative intent analysis and ranking, improving F1 by 15.6X over keyword search across 38 scientific disciplines.</div>
+    <div class="card-tags"><span class="tag web-tag">HUGGINGFACE_PAPERS</span></div>
+  </div>
+    </div>
+  </div>  <div class="section-group">
+    <h3>🎓 Google Scholar <span class="group-count">6</span></h3>
+    <div class="cards-grid">
+  <div class="card web-card" data-full-desc="A review of ML-driven catalyst research for converting greenhouse gases (CO2 and methane) into useful chemicals via dry reforming processes.">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">Rising levels of atmospheric carbon dioxide and methane have sparked the interest of researchers in resolving this issue.</div>
+    <div class="card-desc">A review of ML-driven catalyst research for converting greenhouse gases (CO2 and methane) into useful chemicals via dry reforming processes.</div>
+    <div class="card-tags"><span class="tag web-tag">GOOGLE_SCHOLAR</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="A comprehensive review covering how LLMs are applied in computational social science, including social phenomenon analysis, data bias and privacy challenges.">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors">The advent of large language models (LLMs) has marked a new era in computational social science.</div>
+    <div class="card-desc">A comprehensive review covering how LLMs are applied in computational social science, including social phenomenon analysis, data bias and privacy challenges.</div>
+    <div class="card-tags"><span class="tag web-tag">GOOGLE_SCHOLAR</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="A review of AI and ML applications in cybersecurity, covering adversarial AI, automated threat intelligence, and AI-driven security orchestration.">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors">in adversarial AI, automated threat intelligence, and AI-driven security orchestration...</div>
+    <div class="card-desc">A review of AI and ML applications in cybersecurity, covering adversarial AI, automated threat intelligence, and AI-driven security orchestration.</div>
+    <div class="card-tags"><span class="tag web-tag">GOOGLE_SCHOLAR</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="A review of post-quantum cryptographic approaches for securing IoT devices and user privacy against quantum-enabled adversaries.">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors">the need for post-quantum cryptography to secure devices and user privacy against quantum-enabled adversaries.</div>
+    <div class="card-desc">A review of post-quantum cryptographic approaches for securing IoT devices and user privacy against quantum-enabled adversaries.</div>
+    <div class="card-tags"><span class="tag web-tag">GOOGLE_SCHOLAR</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="A review covering quantum-enhanced classical ML to native quantum algorithms, with applications in optimization, drug discovery, and quantum-secured communications.">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors">in quantum-enhanced classical ML to native quantum algorithms and hybrid quantum approaches...</div>
+    <div class="card-desc">A review covering quantum-enhanced classical ML to native quantum algorithms, with applications in optimization, drug discovery, and quantum-secured communications.</div>
+    <div class="card-tags"><span class="tag web-tag">GOOGLE_SCHOLAR</span></div>
+  </div>
+  <div class="card web-card" data-full-desc="A study examining how generative AI personas function as teammates in collaborative moral reasoning, finding that AI teammates alter the process and distribution of moral frames among human participants.">
+    <div class="card-title"><a href="https://bera-journals.onlinelibrary.wiley.com/doi/abs/10.1111/bjet.70067" target="_blank" rel="noopener">When machines join the moral circle: The persona effect of generative AI agents in collaborative reasoning</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors">Overall, AI teammates altered the process, the distribution and connection of moral frames...</div>
+    <div class="card-desc">A study examining how generative AI personas function as teammates in collaborative moral reasoning, finding that AI teammates alter the process and distribution of moral frames among human…</div>
+    <div class="card-tags"><span class="tag web-tag">GOOGLE_SCHOLAR</span></div>
+  </div>
+    </div>
+  </div></div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol>
+      <li>[1] <a href="https://www.primeintellect.ai/auto-nanogpt" target="_blank" rel="noopener">Autonomous AI research for nanogpt speedrun</a></li>
+      <li>[2] <a href="https://caio.ca/blog/what-coding-is-starting-to-lose" target="_blank" rel="noopener">What Coding Is Starting to Lose</a></li>
+      <li>[3] <a href="https://www.vulncheck.com/blog/ai-assisted-vulnerability-discovery" target="_blank" rel="noopener">The First CVE Wave: Signs That AI-Assisted Vulnerability Discovery Is Reshaping Disclosure Volumes</a></li>
+      <li>[4] <a href="https://tmctmt.com/posts/mullvad-exit-ips-as-a-fingerprinting-vector/" target="_blank" rel="noopener">Mullvad exit IPs as a fingerprinting vector</a></li>
+      <li>[5] <a href="https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn/" target="_blank" rel="noopener">linux 0-day, access root-owned files as an unprivileged user</a></li>
+      <li>[6] <a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State</a></li>
+      <li>[7] <a href="https://huggingface.co/papers/2605.14438" target="_blank" rel="noopener">BEAM: Binary Expert Activation Masking for Dynamic Routing in MoE</a></li>
+      <li>[8] <a href="https://huggingface.co/papers/2605.14454" target="_blank" rel="noopener">LiSA: Lifelong Safety Adaptation via Conservative Policy Induction</a></li>
+      <li>[9] <a href="https://huggingface.co/papers/2605.13852" target="_blank" rel="noopener">Realiz3D: 3D Generation Made Photorealistic via Domain-Aware Learning</a></li>
+      <li>[10] <a href="https://huggingface.co/papers/2605.14445" target="_blank" rel="noopener">FrontierSmith: Synthesizing Open-Ended Coding Problems at Scale</a></li>
+      <li>[11] <a href="https://huggingface.co/papers/2605.14068" target="_blank" rel="noopener">CurveBench: A Benchmark for Exact Topological Reasoning over Nested Jordan Curves</a></li>
+      <li>[12] <a href="https://huggingface.co/papers/2605.11458" target="_blank" rel="noopener">Adaptive Teacher Exposure for Self-Distillation in LLM Reasoning</a></li>
+      <li>[13] <a href="https://huggingface.co/papers/2605.08703" target="_blank" rel="noopener">RewardHarness: Self-Evolving Agentic Post-Training</a></li>
+      <li>[14] <a href="https://huggingface.co/papers/2605.11459" target="_blank" rel="noopener">Overcoming Dynamics-Blindness: Training-Free Pace-and-Path Correction for VLA Models</a></li>
+      <li>[15] <a href="https://huggingface.co/papers/2605.13169" target="_blank" rel="noopener">PanoWorld: Towards Spatial Supersensing in 360 Degree Panorama World</a></li>
+      <li>[16] <a href="https://huggingface.co/papers/2605.13027" target="_blank" rel="noopener">PRISM: Prior Rectification and Uncertainty-Aware Structure Modeling for Diffusion-Based Text Image Super-Resolution</a></li>
+      <li>[17] <a href="https://huggingface.co/papers/2605.14876" target="_blank" rel="noopener">Unlocking Complex Visual Generation via Closed-Loop Verified Reasoning</a></li>
+      <li>[18] <a href="https://huggingface.co/papers/2605.00180" target="_blank" rel="noopener">RouteProfile: Elucidating the Design Space of LLM Profiles for Routing</a></li>
+      <li>[19] <a href="https://huggingface.co/papers/2605.09681" target="_blank" rel="noopener">Forcing-KV: Hybrid KV Cache Compression for Efficient Autoregressive Video Diffusion Models</a></li>
+      <li>[20] <a href="https://huggingface.co/papers/2605.14323" target="_blank" rel="noopener">Dynamic Latent Routing</a></li>
+      <li>[21] <a href="https://huggingface.co/papers/2605.06527" target="_blank" rel="noopener">STALE: Can LLM Agents Know When Their Memories Are No Longer Valid?</a></li>
+      <li>[22] <a href="https://huggingface.co/papers/2605.15141" target="_blank" rel="noopener">Causal Forcing++: Scalable Few-Step Autoregressive Diffusion Distillation for Real-Time Interactive Video Generation</a></li>
+      <li>[23] <a href="https://huggingface.co/papers/2605.10912" target="_blank" rel="noopener">WildClawBench: A Benchmark for Real-World, Long-Horizon Agent Evaluation</a></li>
+      <li>[24] <a href="https://huggingface.co/papers/2605.14712" target="_blank" rel="noopener">IntentVLA: Short-Horizon Intent Modeling for Aliased Robot Manipulation</a></li>
+      <li>[25] <a href="https://huggingface.co/papers/2605.14906" target="_blank" rel="noopener">MemLens: Benchmarking Multimodal Long-Term Memory in Large Vision-Language Models</a></li>
+      <li>[26] <a href="https://huggingface.co/papers/2605.15055" target="_blank" rel="noopener">DiffusionOPD: A Unified Perspective of On-Policy Distillation in Diffusion Models</a></li>
+      <li>[27] <a href="https://huggingface.co/papers/2605.15167" target="_blank" rel="noopener">Does Synthetic Layered Design Data Benefit Layered Design Decomposition?</a></li>
+      <li>[28] <a href="https://huggingface.co/papers/2605.15178" target="_blank" rel="noopener">SANA-WM: Efficient Minute-Scale World Modeling with Hybrid Linear Diffusion Transformer</a></li>
+      <li>[29] <a href="https://huggingface.co/papers/2605.15186" target="_blank" rel="noopener">VGGT-Edit: Feed-forward Native 3D Scene Editing with Residual Field Prediction</a></li>
+      <li>[30] <a href="https://huggingface.co/papers/2605.14386" target="_blank" rel="noopener">Darwin Family: MRI-Trust-Weighted Evolutionary Merging for Training-Free Scaling of Language-Model Reasoning</a></li>
+</ol>
+<ol start="31">
+      <li>[31] <a href="https://huggingface.co/papers/2605.13880" target="_blank" rel="noopener">PREPING: Building Agent Memory without Tasks</a></li>
+      <li>[32] <a href="https://huggingface.co/papers/2605.15128" target="_blank" rel="noopener">MemEye: A Visual-Centric Evaluation Framework for Multimodal Agent Memory</a></li>
+      <li>[33] <a href="https://huggingface.co/papers/2605.15040" target="_blank" rel="noopener">Orchard: An Open-Source Agentic Modeling Framework</a></li>
+      <li>[34] <a href="https://huggingface.co/papers/2605.13941" target="_blank" rel="noopener">EvolveMem: Self-Evolving Memory Architecture via AutoResearch for LLM Agents</a></li>
+      <li>[35] <a href="https://huggingface.co/papers/2605.13301" target="_blank" rel="noopener">Achieving Gold-Medal-Level Olympiad Reasoning via Simple and Unified Scaling</a></li>
+      <li>[36] <a href="https://huggingface.co/papers/2605.13834" target="_blank" rel="noopener">Topology-Preserving Neural Operator Learning via Hodge Decomposition</a></li>
+      <li>[37] <a href="https://huggingface.co/papers/2605.15182" target="_blank" rel="noopener">Warp-as-History: Generalizable Camera-Controlled Video Generation from One Training Video</a></li>
+      <li>[38] <a href="https://huggingface.co/papers/2605.14389" target="_blank" rel="noopener">Nexus: An Agentic Framework for Time Series Forecasting</a></li>
+      <li>[39] <a href="https://huggingface.co/papers/2605.14392" target="_blank" rel="noopener">Learning to Build the Environment: Self-Evolving Reasoning RL via Verifiable Environment Synthesis</a></li>
+      <li>[40] <a href="https://huggingface.co/papers/2605.15155" target="_blank" rel="noopener">Self-Distilled Agentic Reinforcement Learning</a></li>
+      <li>[41] <a href="https://huggingface.co/papers/2605.15185" target="_blank" rel="noopener">Quantitative Video World Model Evaluation for Geometric-Consistency</a></li>
+      <li>[42] <a href="https://huggingface.co/papers/2605.14354" target="_blank" rel="noopener">LLM-based Detection of Manipulative Political Narratives</a></li>
+      <li>[43] <a href="https://huggingface.co/papers/2605.15198" target="_blank" rel="noopener">ATLAS: Agentic or Latent Visual Reasoning? One Word is Enough for Both</a></li>
+      <li>[44] <a href="https://huggingface.co/papers/2605.14892" target="_blank" rel="noopener">Beyond Individual Intelligence: Surveying Collaboration, Failure Attribution, and Self-Evolution in LLM-based Multi-Agent Systems</a></li>
+      <li>[45] <a href="https://huggingface.co/papers/2605.15188" target="_blank" rel="noopener">FutureSim: Replaying World Events to Evaluate Adaptive Agents</a></li>
+      <li>[46] <a href="https://huggingface.co/papers/2605.14269" target="_blank" rel="noopener">PhyMotion: Structured 3D Motion Reward for Physics-Grounded Human Video Generation</a></li>
+      <li>[47] <a href="https://huggingface.co/papers/2605.14051" target="_blank" rel="noopener">SPIN: Structural LLM Planning via Iterative Navigation for Industrial Tasks</a></li>
+      <li>[48] <a href="https://huggingface.co/papers/2605.14169" target="_blank" rel="noopener">BOOKMARKS: Efficient Active Storyline Memory for Role-playing</a></li>
+      <li>[49] <a href="https://huggingface.co/papers/2605.15190" target="_blank" rel="noopener">RAVEN: Real-time Autoregressive Video Extrapolation with Consistency-model GRPO</a></li>
+      <li>[50] <a href="https://huggingface.co/papers/2605.14352" target="_blank" rel="noopener">Ideology Prediction of German Political Texts</a></li>
+      <li>[51] <a href="https://huggingface.co/papers/2605.06607" target="_blank" rel="noopener">AI CFD Scientist: Toward Open-Ended Computational Fluid Dynamics Discovery with Physics-Aware AI Agents</a></li>
+      <li>[52] <a href="https://huggingface.co/papers/2605.07865" target="_blank" rel="noopener">KL for a KL: On-Policy Distillation with Control Variate Baseline</a></li>
+      <li>[53] <a href="https://huggingface.co/papers/2605.14306" target="_blank" rel="noopener">Towards Self-Evolving Agentic Literature Retrieval</a></li>
+      <li>[54] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a></li>
+      <li>[55] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a></li>
+      <li>[56] <a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a></li>
+      <li>[57] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a></li>
+      <li>[58] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a></li>
+      <li>[59] <a href="https://bera-journals.onlinelibrary.wiley.com/doi/abs/10.1111/bjet.70067" target="_blank" rel="noopener">When machines join the moral circle: The persona effect of generative AI agents in collaborative reasoning</a></li>
+</ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
