@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — May 18, 2026 11:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">May 18, 2026 11:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">26</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">26</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">May 18, 2026 11:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li><strong>AuralSAM2: Enabling SAM2 Hear Through Pyramid Audio-Visual Feature Prompting</strong> — Segment Anything Model 2 (SAM2) exhibits strong generalisation for promptable segmentation in video clips; however, its integration with the audio modality remains underexplored. E…</li>
+<li><strong>Known By Their Actions: Fingerprinting LLM Browser Agents via UI Traces</strong> — As LLM-based agents increasingly browse the web on users&#x27; behalf, a natural question arises: can websites passively identify which underlying model powers an agent? Doing so would …</li>
+<li><strong>Forgetting That Sticks: Quantization-Permanent Unlearning via Circuit Attribution</strong> — Standard unlearning evaluations measure behavioral suppression in full precision, immediately after training, despite every deployed language model being quantized first. Recent wo…</li>
+<li><strong>Follow the Mean: Reference-Guided Flow Matching</strong> — Existing approaches to controllable generation typically rely on fine-tuning, auxiliary networks, or test-time search. We show that flow matching admits a different control interfa…</li>
+<li><strong>Steered LLM Activations are Non-Surjective</strong> — Activation steering is a popular white-box control technique that modifies model activations to elicit an abstract change in its behavior. It has also become a standard tool in int…</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+      <li><strong>AI-Assisted Vuln Discovery</strong>: Public CVE disclosure volumes are surging across major software suppliers and open source projects, and the evidence increasingly points to AI-assisted vulnerab…</li>
+<li><strong>Cloudflare React State Tracking</strong>: ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It.</li>
+<li><strong>Google AI Zero-Day Discovery</strong>: (https://www.tomshardware.com/tech-industry/cyber-security/google-finds-first-ai-developed-zero-day-that-bypasses-2fa-self-morphing-malware-and-gemini-powered-backdoors-signal-a-new-era-of-cybercrime) — AI-driven exploitation of software bugs is now real.</li>
+<li><strong>AI-Driven Cyber Threats</strong>: Google says it disrupted an AI-driven effort to exploit a software bug.</li>
+<li><strong>LLM in Social Science</strong>: Academic review explores how large language models are transforming computational social science research.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  
+<div class="section">
+  <h2>📄 Research Papers</h2>
+  <div class="section-group">
+    <h3>HuggingFace Papers <span class="group-count">15</span></h3>
+    <div class="cards-grid"><div class="card web-card" data-full-desc="Segment Anything Model 2 (SAM2) exhibits strong generalisation for promptable segmentation in video clips; however, its integration with the audio modality remains underexplored. Existing approaches either convert audio into visual prompts (e.g., boxes) via foundation models, or inject adapters into the image encoder for audio-visual fusion. Yet both directions fall short in human-in-the-loop scenarios due to limited prompt accuracy and increased inference overhead. In particular, these adapter-based methods often suffer from audio prompt dilution, where the signal gradually weakens as it propagates through the network. In this work, we propose AuralSAM2, which integrates audio into SAM2 while largely preserving its promptable segmentation capability. Its core module, AuralFuser, fuses audio and visual features to generate sparse and dense prompts. Guided by audio and built upon SAM2&#x27;s feature pyramid, these prompts propagate auditory cues across visual layers, reinforcing cross-modal influence. To further align modalities, we introduce an audio-guided contrastive loss that emphasises auditory relevance in dominant visual features. Our method achieves notable accuracy gains on public benchmarks with only minimal impact on the interactive efficiency of promptable segmentation. Our code is available at https://github.com/yyliu01/AuralSAM2.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2506.01015" target="_blank" rel="noopener">AuralSAM2: Enabling SAM2 Hear Through Pyramid Audio-Visual Feature Prompting</a> <span class="src-num">[1]</span></div>
+  <div class="card-authors">Yuyuan Liu, Yuanhong Chen, Chong Wang, Junlin Han, Junde Wu</div>
+  <div class="card-desc">Segment Anything Model 2 (SAM2) exhibits strong generalisation for promptable segmentation in video clips; however, its integration with the audio modality remains underexplored. Existing approaches either convert audio into visual prompts (e.…</div>
+  <div class="card-tags"><span class="tag">2506</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="As LLM-based agents increasingly browse the web on users&#x27; behalf, a natural question arises: can websites passively identify which underlying model powers an agent? Doing so would represent a significant security risk, enabling targeted attacks tailored to known model vulnerabilities. Across 14 frontier LLMs and four web environments spanning information retrieval and shopping tasks, we show that an agent&#x27;s actions and interaction timings, captured via a passive JavaScript tracker, are sufficient to identify the underlying model with up to 96\% F1. We formalise this attack surface by demonstrating that classifiers trained on agent actions generalise across model sizes and families. We further show that strong classifiers can be trained from few interaction traces and that agent identity can be inferred early within an episode. Injecting randomised timing delays between actions substantially degrades classifier performance, but does not provide robust protection: a classifier retrained on delayed traces largely recovers performance. We release our harness and a labelled corpus of agent traces https://github.com/KabakaWilliam/known_actions{here}.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.14786" target="_blank" rel="noopener">Known By Their Actions: Fingerprinting LLM Browser Agents via UI Traces</a> <span class="src-num">[2]</span></div>
+  <div class="card-authors">William Lugoloobi, Samuelle Marro, Jabez Magomere, Joss Wright, Chris Russell</div>
+  <div class="card-desc">As LLM-based agents increasingly browse the web on users&#x27; behalf, a natural question arises: can websites passively identify which underlying model powers an agent? Doing so would represent a significant security risk, enabling targeted attacks tailo</div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="Standard unlearning evaluations measure behavioral suppression in full precision, immediately after training, despite every deployed language model being quantized first. Recent work has shown that 4-bit post-training quantization can reverse machine unlearning; we show this is not a tuning artefact but a systematic dual failure: gradient-based methods that achieve meaningful forgetting lose it under compression, while methods that survive quantization barely change the model. Both failures trace to the same root cause: across all baselines, per-parameter updates lie 47-828x below the NF4 quantization bin width; updates diffused across billions of parameters cannot clear quantization bin boundaries, a consequence we formalize as a sparsity-permanence tradeoff. We present MANSU (Mechanistic-Aligned Null-Space Unlearning), which resolves both modes by combining causal circuit attribution to isolate the minimal forget-set subgraph, circuit-restricted null-space projection with a diagonal-Fisher retain bound, and a per-parameter magnitude floor guaranteeing quantization survival by construction. We additionally introduce Circuit Attribution Divergence (CAD), a mechanistic verification metric distinguishing structural erasure from behavioral suppression, a distinction existing metrics cannot make. Across multiple model families and hazard benchmarks, MANSU is the first method to jointly satisfy all four properties with margin on each (meaningful forgetting, retain preservation, no">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.15138" target="_blank" rel="noopener">Forgetting That Sticks: Quantization-Permanent Unlearning via Circuit Attribution</a> <span class="src-num">[3]</span></div>
+  <div class="card-authors">Saisab Sadhu, Pratinav Seth, Vinay Kumar Sankarapu</div>
+  <div class="card-desc">Standard unlearning evaluations measure behavioral suppression in full precision, immediately after training, despite every deployed language model being quantized first. Recent work has shown that 4-bit post-training quantization can reverse machine</div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="Existing approaches to controllable generation typically rely on fine-tuning, auxiliary networks, or test-time search. We show that flow matching admits a different control interface: adaptation through examples. For deterministic interpolants, the velocity field is solely governed by a conditional endpoint mean; shifting this mean shifts the flow itself. This yields a simple principle for controllable generation: steer a pretrained model by changing the reference set it follows. We instantiate this idea in two forms. Reference-Mean Guidance is training-free: it computes a closed-form endpoint-mean correction from a reference bank and applies it to a frozen FLUX.2-klein (4B) model, enabling control of color, identity, style, and structure while keeping the prompt, seed, and weights fixed. Semi-Parametric Guidance amortizes the same idea through an explicit mean anchor and learned residual refiner, matching unconditional DiT-B/4 quality on AFHQv2 while allowing the reference set to be swapped at inference time. These results point to a broader direction: generative models that adapt through data, not parameter updates.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.10302" target="_blank" rel="noopener">Follow the Mean: Reference-Guided Flow Matching</a> <span class="src-num">[4]</span></div>
+  <div class="card-authors">Pedro M. P. Curvo, Maksim Zhdanov, Floor Eijkelboom, Jan-Willem van de Meent</div>
+  <div class="card-desc">Existing approaches to controllable generation typically rely on fine-tuning, auxiliary networks, or test-time search. We show that flow matching admits a different control interface: adaptation through examples.…</div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="Activation steering is a popular white-box control technique that modifies model activations to elicit an abstract change in its behavior. It has also become a standard tool in interpretability (e.g., probing truthfulness, or translating activations into human-readable explanations) and safety research (e.g., jailbreakability). However, it is unclear whether steered behavior is realizable by any textual prompt. In this work, we cast this question as a surjectivity problem: for a fixed model, does every steered activation admit a preimage under the model&#x27;s natural forward pass? Under practical assumptions, we prove that activation steering pushes the residual stream off the manifold of states reachable from discrete prompts. Almost surely, no prompt can reproduce the same internal behavior induced by steering. We also illustrate this finding empirically across three widely used LLMs. Our results establish a formal separation between white-box steerability and black-box prompting. We therefore caution against interpreting the ease and success of activation steering as evidence of prompt-based interpretability or vulnerability, and argue for evaluation protocols that explicitly decouple white-box and black-box interventions.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2604.09839" target="_blank" rel="noopener">Steered LLM Activations are Non-Surjective</a> <span class="src-num">[5]</span></div>
+  <div class="card-authors">Aayush Mishra, Daniel Khashabi, Anqi Liu</div>
+  <div class="card-desc">Activation steering is a popular white-box control technique that modifies model activations to elicit an abstract change in its behavior. It has also become a standard tool in interpretability (e.…</div>
+  <div class="card-tags"><span class="tag">2604</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="Few-step image generation has seen rapid progress, with consistency and meanflow-based methods significantly reducing the number of sampling steps. Despite their low inference cost, these approaches often suffer from training instability and limited scalability. Sphere Encoder is a recent alternative that produces high-quality images in only a few steps; however, it requires repeated transitions between the pixel space and latent space during inference while jointly optimizing reconstruction and generation within a single architecture. This design leads to computational inefficiency and objective conflict between reconstruction and generation. To address these limitations, we decouple the framework into a fixed pretrained image encoder and a separate latent denoising model trained entirely in a spherical latent space. Our approach eliminates repeated pixel-space operations during training and inference, improving efficiency and allowing reconstruction and generation to specialize independently. On Animal-Faces, Oxford-Flowers and ImageNet-1K datasets, our method significantly outperforms Sphere Encoder in both generation quality and inference speed, while achieving competitive results against strong few-step and multi-step baselines.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.15592" target="_blank" rel="noopener">Efficient Image Synthesis with Sphere Latent Encoder</a> <span class="src-num">[6]</span></div>
+  <div class="card-authors">Tung Do, Thuan Hoang Nguyen, Hao Li</div>
+  <div class="card-desc">Few-step image generation has seen rapid progress, with consistency and meanflow-based methods significantly reducing the number of sampling steps. Despite their low inference cost, these approaches often suffer from training instability and limited </div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="Large-scale pre-trained vision-language models like CLIP demonstrate remarkable zero-shot performance across diverse tasks. However, fine-tuning these models to improve downstream performance often degrades robustness against distribution shifts. Recent approaches have attempted to mitigate this trade-off, but often rely on computationally expensive text-guidance. We propose a novel method for robust fine-tuning, SAE-FT, which operates only on the model&#x27;s visual representations. SAE-FT regularizes changes to these representations by penalizing the addition and removal of semantically meaningful features identified by a Sparse Autoencoder trained on the pre-trained model. This constraint prevents catastrophic forgetting and makes the fine-tuning process interpretable, enabling direct analysis of semantic changes. SAE-FT is both mechanistically transparent and computationally efficient, matching or exceeding state-of-the-art performance on ImageNet and its associated distribution shift benchmarks. Code is publicly available at: https://github.com/Fabian-Mor/sae-ft.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.15961" target="_blank" rel="noopener">Sparse Autoencoders enable Robust and Interpretable Fine-tuning of CLIP models</a> <span class="src-num">[7]</span></div>
+  <div class="card-authors">Fabian Morelli, Arnas Uselis, Ankit Sonthalia, Seong Joon Oh</div>
+  <div class="card-desc">Large-scale pre-trained vision-language models like CLIP demonstrate remarkable zero-shot performance across diverse tasks. However, fine-tuning these models to improve downstream performance often degrades robustness against distribution shifts.…</div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="The recent advancement of Vision Language Action (VLA) models has driven a critical demand for large scale egocentric datasets. However, existing datasets are often limited by short episode durations, typically spanning only a few minutes, which fails to capture the long horizon temporal dependencies necessary for complex robotic task execution. To bridge this gap, we present MobileEgo Anywhere, a framework designed to facilitate the collection of robust, hour plus egocentric trajectories using commodity mobile hardware. We leverage the ubiquitous sensor suites of modern smartphones to provide high fidelity, long term camera pose tracking, effectively removing the high hardware barriers associated with traditional robotics data collection. Our contributions are three fold: (1) we release a novel dataset comprising 200 hours of diverse, long form egocentric data with persistent state tracking; (2) we open source a mobile application that enables any user to record egocentric data, and (3) we provide a comprehensive processing pipeline to convert raw mobile captures into standardized, training ready formats for Vision Language Action model and foundation model research. By democratizing the data collection process, this work enables the massive scale acquisition of long horizon data across varied global environments, accelerating the development of generalizable robotic policies.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.05945" target="_blank" rel="noopener">MobileEgo Anywhere: Open Infrastructure for long horizon egocentric data on commodity hardware</a> <span class="src-num">[8]</span></div>
+  <div class="card-authors">Senthil Palanisamy, Abhishek Anand, Satpal Singh Rathor, Pratyush Patnaik, Shubhanshu Khatana</div>
+  <div class="card-desc">The recent advancement of Vision Language Action (VLA) models has driven a critical demand for large scale egocentric datasets. However, existing datasets are often limited by short episode durations, typically spanning only a few minutes, which fail</div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="Remote sensing change detection (RSCD) aims to localise changes between two images of the same geographic region. In practice, change masks often follow region-level annotation conventions rather than purely local appearance differences, making them context-dependent and occasionally ambiguous. Most state-of-the-art methods utilise per-pixel discriminative classification, which produces a single prediction per input and fails to explicitly model the changed region as a coherent whole. A natural alternative is generative formulation, which can model a distribution of plausible masks, enabling sampling to capture ambiguity and encourage global consistency. However, existing generative RSCD approaches typically lag behind strong discriminative baselines due to the high computational cost of pixel-space generation and the complexity of their conditioning mechanisms. To address the limitations of prior discriminative and generative methods, we propose ChangeFlow, a generative framework that reformulates change detection as the synthesis of a change mask in latent space via rectified flow. ChangeFlow is guided by a structured yet lightweight conditioning signal, and its stochastic design naturally supports sampling-based prediction ensembling. Namely, aggregating multiple predicted change masks improves robustness, while sample agreement provides a practical confidence estimation that highlights ambiguous regions. Across four benchmarks, ChangeFlow achieves an average F1 of 80.4\%,">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.15375" target="_blank" rel="noopener">ChangeFlow -- Latent Rectified Flow for Change Detection in Remote Sensing</a> <span class="src-num">[9]</span></div>
+  <div class="card-authors">Blaž Rolih, Matic Fučka, Filip Wolf, Luka Čehovin Zajc</div>
+  <div class="card-desc">Remote sensing change detection (RSCD) aims to localise changes between two images of the same geographic region. In practice, change masks often follow region-level annotation conventions rather than purely local appearance differences, making them </div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="Modern 3D visual learning relies on observations sampled from metric 3D assets, yet existing scans, meshes, point clouds, simulations, and reconstructions do not directly provide a sparse, comparable, and geometry-consistent panoramic training interface. Dense trajectories duplicate nearby views, source-specific rendering policies yield heterogeneous annotations, and sparse heuristics may miss important regions or introduce depth-inconsistent observations. We study how to convert 3D assets into sparse panoramic RGB-D-pose data that preserves complete scene coverage with low redundancy and auditable provenance. We propose COVER (Coverage-Oriented Viewpoint curation with ERP Range-depth warping), a training-free ERP viewpoint curator that projects geometry observed from selected views into candidate ERP probes, scores incremental coverage, and penalizes depth conflicts. Under bounded proxy error, its greedy coverage proxy preserves the standard coverage-style approximation behavior up to an additive error term. Using COVER, we build CM-EVS (Coverage-curated Metric ERP View Set), a panoramic RGB-D-pose dataset with 36,373 curated ERP frames from 1,275 indoor scenes across Blender indoor, HM3D, and ScanNet++, complemented by outdoor panoramas from TartanGround and OB3D re-encoded into the same schema. Each frame provides full-sphere RGB, metric range depth, calibrated pose; COVER-produced indoor frames include per-step provenance logs. With a median of only 25 frames per indoor s">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.15597" target="_blank" rel="noopener">CM-EVS: Sparse Panoramic RGB-D-Pose Data for Complete Scene Coverage</a> <span class="src-num">[10]</span></div>
+  <div class="card-authors">Jiale Liu, Jungang Li, Jieming Yu, Xinglin Yu, Zihao Dongfang</div>
+  <div class="card-desc">Modern 3D visual learning relies on observations sampled from metric 3D assets, yet existing scans, meshes, point clouds, simulations, and reconstructions do not directly provide a sparse, comparable, and geometry-consistent panoramic training interf</div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="Multi-head Latent Attention (MLA), the attention used in DeepSeek-V2/V3, jointly compresses keys and values into a low-rank latent and matches the H100 roofline almost perfectly. Its trained weights, however, expose only one decoding path - an absorbed MQA form - which ties efficient inference to H100-class compute-bandwidth ratios, forfeits tensor parallelism along the head axis, and yields no Multi-Token Prediction (MTP) gain on commodity inference GPUs such as the export-restricted H20. We propose Group-Query Latent Attention (GQLA), a minimal modification of MLA whose trained weights expose two algebraically equivalent decoding paths over the same parameters: an MQA-absorb path identical to MLA&#x27;s, and a GQA path with a per-group expanded cache. The runtime picks the path that matches the target hardware - no retraining, no custom kernels - so a single set of GQLA weights pins the rooflines of both H100 (MQA-absorb, s_q=1) and H20 (GQA + MTP, s_q=2), while supporting up to 8-way zero-redundancy tensor parallelism on the GQA path. To avoid pretraining from scratch we extend TransMLA into TransGQLA, which converts a pretrained GQA checkpoint into a GQLA model; on LLaMA-3-8B it compresses the per-token KV cache to 28.125% of the GQA baseline on the MQA-absorb path while structurally preserving GQA-level traffic on the per-group path.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.15250" target="_blank" rel="noopener">GQLA: Group-Query Latent Attention for Hardware-Adaptive Large Language Model Decoding</a> <span class="src-num">[11]</span></div>
+  <div class="card-authors">Fanxu Meng</div>
+  <div class="card-desc">Multi-head Latent Attention (MLA), the attention used in DeepSeek-V2/V3, jointly compresses keys and values into a low-rank latent and matches the H100 roofline almost perfectly. Its trained weights, however, expose only one decoding path - an absorb</div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="Whether navigating a building, operating a robot, or playing a game, an agent that acts effectively in an environment must first learn an internal model of how that environment works. Partially-observable Markov decision processes (POMDPs) provide a flexible modeling class for such internal world models, but learning them from observation-action trajectories alone is challenging and typically requires extensive environment interaction. We ask whether language-model priors can reduce costly interaction by leveraging prior knowledge, and introduce Pinductor (POMDP-inductor): an LLM proposes candidate POMDP models from a few observation-action trajectories and iteratively refines them to optimize a belief-based likelihood score. Despite using strictly less information, Pinductor matches the performance and sample efficiency of LLM-based POMDP learning methods that assume privileged access to the hidden state, while significantly surpassing the sample efficiency of tabular POMDP baselines. Further results show that performance scales with LLM capability and degrades gracefully as semantic information about the environment is withheld. Together, these results position language-model priors as a practical tool for sample-efficient world-model learning under partial observability, and a step toward generalist agents in real-world environments. Code is available at https://github.com/atomresearch/pinductor.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.13740" target="_blank" rel="noopener">Learning POMDP World Models from Observations with Language-Model Priors</a> <span class="src-num">[12]</span></div>
+  <div class="card-authors">Valentin Six, Frederik Panse, Mathis Fajeau, Lancelot Da Costa, Mridul Sharma</div>
+  <div class="card-desc">Whether navigating a building, operating a robot, or playing a game, an agent that acts effectively in an environment must first learn an internal model of how that environment works. Partially-observable Markov decision processes (POMDPs) provide a </div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="Group Relative Policy Optimisation (GRPO) enhances large language models by estimating advantages across a group of sampled trajectories. However, mapping these trajectory-level advantages to policy updates requires aggregating token-level probabilities within each sequence. Relying on a fixed aggregation mechanism for this step fundamentally limits the algorithm&#x27;s adaptability. Empirically, we observe a critical trade-off: certain fixed aggregations frequently suffer from training collapse, while others fail to yield satisfactory performance. To resolve this, we propose HölderPO, a generalised policy optimisation framework unifying token-level probability aggregation via the Hölder mean. By explicitly modulating the parameter p, our framework provides continuous control over the trade-off between gradient concentration and variance bounds. Theoretically, we prove that a larger p concentrates the gradient to amplify sparse learning signals, whereas a smaller p strictly bounds gradient variance. Because no static configuration can universally resolve this concentration-stability trade-off, we instantiate the framework with a dynamic annealing algorithm that progressively schedules p across the training lifecycle. Extensive evaluations demonstrate superior stability and convergence over existing baselines. Specifically, our approach achieves a state-of-the-art average accuracy of 54.9% across multiple mathematical benchmarks, yielding a substantial 7.2% relative gain over stand">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.12058" target="_blank" rel="noopener">Hölder Policy Optimisation</a> <span class="src-num">[13]</span></div>
+  <div class="card-authors">Yuxiang Chen, Dingli Liang, Yihang Chen, Ziqin Gong, Chenyang Le</div>
+  <div class="card-desc">Group Relative Policy Optimisation (GRPO) enhances large language models by estimating advantages across a group of sampled trajectories. However, mapping these trajectory-level advantages to policy updates requires aggregating token-level probabilit</div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="Reinforcement Learning with Verifiable Rewards (RLVR) has emerged as an effective paradigm for improving the reasoning capabilities of large language models. However, RLVR training is often hindered by sparse binary rewards and weak credit assignment, resulting in ambiguous optimization signals and underutilization of the useful information embedded in failed trajectories. To address this challenge, we propose Correction-Oriented Policy Optimization (CIPO), a simple and effective extension to RLVR that converts on-policy failed trajectories into correction-oriented supervision, without relying on any external signals. By jointly optimizing correction samples derived from the model&#x27;s own failed attempts together with the standard RLVR objective, CIPO improves learning effectiveness while explicitly enhancing the model&#x27;s ability to correct its own errors. Extensive experiments across 11 benchmarks spanning mathematical reasoning and code generation demonstrate that CIPO consistently and significantly outperforms strong baselines in both reasoning and correction performance. Moreover, CIPO yields stronger pass@K gains, indicating that it improves the model&#x27;s intrinsic reasoning capacity rather than merely redistributing probability mass over existing correct answers.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.14539" target="_blank" rel="noopener">Learning from Failures: Correction-Oriented Policy Optimization with Verifiable Rewards</a> <span class="src-num">[14]</span></div>
+  <div class="card-authors">Mengjie Ren, Jie Lou, Boxi Cao, Xueru Wen, Hongyu Lin</div>
+  <div class="card-desc">Reinforcement Learning with Verifiable Rewards (RLVR) has emerged as an effective paradigm for improving the reasoning capabilities of large language models. However, RLVR training is often hindered by sparse binary rewards and weak credit assignment</div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div><div class="card web-card" data-full-desc="Recent 3D world modeling systems based on generative scene synthesis, such as Marble, can create coherent and explorable 3D environments, yet their outputs are typically static monolithic assets with limited editability and physical interaction. This restricts their use in immersive content creation and embodied simulation, where generated worlds must be actively modified and manipulated. To tackle this challenge, we present WorldAct, a framework that converts static generated 3D worlds into editable and interaction-ready scenes. WorldAct uses a multimodal agent to guide scene decomposition, identify actionable objects, reconstruct geometrically aligned object-level meshes for interaction, and restore the residual background via 3D inpainting. The resulting scenes support object-level editing, collision-aware manipulation, and embodied task execution while preserving global scene coherence. Experiments show that WorldAct enables richer interaction scenarios than the original generated scenes, suggesting a practical path toward editable and interactive 3D world models.">
+  <div class="card-title"><a href="https://huggingface.co/papers/2605.15843" target="_blank" rel="noopener">WorldAct: Activating Monolithic 3D Worlds into Interactive-Ready Object-Centric Scenes</a> <span class="src-num">[15]</span></div>
+  <div class="card-authors">Jichen Hu, Jiawei Guo, Jiazhong Cen, Chen Yang, Sikuang Li</div>
+  <div class="card-desc">Recent 3D world modeling systems based on generative scene synthesis, such as Marble, can create coherent and explorable 3D environments, yet their outputs are typically static monolithic assets with limited editability and physical interaction. This</div>
+  <div class="card-tags"><span class="tag">2605</span><span class="tag web-tag">HuggingFace</span></div>
+</div></div>
+  </div>
+</div>
+<div class="section">
+  <h2>🌐 Web Findings</h2>
+  <div class="section-group">
+    <h3>Lobste.rs <span class="group-count">2</span></h3>
+    <div class="cards-grid"><div class="card web-card" data-full-desc="Public CVE disclosure volumes are surging across major software suppliers and open source projects, and the evidence increasingly points to AI-assisted vulnerability discovery as the driving force.">
+  <div class="card-title"><a href="https://www.vulncheck.com/blog/ai-assisted-vulnerability-discovery" target="_blank" rel="noopener">The First CVE Wave: Signs That AI-Assisted Vulnerability Discovery Is Reshaping Disclosure Volumes</a> <span class="src-num">[1]</span></div>
+  <div class="card-desc">Public CVE disclosure volumes are surging across major software suppliers and open source projects, and the evidence increasingly points to AI-assisted vulnerability discovery as t…</div>
+  <div class="card-tags"><span class="tag web-tag">Lobste.rs</span><span class="tag">Score: 5</span></div>
+</div><div class="card web-card" data-full-desc="Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild, directly from Claude. To access it reach out at buchodi@">
+  <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[2]</span></div>
+  <div class="card-desc">Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile…</div>
+  <div class="card-tags"><span class="tag web-tag">Lobste.rs</span><span class="tag">Score: 69</span></div>
+</div></div>
+  </div>
+</div>
+<div class="section-group">
+  <h3>Hacker News <span class="group-count">2</span></h3>
+  <div class="cards-grid"><div class="card web-card" data-full-desc="(https://www.tomshardware.com/tech-industry/cyber-security/google-finds-first-ai-developed-zero-day-that-bypasses-2fa-self-morphing-malware-and-gemini-powered-backdoors-signal-a-new-era-of-cybercrime)">
+  <div class="card-title"><a href="https://www.tomshardware.com/tech-industry/cyber-security/google-finds-first-ai-developed-zero-day-that-bypasses-2fa-self-morphing-malware-and-gemini-powered-backdoors-signal-a-new-era-of-cybercrime" target="_blank" rel="noopener">(https://www.tomshardware.com/tech-industry/cyber-security/google-finds-first-ai-developed-zero-day-that-bypasses-2fa-self-morphing-malware-and-gemini-powered-backdoors-signal-a-new-era-of-cybercrime)</a> <span class="src-num">[27]</span></div>
+  <div class="card-desc">(https://www.tomshardware.com/tech-industry/cyber-security/google-finds-first-ai-developed-zero-day-that-bypasses-2fa-self-morphing-malware-and-gemini-powered-backdoors-signal-a-ne…</div>
+  <div class="card-tags"><span class="tag web-tag">HackerNews</span></div>
+</div><div class="card web-card" data-full-desc="Google says it disrupted an AI-driven effort to exploit a software bug">
+  <div class="card-title"><a href="https://news.ycombinator.com/item?id=48138156" target="_blank" rel="noopener">Google says it disrupted an AI-driven effort to exploit a software bug</a> <span class="src-num">[28]</span></div>
+  <div class="card-desc">Google says it disrupted an AI-driven effort to exploit a software bug</div>
+  <div class="card-tags"><span class="tag web-tag">HackerNews</span></div>
+</div></div>
+</div>
+<div class="section-group">
+  <h3>Google Scholar <span class="group-count">7</span></h3>
+  <div class="cards-grid"><div class="card web-card" data-full-desc="… Building on this premise, this paper presents a framework for identifying breakthrough … potential to trigger technological breakthroughs. Next, a machine learning-based link prediction …">
+  <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[29]</span></div>
+  <div class="card-desc">… Building on this premise, this paper presents a framework for identifying breakthrough … potential to trigger technological breakthroughs. Next, a machine learning-based link prediction …</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div><div class="card web-card" data-full-desc="Rising levels of atmospheric carbon dioxide (CO 2 ) and methane (CH 4 ) have sparked the interest of researchers in resolving this issue. Various technologies have been utilized such …">
+  <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[30]</span></div>
+  <div class="card-desc">Rising levels of atmospheric carbon dioxide (CO 2 ) and methane (CH 4 ) have sparked the interest of researchers in resolving this issue. Various technologies have been utilized such …</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div><div class="card web-card" data-full-desc="… The advent of large language models (LLMs) has marked a new … LLM usage. We further present the challenges associated with data bias, privacy, and the integration of these models …">
+  <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[31]</span></div>
+  <div class="card-desc">… The advent of large language models (LLMs) has marked a new … LLM usage. We further present the challenges associated with data bias, privacy, and the integration of these models …</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div><div class="card web-card" data-full-desc="… in adversarial AI, automated threat intelligence, and AI-driven security orchestration, this … AI’s role in cybersecurity. Figure 1 shows the key areas where Artificial intelligence (AI) and …">
+  <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[32]</span></div>
+  <div class="card-desc">… in adversarial AI, automated threat intelligence, and AI-driven security orchestration, this … AI’s role in cybersecurity. Figure 1 shows the key areas where Artificial intelligence (AI) and …</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div><div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+  <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[33]</span></div>
+  <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div><div class="card web-card" data-full-desc="… in quantum-enhanced classical ML to native quantum algorithms and hybrid quantum-… It varies from applications in optimization, drug discovery, and quantum-secured communications, …">
+  <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[34]</span></div>
+  <div class="card-desc">… in quantum-enhanced classical ML to native quantum algorithms and hybrid quantum-… It varies from applications in optimization, drug discovery, and quantum-secured communications, …</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div><div class="card web-card" data-full-desc="… to incorporating blockchain and smart contract technology is … Blockchain technology provides consumers with detailed … that this shift to blockchain smart contracts can reduce the …">
+  <div class="card-title"><a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/sd.3431" target="_blank" rel="noopener">Leveraging blockchain and smart contracts to combat greenwashing in sustainable development</a> <span class="src-num">[35]</span></div>
+  <div class="card-desc">… to incorporating blockchain and smart contract technology is … Blockchain technology provides consumers with detailed … that this shift to blockchain smart contracts can reduce the …</div>
+  <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+</div></div>
+</div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <div class="sources-grid"><div><ol><li>[lobsters] <a href="https://www.vulncheck.com/blog/ai-assisted-vulnerability-discovery" target="_blank" rel="noopener">The First CVE Wave: Signs That AI-Assisted Vulnerability Discovery Is Reshaping Disclosure Volumes</a></li><li>[lobsters] <a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2506.01015" target="_blank" rel="noopener">AuralSAM2: Enabling SAM2 Hear Through Pyramid Audio-Visual Feature Prompting</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.14786" target="_blank" rel="noopener">Known By Their Actions: Fingerprinting LLM Browser Agents via UI Traces</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.15138" target="_blank" rel="noopener">Forgetting That Sticks: Quantization-Permanent Unlearning via Circuit Attribution</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.10302" target="_blank" rel="noopener">Follow the Mean: Reference-Guided Flow Matching</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2604.09839" target="_blank" rel="noopener">Steered LLM Activations are Non-Surjective</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.15592" target="_blank" rel="noopener">Efficient Image Synthesis with Sphere Latent Encoder</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.15961" target="_blank" rel="noopener">Sparse Autoencoders enable Robust and Interpretable Fine-tuning of CLIP models</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.05945" target="_blank" rel="noopener">MobileEgo Anywhere: Open Infrastructure for long horizon egocentric data on commodity hardware</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.15375" target="_blank" rel="noopener">ChangeFlow -- Latent Rectified Flow for Change Detection in Remote Sensing</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.15597" target="_blank" rel="noopener">CM-EVS: Sparse Panoramic RGB-D-Pose Data for Complete Scene Coverage</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.15250" target="_blank" rel="noopener">GQLA: Group-Query Latent Attention for Hardware-Adaptive Large Language Model Decoding</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.13740" target="_blank" rel="noopener">Learning POMDP World Models from Observations with Language-Model Priors</a></li></ol></div><div><ol><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.12058" target="_blank" rel="noopener">Hölder Policy Optimisation</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.14539" target="_blank" rel="noopener">Learning from Failures: Correction-Oriented Policy Optimization with Verifiable Rewards</a></li><li>[huggingface_papers] <a href="https://huggingface.co/papers/2605.15843" target="_blank" rel="noopener">WorldAct: Activating Monolithic 3D Worlds into Interactive-Ready Object-Centric Scenes</a></li><li>[google_scholar] <a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a></li><li>[google_scholar] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a></li><li>[google_scholar] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a></li><li>[google_scholar] <a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a></li><li>[google_scholar] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a></li><li>[google_scholar] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a></li><li>[google_scholar] <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/sd.3431" target="_blank" rel="noopener">Leveraging blockchain and smart contracts to combat greenwashing in sustainable development</a></li><li>[hackernews] <a href="https://www.tomshardware.com/tech-industry/cyber-security/google-finds-first-ai-developed-zero-day-that-bypasses-2fa-self-morphing-malware-and-gemini-powered-backdoors-signal-a-new-era-of-cybercrime" target="_blank" rel="noopener">(https://www.tomshardware.com/tech-industry/cyber-security/google-finds-first-ai-developed-zero-day-that-bypasses-2fa-self-morphing-malware-and-gemini-powered-backdoors-signal-a-new-era-of-cybercrime)</a></li><li>[hackernews] <a href="https://news.ycombinator.com/item?id=48138156" target="_blank" rel="noopener">Google says it disrupted an AI-driven effort to exploit a software bug</a></li></ol></div></div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
