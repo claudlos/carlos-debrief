@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — May 18, 2026 19:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">May 18, 2026 19:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">21</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">21</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">May 18, 2026 19:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li><strong>AI agents breach permission boundaries mid-trajectory:</strong> HarnessAudit (arXiv:2605.14271) audited full execution trajectories across frontier models and found that task completion is systematically misaligned with safe execution — most violations concentrate in resource access and inter-agent information transfer, accumulating with trajectory length.</li><li><strong>End-to-end RL unlocks self-designing multi-agent systems:</strong> MetaAgent-X (arXiv:2605.14212) jointly optimizes the meta-level designer and downstream executor via executor-designer hierarchical rollout and stagewise co-evolution, achieving up to 21.7% gains over frozen-executor baselines and revealing a stagewise co-evolution process.</li><li><strong>Geospatial foundation models lack community standards:</strong> A 152-paper audit found 46 cross-paper disagreements of ≥10 points for identical model/benchmark/protocol, 94/126 papers use unique training configurations, and 39% release no weights — a coordination failure preventing any shared understanding of state-of-art.</li><li><strong>ProofGrids stress-tests LLM reasoning via machine-checkable proofs:</strong> This benchmark suite (arXiv:2605.12524) introduces minimal formal notation (NDL) for auditable evaluation across proof writing, checking, masking, and gap-filling — finding frontier models handle foundational tasks well but difficult structurally rich challenges remain unsolved.</li><li><strong>CIPO turns failed RLVR trajectories into correction-oriented supervision:</strong> This approach (arXiv:2605.14539) converts on-policy failures into a secondary objective without external signals, consistently outperforming strong baselines across 11 math and code benchmarks and improving intrinsic reasoning capacity rather than redistributing probability mass.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+      <li><strong>CISA contractor exposed AWS GovCloud keys in a public GitHub repository</strong>, granting access to highly privileged government cloud accounts and internal CISA systems — a serious supply-chain and insider-risk incident flagged by security researchers on Lobste.rs.</li><li><strong>AI-assisted vulnerability discovery is driving a surge in CVE disclosure volumes</strong>, with major software suppliers and open-source projects reporting record numbers of vulnerabilities — suggesting AI tools are now systematically fuzzing codebases at scale.</li><li><strong>Bitwarden quietly overhauled its premium offering</strong> after doubling its price in March, with users noting changes were rolled out via feature announcements buried behind a price increase — discussed on Lobste.rs as a悄然 renovation.</li><li><strong>ProofGrid benchmark exposes a 46-point gap between MCQ and open-ended physics reasoning</strong> under identical model weights, suggesting existing multimodal benchmarks dramatically overestimate vision-language model capabilities on Olympiad-level problems.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  
+  <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+      <h3>🧠 LLMs <span class="group-count">3</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Edit April 2, 2026: I've been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild, directly from Claude. To access it reach out at buchodi@">
+    <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won't Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Lobste.rs</div>
+    <div class="card-desc">Edit April 2, 2026: I've been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+<div class="card web-card" data-full-desc="We introduce ProofGrid, a benchmark suite for evaluating LLM reasoning through machine-checkable proofs rather than final answers alone. ProofGrid contains 15 tasks spanning proof writing, proof checking, proof masking, and proof gap-filling. Tasks are expressed in minimal formal notation, especially NDL, a compact natural-deduction language that fits in short prompts and supports precise, auditable verification. This yields mechanical, reproducible, and fine-grained evaluation rather than judgments by humans or LLMs. ProofGrid covers a calibrated difficulty spectrum, from foundational reasoning tests to structurally rich challenge tasks that no current model solves, while minimizing reliance on domain knowledge, solver delegation, and long-context artifacts. We also develop a comparative framework for reasoning benchmarks and use it to situate ProofGrid relative to existing work in terms of representation, verification guarantees, and reasoning depth.
+  Methodologically, we introduce an instrumented proof-checking pipeline that tolerates minor surface deviations while locating the first substantive reasoning failure, improving measurement resolution and separating proof planning from low-level execution noise. Using this pipeline, we evaluate a broad range of open and proprietary models. Results show rapid progress but substantial remaining limits: frontier models perform well on several foundational tasks, yet difficult tasks, especially those requiring global combinatorial">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.12524" target="_blank" rel="noopener">Stress-Testing the Reasoning Competence of LLMs With Proofs Under Minimal Formalism</a> <span class="src-num">[9]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">HuggingFace</div>
+    <div class="card-desc">We introduce ProofGrid, a benchmark suite for evaluating LLM reasoning through machine-checkable proofs rather than final answers alone. ProofGrid contains 15 tasks spanning proof writing, proof checking, proof masking,…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Large language models (LLM) in computational social science: prospects, current state, and challenges">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[17]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Google Scholar</div>
+    <div class="card-desc">Large language models (LLM) in computational social science: prospects, current…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+      <h3>⚙️ Machine Learning <span class="group-count">13</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Back in March, I wrote about Bitwarden doubling their Premium price — and specifically how they did it. Buried in a feature announcement. Priced in fake...">
+    <div class="card-title"><a href="https://blog.ppb1701.com/the-quiet-renovation-at-bitwarden" target="_blank" rel="noopener">The Quiet Renovation at Bitwarden</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Lobste.rs</div>
+    <div class="card-desc">Back in March, I wrote about Bitwarden doubling their Premium price — and specifically how they did it. Buried in a feature announcement. Priced in fake...</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+<div class="card web-card" data-full-desc="It would take nearly 600 years to finish playing this MIT student's iteration of the classic video game.">
+    <div class="card-title"><a href="https://www.popsci.com/science/doom-e-coli-cells/" target="_blank" rel="noopener">Running ‘Doom’ on E. coli cells… very, very slowly</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Lobste.rs</div>
+    <div class="card-desc">It would take nearly 600 years to finish playing this MIT student's iteration of the classic video game.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Geospatial foundation models (GFMs) have been proposed as generalizable backbones for disaster response, land-cover mapping, food-security monitoring, and other high-stakes Earth-observation tasks. Yet the published work about these models does not give reviewers or users enough information to tell which model fits a given task. We argue that nobody knows what the current state of the art is in geospatial foundation models. The methods may be useful, but the GFM literature does not standardize evaluations, training and testing protocols, released weights, or pretraining controls well enough for anyone to compare or rank them. In a 152-paper audit, we find 46 cross-paper disagreements of at least 10 points for the same model, benchmark, and protocol; 94/126 papers with extractable pretraining data use a configuration no other paper uses; and 39% of GFM papers release no model weights. This lack of community standards can be solved. We propose six concrete expectations: named-license weight release, shared core evaluations, copied-versus-rerun baseline annotations, variance reporting, one shared evaluation harness, and data-vs-architecture-vs-algorithm controls. These gaps are a coordination failure, not a fault of any individual lab; the authors of this paper, like many others in the GFM community, have contributed to them. Rather than just critiquing the community, we aim to provide concrete steps toward a shared understanding of how to innovate GFMs.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.12678" target="_blank" rel="noopener">No One Knows the State of the Art in Geospatial Foundation Models</a> <span class="src-num">[7]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">HuggingFace</div>
+    <div class="card-desc">Geospatial foundation models (GFMs) have been proposed as generalizable backbones for disaster response, land-cover mapping, food-security monitoring, and other high-stakes Earth-observation tasks. Yet the published…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Automatic multi-agent systems aim to instantiate agent workflows without relying on manually designed or fixed orchestration. However, existing automatic MAS approaches remain only partially adaptive: they either perform training-free test-time search or optimize the meta-level designer while keeping downstream execution agents frozen, which creating a frozen-executor ceiling and leaving the end-to-end training of self-designing and self-executing agentic models unexplored. To address this, we introduce MetaAgent-X, an end-to-end reinforcement learning framework that jointly optimizes automatic MAS design and execution. MetaAgent-X enables script-based MAS generation, execution rollout collection, and credit assignment for both designer and executor trajectories. To support stable and scalable optimization, we propose Executor Designer Hierarchical Rollout and Stagewise Co-evolution to improve training stability and expose the dynamics of designer-executor co-evolution. MetaAgent-X consistently outperforms existing automatic MAS baselines, achieving up to 21.7% gains. Comprehensive ablations show that both designer and executor improve throughout training, and that effective automatic MAS learning follows a stagewise co-evolution process. These results establish end-to-end trainable automatic MAS as a practical paradigm for building self-designing and self-executing agentic models.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14212" target="_blank" rel="noopener">MetaAgent-X : Breaking the Ceiling of Automatic Multi-Agent Systems via End-to-End Reinforcement Learning</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">HuggingFace</div>
+    <div class="card-desc">Automatic multi-agent systems aim to instantiate agent workflows without relying on manually designed or fixed orchestration. However, existing automatic MAS approaches remain only partially adaptive: they either…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="We audit the multimodal-physics evaluation pipeline end-to-end and document three undetected construction practices that distort how the field measures vision-language reasoning: train-eval contamination, translation drift, and MCQ saturation. (1) Public training pools (UGPhysics-Train, SciInstruct, MMK12) pass single-stage 5-gram-Jaccard audits with zero hits across all six public physics evals; a three-stage audit (Jaccard -&gt; mxbai-embed-large cosine -&gt; Haiku-4.5 LLM-judge) surfaces 134 near-duplicates and 4,846 paraphrase candidates in SciInstruct alone. (2) A 17-pp Sonnet 4.5 delta on 59 paired Estonian-English olympiad problems (30.5% vs. 13.6%; sign test p=0.011, McNemar p=0.021, paired bootstrap 95% CI [+5.1, +28.9] pp). (3) A 46-pp format-and-novelty gradient on identical Sonnet weights between MCQ (79.7% on PhyX) and open-ended olympiad evaluation (33.4% on PhysOlym-A). We release four artifacts addressing these gaps: PhysCorp-A (6,432-record three-stage-audited multimodal corpus), PhysR1Corp (2,268-record closed-form RL pool), PhysOlym-A (500-problem, 99.8% novel-source held-out olympiad eval with native difficulty labels and an EN/ET bilingual subset), and Physics-R1, a reference GSPO+DAPO recipe cold-started from Qwen3-VL-8B-Thinking. Across 3 seeds, Physics-R1 lifts the audited corpus over the 8B base by +18.3 pp on PhysOlym-A liberal (8.0 -&gt; 26.3 +/- 1.7; 7.1 pp behind Sonnet 4.5), +15.7 pp on PhysReason (23.9 -&gt; 39.6 +/- 6.4; ahead of Qwen3-VL-32B and Gemini 2.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14040" target="_blank" rel="noopener">Physics-R1: An Audited Olympiad Corpus and Recipe for Visual Physics Reasoning</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">HuggingFace</div>
+    <div class="card-desc">We audit the multimodal-physics evaluation pipeline end-to-end and document three undetected construction practices that distort how the field measures vision-language reasoning: train-eval contamination, translation…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Reconstructing a structured vector-graphics representation from a rasterized floorplan image is typically an important prerequisite for computational tasks involving floorplans such as automated understanding or CAD workflows. However, existing techniques struggle in faithfully generating the structure and semantics conveyed by complex floorplans that depict large indoor spaces with many rooms and a varying numbers of polygon corners. To this end, we propose Raster2Seq, framing floorplan reconstruction as a sequence-to-sequence task in which floorplan elements--such as rooms, windows, and doors--are represented as labeled polygon sequences that jointly encode geometry and semantics. Our approach introduces an autoregressive decoder that learns to predict the next corner conditioned on image features and previously generated corners using guidance from learnable anchors. These anchors represent spatial coordinates in image space, hence allowing for effectively directing the attention mechanism to focus on informative image regions. By embracing the autoregressive mechanism, our method offers flexibility in the output format, enabling for efficiently handling complex floorplans with numerous rooms and diverse polygon structures. Our method achieves state-of-the-art performance on standard benchmarks such as Structure3D, CubiCasa5K, and Raster2Graph, while also demonstrating strong generalization to more challenging datasets like WAFFLE, which contain diverse room structures and">
+    <div class="card-title"><a href="https://huggingface.co/papers/2602.09016" target="_blank" rel="noopener">Raster2Seq: Polygon Sequence Generation for Floorplan Reconstruction</a> <span class="src-num">[11]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">HuggingFace</div>
+    <div class="card-desc">Reconstructing a structured vector-graphics representation from a rasterized floorplan image is typically an important prerequisite for computational tasks involving floorplans such as automated understanding or CAD…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Multilingual Information Retrieval is increasingly important in real-world search settings, where users issue queries over mixed-language corpora. Existing evaluations mainly reward language-agnostic semantic relevance, treating relevant passages equally regardless of language. Yet retrieval utility also depends on the language of the retrieved passages: users may prefer results they can read and verify in the query language, and query--passage language mismatch can complicate downstream grounding and answer verification in Retrieval-Augmented Generation systems. To evaluate this language-aware dimension, we introduce MLAIRE, a Multilingual Language-Aware Information Retrieval Evaluation protocol that disentangles cross-lingual semantic retrieval from query-language preference. MLAIRE constructs controlled pools with parallel passages across languages, enabling measurement of semantic retrieval accuracy and query-language preference when equivalent translations are available. We propose language-aware metrics, including Language Preference Rate (LPR) and Lang-nDCG, together with a 4-way decomposition separating semantic and query-language preference failures. Evaluating 31 dense, sparse, and late-interaction retrievers, we show that standard metrics obscure distinct behaviors: semantically strong retrievers may return correct content in a non-query language, while retrievers with stronger query-language preference may retrieve less semantically relevant passages.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.07249" target="_blank" rel="noopener">MLAIRE: Multilingual Language-Aware Information Retrieval Evaluation Protocal</a> <span class="src-num">[12]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">HuggingFace</div>
+    <div class="card-desc">Multilingual Information Retrieval is increasingly important in real-world search settings, where users issue queries over mixed-language corpora. Existing evaluations mainly reward language-agnostic semantic relevance,…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Reinforcement Learning with Verifiable Rewards (RLVR) has emerged as an effective paradigm for improving the reasoning capabilities of large language models. However, RLVR training is often hindered by sparse binary rewards and weak credit assignment, resulting in ambiguous optimization signals and underutilization of the useful information embedded in failed trajectories. To address this challenge, we propose Correction-Oriented Policy Optimization (CIPO), a simple and effective extension to RLVR that converts on-policy failed trajectories into correction-oriented supervision, without relying on any external signals. By jointly optimizing correction samples derived from the model's own failed attempts together with the standard RLVR objective, CIPO improves learning effectiveness while explicitly enhancing the model's ability to correct its own errors. Extensive experiments across 11 benchmarks spanning mathematical reasoning and code generation demonstrate that CIPO consistently and significantly outperforms strong baselines in both reasoning and correction performance. Moreover, CIPO yields stronger pass@K gains, indicating that it improves the model's intrinsic reasoning capacity rather than merely redistributing probability mass over existing correct answers.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14539" target="_blank" rel="noopener">Learning from Failures: Correction-Oriented Policy Optimization with Verifiable Rewards</a> <span class="src-num">[13]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">HuggingFace</div>
+    <div class="card-desc">Reinforcement Learning with Verifiable Rewards (RLVR) has emerged as an effective paradigm for improving the reasoning capabilities of large language models. However, RLVR training is often hindered by sparse binary…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Recent 3D world modeling systems based on generative scene synthesis, such as Marble, can create coherent and explorable 3D environments, yet their outputs are typically static monolithic assets with limited editability and physical interaction. This restricts their use in immersive content creation and embodied simulation, where generated worlds must be actively modified and manipulated. To tackle this challenge, we present WorldAct, a framework that converts static generated 3D worlds into editable and interaction-ready scenes. WorldAct uses a multimodal agent to guide scene decomposition, identify actionable objects, reconstruct geometrically aligned object-level meshes for interaction, and restore the residual background via 3D inpainting. The resulting scenes support object-level editing, collision-aware manipulation, and embodied task execution while preserving global scene coherence. Experiments show that WorldAct enables richer interaction scenarios than the original generated scenes, suggesting a practical path toward editable and interactive 3D world models.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.15843" target="_blank" rel="noopener">WorldAct: Activating Monolithic 3D Worlds into Interactive-Ready Object-Centric Scenes</a> <span class="src-num">[14]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">HuggingFace</div>
+    <div class="card-desc">Recent 3D world modeling systems based on generative scene synthesis, such as Marble, can create coherent and explorable 3D environments, yet their outputs are typically static monolithic assets with limited editability…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Early identification of breakthrough technologies: Insights from science-driven innovations">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[15]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Google Scholar</div>
+    <div class="card-desc">Early identification of breakthrough technologies: Insights from science-driven…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[16]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Google Scholar</div>
+    <div class="card-desc">Catalyst breakthroughs in methane dry reforming: Employing machine learning for…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[18]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Google Scholar</div>
+    <div class="card-desc">Artificial intelligence and machine learning in cybersecurity: a deep dive into…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[20]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Google Scholar</div>
+    <div class="card-desc">Quantum machine learning: A comprehensive review of integrating AI with quantum…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+      <h3>🤖 AI Agents <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="LLM agents increasingly run inside execution harnesses that dispatch tools, allocate resources, and route messages between specialized components. However, a harness can return a correct, benign answer over a trajectory that accesses unauthorized resources or leaks context to the wrong agent. Output-level evaluation cannot see these failures, yet most safety benchmarks score only final outputs or terminal states, even though many violations occur mid-trajectory rather than at termination. The central question is whether the harness respects user intent, permission boundaries, and information-flow constraints throughout execution. To address this gap, we propose HarnessAudit, a framework that audits full execution trajectories across boundary compliance, execution fidelity, and system stability, with a focus on multi-agent harnesses where these risks are most pronounced. We further introduce HarnessAudit-Bench, a benchmark of 210 tasks across eight real-world domains, instantiated in both single-agent and multi-agent configurations with embedded safety constraints. Evaluating ten harness configurations across frontier models and three multi-agent frameworks, we find that: (i) task completion is misaligned with safe execution, and violations accumulate with trajectory length; (ii) safety risks vary across domains, task types, and agent roles; (iii) most violations concentrate in resource access and inter-agent information transfer; and (iv) multi-agent collaboration expands the">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14271" target="_blank" rel="noopener">Auditing Agent Harness Safety</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">HuggingFace</div>
+    <div class="card-desc">LLM agents increasingly run inside execution harnesses that dispatch tools, allocate resources, and route messages between specialized components. However, a harness can return a correct, benign answer over a trajectory…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Automatic multi-agent systems aim to instantiate agent workflows without relying on manually designed or fixed orchestration. However, existing automatic MAS approaches remain only partially adaptive: they either perform training-free test-time search or optimize the meta-level designer while keeping downstream execution agents frozen, which creating a frozen-executor ceiling and leaving the end-to-end training of self-designing and self-executing agentic models unexplored. To address this, we introduce MetaAgent-X, an end-to-end reinforcement learning framework that jointly optimizes automatic MAS design and execution. MetaAgent-X enables script-based MAS generation, execution rollout collection, and credit assignment for both designer and executor trajectories. To support stable and scalable optimization, we propose Executor Designer Hierarchical Rollout and Stagewise Co-evolution to improve training stability and expose the dynamics of designer-executor co-evolution. MetaAgent-X consistently outperforms existing automatic MAS baselines, achieving up to 21.7% gains. Comprehensive ablations show that both designer and executor improve throughout training, and that effective automatic MAS learning follows a stagewise co-evolution process. These results establish end-to-end trainable automatic MAS as a practical paradigm for building self-designing and self-executing agentic models.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14212" target="_blank" rel="noopener">MetaAgent-X : Breaking the Ceiling of Automatic Multi-Agent Systems via End-to-End Reinforcement Learning</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">HuggingFace</div>
+    <div class="card-desc">Automatic multi-agent systems aim to instantiate agent workflows without relying on manually designed or fixed orchestration. However, existing automatic MAS approaches remain only partially adaptive: they either…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+      <h3>🛡️ AI Safety <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="LLM agents increasingly run inside execution harnesses that dispatch tools, allocate resources, and route messages between specialized components. However, a harness can return a correct, benign answer over a trajectory that accesses unauthorized resources or leaks context to the wrong agent. Output-level evaluation cannot see these failures, yet most safety benchmarks score only final outputs or terminal states, even though many violations occur mid-trajectory rather than at termination. The central question is whether the harness respects user intent, permission boundaries, and information-flow constraints throughout execution. To address this gap, we propose HarnessAudit, a framework that audits full execution trajectories across boundary compliance, execution fidelity, and system stability, with a focus on multi-agent harnesses where these risks are most pronounced. We further introduce HarnessAudit-Bench, a benchmark of 210 tasks across eight real-world domains, instantiated in both single-agent and multi-agent configurations with embedded safety constraints. Evaluating ten harness configurations across frontier models and three multi-agent frameworks, we find that: (i) task completion is misaligned with safe execution, and violations accumulate with trajectory length; (ii) safety risks vary across domains, task types, and agent roles; (iii) most violations concentrate in resource access and inter-agent information transfer; and (iv) multi-agent collaboration expands the">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14271" target="_blank" rel="noopener">Auditing Agent Harness Safety</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">HuggingFace</div>
+    <div class="card-desc">LLM agents increasingly run inside execution harnesses that dispatch tools, allocate resources, and route messages between specialized components. However, a harness can return a correct, benign answer over a trajectory…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div>
+<div class="card web-card" data-full-desc="We audit the multimodal-physics evaluation pipeline end-to-end and document three undetected construction practices that distort how the field measures vision-language reasoning: train-eval contamination, translation drift, and MCQ saturation. (1) Public training pools (UGPhysics-Train, SciInstruct, MMK12) pass single-stage 5-gram-Jaccard audits with zero hits across all six public physics evals; a three-stage audit (Jaccard -&gt; mxbai-embed-large cosine -&gt; Haiku-4.5 LLM-judge) surfaces 134 near-duplicates and 4,846 paraphrase candidates in SciInstruct alone. (2) A 17-pp Sonnet 4.5 delta on 59 paired Estonian-English olympiad problems (30.5% vs. 13.6%; sign test p=0.011, McNemar p=0.021, paired bootstrap 95% CI [+5.1, +28.9] pp). (3) A 46-pp format-and-novelty gradient on identical Sonnet weights between MCQ (79.7% on PhyX) and open-ended olympiad evaluation (33.4% on PhysOlym-A). We release four artifacts addressing these gaps: PhysCorp-A (6,432-record three-stage-audited multimodal corpus), PhysR1Corp (2,268-record closed-form RL pool), PhysOlym-A (500-problem, 99.8% novel-source held-out olympiad eval with native difficulty labels and an EN/ET bilingual subset), and Physics-R1, a reference GSPO+DAPO recipe cold-started from Qwen3-VL-8B-Thinking. Across 3 seeds, Physics-R1 lifts the audited corpus over the 8B base by +18.3 pp on PhysOlym-A liberal (8.0 -&gt; 26.3 +/- 1.7; 7.1 pp behind Sonnet 4.5), +15.7 pp on PhysReason (23.9 -&gt; 39.6 +/- 6.4; ahead of Qwen3-VL-32B and Gemini 2.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2605.14040" target="_blank" rel="noopener">Physics-R1: An Audited Olympiad Corpus and Recipe for Visual Physics Reasoning</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">HuggingFace</div>
+    <div class="card-desc">We audit the multimodal-physics evaluation pipeline end-to-end and document three undetected construction practices that distort how the field measures vision-language reasoning: train-eval contamination, translation…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+      <h3>🔒 Security & Privacy <span class="group-count">4</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Until this past weekend, a contractor for the Cybersecurity &amp; Infrastructure Security Agency (CISA) maintained a public GitHub repository that exposed credentials to several highly privileged AWS GovCloud accounts and a large number of internal CISA systems. Security experts said…">
+    <div class="card-title"><a href="https://krebsonsecurity.com/2026/05/cisa-admin-leaked-aws-govcloud-keys-on-github/" target="_blank" rel="noopener">CISA Admin Leaked AWS GovCloud Keys on Github</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Lobste.rs</div>
+    <div class="card-desc">Until this past weekend, a contractor for the Cybersecurity &amp; Infrastructure Security Agency (CISA) maintained a public GitHub repository that exposed credentials to several highly privileged AWS GovCloud accounts and a…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Public CVE disclosure volumes are surging across major software suppliers and open source projects, and the evidence increasingly points to AI-assisted vulnerability discovery as the driving force.">
+    <div class="card-title"><a href="https://www.vulncheck.com/blog/ai-assisted-vulnerability-discovery" target="_blank" rel="noopener">The First CVE Wave: Signs That AI-Assisted Vulnerability Discovery Is Reshaping Disclosure Volumes</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Lobste.rs</div>
+    <div class="card-desc">Public CVE disclosure volumes are surging across major software suppliers and open source projects, and the evidence increasingly points to AI-assisted vulnerability discovery as the driving force.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[18]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Google Scholar</div>
+    <div class="card-desc">Artificial intelligence and machine learning in cybersecurity: a deep dive into…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[19]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Google Scholar</div>
+    <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+      <h3>⚛️ Quantum Computing <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[19]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Google Scholar</div>
+    <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div>
+<div class="card web-card" data-full-desc="Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[20]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Google Scholar</div>
+    <div class="card-desc">Quantum machine learning: A comprehensive review of integrating AI with quantum…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+      <h3>🔗 Crypto & Blockchain <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Leveraging blockchain and smart contracts to combat greenwashing in sustainable development">
+    <div class="card-title"><a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/sd.3431" target="_blank" rel="noopener">Leveraging blockchain and smart contracts to combat greenwashing in sustainable development</a> <span class="src-num">[21]</span></div>
+    <div class="card-authors" style="font-style:normal;font-size:0.82em;color:var(--text-subtle)">Google Scholar</div>
+    <div class="card-desc">Leveraging blockchain and smart contracts to combat greenwashing in sustainable…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+  </div>
+
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li><a href="https://krebsonsecurity.com/2026/05/cisa-admin-leaked-aws-govcloud-keys-on-github/" target="_blank" rel="noopener">CISA Admin Leaked AWS GovCloud Keys on Github</a> <span style="color:var(--text-subtle)">— Lobste.rs</span></li>
+<li><a href="https://www.vulncheck.com/blog/ai-assisted-vulnerability-discovery" target="_blank" rel="noopener">The First CVE Wave: Signs That AI-Assisted Vulnerability Discovery Is Reshaping Disclosure Volumes</a> <span style="color:var(--text-subtle)">— Lobste.rs</span></li>
+<li><a href="https://blog.ppb1701.com/the-quiet-renovation-at-bitwarden" target="_blank" rel="noopener">The Quiet Renovation at Bitwarden</a> <span style="color:var(--text-subtle)">— Lobste.rs</span></li>
+<li><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won't Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span style="color:var(--text-subtle)">— Lobste.rs</span></li>
+<li><a href="https://www.popsci.com/science/doom-e-coli-cells/" target="_blank" rel="noopener">Running ‘Doom’ on E. coli cells… very, very slowly</a> <span style="color:var(--text-subtle)">— Lobste.rs</span></li>
+<li><a href="https://huggingface.co/papers/2605.14271" target="_blank" rel="noopener">Auditing Agent Harness Safety</a> <span style="color:var(--text-subtle)">— HuggingFace</span></li>
+<li><a href="https://huggingface.co/papers/2605.12678" target="_blank" rel="noopener">No One Knows the State of the Art in Geospatial Foundation Models</a> <span style="color:var(--text-subtle)">— HuggingFace</span></li>
+<li><a href="https://huggingface.co/papers/2605.14212" target="_blank" rel="noopener">MetaAgent-X : Breaking the Ceiling of Automatic Multi-Agent Systems via End-to-End Reinforcement Learning</a> <span style="color:var(--text-subtle)">— HuggingFace</span></li>
+<li><a href="https://huggingface.co/papers/2605.12524" target="_blank" rel="noopener">Stress-Testing the Reasoning Competence of LLMs With Proofs Under Minimal Formalism</a> <span style="color:var(--text-subtle)">— HuggingFace</span></li>
+<li><a href="https://huggingface.co/papers/2605.14040" target="_blank" rel="noopener">Physics-R1: An Audited Olympiad Corpus and Recipe for Visual Physics Reasoning</a> <span style="color:var(--text-subtle)">— HuggingFace</span></li>
+<li><a href="https://huggingface.co/papers/2602.09016" target="_blank" rel="noopener">Raster2Seq: Polygon Sequence Generation for Floorplan Reconstruction</a> <span style="color:var(--text-subtle)">— HuggingFace</span></li></ol>
+<ol><li><a href="https://huggingface.co/papers/2605.07249" target="_blank" rel="noopener">MLAIRE: Multilingual Language-Aware Information Retrieval Evaluation Protocal</a> <span style="color:var(--text-subtle)">— HuggingFace</span></li>
+<li><a href="https://huggingface.co/papers/2605.14539" target="_blank" rel="noopener">Learning from Failures: Correction-Oriented Policy Optimization with Verifiable Rewards</a> <span style="color:var(--text-subtle)">— HuggingFace</span></li>
+<li><a href="https://huggingface.co/papers/2605.15843" target="_blank" rel="noopener">WorldAct: Activating Monolithic 3D Worlds into Interactive-Ready Object-Centric Scenes</a> <span style="color:var(--text-subtle)">— HuggingFace</span></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span style="color:var(--text-subtle)">— Google Scholar</span></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span style="color:var(--text-subtle)">— Google Scholar</span></li>
+<li><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span style="color:var(--text-subtle)">— Google Scholar</span></li>
+<li><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span style="color:var(--text-subtle)">— Google Scholar</span></li>
+<li><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span style="color:var(--text-subtle)">— Google Scholar</span></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span style="color:var(--text-subtle)">— Google Scholar</span></li>
+<li><a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/sd.3431" target="_blank" rel="noopener">Leveraging blockchain and smart contracts to combat greenwashing in sustainable development</a> <span style="color:var(--text-subtle)">— Google Scholar</span></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
