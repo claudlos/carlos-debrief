@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — May 22, 2026 04:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">May 22, 2026 04:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">9</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">6</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">15</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">May 22, 2026 04:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li><strong>DynMuon</strong>动态光谱整形优化器：提出在Muon更新中引入参数p动态调度，早期正p加速信号收缩，后期负p重新分配低曲率方向的更新强度，显著减少训练步数。</li><li><strong>ECC</strong>能力感知LLM评估：通过证据校准的查询聚类，将表面语义与潜在能力需求对齐，显著提升LLM能力排名质量。</li><li><strong>VPD</strong>语言反馈学习：提出变分策略蒸馏框架，协同改进教师和学生策略，解决了被动蒸馏的 plateau 问题。</li><li><strong>TIDE</strong>无损MoE扩散LLM推理：利用专家激活的时间稳定性，I/O感知的专家卸载策略实现1.4-1.5倍吞吐量提升。</li><li><strong>SaaSBench</strong>企业SaaS工程编码Agent评估：揭示当前SOTA Agent的瓶颈不在代码逻辑，而在于多组件系统配置和集成。</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+      <li><strong>Kata Containers逃逸漏洞 (CVE-2026-47243)</strong>：Lobste.rs报道 Kata Containers 发现 guest-root 到 host-root 的 virtiofs 逃逸漏洞，安全影响重大。</li><li><strong>S&amp;Box C#沙盒逆向</strong>：Lobste.rs热帖，有研究员对 S&amp;Box 的 C# 代码执行安全机制进行逆向分析，引发社区对沙盒安全边界的讨论。</li><li><strong>依赖冷却机制争议</strong>：Lobste.rs社区讨论依赖更新 cooldowns 的不公平性，倡导使用分阶段 rollout 替代方案。</li><li><strong>ChatGPT + Cloudflare隐私问题</strong>：详细分析 ChatGPT 阻止输入直到 Cloudflare 读取 React 状态的程序逻辑，引发对端侧隐私的担忧。</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  <div class="section">
+  <h2>📄 ArXiv Papers</h2>
+  <div class="section-group">
+    <h3>🧠 LLMs <span class="group-count">2</span></h3>
+    <div class="cards-grid">
+      <div class="card" data-full-desc="Query clustering organizes queries into groups that reflect shared latent capability demands, enabling capability-aware LLM evaluation. Existing clustering methods, which primarily rely on semantic taxonomies or embeddings, often fail to capture such latent capability requirements due to a misalignment between surface-level semantics and actual model performance. We propose ECC, an algorithm that calibrates prior semantic embeddings using limited posterior model comparisons to bridge the gap between surface-level semantics and latent capability requirements. ECC characterizes each cluster through a capability profile parameterized by a Bradley-Terry model and uses trainable mixture weights to accommodate queries with mixed capability demands, jointly learning a flexible, capability-aware clustering structure that supports query-specific inference of LLM capabilities. Extensive quantitative and qualitative evaluations demonstrate that ECC significantly improves LLM capability ranking quality, outperforming human-labeled and embedding-based baselines by an average of 17.64 and 18.02 percentage points, respectively, and proves effective in downstream tasks such as query routing.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.17110" target="_blank" rel="noopener">Capturing LLM Capabilities via Evidence-Calibrated Query Clustering</a> <span class="src-num">[1]</span></div>
+        <div class="card-authors">Fangzhou Wu, Sandeep Silwal, Qiuyi Zhang</div>
+        <div class="card-desc">Query clustering organizes queries into groups that reflect shared latent capability demands, enabling capability-aware LLM evaluation. Existing clustering methods, which primarily rely on semantic…</div>
+        <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span></div>
+      </div>
+      <div class="card" data-full-desc="Reinforcement learning from verifiable rewards (RLVR) suffers from sparse outcome signals, creating severe exploration bottlenecks on complex reasoning tasks. Recent on-policy self-distillation methods attempt to address this by utilizing language feedback to generate dense, token-level supervision. However, these approaches rely on a fixed, passive teacher to interpret the feedback. As the student policy improves, the teacher's zero-shot assessment capabilities plateau, ultimately halting further learning. To overcome this, we propose Variational Policy Distillation (VPD), a framework that formalizes learning from language feedback as a Variational Expectation-Maximization (EM) problem. VPD co-evolves both policies: in the E-step, the teacher is actively refined on trajectory outcomes via an adaptive trust-region update, translating textual feedback into a dynamically improved target token distribution. In the M-step, the student internalizes this dense distributional guidance on its own on-policy rollouts. By continuously improving the teacher's ability to extract actionable signals from textual critique, VPD overcomes the limitations of passive distillation. Evaluated across diverse sources of diagnostic feedback on scientific reasoning and code generation tasks, VPD consistently outperforms both standard RLVR and existing self-distillation baselines. Finally, by stress-testing our framework on rigid mathematical reasoning and cold-start regimes, we illuminate the fundamen">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.15113" target="_blank" rel="noopener">Learning from Language Feedback via Variational Policy Distillation</a> <span class="src-num">[5]</span></div>
+        <div class="card-authors">Yang Li, Erik Nijkamp, Semih Yavuz, Shafiq Joty</div>
+        <div class="card-desc">Reinforcement learning from verifiable rewards (RLVR) suffers from sparse outcome signals, creating severe exploration bottlenecks on complex reasoning tasks. Recent on-policy self-distillation…</div>
+        <div class="card-tags"><span class="tag">cs.AI</span><span class="tag">cs.LG</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🤖 Machine Learning <span class="group-count">4</span></h3>
+    <div class="cards-grid">
+      <div class="card" data-full-desc="In recent years, Muon has emerged as the dominant method for training large language models, and transformers more broadly. The essential difference, when compared to standard gradient descent methods, is to replace the usual update matrix M=UΣV^top with its polar factor UV^top. In this work, we consider a class of Muon-like updates, where we replace the update M with UΣ^p V^top for some parameter p. We call this a &quot;spectral-shaping&quot; operation, and develop a theory of how to pick p which depends on (a) local curvature of the loss function, (b) noise stemming from stochastic gradients and label noise, and (c) training stage. Our theory and experimentation reveal a previously overlooked behavior: positive p helps early by emphasizing high-curvature directions and accelerating signal contraction, while mildly negative p helps later by reallocating update strength toward low-curvature directions that still contain useful training signals. Building on the insight, we propose DynMuon, an efficient dynamic spectral shaping method that schedules p from positive to mildly negative over training. Extensive experiments across model sizes, architectures, and training settings show that DynMuon consistently achieves lower validation loss than Muon, while requiring 10.6-26.5% fewer steps to reach the same target loss.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.17109" target="_blank" rel="noopener">DynMuon: A Dynamic Spectral Shaping View of Muon</a> <span class="src-num">[2]</span></div>
+        <div class="card-authors">Fangzhou Wu, Rikhav Shah, Sandeep Silwal, Qiuyi Zhang</div>
+        <div class="card-desc">In recent years, Muon has emerged as the dominant method for training large language models, and transformers more broadly. The essential difference, when compared to standard gradient descent…</div>
+        <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.NA</span></div>
+      </div>
+      <div class="card" data-full-desc="Subword tokenization is an essential part of modern large language models (LLMs), yet its specific contributions to training efficiency and model performance remain poorly understood. In this work, we decouple the effects of subword tokenization by isolating them within a controlled byte-level pretraining pipeline. We formulate and test hypotheses across various dimensions, including sample throughput, vocabulary scaling, and the linguistic prior of subword boundaries. By simulating these effects in a byte-level setting, we refine our understanding of why subword models outperform raw byte models and offer insights to improve the pretraining of future byte-level and subword models. Specifically, our experiments highlight the critical role of increased training throughput and the integration of subword boundaries as either explicit priors or inductive biases.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2604.27263" target="_blank" rel="noopener">Decoupling the Benefits of Subword Tokenization for Language Model Training via Byte-level Simulation</a> <span class="src-num">[4]</span></div>
+        <div class="card-authors">Théo Gigant, Bowen Peng, Jeffrey Quesnelle</div>
+        <div class="card-desc">Subword tokenization is an essential part of modern large language models (LLMs), yet its specific contributions to training efficiency and model performance remain poorly understood. In this work,…</div>
+        <div class="card-tags"><span class="tag">cs.CL</span><span class="tag">cs.LG</span></div>
+      </div>
+      <div class="card" data-full-desc="Ensemble disagreement is widely used as a proxy for epistemic uncertainty in medical image segmentation. In practice, many studies form ensembles via K-fold cross-validation (CV), yet refer to them as ``deep ensembles'' (DE). Because CV members are trained on different data subsets, their disagreement mixes seed-driven variability with data-exposure effects, which can change how uncertainty should be interpreted. We audit recent segmentation uncertainty studies and find that terminology--implementation mismatches are common. We then compare a standard 5-fold CV ensemble to a 5-member DE (fixed training set, different random seeds) under otherwise identical configurations on three multi-rater segmentation datasets spanning three modalities. We evaluate uncertainty for calibration, failure detection, ambiguity modeling, and robustness under distribution shift. DE match segmentation accuracy while improving calibration and failure detection, whereas CV ensembles sometimes correlate more strongly with inter-rater variability on the studied datasets. Thus, ensemble construction should be chosen to match the research question: DE for reliability-oriented use (e.g., selective referral/failure detection) and CV ensembles as a proxy for ambiguity. We provide a lightweight nnU-Net modification enabling DE training within the default pipeline.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.18329" target="_blank" rel="noopener">Lost in the Folds: When Cross-Validation Is Not a Deep Ensemble for Uncertainty Estimation</a> <span class="src-num">[7]</span></div>
+        <div class="card-authors">Kirscher Tristan, Bujotzek Markus, Kirchhoff Yannick, Rokuss Maximilian, Isensee Fabian</div>
+        <div class="card-desc">Ensemble disagreement is widely used as a proxy for epistemic uncertainty in medical image segmentation. In practice, many studies form ensembles via K-fold cross-validation (CV), yet refer to them…</div>
+        <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.CV</span></div>
+      </div>
+      <div class="card" data-full-desc="Generating a consistent whole-house VR tour from a floorplan and style reference requires both photorealistic panoramas and cross-view spatial coherence. Pure 2D generators produce appealing single panoramas but re-imagine geometry and materials when the viewpoint changes, whereas monolithic 3D generation becomes expensive and loses fine texture at multi-room scale. We introduce PanoWorld, a generative spatial world model that treats whole-house synthesis as autoregressive generation of node-based 360-degree panoramas, matching the discrete navigation used by real VR tour products. PanoWorld uses a floorplan-derived 3D shell as a global geometric proxy and a dynamic 3D Gaussian Splatting cache as renderable spatial memory. A feed-forward panoramic LRM designed for metric-scale multi-room 360-degree inputs lifts generated panoramas into local 3DGS updates, while Room-aware Group Attention suppresses cross-room feature interference. A topology-aware progressive caching strategy fuses these local updates without repeatedly reconstructing the full history. By decoupling shell-based geometry guidance from cache-rendered visual memory, PanoWorld preserves high-frequency 2D synthesis quality while improving cross-node layout and material consistency. The project link is https://jjrcn.github.io/PanoWorld-project-home/">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.17916" target="_blank" rel="noopener">PanoWorld: A Generative Spatial World Model for Consistent Whole-House Panorama Synthesis</a> <span class="src-num">[8]</span></div>
+        <div class="card-authors">Jinrang Jia, Zhenjia Li, Yijiang Hu, Yifeng Shi</div>
+        <div class="card-desc">Generating a consistent whole-house VR tour from a floorplan and style reference requires both photorealistic panoramas and cross-view spatial coherence. Pure 2D generators produce appealing single…</div>
+        <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.GR</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>⚙️ ML Systems <span class="group-count">1</span></h3>
+    <div class="cards-grid">
+      <div class="card" data-full-desc="Diffusion Large Language Models (dLLMs) have emerged as a competitive alternative to autoregressive (AR) models, offering better hardware utilization and bidirectional context through parallel block-level decoding. However, as dLLMs continue to scale up with mixture-of-experts (MoE) architectures, their deployment on resource-constrained devices remains an open challenge. Existing AR-based methods often incur either prohibitive I/O overhead or significant compute bottlenecks. In this work, we propose TIDE, a novel resource-efficient inference system that leverages the temporal stability of expert activations during the diffusion process within the block. Specifically, we leverage the temporal stability of expert activations during the diffusion process within the block and introduce an interval-based expert refresh strategy that updates the expert placement in an I/O-aware fashion. To ensure optimal performance, we formulate the inference scheduling as a mathematical programming problem, solving for the optimal interval that minimizes I/O traffic and CPU computation. Most importantly, TIDE is a lossless optimization that requires no model training, providing a &quot;free lunch&quot; acceleration for dLLM inference. In a single GPU-CPU system, we demonstrate that TIDE achieves up to 1.4times and 1.5times throughput improvements over prior baselines on LLaDA2.0-mini and LLaDA2.0-flash models, respectively.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.20179" target="_blank" rel="noopener">TIDE: Efficient and Lossless MoE Diffusion LLM Inference with I/O-aware Expert Offload</a> <span class="src-num">[3]</span></div>
+        <div class="card-authors">Zhiben Chen, Youpeng Zhao, Yang Sui, Jun Wang, Yuzhang Shang</div>
+        <div class="card-desc">Diffusion Large Language Models (dLLMs) have emerged as a competitive alternative to autoregressive (AR) models, offering better hardware utilization and bidirectional context through parallel…</div>
+        <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.SY</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-group">
+    <h3>🔬 Agents & Reasoning <span class="group-count">2</span></h3>
+    <div class="cards-grid">
+      <div class="card" data-full-desc="As autonomous coding agents become capable of handling increasingly long-horizon tasks, they have gradually demonstrated the potential to complete end-to-end software development. Although existing benchmarks have recently evolved from localized code editing to from-scratch project generation, they remain confined to structurally simplified, single-stack applications. Consequently, they fail to capture the heterogeneous environments, full-stack orchestration, and system-level complexity of real enterprise Software as a Service (SaaS) systems, leaving a critical gap in assessing agents under realistic engineering constraints. To fill this gap, we introduce SaaSBench, the first benchmark designed to explore the boundaries of AI agents in enterprise SaaS engineering. Spanning 30 complex tasks across 6 SaaS domains with 5,370 validation nodes, it incorporates 8 programming languages, 6 databases, and 13 frameworks to meticulously mirror real-world software heterogeneity. Furthermore, we design a dependency-aware hybrid evaluation paradigm tailored for complex systems with long horizons and multi-component coupling, enabling fine-grained, reproducible assessment. Crucially, our extensive experiments reveal a striking insight: the primary bottleneck for state-of-the-art agents is not generating isolated code logic, but successfully configuring and integrating a multi-component system. Over 95\% of task failures occur before agents even reach deep business logic, with models often f">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.17526" target="_blank" rel="noopener">SaaSBench: Exploring the Boundaries of Coding Agents in Long-Horizon Enterprise SaaS Engineering</a> <span class="src-num">[6]</span></div>
+        <div class="card-authors">Qingnan Ren, Shun Zou, Shiting Huang, Ziao Zhang, Kou Shi</div>
+        <div class="card-desc">As autonomous coding agents become capable of handling increasingly long-horizon tasks, they have gradually demonstrated the potential to complete end-to-end software development. Although existing…</div>
+        <div class="card-tags"><span class="tag">cs.SE</span><span class="tag">cs.AI</span></div>
+      </div>
+      <div class="card" data-full-desc="Real-world agents operate over long and evolving horizons, where information is repeatedly updated and may interfere across memories, requiring accurate recall and aggregated reasoning over multiple pieces of information. However, existing benchmarks focus on static, independent recall and fail to capture these dynamic interactions between evolving memories. In this paper, we study how current memory-augmented agents perform in realistic, interference-heavy, long-horizon settings across diverse domains and question types. We introduce MINTEval (Long-Horizon Memory under INTerference Evaluation), a benchmark featuring (1) long, highly interconnected contexts with frequently updated information that induces substantial interference, (2) diverse domains (state tracking, multi-turn dialogue, Wikipedia revisions, and GitHub commits), enabling evaluation of domain generalization, and (3) diverse question types that assess robustness to interference, including (i) single-target recall tasks requiring retrieval of a specific target from long contexts, and (ii) multi-target aggregation tasks requiring reasoning over multiple relevant pieces of information. Overall, MINTEval has 15.6k question-answering pairs over long-horizon contexts averaging 138.8k tokens and extending up to 1.8M tokens per instance. We evaluate 7 representative systems, including vanilla long-context LLMs, RAG, and memory-augmented agent frameworks. Across all systems, we observe consistently low performance (avg.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.18565" target="_blank" rel="noopener">MINTEval: Evaluating Memory under Multi-Target Interference in Long-Horizon Agent Systems</a> <span class="src-num">[9]</span></div>
+        <div class="card-authors">Hyunji Lee, Justin Chih-Yao Chen, Joykirat Singh, Zaid Khan, Elias Stengel-Eskin</div>
+        <div class="card-desc">Real-world agents operate over long and evolving horizons, where information is repeatedly updated and may interfere across memories, requiring accurate recall and aggregated reasoning over multiple…</div>
+        <div class="card-tags"><span class="tag">cs.AI</span><span class="tag">cs.LG</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section">
+  <h2>🌐 Web Findings</h2>
+  <div class="section-group">
+    <h3>📡 Lobste.rs <span class="group-count">6</span></h3>
+    <div class="cards-grid">
+      <div class="card web-card" data-full-desc="&gt; The opam package repository is a commons rather than a publishing platform: it is manually curated, so not all packages submitted for publication are accepted; it is maintained communally, so anyone can suggest changes to any package.">
+        <div class="card-title"><a href="https://ocaml.org/backstage/2025-11-05-how-the-opam-repository-works" target="_blank" rel="noopener">OCaml Infrastructure: How the opam-repository Works</a> <span class="src-num">[10]</span></div>
+        <div class="card-desc">> The opam package repository is a commons rather than a publishing platform: it is manually curated, so not all packages submitted for publication are accepted; it is maintained…</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Article on Kata Containers guest-root to host-root escape via virtiofs">
+        <div class="card-title"><a href="https://www.openwall.com/lists/oss-security/2026/05/21/14" target="_blank" rel="noopener">CVE-2026-47243: Kata Containers guest-root to host-root escape via virtiofs</a> <span class="src-num">[11]</span></div>
+        <div class="card-desc">Article on Kata Containers guest-root to host-root escape via virtiofs</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="So, S&amp;Box went “open source”. I don’t personally have any interest in the platform, but I did have interest in how they securely execute C# code…">
+        <div class="card-title"><a href="https://slugcat.systems/post/26-05-21-how-to-open-calc-exe-from-sbox/" target="_blank" rel="noopener">How to open calc.exe from S&Box</a> <span class="src-num">[12]</span></div>
+        <div class="card-desc">So, S&Box went “open source”. I don’t personally have any interest in the platform, but I did have interest in how they securely execute C# code…</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Auto Light Rust Coal Navy Ayu Scott Takes document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible'); document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible'); Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) { link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1); }); Dependency cooldowns are unfair; we should use phased rollouts instead Note">
+        <div class="card-title"><a href="https://illegalcode.net/rfcs/phased_rollouts.html" target="_blank" rel="noopener">Dependency cooldowns are unfair; we should use phased rollouts instead</a> <span class="src-num">[13]</span></div>
+        <div class="card-desc">Auto Light Rust Coal Navy Ayu Scott Takes document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');…</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="I am a big fan of mutual TLS (&quot;mTLS&quot; if you prefer the shorter spelling, &quot;client certificates&quot; if you are describing the half a user actually touches). Strangely, I rarely see it used in the wild. That probably says something worrying about how I choose to spend free time, but they are a neat fit for small private infrastructure. Most people reach for HTTP Basic, an API token, or a VPN, and call it a day. A private pkg repository is one of those quiet little places where mutual TLS fits perfectly: a well established mechanisms, no humans typing passwords, and a server that should only answer q">
+        <div class="card-title"><a href="https://oshogbo.com/blog/88/" target="_blank" rel="noopener">A Private pkg Repo Behind Mutual TLS</a> <span class="src-num">[14]</span></div>
+        <div class="card-desc">I am a big fan of mutual TLS ("mTLS" if you prefer the shorter spelling, "client certificates" if you are describing the half a user actually touches). Strangely, I rarely see it…</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+      </div>
+      <div class="card web-card" data-full-desc="Edit April 2, 2026: I've been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild, directly from Claude. To access it reach out at buchodi@">
+        <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won't Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[15]</span></div>
+        <div class="card-desc">Edit April 2, 2026: I've been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live…</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>1. <a href="https://huggingface.co/papers/2605.17110" target="_blank" rel="noopener">Capturing LLM Capabilities via Evidence-Calibrated Query Clustering</a> — ArXiv/HuggingFace</li><li>2. <a href="https://huggingface.co/papers/2605.17109" target="_blank" rel="noopener">DynMuon: A Dynamic Spectral Shaping View of Muon</a> — ArXiv/HuggingFace</li><li>3. <a href="https://huggingface.co/papers/2605.20179" target="_blank" rel="noopener">TIDE: Efficient and Lossless MoE Diffusion LLM Inference with I/O-aware Expert Offload</a> — ArXiv/HuggingFace</li><li>4. <a href="https://huggingface.co/papers/2604.27263" target="_blank" rel="noopener">Decoupling the Benefits of Subword Tokenization for Language Model Training via Byte-level Simulation</a> — ArXiv/HuggingFace</li><li>5. <a href="https://huggingface.co/papers/2605.15113" target="_blank" rel="noopener">Learning from Language Feedback via Variational Policy Distillation</a> — ArXiv/HuggingFace</li><li>6. <a href="https://huggingface.co/papers/2605.17526" target="_blank" rel="noopener">SaaSBench: Exploring the Boundaries of Coding Agents in Long-Horizon Enterprise SaaS Engineering</a> — ArXiv/HuggingFace</li><li>7. <a href="https://huggingface.co/papers/2605.18329" target="_blank" rel="noopener">Lost in the Folds: When Cross-Validation Is Not a Deep Ensemble for Uncertainty Estimation</a> — ArXiv/HuggingFace</li><li>8. <a href="https://huggingface.co/papers/2605.17916" target="_blank" rel="noopener">PanoWorld: A Generative Spatial World Model for Consistent Whole-House Panorama Synthesis</a> — ArXiv/HuggingFace</li></ol><ol><li>9. <a href="https://huggingface.co/papers/2605.18565" target="_blank" rel="noopener">MINTEval: Evaluating Memory under Multi-Target Interference in Long-Horizon Agent Systems</a> — ArXiv/HuggingFace</li><li>10. <a href="https://ocaml.org/backstage/2025-11-05-how-the-opam-repository-works" target="_blank" rel="noopener">OCaml Infrastructure: How the opam-repository Works</a> — Lobste.rs</li><li>11. <a href="https://www.openwall.com/lists/oss-security/2026/05/21/14" target="_blank" rel="noopener">CVE-2026-47243: Kata Containers guest-root to host-root escape via virtiofs</a> — Lobste.rs</li><li>12. <a href="https://slugcat.systems/post/26-05-21-how-to-open-calc-exe-from-sbox/" target="_blank" rel="noopener">How to open calc.exe from S&Box</a> — Lobste.rs</li><li>13. <a href="https://illegalcode.net/rfcs/phased_rollouts.html" target="_blank" rel="noopener">Dependency cooldowns are unfair; we should use phased rollouts instead</a> — Lobste.rs</li><li>14. <a href="https://oshogbo.com/blog/88/" target="_blank" rel="noopener">A Private pkg Repo Behind Mutual TLS</a> — Lobste.rs</li><li>15. <a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won't Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> — Lobste.rs</li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
