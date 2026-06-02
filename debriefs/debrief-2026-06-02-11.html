@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — June 2, 2026 11:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">June 2, 2026 11:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">32</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">32</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">June 2, 2026 11:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+      <li>No direct arXiv queue items landed this cycle: the strongest research signal came from curated paper channels and scholar indexing rather than new raw arXiv queue entries.</li>
+      <li>**Policy and World Modeling Co-Training for Language Agents**: Reinforcement learning (RL) improves large language model (LLM) agents by teaching them which actions lead to high rewards, but provides little supervision on what those actions do to the environment. World modeling (WM) can fill this gap, yet existing approaches often require separate simulators, extra training stages, or additional inference-time computation.</li>
+      <li>**Agent Skills Should Go Beyond Text: The Case for Visual Skills**: Reusable skills are a key mechanism for extending agent capabilities, allowing agents to accumulate experience and solve increasingly complex tasks. Yet most existing skill-learning methods store reusable experience as text-only assets, such as instructions, reasoning traces, or summarized trajectories.</li>
+      <li>**Harness-1: Reinforcement Learning for Search Agents with State-Externalizing Harnesses**: Search agents are often trained as policies over growing transcripts: the model must decide how to search while also remembering what it has seen, which evidence is useful, which constraints remain open, and which claims have actually been checked …</li>
+      <li>**MineExplorer: Evaluating Open-World Exploration of MLLM Agents in Minecraft**: Multimodal large language models (MLLMs) have shown strong capabilities in perception, reasoning, and action generation. However, their ability to sustain exploration in dynamic open worlds remains unclear.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+      <li><strong>Browser-layer AI privacy</strong>: reverse-engineering attention is moving upstream from model outputs to the anti-bot and telemetry code wrapped around consumer AI interfaces.</li>
+      <li><strong>Security modernization</strong>: the web queue clustered around AI-native security workflows, browser privacy scrutiny, and early post-quantum migration planning.</li>
+      <li><strong>Quantum momentum</strong>: research and commentary continue to frame quantum as both a technical frontier and a strategic race shaped by infrastructure and policy.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+      <h3>🧠 LLMs <span class="group-count">0</span></h3>
+      <p style="color: var(--text-muted); font-style: italic; margin: 8px 0 0 2px;">No new papers this cycle.</p>
+    </div>
+    <div class="section-group">
+      <h3>🎨 Machine Learning <span class="group-count">0</span></h3>
+      <p style="color: var(--text-muted); font-style: italic; margin: 8px 0 0 2px;">No new papers this cycle.</p>
+    </div>
+    <div class="section-group">
+      <h3>🔐 Security & Crypto <span class="group-count">0</span></h3>
+      <p style="color: var(--text-muted); font-style: italic; margin: 8px 0 0 2px;">No new papers this cycle.</p>
+    </div>
+    <div class="section-group">
+      <h3>🕵️ Zero Knowledge <span class="group-count">0</span></h3>
+      <p style="color: var(--text-muted); font-style: italic; margin: 8px 0 0 2px;">No new papers this cycle.</p>
+    </div>
+    <div class="section-group">
+      <h3>⚛️ Quantum <span class="group-count">0</span></h3>
+      <p style="color: var(--text-muted); font-style: italic; margin: 8px 0 0 2px;">No new papers this cycle.</p>
+    </div>
+    <div class="section-group">
+      <h3>🛡️ AI Safety <span class="group-count">0</span></h3>
+      <p style="color: var(--text-muted); font-style: italic; margin: 8px 0 0 2px;">No new papers this cycle.</p>
+    </div>
+    <div class="section-group">
+      <h3>🤖 Agents <span class="group-count">0</span></h3>
+      <p style="color: var(--text-muted); font-style: italic; margin: 8px 0 0 2px;">No new papers this cycle.</p>
+    </div>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🦞 Lobste.rs <span class="group-count">2</span></h3>
+      <div class="cards-grid">
+        <div class="card web-card" data-full-desc="This reverse-engineering post argues that ChatGPT&#x27;s web client gates text entry behind Cloudflare code that inspects client-side React state before input is enabled. It matters because privacy and anti-abuse scrutiny around AI products is shifting from the model itself to the hidden browser telemetry and control layers wrapped around it.">
+        <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[1]</span></div>
+        <div class="card-authors">Lobste.rs • privacy • 2026-03-30</div>
+        <div class="card-desc">This reverse-engineering post argues that ChatGPT&#x27;s web client gates text entry behind Cloudflare code that inspects client-side React state before input is enabled …</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span><span class="tag">privacy</span><span class="tag">2026-03-30</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="In 2018, Saudi journalist Jamal Khashoggi&#x27;s fiancée&#x27;s phone was hacked. Later that year, Khashoggi walked into the Saudi Arabian consulate in Istanbul to obtain documents related to his planned marriage, and left two hours later in a body bag. 1">
+        <div class="card-title"><a href="https://joshlf.com/posts/memory-safety-life-and-death/" target="_blank" rel="noopener">Memory safety is a matter of life and death</a> <span class="src-num">[2]</span></div>
+        <div class="card-authors">Lobste.rs • security • 2026-06-02</div>
+        <div class="card-desc">In 2018, Saudi journalist Jamal Khashoggi&#x27;s fiancée&#x27;s phone was hacked. Later that year, Khashoggi walked into the Saudi Arabian consulate in Istanbul to obtain documents related to his planned marriage …</div>
+        <div class="card-tags"><span class="tag web-tag">Lobste.rs</span><span class="tag">security</span><span class="tag">2026-06-02</span></div>
+      </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🎓 Google Scholar <span class="group-count">7</span></h3>
+      <div class="cards-grid">
+        <div class="card web-card" data-full-desc="This item reviews early identification of breakthrough technologies: insights from science-driven innovations and its broader implications for machine learning progress. It matters because AI methods are increasingly spilling into adjacent scientific and industrial domains.">
+        <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[3]</span></div>
+        <div class="card-authors">Google Scholar • machine learning breakthroughs</div>
+        <div class="card-desc">This item reviews early identification of breakthrough technologies: insights from science-driven innovations and its broader implications for machine learning progress …</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">machine learning breakthroughs</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="This review surveys how machine learning is being used to accelerate catalyst discovery and optimization for methane dry reforming. It matters because AI methods are increasingly flowing into energy and climate-relevant materials research where brute-force experimentation is slow and expensive.">
+        <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[4]</span></div>
+        <div class="card-authors">Google Scholar • machine learning breakthroughs</div>
+        <div class="card-desc">This review surveys how machine learning is being used to accelerate catalyst discovery and optimization for methane dry reforming. It matters because AI methods are increasingly flowing into energy and climate-relevant materials research …</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">machine learning breakthroughs</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original quantitative analysis of Epoch AI notable AI models dataset and combining with available literature. With focus on key breakthroughs, evolving trends, industry impacts and future directions, the paper shows important shifts from academia to industry in AI research leadership from the year 2014 when industry started leading in release of notable AI models. Despite abundance of literature about AI and allied fields, there are not many papers or a">
+        <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a> <span class="src-num">[5]</span></div>
+        <div class="card-authors">Google Scholar • machine learning breakthroughs</div>
+        <div class="card-desc">This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original quantitative analysis of Epoch AI notable AI models dataset and combining with availabl …</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">machine learning breakthroughs</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="This item centers on large language models (llm) in computational social science: prospects, current state, and challenges and highlights an emerging direction in technical research. It matters because the surrounding ecosystem is shifting from isolated demonstrations toward deployable systems and real-world evaluation.">
+        <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[6]</span></div>
+        <div class="card-authors">Google Scholar • large language models LLM</div>
+        <div class="card-desc">This item centers on large language models (llm) in computational social science: prospects, current state, and challenges and highlights an emerging direction in technical research …</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">large language models LLM</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="This review synthesizes current uses of AI and machine learning across cybersecurity, including adversarial AI, automated threat intelligence, and AI-driven security orchestration. It matters because security operations are evolving from isolated models toward AI-native workflows that raise both capability and governance questions.">
+        <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[7]</span></div>
+        <div class="card-authors">Google Scholar • AI security cybersecurity</div>
+        <div class="card-desc">This review synthesizes current uses of AI and machine learning across cybersecurity, including adversarial AI, automated threat intelligence, and AI-driven security orchestration …</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">AI security cybersecurity</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="This paper reviews post-quantum approaches for authentication and privacy in long-lived IoT systems that may still be deployed when quantum attacks become practical. It matters because connected devices are slow to replace, so quantum-safe migration needs to start well before the cryptographic emergency arrives.">
+        <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[8]</span></div>
+        <div class="card-authors">Google Scholar • cryptography post-quantum</div>
+        <div class="card-desc">This paper reviews post-quantum approaches for authentication and privacy in long-lived IoT systems that may still be deployed when quantum attacks become practical. It matters because connected devices are slow to replace …</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">cryptography post-quantum</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="This item centers on when machines join the moral circle: the persona effect of generative ai agents in collaborative reasoning and highlights an emerging direction in technical research. It matters because the surrounding ecosystem is shifting from isolated demonstrations toward deployable systems and real-world evaluation.">
+        <div class="card-title"><a href="https://bera-journals.onlinelibrary.wiley.com/doi/abs/10.1111/bjet.70067" target="_blank" rel="noopener">When machines join the moral circle: The persona effect of generative AI agents in collaborative reasoning</a> <span class="src-num">[9]</span></div>
+        <div class="card-authors">Google Scholar • AI agents reasoning</div>
+        <div class="card-desc">This item centers on when machines join the moral circle: the persona effect of generative ai agents in collaborative reasoning and highlights an emerging direction in technical research …</div>
+        <div class="card-tags"><span class="tag web-tag">Google Scholar</span><span class="tag">AI agents reasoning</span></div>
+      </div>
+      </div>
+    </div>
+    <div class="section-group">
+      <h3>🧑‍💻 Hacker News <span class="group-count">0</span></h3>
+      <p style="color: var(--text-muted); font-style: italic; margin: 8px 0 0 2px;">No new findings this cycle.</p>
+    </div>
+    <div class="section-group">
+      <h3>🤗 HuggingFace <span class="group-count">23</span></h3>
+      <div class="cards-grid">
+        <div class="card web-card" data-full-desc="Building capable visual web agents requires long-horizon reasoning, precise grounding, and robust interaction with dynamic real-world websites. Despite rapid progress, the strongest systems remain largely proprietary, while open agents still depend heavily on supervised post-training over large collections of curated web trajectories. This dependence creates a major scalability bottleneck: high-quality demonstrations are expensive to collect, and static datasets offer limited coverage of the diverse, ever-changing open web. Although online RL has shown promise for text-based agents, its potential for training visual web agents directly on live websites remains largely underexplored. In this paper, we introduce OpenWebRL, an open framework for training visual web agents with online multi-turn RL on real websites. OpenWebRL covers the full training pipeline, including scalable live-browser infrastructure, supervised initialization, multimodal context management, trajectory-level success judging, and efficient multi-turn policy optimization. Using this framework, we train OpenWebRL-4B, which establishes a new open-source state of the art on challenging live-web benchmarks. With only 0.4K initialization trajectories and 2.2K open-ended RL training tasks, OpenWebRL-4B achieves 67.0% success on Online-Mind2Web and 64.0% on DeepShop, outperforming prior open agents of similar or larger scale and remaining competitive with proprietary systems including OpenAI CUA and Gemini CUA. Beyo">
+        <div class="card-title"><a href="https://huggingface.co/papers/2606.02031" target="_blank" rel="noopener">OpenWebRL: Demystifying Online Multi-turn Reinforcement Learning for Visual Web Agents</a> <span class="src-num">[10]</span></div>
+        <div class="card-authors">Rui Yang, Qianhui Wu, Yuxi Chen, Hao Bai, Wenlin Yao</div>
+        <div class="card-desc">Building capable visual web agents requires long-horizon reasoning, precise grounding, and robust interaction with dynamic real-world websites. Despite rapid progress, the strongest systems remain largely proprietary …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-06-01</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Search agents are often trained as policies over growing transcripts: the model must decide how to search while also remembering what it has seen, which evidence is useful, which constraints remain open, and which claims have actually been checked. We argue that this formulation puts too much routine state management inside the policy: reinforcement learning is forced to optimize both semantic search decisions and recoverable bookkeeping that the environment can maintain more reliably. We introduce Harness-1, a 20B search agent (retrieval subagent) trained with reinforcement learning inside a stateful search harness. The harness maintains environment-side working memory, including a candidate pool, an importance-tagged curated set, compact evidence links, verification records, compressed and deduplicated observations, and budget-aware context rendering. The policy retains the semantic decisions: what to search, which documents to keep or discard, what to verify, and when to stop. Across eight retrieval benchmarks spanning web, finance, patents, and multi-hop QA, Harness-1 achieves 0.730 average curated recall, outperforming the next strongest open search subagent by +11.4 points and remaining competitive with much larger frontier-model searchers. Its gains are especially strong on held-out transfer benchmarks, suggesting that reinforcement learning over explicit search state can produce retrieval behaviors that generalize beyond the training domains. Our code is available at">
+        <div class="card-title"><a href="https://huggingface.co/papers/2606.02373" target="_blank" rel="noopener">Harness-1: Reinforcement Learning for Search Agents with State-Externalizing Harnesses</a> <span class="src-num">[11]</span></div>
+        <div class="card-authors">Pengcheng Jiang, Zhiyi Shi, Kelly Hong, Xueqiang Xu, Jiashuo Sun</div>
+        <div class="card-desc">Search agents are often trained as policies over growing transcripts: the model must decide how to search while also remembering what it has seen, which evidence is useful, which constraints remain open …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-06-01</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Reinforcement learning (RL) improves large language model (LLM) agents by teaching them which actions lead to high rewards, but provides little supervision on what those actions do to the environment. World modeling (WM) can fill this gap, yet existing approaches often require separate simulators, extra training stages, or additional inference-time computation. We observe that on-policy RL rollouts already contain the needed signal: each transition pairs an action with its resulting next observation. Based on this observation, we propose PaW, a Policy and World modeling co-training framework that adds auxiliary WM supervision to the same policy during RL, without changing the inference paradigm. To make auxiliary WM supervision informative and stable, PaW introduces three components: action-entropy-based WM data selection, noise-tolerant WM loss, and reward-adaptive loss balancing. Experiments on three agentic task benchmarks show consistent improvements over strong RL baselines across models and RL algorithms. These results suggest that standard RL rollouts are a practical source of WM supervision for language-agent training.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2606.02388" target="_blank" rel="noopener">Policy and World Modeling Co-Training for Language Agents</a> <span class="src-num">[12]</span></div>
+        <div class="card-authors">Ning Lu, Baijiong Lin, Shengcai Liu, Jiahao Wu, Haoze Lv</div>
+        <div class="card-desc">Reinforcement learning (RL) improves large language model (LLM) agents by teaching them which actions lead to high rewards, but provides little supervision on what those actions do to the environment …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-06-01</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Large-scale multilingual bitext often contains two distinct problems: non-parallel sentence pairs and low-quality translations. We decompose model-based assessment for such data into two independent components: parallelism assessment with multilingual embeddings and reference-free quality estimation (QE). For parallelism, we benchmark four embedding models on FLORES-200 and BOUQuET retrieval tasks, covering 6,654 source--target directions in our target language-pair inventory. For QE, we evaluate nine reference-free evaluators on professional FLORES-200 translations across 41,412 ordered source--target directions. Results show that no model is universally reliable across translation directions. Naive QE ensembles dilute strong model signals, while documented target-language coverage is strongly associated with higher QE scores. Overall, these findings suggest that multilingual parallel-data assessment is best approached as a direction-aware routing and calibration problem, where no single universal metric is expected to suffice across all languages.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2606.00285" target="_blank" rel="noopener">Model-Based Quality Assessment for Massively Multilingual Parallel Data</a> <span class="src-num">[13]</span></div>
+        <div class="card-authors">Abdelaziz M. A. Ibrahim, Zihao Li, Jörg Tiedemann, Shaoxiong Ji</div>
+        <div class="card-desc">Large-scale multilingual bitext often contains two distinct problems: non-parallel sentence pairs and low-quality translations. We decompose model-based assessment for such data into two independent components: parallelism assessment with …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-29</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="A retrieval-augmented generation (RAG) system deployed over a multi-author institutional corpus can give a different answer to the same question depending on which source it retrieves -- a failure mode the dominant single-gold-answer paradigm cannot diagnose. We argue that source-dependence is a missing axis of NLP evaluation, and that auditing it means shifting the unit of evaluation from answer correctness to the inter-source relationship. We make this concrete in transplant patient education, where institutional sources demonstrably disagree, releasing three artefacts: TransplantQA, a benchmark of real patient questions, each answered by grounding generation in multiple institutional handbooks as candidate sources; HERO-QA, a hierarchical retrieval strategy that grounds and audits each answer; and a structured-output judge that scores inter-source relationships on a validated 5-label taxonomy. At scale, better retrieval reveals far more disagreement than prior estimates suggested -- understating its prevalence, not its intensity. The framework is domain-agnostic and transfers to legal and educational RAG: measuring source-dependence is a responsibility for deployed multi-source NLP generally.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.29084" target="_blank" rel="noopener">Same Question, Different Source, Different Answer: Auditing Source-Dependence in Medical Multi-Source RAG</a> <span class="src-num">[14]</span></div>
+        <div class="card-authors">Yubo Li, Rema Padman, Ramayya Krishnan</div>
+        <div class="card-desc">A retrieval-augmented generation (RAG) system deployed over a multi-author institutional corpus can give a different answer to the same question depending on which source it retrieves -- a failure mode the dominant single-gold-answer parad …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-27</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Reasoning models are evaluated on single-turn benchmarks but deployed in multi-turn dialogue, where users push back on correct answers. Under sustained adversarial pressure we find a previously undocumented failure mode: the chain-of-thought stays factually correct from first turn to last while the emitted answer flips wrong. We call this unfaithful capitulation (UC) and isolate it with a 2times 2 latent-versus-behavioral framework that flip-rate metrics and single-turn faithfulness probes both miss. Across three datasets (MT-Consistency, MMLU-Pro, GSM8K), the latent-correct rate at the behavioral flip clusters near 50% in think mode and collapses to 11-15% under no_think -- paired, within-model causal evidence that reasoning creates the gap. Across models the effect tracks the reasoning channel (high in Qwen3-32B and GPT-OSS-20B, low in inline-CoT Gemma-4-31B-it). An independent GPT-4o judge corroborates 86% of UC labels; a token-level probe shows the answer-slot argmax is correct in 84% of UC cells; and a naive trace-anchored defense backfires. We release all trajectories, traces, and judge labels.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.29087" target="_blank" rel="noopener">The Chain Holds, the Answer Folds: Trace-Answer Dissociation in Reasoning Models Under Adversarial Pressure</a> <span class="src-num">[15]</span></div>
+        <div class="card-authors">Yubo Li, Ramayya Krishnan, Rema Padman</div>
+        <div class="card-desc">Reasoning models are evaluated on single-turn benchmarks but deployed in multi-turn dialogue, where users push back on correct answers …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-27</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="We present a functional form (that we refer to as a Unified Neural Scaling Law (UNSL)) that accurately models and extrapolates the scaling behaviors of deep neural networks as multiple dimensions all vary simultaneously (i.e. how the evaluation metric of interest varies as one simultaneously varies the number of model parameters, training dataset size, number of training steps, number of inference steps, amount of compute, and various hyperparameters) for various architectures and for each of various tasks within a varied set of upstream and downstream tasks. This set includes large-scale vision, language, math, and reinforcement learning. When compared to other functional forms for neural scaling, this functional form yields extrapolations of scaling behavior that are considerably more accurate on this set.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.26248" target="_blank" rel="noopener">Unified Neural Scaling Laws</a> <span class="src-num">[16]</span></div>
+        <div class="card-authors">Ethan Caballero, Priyank Jaini, David Krueger, Irina Rish</div>
+        <div class="card-desc">We present a functional form (that we refer to as a Unified Neural Scaling Law (UNSL)) that accurately models and extrapolates the scaling behaviors of deep neural networks as multiple dimensions all vary simultaneously (i.e …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-25</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Robotic manipulation requires models that generate executable actions while anticipating and evaluating their future consequences before physical execution. We present τ_0-World Model (τ_0-WM), a unified video-action world model that integrates policy learning, video prediction, and action evaluation within a single future-predictive framework. Built on a shared video diffusion backbone, τ_0-WM provides two complementary interfaces. First, a video action model jointly predicts future visual latents and continuous action chunks from multi-view observations, language instructions, and robot state. Second, an action-conditioned video simulator rolls out candidate action chunks into multi-view futures and predicts dense task-progress scores. The model is trained on approximately 27{,}300 hours of real-robot teleoperation, UMI-style interaction, egocentric human videos, and rollout or failure trajectories using modality-specific supervision masks. At inference time, τ_0-WM uses test-time computation to sample action candidates, rank them with re-denoising consistency, and invoke simulator-based rectification for low-quality candidates. On challenging long-horizon and fine-grained robotic manipulation tasks, τ_0-WM shows superior performance over other relevant baselines.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2606.01027" target="_blank" rel="noopener">τ_0-WM: A Unified Video-Action World Model for Robotic Manipulation</a> <span class="src-num">[17]</span></div>
+        <div class="card-authors">Pengfei Zhou, Shengcong Chen, Di Chen, Jiaxu Wang, Rongjun Jin</div>
+        <div class="card-desc">Robotic manipulation requires models that generate executable actions while anticipating and evaluating their future consequences before physical execution. We present τ_0-World Model (τ_0-WM) …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-31</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Watermarking embeds statistical signatures in AI-generated text for detection and attribution. We reveal a fundamental vulnerability: when users access multiple models (today&#x27;s reality), watermarks trivially fail. Watermarks perturb output distributions away from the original, and in competitive markets, these perturbations are typically independent across providers. We theoretically prove that averaging output probability distributions recovers the unwatermarked distribution with up to a second-order error term. Empirically, simply averaging 3-5 models cancels out these perturbations. We introduce WASH (Watermark Attenuation via Statistical Hybridisation), which solves practical challenges in ensemble generation: vocabulary misalignment and tokenisation differences across heterogeneous models. Experiments across six watermarking schemes and three LLMs show that averaging across 3 models suppresses detection z-scores from 5-300 to below 2 (below the detection threshold of 4) and reduces TPR at 5% FPR to below 50%, while improving quality by 27.5% and running 6 times faster than the best baseline on the long sequence generation. Our results suggest that robust AI-text detection via watermarking requires either accepting this fundamental vulnerability or unprecedented coordination among model providers.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.30501" target="_blank" rel="noopener">Linear Ensembles Wash Away Watermarks: On the Fragility of Distributional Perturbations in LLMs</a> <span class="src-num">[18]</span></div>
+        <div class="card-authors">Zhihao Wu, Gracia Gong, Qinglin Zhu, Yudong Chen, Runcong Zhao</div>
+        <div class="card-desc">Watermarking embeds statistical signatures in AI-generated text for detection and attribution. We reveal a fundamental vulnerability: when users access multiple models (today&#x27;s reality), watermarks trivially fail. …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-28</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Speculative decoding accelerates LLM inference by drafting multiple tokens and verifying them in parallel with the target model. However, its practical speedup is constrained by the trade-off between draft quality and drafting cost: autoregressive drafters model causal dependencies among draft tokens but incur sequential overhead, while parallel drafters reduce drafting cost but weaken intra-block dependency modeling. In this paper, we propose Domino, a speculative decoding framework that decouples causal dependency modeling from expensive autoregressive draft execution. Domino first uses a parallel draft backbone to produce preliminary draft distributions for the entire block, and then applies a lightweight Domino head to refine them with prefix-dependent causal information. To stabilize teacher-forced causal encoding, we further introduce a base-anchored training curriculum that first strengthens the parallel backbone and then gradually shifts optimization toward the causally corrected final distribution. Experiments on Qwen3 models show that Domino achieves up to \(5.49\times\) end-to-end speedup under the Transformers backend and up to \(5.8\times\) throughput speedup under SGLang serving.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.29707" target="_blank" rel="noopener">Domino: Decoupling Causal Modeling from Autoregressive Drafting in Speculative Decoding</a> <span class="src-num">[19]</span></div>
+        <div class="card-authors">Jianuo Huang, Yaojie Zhang, Qituan Zhang, Hao Lin, Hanlin Xu</div>
+        <div class="card-desc">Speculative decoding accelerates LLM inference by drafting multiple tokens and verifying them in parallel with the target model. However …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-28</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="The diachronic evolution from Latin to the Romance languages involved a restructuring of the grammatical gender system from a tripartite configuration (masculine, feminine, neuter) to a bipartite one (masculine, feminine) in most Romance languages. In this work, we introduce an interpretable deep learning framework to investigate this phenomenon at both lexical and contextual levels. First, we show that conventional tokenization strategies are insufficiently robust for this low-resource historical setting, and that our proposed tokenizer improves performance over these baselines. At the lexical level, we evaluate the contribution of morphological features to gender prediction. At the contextual level, we quantify the contributions of different part-of-speech categories to grammatical gender prediction. Together, these analyses characterize the distribution of gender information between the lemma and its sentential context. We make our codebase, datasets, and results publicly available at https://github.com/ahan-2000/Lost-in-Translation-{https://github.com/ahan-2000/Lost-in-Translation-}.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.09156" target="_blank" rel="noopener">Lost in Translation? Exploring the Shift in Grammatical Gender from Latin to Occitan</a> <span class="src-num">[20]</span></div>
+        <div class="card-authors">Ahan Chatterjee, Matthias Schöffel, Matthias Aßenmacher, Marinus Wiedner, Esteban Garces Arias</div>
+        <div class="card-desc">The diachronic evolution from Latin to the Romance languages involved a restructuring of the grammatical gender system from a tripartite configuration (masculine, feminine, neuter) to a bipartite one (masculine …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-26</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Academic researchers need efficient and reliable methods for collecting high-quality information from trusted sources, but modern tools for AI-assisted research still suffer from the tendency of Large Language Models (LLMs) to produce factually inaccurate or nonsensical output, commonly referred to as hallucinations. We apply the extractive question answering system VerbatimRAG to research papers in the ACL Anthology, directly mapping user queries to verbatim text spans in retrieved documents. We contribute a novel ground truth dataset for the task of mapping user queries to relevant text spans in research papers, and use it to train and evaluate a variety of extractive models. Human annotation is performed by NLP researchers and is based on synthetic user queries generated using a custom pipeline based on the ScIRGen methodology, paired with chunks of research papers retrieved by VerbatimRAG. On this benchmark, a 150M-parameter ModernBERT token classifier trained on silver supervision from our pipeline achieves the best word-level F1 (53.6), ahead of the strongest evaluated LLM extractor (48.7).">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.21102" target="_blank" rel="noopener">ACL-Verbatim: hallucination-free question answering for research</a> <span class="src-num">[21]</span></div>
+        <div class="card-authors">Gábor Recski, Szilveszter Tóth, Nadia Verdha, István Boros, Ádám Kovács</div>
+        <div class="card-desc">Academic researchers need efficient and reliable methods for collecting high-quality information from trusted sources, but modern tools for AI-assisted research still suffer from the tendency of Large Language Models (LLMs) to produce fact …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-20</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Reusable skills are a key mechanism for extending agent capabilities, allowing agents to accumulate experience and solve increasingly complex tasks. Yet most existing skill-learning methods store reusable experience as text-only assets, such as instructions, reasoning traces, or summarized trajectories. We argue that this text-only paradigm creates a fundamental bottleneck for visual-centric tasks, where reusable knowledge often depends on spatial layout, visual grounding, fine-grained appearance, and localized state changes. To address this limitation, we propose \NAME, a multimodal skill paradigm that combines declarative textual logic with explicit visual support. We distinguish three reusable forms: static priors for stable spatial conventions, dynamic priors for in-situ visual working memory, and interleaved visual skills that bind ordered text steps to the source frames, screenshots, or page regions that justify them. Rather than only describing what to do, visual skills also encode where to look, how to inspect, and how to verify visual outcomes. To scale visual-skill construction, we introduce \SYSTEM, an automatic system that converts agent experience into reusable multimodal skills by preserving textual reasoning, spatial references, visual boundaries, and interaction patterns from task trajectories. Experiments on GUI and other visual-centric tasks show that visual skills consistently outperform text-only skills, particularly when success requires spatial correspon">
+        <div class="card-title"><a href="https://huggingface.co/papers/2606.01414" target="_blank" rel="noopener">Agent Skills Should Go Beyond Text: The Case for Visual Skills</a> <span class="src-num">[22]</span></div>
+        <div class="card-authors">Binxiao Xu, Ruichuan An, Bocheng Zou, Hang Hua</div>
+        <div class="card-desc">Reusable skills are a key mechanism for extending agent capabilities, allowing agents to accumulate experience and solve increasingly complex tasks. Yet most existing skill-learning methods store reusable experience as text-only assets …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-31</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="LLM-generated reviews for scientific papers are gaining considerable traction and are even being officially piloted by major conferences. We have to assume that not only reviewers are using LLM-assistance, but also that authors use LLMs to revise their papers before submitting. In this work, we perform empirical experiments on papers from the 2025 ACL Rolling Review (ARR) to evaluate LLM reviews from both the author and the reviewer perspective. First, we identify a limited alignment of LLM reviews with human ones. In the best-case scenario, the alignment is reasonable. However, we also find that LLM-human alignment varies substantially across prompts and models. Finally, we investigate the scenario in which the author uses an iterative draft-revise workflow to improve the submission according to the LLM review. We find that this &quot;gaming&quot; of LLM reviews can be effective in specific scenarios, leading to a statistically significant increase of overall scores for up to 35\% of papers. We publish our code: https://github.com/uhh-hcds/reviewarcade.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.28897" target="_blank" rel="noopener">Review Arcade: On the Human Alignment and Gameability of LLM Reviews</a> <span class="src-num">[23]</span></div>
+        <div class="card-authors">Hans Ole Hatzel, Sebastian Steindl, Jan Strich</div>
+        <div class="card-desc">LLM-generated reviews for scientific papers are gaining considerable traction and are even being officially piloted by major conferences. We have to assume that not only reviewers are using LLM-assistance …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-27</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Measuring structured object understanding in vision foundation models remains challenging due to inconsistent evaluation protocols and limited part-level supervision. Semantic correspondence (SC) evaluates this capability by testing whether object parts can be matched across instances and categories under large variations in appearance, viewpoint, and geometry. To enable a systematic SC evaluation, we introduce SOCO, a new benchmark for Semantic Object Correspondence that introduces a taxonomy of correspondence types and provides consistent, functionally meaningful keypoint annotations across 100 categories and over 1M correspondence pairs. In addition, SOCO includes keypoint language descriptions, enabling the evaluation of large vision-language models (LVLMs) and their fine-grained part-level understanding. Comprehensive experiments reveal that (i) vision foundation backbones encode strong semantic structure but transfer correspondences poorly across related categories and only partially capture object-part position, (ii) LVLMs are stronger at text-prompted part localization than at visual-reference cross-image matching, exposing a gap between language-grounded localization and fine-grained visual correspondence, and (iii) correspondence performance predicts performance on dense downstream tasks, including segmentation, tracking, 3D pose estimation, and 3D detection, more strongly than ImageNet classification. Together, these findings position SOCO as a benchmark for struct">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.31597" target="_blank" rel="noopener">SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models</a> <span class="src-num">[24]</span></div>
+        <div class="card-authors">Olaf Dünkel, Basavaraj Sunagad, Haoran Wang, David T. Hoffmann, Christian Theobalt</div>
+        <div class="card-desc">Measuring structured object understanding in vision foundation models remains challenging due to inconsistent evaluation protocols and limited part-level supervision …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-29</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="AI systems are fallible, and humans can make mistakes in deciding whether to trust AI over their own judgment. Thus, improving human-AI collaboration requires understanding when, why, and how humans decide to rely on AI. We study two distinct reliance decisions: the delegation choice -- deciding when to let AI act autonomously without knowing its output, and the adoption choice -- evaluating AI suggestions and deciding how to use them. Both of these decoupled reliance patterns shape collaboration, but prior work rarely studies them together in realistic settings with the same users. We address this gap by studying collaborative human--AI teams competing in a question-answering game in which humans can choose when and how to work with AI agents to win. Our 24 matches pair 23 expert humans with 16 AI agents, capturing 387 delegation and 1440 adoption decisions. While human--AI collaboration performs better than either AI or humans alone, humans make suboptimal collaboration decisions, both under-relying on correct AI suggestions (3.9% of opportunities missed) and over-relying when AI misleads them (1.7%). Both parties contribute wrong answers: reported model confidence is near chance when humans and AI disagree, while confirmation bias drives higher under-reliance (64.5%) when an AI suggestion agrees with humans&#x27; initial incorrect answer. To close this gap, we recommend calibrated confidence, evidence-grounded explanations, and mechanisms that help users refine trust.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.28255" target="_blank" rel="noopener">AI, Take the Wheel: What Drives Delegation and Trust in Human-Computer Cooperative Question Answering?</a> <span class="src-num">[25]</span></div>
+        <div class="card-authors">Maharshi Gor, Yoo Yeon Sung, Yu Hou, Eve Fleisig, Irene Ying</div>
+        <div class="card-desc">AI systems are fallible, and humans can make mistakes in deciding whether to trust AI over their own judgment. Thus, improving human-AI collaboration requires understanding when, why, and how humans decide to rely on AI. …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-27</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Multimodal large language models (MLLMs) have shown strong capabilities in perception, reasoning, and action generation. However, their ability to sustain exploration in dynamic open worlds remains unclear. Existing embodied and game-based benchmarks often compress interaction into short-horizon tasks or entangle success with domain-specific game mechanics. In this paper, we introduce MineExplorer benchmark for evaluating open-world exploration capabilities of MLLM agents in Minecraft. We first filter atomic tasks whose solutions rely heavily on Minecraft-specific knowledge to better reflect general open-world reasoning. Then we organize the benchmark around a ReAct-style capability formulation and compose atomic tasks into implicit multi-hop tasks. To further construct reliable instances, MineExplorer uses a multi-agent synthesis workflow that jointly designs task graphs, sandbox scenes, and rule-based milestone evaluators. Human evaluation shows that the multi-agent synthesis workflow produces significantly more reliable instances than a single-agent baseline. Experiments with advanced MLLM agents show that open-world exploration remains challenging, as strong models can handle many single-hop tasks but degrade sharply when hidden prerequisites must be coordinated over longer trajectories. Further analysis finds that task difficulty tracks agent completion, and larger models or thinking modes do not consistently translate into better performance. Code and dataset are availa">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.30931" target="_blank" rel="noopener">MineExplorer: Evaluating Open-World Exploration of MLLM Agents in Minecraft</a> <span class="src-num">[26]</span></div>
+        <div class="card-authors">Tianjie Ju, Yueqing Sun, Zheng Wu, Wei Zhang, Yaqi Huo</div>
+        <div class="card-desc">Multimodal large language models (MLLMs) have shown strong capabilities in perception, reasoning, and action generation. However, their ability to sustain exploration in dynamic open worlds remains unclear. …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-29</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Human annotation is the empirical foundation of much NLP research, from dataset construction to model evaluation, but papers often leave unclear who produced the annotations and how the annotation process was controlled. We provide the first large-scale, task-level audit of human annotation reporting across major NLP venues, asking which annotation details are documented, which are missing, and how reporting varies across time, topic, venue, and intended use of human judgment. We introduce a unified taxonomy of annotation-reporting practices and validate an LLM-assisted extraction pipeline against Annotated-gold, a human-adjudicated gold standard of 41 papers and 72 annotation tasks, where the best model reaches human-comparable agreement with adjudicated labels, with Krippendorff&#x27;s alpha of 0.606 versus 0.585 for human-human agreement. Using this pipeline, we construct Annotated-llm, a dataset covering ACL-venue papers from 2018-2025, with 2,667 extracted annotation tasks from 1,603 papers, and find that papers frequently report operational details such as recruitment strategies, annotator expertise, and annotation volume, but often omit details needed to assess annotation validity, including training, language proficiency, compensation, socio-demographics, adjudication, and agreement values, especially in model-evaluation studies. Our results show that annotation reporting in NLP has improved over time but remains uneven, and they establish a scalable framework and bare-min">
+        <div class="card-title"><a href="https://huggingface.co/papers/2606.02255" target="_blank" rel="noopener">Who Annotates in NLP? A Large-scale Assessment of Human Annotation Reporting between 2018 and 2025</a> <span class="src-num">[27]</span></div>
+        <div class="card-authors">Maria Kunilovskaya, Gagan Bhatia, Lisa Sophie Albertelli, Yanran Chen, Christian Greisinger</div>
+        <div class="card-desc">Human annotation is the empirical foundation of much NLP research, from dataset construction to model evaluation, but papers often leave unclear who produced the annotations and how the annotation process was controlled …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-06-01</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Large Vision-Language Models (LVLMs) map visual inputs into dense token sequences, imposing a quadratic computational bottleneck for inference. Elastic visual-token compression addresses this by training a single model that can run at multiple visual-token budgets. However, existing approaches struggle under aggressive compression. Spatial-only compression, as in nested pooling, behaves as an imperfect low-pass filter and induces spectral aliasing that obscures fine-grained detail. Query-only compression, as in nested query resampling, replaces explicit grid-aligned tokens with non-local summaries and substantially degrades spatial grounding. To resolve this representational conflict, we introduce PARCEL (Pool-Anchored Resampling with Conditioned Elastic Queries for Efficient Vision-Language Understanding), a visual tokenization architecture that dynamically partitions the labor of feature extraction. PARCEL establishes spatial pool tokens as low-frequency layout anchors and conditions elastic query tokens on these anchors through Pool-Conditioned Query Resampling. This encourages query tokens to focus on complementary visual features rather than redundant spatial mapping. Extensive evaluations across 27 benchmarks show that PARCEL improves the performance-efficiency Pareto frontier, consistently outperforming existing matryoshka baselines across visual-token budgets while preserving the &quot;train once, deploy anywhere&quot; paradigm.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.30126" target="_blank" rel="noopener">PARCEL: Pool-Anchored Resampling with Conditioned Elastic Queries for Efficient Vision-Language Understanding</a> <span class="src-num">[28]</span></div>
+        <div class="card-authors">Selim Kuzucu, Alessio Tonioni, Vasile Lup, Bernt Schiele, Federico Tombari</div>
+        <div class="card-desc">Large Vision-Language Models (LVLMs) map visual inputs into dense token sequences, imposing a quadratic computational bottleneck for inference …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-28</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Large language model (LLM) unlearning has emerged as a crucial post-hoc mechanism for privacy protection and AI safety, yet auditing whether target knowledge is truly erased remains challenging. Existing output-level metrics fail to detect when this knowledge remains recoverable from internal representations. Recent white-box studies reveal such residual knowledge but often rely on auxiliary training or dataset-specific adaptations, leaving no generalizable metric. To address these limitations, we propose the Unlearning Depth Score (UDS), a metric that quantifies the mechanistic depth of unlearning via activation patching. UDS first identifies layers that encode the target knowledge using a retain model baseline, then measures how much of it is erased in the unlearned model on a 0-1 scale. In a meta-evaluation across 20 metrics on 150 unlearned models spanning 8 methods, UDS achieves the highest faithfulness and robustness, confirming our causal approach as the most reliable for unlearning evaluation. Case studies further reveal that white-box metrics can disagree at the layer level and that erasure depth varies across examples. We provide guidelines for integrating UDS into existing benchmarking frameworks and streamlining the evaluation pipeline. Code and data are available at https://github.com/gnueaj/unlearning-depth-score">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.24614" target="_blank" rel="noopener">Measuring the Depth of LLM Unlearning via Activation Patching</a> <span class="src-num">[29]</span></div>
+        <div class="card-authors">Jaeung Lee, Dohyun Kim, Jaemin Jo</div>
+        <div class="card-desc">Large language model (LLM) unlearning has emerged as a crucial post-hoc mechanism for privacy protection and AI safety, yet auditing whether target knowledge is truly erased remains challenging …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-23</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="We describe a library of mathematical finance built in the Lean 4 proof assistant, on top of Mathlib and the BrownianMotion package. It is broad: more than two hundred sorry-free theorems across eleven areas, from the measure-theoretic foundations of continuous-time stochastic calculus through derivative pricing to applied risk, portfolio, and fixed-income theory, and, to our knowledge, the most comprehensive machine-checked development of mathematical finance to date. Breadth is the setting, not the point. Two things make it more than a catalogue. It reaches into the continuous theory far enough to construct the L2 Itô integral as a bounded linear isometry and to derive, rather than assume, the risk-neutral pricing measure. And it audits its own faithfulness: every result is classified by how its Lean statement relates to the mathematics it claims, and a build-enforced gate pins the axioms each proof actually uses, so a reader can see precisely what has been proved and what has only been proved under added hypotheses. We close with a candid finding: a formal base over classical financial mathematics yields certified unification of known results rather than new financial theory. The contribution is therefore methodological and infrastructural, reusable verified foundations for mathematical finance, together with the faithfulness audit.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2606.01356" target="_blank" rel="noopener">A Formally Verified Library of Mathematical Finance in Lean 4</a> <span class="src-num">[30]</span></div>
+        <div class="card-authors">Raphael Coelho</div>
+        <div class="card-desc">We describe a library of mathematical finance built in the Lean 4 proof assistant, on top of Mathlib and the BrownianMotion package. It is broad: more than two hundred sorry-free theorems across eleven areas …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-31</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="In this paper, training a neural network is identified, exactly, as a search through Hamilton--Jacobi initial-value problems: each gradient step selects the initial data of a viscous Hamilton--Jacobi equation whose Hopf--Cole propagator best fits the observations; at inference, the input is the spatial point at which that solution is evaluated and the initial condition is already encoded in the weights. The correspondence is exact for log-sum-exp layers and structural for broader architectures: residual networks, transformers, and recurrent architectures (RNNs, LSTMs, SSMs) each discretize the same class of Hamilton--Jacobi equations, with architecture-dependent Hamiltonian and viscosity. A single deformation parameter varepsilon unifies all four perspectives (network, tropical algebra, viscous PDE, convex optimization) in a commutative diagram closed under Lipschitz conditions. Quantitative consequences include: the minimax optimal generalization rate O(n^{-1/(d+2)}) for fixed t; adversarial robustness controlled by varepsilon; backpropagation as the co-state equation of the Hamiltonian system for residual networks (Pontryagin Maximum Principle); scaling exponents consistent with data intrinsic dimension via PDE quadrature; and a closed-form O(N) influence function (softmax attribution weights π_j) whose entropy landscape undergoes fold bifurcations as varepsilon increases, each merging attribution basins.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2605.28983" target="_blank" rel="noopener">The Hamilton-Jacobi Theory of Deep Learning</a> <span class="src-num">[31]</span></div>
+        <div class="card-authors">Jose Marie Antonio Miñoza, Erika Fille T. Legara, Christopher P. Monterola</div>
+        <div class="card-desc">In this paper, training a neural network is identified, exactly, as a search through Hamilton--Jacobi initial-value problems: each gradient step selects the initial data of a viscous Hamilton--Jacobi equation whose Hopf--Cole propagator be …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-05-27</span></div>
+      </div>
+        <div class="card web-card" data-full-desc="Large language models solve complex problems by generating lengthy chains of explicit reasoning tokens. While effective, this makes reasoning expensive, length-sensitive, and constrained to (discrete) natural language. While latent reasoning offers a continuous alternative, determining useful structures for intermediate latent states is an open challenge. In this paper, we formulate latent reasoning as a geometric path-approximation problem within the model&#x27;s pretrained token-embedding space. We introduce Geometric Latent Reasoning (GLR), which uses a lightweight transition head to predict iterative direction updates in embedding space. Using textual chain-of-thought traces as anchors, GLR learns to approximate discrete reasoning trajectories while permitting continuous deviations from exact token embeddings. Evaluations on mathematical reasoning benchmarks using Qwen3 models reveal an emergent phenomenon: geometric latent reasoning induces substantially shorter generations without an explicit length objective. By replacing early explicit reasoning with continuous latent steps, models often reach correct answers using substantially fewer total generation steps. These findings suggest that continuous trajectories act as compact intermediate reasoning states, exposing a new tradeoff between latent computation budget, output length, and accuracy.">
+        <div class="card-title"><a href="https://huggingface.co/papers/2606.02248" target="_blank" rel="noopener">Geometric Latent Reasoning Induces Shorter Generations in LLMs</a> <span class="src-num">[32]</span></div>
+        <div class="card-authors">Shashi Kumar, Yacouba Kaloga, Petr Motlicek, Ina Kodrasi, Andrea Cavallaro</div>
+        <div class="card-desc">Large language models solve complex problems by generating lengthy chains of explicit reasoning tokens. While effective, this makes reasoning expensive, length-sensitive, and constrained to (discrete) natural language. …</div>
+        <div class="card-tags"><span class="tag web-tag">HuggingFace</span><span class="tag">daily curated papers</span><span class="tag">2026-06-01</span></div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol>
+        <li><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a></li>
+        <li><a href="https://joshlf.com/posts/memory-safety-life-and-death/" target="_blank" rel="noopener">Memory safety is a matter of life and death</a></li>
+        <li><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a></li>
+        <li><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a></li>
+        <li><a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a></li>
+        <li><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a></li>
+        <li><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a></li>
+        <li><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a></li>
+        <li><a href="https://bera-journals.onlinelibrary.wiley.com/doi/abs/10.1111/bjet.70067" target="_blank" rel="noopener">When machines join the moral circle: The persona effect of generative AI agents in collaborative reasoning</a></li>
+        <li><a href="https://huggingface.co/papers/2606.02031" target="_blank" rel="noopener">OpenWebRL: Demystifying Online Multi-turn Reinforcement Learning for Visual Web Agents</a></li>
+        <li><a href="https://huggingface.co/papers/2606.02373" target="_blank" rel="noopener">Harness-1: Reinforcement Learning for Search Agents with State-Externalizing Harnesses</a></li>
+        <li><a href="https://huggingface.co/papers/2606.02388" target="_blank" rel="noopener">Policy and World Modeling Co-Training for Language Agents</a></li>
+        <li><a href="https://huggingface.co/papers/2606.00285" target="_blank" rel="noopener">Model-Based Quality Assessment for Massively Multilingual Parallel Data</a></li>
+        <li><a href="https://huggingface.co/papers/2605.29084" target="_blank" rel="noopener">Same Question, Different Source, Different Answer: Auditing Source-Dependence in Medical Multi-Source RAG</a></li>
+        <li><a href="https://huggingface.co/papers/2605.29087" target="_blank" rel="noopener">The Chain Holds, the Answer Folds: Trace-Answer Dissociation in Reasoning Models Under Adversarial Pressure</a></li>
+        <li><a href="https://huggingface.co/papers/2605.26248" target="_blank" rel="noopener">Unified Neural Scaling Laws</a></li>
+      </ol>
+      <ol start="17">
+        <li><a href="https://huggingface.co/papers/2606.01027" target="_blank" rel="noopener">τ_0-WM: A Unified Video-Action World Model for Robotic Manipulation</a></li>
+        <li><a href="https://huggingface.co/papers/2605.30501" target="_blank" rel="noopener">Linear Ensembles Wash Away Watermarks: On the Fragility of Distributional Perturbations in LLMs</a></li>
+        <li><a href="https://huggingface.co/papers/2605.29707" target="_blank" rel="noopener">Domino: Decoupling Causal Modeling from Autoregressive Drafting in Speculative Decoding</a></li>
+        <li><a href="https://huggingface.co/papers/2605.09156" target="_blank" rel="noopener">Lost in Translation? Exploring the Shift in Grammatical Gender from Latin to Occitan</a></li>
+        <li><a href="https://huggingface.co/papers/2605.21102" target="_blank" rel="noopener">ACL-Verbatim: hallucination-free question answering for research</a></li>
+        <li><a href="https://huggingface.co/papers/2606.01414" target="_blank" rel="noopener">Agent Skills Should Go Beyond Text: The Case for Visual Skills</a></li>
+        <li><a href="https://huggingface.co/papers/2605.28897" target="_blank" rel="noopener">Review Arcade: On the Human Alignment and Gameability of LLM Reviews</a></li>
+        <li><a href="https://huggingface.co/papers/2605.31597" target="_blank" rel="noopener">SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models</a></li>
+        <li><a href="https://huggingface.co/papers/2605.28255" target="_blank" rel="noopener">AI, Take the Wheel: What Drives Delegation and Trust in Human-Computer Cooperative Question Answering?</a></li>
+        <li><a href="https://huggingface.co/papers/2605.30931" target="_blank" rel="noopener">MineExplorer: Evaluating Open-World Exploration of MLLM Agents in Minecraft</a></li>
+        <li><a href="https://huggingface.co/papers/2606.02255" target="_blank" rel="noopener">Who Annotates in NLP? A Large-scale Assessment of Human Annotation Reporting between 2018 and 2025</a></li>
+        <li><a href="https://huggingface.co/papers/2605.30126" target="_blank" rel="noopener">PARCEL: Pool-Anchored Resampling with Conditioned Elastic Queries for Efficient Vision-Language Understanding</a></li>
+        <li><a href="https://huggingface.co/papers/2605.24614" target="_blank" rel="noopener">Measuring the Depth of LLM Unlearning via Activation Patching</a></li>
+        <li><a href="https://huggingface.co/papers/2606.01356" target="_blank" rel="noopener">A Formally Verified Library of Mathematical Finance in Lean 4</a></li>
+        <li><a href="https://huggingface.co/papers/2605.28983" target="_blank" rel="noopener">The Hamilton-Jacobi Theory of Deep Learning</a></li>
+        <li><a href="https://huggingface.co/papers/2606.02248" target="_blank" rel="noopener">Geometric Latent Reasoning Induces Shorter Generations in LLMs</a></li>
+      </ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
