@@ -104,3 +104,13 @@ The scout scripts and cron config live outside the repo (in the local Hermes set
 - Click the paper title link to open the source on arXiv / Lobste.rs / wherever.
 - `←` / `→` keys navigate between cards inside the modal.
 - `Esc` closes the modal.
+
+## Generating the Top 100 page
+
+`scripts/generate_top100.py` parses every historical debrief card, asks Hermes Agent to rate each unique paper/news item with the configured default LLM, and writes `top100.json` plus `top-100.html`.
+
+```bash
+python3 scripts/generate_top100.py
+```
+
+The script uses `hermes -z` by default. Override the command with `HERMES_COMMAND=...` if needed.
