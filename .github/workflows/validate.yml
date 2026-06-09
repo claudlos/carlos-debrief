@@ -1,0 +1,25 @@
+name: validate-site
+
+# Guard the public site: every push is checked for manifest/debrief integrity
+# before GitHub Pages serves it. Fails the build on 404 entries, orphaned or
+# duplicate debriefs, drifted card counts, non-canonical filenames, or
+# out-of-order entries.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate site integrity
+        run: python3 scripts/validate_site.py
+      - name: Manifest matches files on disk
+        run: python3 scripts/build_manifest.py --check
