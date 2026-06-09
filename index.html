@@ -183,18 +183,26 @@ async function loadDebriefs() {
     }
   } catch(e) {}
 
-  list.innerHTML = `
-    <li class="empty">
-      Open individual debrief files from your file browser,<br>
-      or run <code>ls ~/Documents/research/debriefs/debrief-*.html</code> to see available files.
-    </li>
-  `;
+  list.innerHTML = '<li class="empty">Could not load the debrief index. Please try again shortly.</li>';
+}
+
+// Escape any string before it goes into innerHTML. The manifest is generated
+// from scraped content, so treat every field as untrusted.
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+// Only accept debrief paths that match the canonical shape — never render an
+// arbitrary attacker-supplied href.
+function validPath(p) {
+  return typeof p === 'string' && /^debriefs\/debrief-\d{4}-\d{2}-\d{2}-\d{2}\.(html|md)$/.test(p);
 }
 
 function render(debriefs) {
   const seen = new Set();
-  debriefs = debriefs.filter(d => {
-    if (seen.has(d.html)) return false;
+  debriefs = (Array.isArray(debriefs) ? debriefs : []).filter(d => {
+    if (!d || !validPath(d.html) || seen.has(d.html)) return false;
     seen.add(d.html);
     return true;
   });
@@ -206,18 +214,21 @@ function render(debriefs) {
   latestEl.textContent = debriefs[0].date || '—';
   list.innerHTML = debriefs.map(d => {
     const parts = [];
-    if (d.papers != null) parts.push(`${d.papers} papers`);
-    if (d.findings != null) parts.push(`${d.findings} web findings`);
+    if (d.papers != null) parts.push(`${Number(d.papers) || 0} papers`);
+    if (d.findings != null) parts.push(`${Number(d.findings) || 0} web findings`);
+    const mdLink = validPath(d.md)
+      ? `<a href="${esc(d.md)}" class="md-link">.md</a>`
+      : '';
     return `
     <li>
-      <a href="${d.html}">
+      <a href="${esc(d.html)}">
         <div>
-          <div class="date">${d.date}</div>
-          <div class="time">${parts.join(' · ')}</div>
+          <div class="date">${esc(d.date)}</div>
+          <div class="time">${esc(parts.join(' · '))}</div>
         </div>
         <div class="links">
           <span class="html-link">HTML →</span>
-          <a href="${d.md}" class="md-link">.md</a>
+          ${mdLink}
         </div>
       </a>
     </li>
