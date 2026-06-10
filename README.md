@@ -105,12 +105,12 @@ The scout scripts and cron config live outside the repo (in the local Hermes set
 - `←` / `→` keys navigate between cards inside the modal.
 - `Esc` closes the modal.
 
-## Generating the Top 100 page
+## Generating the Top 500 page
 
-`scripts/generate_top100.py` parses every historical debrief card, asks Hermes Agent to rate each unique paper/news item with the configured default LLM, and writes `top100.json` plus `top-100.html`.
+`scripts/generate_top500.py` parses every historical debrief card, asks Hermes Agent to rate each unique paper/news item (scored out of 1000) with the configured default LLM, and writes `top500.json` plus `top-500.html`.
 
 ```bash
-python3 scripts/generate_top100.py
+python3 scripts/generate_top500.py --workers 6
 ```
 
 The script uses `hermes -z` by default. Override the command with `HERMES_COMMAND=...` if needed.
