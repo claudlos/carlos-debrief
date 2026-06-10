@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insights · Carlos's Debrief</title>
+<link rel="icon" href="data:,">
+<style>
+  :root{--bg:#0d1117;--card:#161b22;--border:#21262d;--text:#c9d1d9;--bright:#f0f6fc;--muted:#8b949e;--subtle:#6e7681;--accent:#58a6ff;--green:#3fb950;--purple:#d2a8ff;--orange:#f0883e}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.55;padding:0 0 64px}
+  .head{text-align:center;padding:44px 20px 24px;background:linear-gradient(180deg,#161b22,#0d1117);border-bottom:1px solid var(--border)}
+  .head h1{font-size:1.9em;color:var(--bright)}
+  .head a{color:var(--muted);font-size:.85em;text-decoration:none}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px}
+  h2{font-size:1.2em;color:var(--bright);margin:34px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .stats{display:flex;flex-wrap:wrap;gap:14px}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 22px;min-width:140px}
+  .stat .num{font-size:1.8em;font-weight:700;color:var(--accent)}
+  .stat .lab{color:var(--muted);font-size:.8em;text-transform:uppercase;letter-spacing:.04em}
+  .bars{display:flex;flex-direction:column;gap:5px}
+  .bar{display:flex;align-items:center;gap:10px;font-size:.8em}
+  .bar .d{color:var(--subtle);width:120px;flex:none;font-variant-numeric:tabular-nums}
+  .bar .track{flex:1;display:flex;height:16px;border-radius:4px;overflow:hidden;background:#11151b}
+  .bar .p{background:var(--accent)}.bar .f{background:var(--purple)}
+  .bar .v{color:var(--muted);width:74px;flex:none;text-align:right}
+  table{width:100%;border-collapse:collapse;font-size:.88em}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
+  th{color:var(--subtle);font-weight:600;font-size:.82em;text-transform:uppercase}
+  td.n{text-align:right;font-variant-numeric:tabular-nums}
+  .terms{display:flex;flex-wrap:wrap;gap:8px}
+  .term{background:var(--card);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:.85em}
+  .term .up{color:var(--green);font-size:.85em;margin-left:6px}
+  .legend{color:var(--subtle);font-size:.78em;margin-bottom:10px}
+  .legend .p{color:var(--accent)}.legend .f{color:var(--purple)}
+  .empty{color:var(--subtle);text-align:center;padding:40px}
+</style>
+</head>
+<body>
+<div class="head">
+  <h1>📊 Debrief Insights</h1>
+  <a href="index.html">← back to debriefs</a> · <a href="search.html">search</a> · <a href="topics.html">topics</a>
+</div>
+<div class="wrap" id="wrap"><div class="empty">Loading…</div></div>
+<script>
+const STOP = new Set("the a an and or of for to in on with from via using based toward towards into your you our their its this that these those new via able more less than then over under via auto self high low long short large small using able able real time data model models language large learning deep neural network networks paper papers study analysis approach method methods framework system systems via".split(/\s+/));
+function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;}
+function parseDate(s){const m=/^(\d{4})-(\d{2})-(\d{2}) (\d{2})/.exec(s);return m?new Date(+m[1],+m[2]-1,+m[3],+m[4]):null;}
+function weekKey(dt){const d=new Date(dt);d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d.toISOString().slice(0,10);}
+
+Promise.all([fetch('manifest.json').then(r=>r.json()), fetch('index.json').then(r=>r.json()).catch(()=>[])]).then(([man,idx])=>{
+  const wrap=document.getElementById('wrap'); wrap.textContent='';
+  const entries=man.filter(e=>parseDate(e.date)).map(e=>({date:e.date,dt:parseDate(e.date),p:+e.papers||0,f:+e.findings||0}));
+  const totP=entries.reduce((a,e)=>a+e.p,0), totF=entries.reduce((a,e)=>a+e.f,0);
+  const days=new Set(entries.map(e=>e.date.slice(0,10))).size;
+
+  // ── Overview (#03) ──
+  wrap.appendChild(el('h2',null,'Overview'));
+  const stats=el('div','stats');
+  [['Debriefs',entries.length],['ArXiv papers',totP],['Web findings',totF],['Days active',days],['Avg/day',(entries.length/Math.max(days,1)).toFixed(1)]].forEach(([l,v])=>{
+    const s=el('div','stat'); s.appendChild(el('div','num',String(v))); s.appendChild(el('div','lab',l)); stats.appendChild(s);
+  });
+  wrap.appendChild(stats);
+
+  // ── Volume over time (#03) ──
+  wrap.appendChild(el('h2',null,'Volume — last 30 debriefs'));
+  const leg=el('div','legend'); leg.innerHTML='<span class="p">■</span> papers &nbsp; <span class="f">■</span> web findings'; wrap.appendChild(leg);
+  const bars=el('div','bars'); const recent=entries.slice(0,30); const max=Math.max(1,...recent.map(e=>e.p+e.f));
+  recent.forEach(e=>{
+    const b=el('div','bar'); b.appendChild(el('span','d',e.date));
+    const tr=el('div','track'); const p=el('div','p'); p.style.width=(e.p/max*100)+'%'; const f=el('div','f'); f.style.width=(e.f/max*100)+'%';
+    tr.appendChild(p); tr.appendChild(f); b.appendChild(tr); b.appendChild(el('span','v',e.p+'p / '+e.f+'w')); bars.appendChild(b);
+  });
+  wrap.appendChild(bars);
+
+  // ── Weekly roll-up (#18) ──
+  wrap.appendChild(el('h2',null,'Weekly roll-up'));
+  const wk={}; entries.forEach(e=>{const k=weekKey(e.dt);(wk[k]=wk[k]||{d:0,p:0,f:0});wk[k].d++;wk[k].p+=e.p;wk[k].f+=e.f;});
+  const tbl=el('table'); const hr=el('tr'); ['Week of','Debriefs','Papers','Findings'].forEach((h,i)=>{const th=el('th',i?'n':null,h);hr.appendChild(th);}); tbl.appendChild(hr);
+  Object.keys(wk).sort().reverse().slice(0,10).forEach(k=>{const r=el('tr');r.appendChild(el('td',null,k));r.appendChild(el('td','n',String(wk[k].d)));r.appendChild(el('td','n',String(wk[k].p)));r.appendChild(el('td','n',String(wk[k].f)));tbl.appendChild(r);});
+  wrap.appendChild(tbl);
+
+  // ── Trending terms (#09): recent 14d vs prior ──
+  wrap.appendChild(el('h2',null,'Trending in titles (last 14 days)'));
+  const cards=[]; idx.forEach(db=>{const dt=parseDate(db.d); db.items.forEach(it=>cards.push({dt,t:it.t}));});
+  if(!cards.length){ wrap.appendChild(el('div','empty','No index data for trends.')); return; }
+  const now=Math.max(...cards.map(c=>c.dt?c.dt.getTime():0)); const cut=now-14*864e5;
+  const rec={}, pri={};
+  cards.forEach(c=>{ if(!c.dt)return; const bag=(c.dt.getTime()>=cut)?rec:pri;
+    new Set(c.t.toLowerCase().replace(/[^a-z0-9 -]/g,' ').split(/\s+/).filter(w=>w.length>=4&&!STOP.has(w))).forEach(w=>bag[w]=(bag[w]||0)+1); });
+  const rising=Object.keys(rec).filter(w=>rec[w]>=3).map(w=>({w,r:rec[w],delta:rec[w]-(pri[w]||0)})).filter(x=>x.delta>0).sort((a,b)=>b.delta-a.delta||b.r-a.r).slice(0,24);
+  const terms=el('div','terms');
+  if(!rising.length) terms.appendChild(el('div','empty','Not enough recent data yet.'));
+  rising.forEach(x=>{const t=el('div','term',x.w); t.appendChild(el('span','up','▲'+x.delta)); terms.appendChild(t);});
+  wrap.appendChild(terms);
+}).catch(()=>{ document.getElementById('wrap').textContent='Could not load insights data.'; });
+</script>
+</body>
+</html>

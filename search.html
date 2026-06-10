@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search · Carlos's Debrief</title>
+<link rel="icon" href="data:,">
+<style>
+  :root{--bg:#0d1117;--card:#161b22;--border:#21262d;--text:#c9d1d9;--bright:#f0f6fc;--muted:#8b949e;--subtle:#6e7681;--accent:#58a6ff;--purple:#d2a8ff}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.55;padding:0 0 64px}
+  .head{text-align:center;padding:44px 20px 24px;background:linear-gradient(180deg,#161b22,#0d1117);border-bottom:1px solid var(--border)}
+  .head h1{font-size:1.9em;color:var(--bright)}
+  .head a{color:var(--muted);font-size:.85em;text-decoration:none}
+  .wrap{max-width:900px;margin:0 auto;padding:24px 20px}
+  .search{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:14px 18px;font-size:1.05em;outline:none}
+  .search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(88,166,255,.15)}
+  .count{color:var(--muted);font-size:.85em;margin:14px 2px}
+  .res{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px}
+  .res .t{font-weight:600;font-size:1em}
+  .res .t a{color:var(--bright);text-decoration:none}
+  .res .t a:hover{color:var(--accent)}
+  .res .meta{color:var(--subtle);font-size:.78em;margin:3px 0 6px;display:flex;gap:10px;flex-wrap:wrap}
+  .res .meta .tag{color:var(--purple)}
+  .res .meta a{color:var(--subtle);text-decoration:none}
+  .res .meta a:hover{color:var(--accent)}
+  .res .s{color:var(--muted);font-size:.88em}
+  .empty{color:var(--subtle);text-align:center;padding:40px}
+</style>
+</head>
+<body>
+<div class="head">
+  <h1>🔎 Search the Debrief archive</h1>
+  <a href="index.html">← back to debriefs</a> · <a href="topics.html">topics</a> · <a href="insights.html">insights</a>
+</div>
+<div class="wrap">
+  <input id="q" class="search" placeholder="Search titles & summaries (e.g. prompt injection, diffusion, zero-knowledge)…" autofocus>
+  <div class="count" id="count">Loading index…</div>
+  <div id="results"></div>
+</div>
+<script>
+let CARDS = [];
+const q = document.getElementById('q'), countEl = document.getElementById('count'), resEl = document.getElementById('results');
+
+fetch('index.json').then(r => r.json()).then(data => {
+  data.forEach(db => db.items.forEach(it => CARDS.push({t:it.t, l:it.l, w:it.w, g:it.g, s:it.s, d:db.d, p:db.p})));
+  countEl.textContent = `${CARDS.length} cards across ${data.length} debriefs — type to search`;
+}).catch(() => { countEl.textContent = 'Could not load the search index.'; });
+
+function el(tag, cls, text){ const e=document.createElement(tag); if(cls)e.className=cls; if(text!=null)e.textContent=text; return e; }
+
+function render(items){
+  resEl.textContent = '';
+  items.slice(0, 200).forEach(c => {
+    const r = el('div','res');
+    const t = el('div','t');
+    const a = el('a', null, c.t); a.href = c.l; a.target='_blank'; a.rel='noopener'; t.appendChild(a);
+    const meta = el('div','meta');
+    meta.appendChild(el('span','tag', c.g));
+    meta.appendChild(el('span', null, c.d));
+    const dl = el('a', null, 'in this debrief →'); dl.href = c.p; meta.appendChild(dl);
+    r.appendChild(t); r.appendChild(meta);
+    if(c.s) r.appendChild(el('div','s', c.s));
+    resEl.appendChild(r);
+  });
+}
+
+function run(){
+  const terms = q.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if(!terms.length){ resEl.textContent=''; countEl.textContent = `${CARDS.length} cards — type to search`; return; }
+  const hits = CARDS.filter(c => { const h=(c.t+' '+c.s+' '+c.g).toLowerCase(); return terms.every(t=>h.includes(t)); });
+  countEl.textContent = `${hits.length} match${hits.length===1?'':'es'}` + (hits.length>200?' (showing first 200)':'');
+  render(hits);
+}
+q.addEventListener('input', run);
+</script>
+</body>
+</html>
