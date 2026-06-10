@@ -12,8 +12,10 @@ import re
 import shlex
 import subprocess
 import sys
+import threading
 import time
 import urllib.parse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from html.parser import HTMLParser
 from pathlib import Path
@@ -22,12 +24,14 @@ from typing import Any
 
 DEFAULT_HERMES_COMMAND = "hermes"
 DEFAULT_RUBRIC = (
-    "Score each historical debrief item from 0 to 100 for long-term importance "
+    "Score each historical debrief item from 0 to 1000 for long-term importance "
     "to AI, machine learning, security, cryptography, agents, AI safety, quantum "
     "computing, and adjacent research strategy. Reward technical significance, "
     "novelty, practical impact, credible evidence, and strong fit with the debrief "
     "topics. Penalize generic roundups, weak source text, low relevance, or narrow "
-    "incremental work."
+    "incremental work. Use the FULL range and spread scores out (avoid clustering): "
+    "900-1000 = landmark/foundational; 700-899 = high impact; 450-699 = solid/notable; "
+    "200-449 = incremental/niche; 1-199 = roundup/noise/low-signal."
 )
 
 
@@ -485,9 +489,9 @@ def hermes_prompt(batch: list[Card]) -> str:
         "Apply the rubric consistently and return one rating for every input id.\n"
         "Scores must be comparable across batches. Keep each rationale under 24 words.\n"
         "Return ONLY valid JSON, with no markdown fence, no prose, and this exact shape:\n"
-        '{"ratings":[{"id":"item_00001","score":87,"rationale":"Short reason."}]}\n\n'
+        '{"ratings":[{"id":"item_00001","score":872,"rationale":"Short reason."}]}\n\n'
         "Rules:\n"
-        "- score must be an integer from 0 to 100.\n"
+        "- score must be an integer from 0 to 1000.\n"
         "- every input id must appear exactly once.\n"
         "- do not invent ids.\n\n"
         "Input JSON:\n"
@@ -536,7 +540,7 @@ def call_hermes(batch: list[Card], hermes_command: str, retries: int = 3) -> dic
                     continue
                 result[item_id] = {
                     "id": item_id,
-                    "score": max(0, min(100, int(item.get("score", 0)))),
+                    "score": max(0, min(1000, int(item.get("score", 0)))),
                     "rationale": normalize_space(str(item.get("rationale", ""))),
                 }
             expected = {card.item_id for card in batch}
@@ -569,21 +573,39 @@ def save_cache(path: Path, cache: dict[str, Any]) -> None:
     tmp.replace(path)
 
 
-def rate_items(items: list[Card], hermes_command: str, batch_size: int, cache_path: Path) -> dict[str, dict[str, Any]]:
+def rate_items(items: list[Card], hermes_command: str, batch_size: int, cache_path: Path, workers: int = 4) -> dict[str, dict[str, Any]]:
     cache = load_cache(cache_path)
     cache_key = f"hermes:{hermes_command}"
     model_cache = cache.setdefault(cache_key, {})
+    lock = threading.Lock()
     total = len(items)
+    jobs: list[tuple[int, list[Card]]] = []
     for offset in range(0, total, batch_size):
         batch = items[offset : offset + batch_size]
         pending = [card for card in batch if card.item_id not in model_cache]
-        if not pending:
-            continue
-        print(f"Rating {offset + 1}-{offset + len(batch)} of {total} ({len(pending)} uncached)", flush=True)
+        if pending:
+            jobs.append((offset, pending))
+    if not jobs:
+        return model_cache
+    print(f"Rating {total} items in {len(jobs)} batches with {workers} workers", flush=True)
+    done = [0]
+
+    def work(job: tuple[int, list[Card]]) -> None:
+        offset, pending = job
         result = call_hermes(pending, hermes_command)
-        for item_id, rating in result.items():
-            model_cache[item_id] = rating
-        save_cache(cache_path, cache)
+        with lock:
+            for item_id, rating in result.items():
+                model_cache[item_id] = rating
+            save_cache(cache_path, cache)  # incremental: resumable on interruption
+            done[0] += 1
+            print(f"  [{done[0]}/{len(jobs)}] batch @ {offset} (+{len(pending)})", flush=True)
+
+    with ThreadPoolExecutor(max_workers=max(1, workers)) as executor:
+        for future in as_completed([executor.submit(work, job) for job in jobs]):
+            try:
+                future.result()
+            except Exception as exc:  # noqa: BLE001 - log and continue; unrated items just drop out
+                print(f"  batch failed (skipped): {exc}", flush=True)
     return model_cache
 
 
@@ -668,7 +690,7 @@ def render_html(data: dict[str, Any]) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carlos's Debrief - Top 100</title>
+<title>Carlos's Debrief - Top 500</title>
 <style>
   :root {{
     --bg: #0d1117;
@@ -745,8 +767,8 @@ def render_html(data: dict[str, Any]) -> str:
 <body>
 <div class="wrap">
   <div class="topbar"><a href="index.html">&larr; All debriefs</a></div>
-  <h1>Top 100 Rated Items</h1>
-  <p class="subtitle">Hermes-judged ranking across historical Carlos's Debrief papers and news cards. Generated {html.escape(generated)} with {html.escape(data["model"])}.</p>
+  <h1>Top 500 Rated Items</h1>
+  <p class="subtitle">Hermes-judged ranking (scored out of 1000) across historical Carlos's Debrief papers and news cards. Generated {html.escape(generated)} with {html.escape(data["model"])}.</p>
 
   <div class="stats">
     <div class="stat"><div class="num">{ranked_count}</div><div class="label">Ranked Items</div></div>
@@ -767,7 +789,7 @@ def render_html(data: dict[str, Any]) -> str:
       <option value="news">News</option>
     </select>
   </div>
-  <div class="count" id="count">Showing 100 of 100</div>
+  <div class="count" id="count">Showing 500 of 500</div>
 
   <div class="list" id="list">
     {rows}
@@ -837,7 +859,7 @@ def render_item(item: dict[str, Any]) -> str:
         <div>
           <a class="title" href="{html.escape(title_link)}" target="_blank" rel="noopener">{title}</a>
           <div class="meta">{html.escape(meta)}</div>
-          <div class="rationale"><strong>{item["score"]}/100</strong> - {html.escape(item.get("rationale", ""))}</div>
+          <div class="rationale"><strong>{item["score"]}/1000</strong> - {html.escape(item.get("rationale", ""))}</div>
           <p class="meta">{html.escape(summary)}</p>
           <div class="tags">{tags_html}</div>
           <div class="links">
@@ -846,7 +868,7 @@ def render_item(item: dict[str, Any]) -> str:
             <a href="{html.escape(item.get("debrief_md", ""))}">Markdown</a>
           </div>
         </div>
-        <div class="score">{item["score"]}/100</div>
+        <div class="score">{item["score"]}/1000</div>
       </div>
     </article>"""
 
@@ -877,8 +899,9 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo-root", default=".", type=Path)
     parser.add_argument("--hermes-command", default=os.environ.get("HERMES_COMMAND", DEFAULT_HERMES_COMMAND))
-    parser.add_argument("--limit", default=100, type=int)
+    parser.add_argument("--limit", default=500, type=int)
     parser.add_argument("--batch-size", default=60, type=int)
+    parser.add_argument("--workers", default=4, type=int, help="Parallel hermes rating calls.")
     parser.add_argument("--max-items", default=None, type=int, help="Limit unique items for smoke tests.")
     parser.add_argument("--cache", default=".top100-ratings-cache.json", type=Path)
     parser.add_argument("--output-json", default="top100.json", type=Path)
@@ -907,7 +930,7 @@ def main() -> int:
     if args.dry_run:
         return 0
 
-    ratings = rate_items(items, args.hermes_command, args.batch_size, cache_path)
+    ratings = rate_items(items, args.hermes_command, args.batch_size, cache_path, args.workers)
     top_items = build_top100(items, ratings, args.limit)
     data = build_output_data(top_items, stats, f"Hermes Agent ({args.hermes_command})")
     write_json(output_json, data)
