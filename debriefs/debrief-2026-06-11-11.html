@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — June 11, 2026 11:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">June 11, 2026 11:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">51</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">51</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">June 11, 2026 11:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li><strong>mattermost/mattermost</strong>: Mattermost is an open source platform for secure collaboration across the entire software development lifecycle..</li>
+      <li><strong>msitarzewski/agency-agents</strong>: A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with personality, processes, and proven deliverables.</li>
+      <li><strong>zkGPT: An Efficient Non-interactive Zero-knowledge Proof Framework for LLM Inference</strong></li>
+      <li><strong>restic/restic</strong>: Fast, secure, efficient backup program</li>
+      <li><strong>NVIDIA/SkillSpector</strong>: Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</strong>: Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries.</li>
+      <li><strong>DeNovoSWE: Scaling Long-Horizon Environments for Generating Entire Repositories from Scratch</strong>: As the capabilities of LLM-based code agents continue to advance, their expected role is expanding beyond localized bug fixing in existing codebases toward architecting and implementing complete…</li>
+      <li><strong>On Subquadratic Architectures: From Applications to Principles</strong>: Transformers dominate modern sequence modeling, but their quadratic attention incurs substantial computational cost.</li>
+      <li><strong>ComBench: A Benchmark for Rigorous Proof Reasoning and Constructive Realization in Olympiad-Level Combinatorics</strong>: Combinatorics is central to Olympiad-level mathematical problem solving, requiring deep discrete reasoning, creative constructions, and rigorous structural insight.</li>
+      <li><strong>Grammar-Constrained Decoding Can Jailbreak LLMs into Generating Malicious Code</strong>: Large Language Models (LLMs) are increasingly used for code generation, raising concerns that they may be misused to produce malicious code.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+    <div class="section">
+    <h2>🗡️ Relevant to your Katana work <span class="group-count">2</span></h2>
+    <ul style="list-style:none;padding:0;margin:0;">
+      <li style="padding:8px 0;border-bottom:1px solid #21262d;"><a href="https://huggingface.co/papers/2606.11817" target="_blank" rel="noopener" style="color:#f0f6fc;text-decoration:none;font-weight:600;">Grammar-Constrained Decoding Can Jailbreak LLMs into Generating Malicious Code</a> <span class="src-num">[15]</span><div style="color:#6e7681;font-size:.8em;margin-top:2px;">huggingface_papers · ▲ 16</div></li>
+      <li style="padding:8px 0;border-bottom:1px solid #21262d;"><a href="https://huggingface.co/papers/2606.07943" target="_blank" rel="noopener" style="color:#f0f6fc;text-decoration:none;font-weight:600;">POISE: Position-Aware Undetectable Skill Injection on LLM Agents</a> <span class="src-num">[14]</span><div style="color:#6e7681;font-size:.8em;margin-top:2px;">huggingface_papers · ▲ 3</div></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🤗 HuggingFace Papers <span class="group-count">12</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Combinatorics is central to Olympiad-level mathematical problem solving, requiring deep discrete reasoning, creative constructions, and rigorous structural insight. Recent evidence suggests that even today&#x27;s strongest frontier models remain uneven on Olympiad combinatorics, revealing a gap in creative mathematical reasoning. We introduce ComBench, an Olympiad-level combinatorics benchmark for evaluating and diagnosing the combinatorial reasoning capabilities of large language models. ComBench contains 100 human-annotated competition-level problems organized around two complementary settings: analysis-centric problems, which primarily require rigorous mathematical arguments, and construction-centric problems, which require explicit constructions in addition to correctness justifications. The evaluation protocol combines rubric-guided proof grading with deterministic construction verification, exposing cases where proof quality and construction validity diverge. Experiments on frontier open- and closed-source models show that ComBench is far from saturated: the strongest model reaches 65.4% overall Avg. and 75.3% overall Best@4. We further find that Rigorous Proof Reasoning and Constructive Realization are distinct capabilities: Kimi-K2.6 trails GPT-5.5 on analysis-centric proof grading but surpasses it on construction-centric Best@4, while Existence and Construction problems remain consistently hardest across representative frontier models.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.10479" target="_blank" rel="noopener">ComBench: A Benchmark for Rigorous Proof Reasoning and Constructive Realization in Olympiad-Level Combinatorics</a> <span class="src-num">[16]</span></div>
+    
+    <div class="card-desc">Combinatorics is central to Olympiad-level mathematical problem solving, requiring deep discrete reasoning, creative constructions, and rigorous structural insight. Recent…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 18</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="As the capabilities of LLM-based code agents continue to advance, their expected role is expanding beyond localized bug fixing in existing codebases toward architecting and implementing complete software repositories from high-level specifications. However, training agents for such long-horizon software engineering tasks remains difficult due to the scarcity of large-scale, verifiable whole-repository generation data. In this paper, we introduce DeNovoSWE, a large-scale dataset for whole-repository generation. DeNovoSWE comprises 4,818 high-quality instances, where each instance requires generating a complete repository from documentation. Our dataset is automatically constructed through a carefully designed sandboxed agentic workflow, enabling scalable curation without human annotation. DeNovoSWE is constructed with &quot;divide and conquer&quot; and critic-repair philosophy. To balance data quality and diversity, we further introduce a difficulty-aware trajectory filtering strategy. Fine-tuning Qwen3-30B-A3B on DeNovoSWE substantially improves long-horizon SWE performance, raising its score on the challenging BeyondSWE-Doc2Repo benchmark from 5.8% to 47.2%.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.10728" target="_blank" rel="noopener">DeNovoSWE: Scaling Long-Horizon Environments for Generating Entire Repositories from Scratch</a> <span class="src-num">[17]</span></div>
+    
+    <div class="card-desc">As the capabilities of LLM-based code agents continue to advance, their expected role is expanding beyond localized bug fixing in existing codebases toward architecting and…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 27</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Large Language Models (LLMs) are increasingly used for code generation, raising concerns that they may be misused to produce malicious code. Meanwhile, Grammar-Constrained Decoding (GCD) has been widely adopted to improve the reliability of LLM-generated code by enforcing syntactic validity. In this paper, we reveal a counterintuitive risk: this reliability-oriented technique can itself become an attack surface. We uncover a new jailbreak attack, termed CodeSpear, that exploits GCD to induce LLMs into generating malicious code. Our experiments show that simply applying a benign code grammar constraint can effectively jailbreak LLMs.
+  To address this vulnerability, we propose CodeShield, a safety alignment approach that robustly preserves safe behavior even under attacker-controlled grammar constraints. CodeShield aligns the model in the code modality by teaching it to generate honeypot code under GCD. Such code is semantically harmless, so it does not implement the malicious request, and structurally diverse, so it is difficult to suppress through grammar tightening. At the same time, CodeShield still preserves natural-language refusals when natural language is available. Experiments on 10 popular LLMs across 4 benchmarks show that CodeSpear outperforms representative jailbreak baselines and increases the attack success rate by more than 30 percentage points on average. CodeShield also restores safety under CodeSpear while preserving benign utility. Our findings reveal a fun">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.11817" target="_blank" rel="noopener">Grammar-Constrained Decoding Can Jailbreak LLMs into Generating Malicious Code</a> <span class="src-num">[15]</span></div>
+    
+    <div class="card-desc">Large Language Models (LLMs) are increasingly used for code generation, raising concerns that they may be misused to produce malicious code. Meanwhile, Grammar-Constrained…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 16</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Transformers dominate modern sequence modeling, but their quadratic attention incurs substantial computational cost. Subquadratic architectures offer a scalable alternative. However, it remains unclear which designs yield the most effective sequence models. We compare three leading approaches: xLSTM, Mamba-2, and Gated DeltaNet. We evaluate these models on tasks with complex dependencies: (1) code-model pre-training, (2) distillation of code models from large language models, and (3) pre-training of time-series foundation models. Across these settings, xLSTM delivers the strongest overall performance. To explain xLSTM&#x27;s advantage, we present a unified formulation and analyze the underlying architectural mechanisms, focusing on state tracking and memory dynamics. Our results show that xLSTM enables more flexible and stable memory correction via its gating scheme. We corroborate these findings on controlled synthetic length-generalization tasks. Overall, our findings indicate that xLSTM&#x27;s gains on complex tasks stem from robust state tracking and accumulation.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.12364" target="_blank" rel="noopener">On Subquadratic Architectures: From Applications to Principles</a> <span class="src-num">[10]</span></div>
+    
+    <div class="card-desc">Transformers dominate modern sequence modeling, but their quadratic attention incurs substantial computational cost. Subquadratic architectures offer a scalable alternative.…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 20</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Reinforcement learning with verifiable rewards (RLVR) is a promising approach for enhancing reasoning and agentic behavior in large language models. However, rollout-intensive policy optimization is often limited by insufficient reward contrast, arising when overly simple or complex prompts generate low-variance feedback and when outcome-only rewards assign the same terminal assessment to every decision in a multi-turn rollout. Past efforts have focused on allocating available rollout resources to promising prompts, yet they only leverage sample informativeness at the prompt level and neglect variation in prefix-level informativeness across turns within the same rollout. This work targets multi-turn agentic RL by modeling each ReAct-style thought-action-observation turn as a semantically distinct node, allowing budget allocation to extend from prompt roots to turn-level prefixes with further continuations, which naturally forms tree-structured rollouts. We introduce Tree Rollout Allocation for Contrastive Exploration (TRACE), a unified rollout allocation framework that enhances reward contrast within a fixed sampling budget. Technically, TRACE allocates rollout budget to both prompt roots and intermediate prefixes that are most likely to yield mixed terminal rewards. A shared generalizable predictor estimates conditional success probability at these anchors from prefix histories to guide this allocation. The resulting adaptive tree structure enriches outcome-only feedback and">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.11119" target="_blank" rel="noopener">TRACE: A Unified Rollout Budget Allocation Framework for Efficient Agentic Reinforcement Learning</a> <span class="src-num">[12]</span></div>
+    
+    <div class="card-desc">Reinforcement learning with verifiable rewards (RLVR) is a promising approach for enhancing reasoning and agentic behavior in large language models. However, rollout-intensive…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 14</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Agent skills provide a lightweight mechanism for extending general-purpose agents, but their open format exposes them to skill-poisoning attacks. A practically dangerous injection must stay invisible: if executing the payload derails the user&#x27;s legitimate task, the resulting failure signal invites inspection of the skill. We therefore evaluate attacks by Attack Success Rate, which requires the injected payload to execute and the user&#x27;s task to still pass its verifier in the same trial. Prior skill-poisoning attacks face a reliability-stealth trade-off under this lens: YAML-header injections are reliably loaded but easily inspected, whereas stealthier body injections that place explicit malicious commands in the skill prose are less reliable because out-of-context commands invite the agent&#x27;s own suspicion. We introduce POISE, a position-aware attack that compresses the trigger into a single, benign-looking body instruction, placing it at a feasible position and using a context-aware generator to blend it with nearby setup or prerequisite steps. On Skill-Inject with codex+gpt-5.2, POISE achieves an 89.3% ASR, 28.0 points above a random-placement body baseline and 2.6 points above a YAML-only baseline, while retaining the stealth advantage of body placement. That stealth is the decisive margin: because legitimate skill bodies naturally require privileged tool operations, LLM scanners are hyper-sensitive, falsely flagging 74.6% of clean skills on average across four judges and bo">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.07943" target="_blank" rel="noopener">POISE: Position-Aware Undetectable Skill Injection on LLM Agents</a> <span class="src-num">[14]</span></div>
+    
+    <div class="card-desc">Agent skills provide a lightweight mechanism for extending general-purpose agents, but their open format exposes them to skill-poisoning attacks. A practically dangerous injection…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 3</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="There are two main Parameter-Efficient Fine-Tuning (PEFT) techniques for Large Language Models (LLMs). While Low-Rank Adaptation (LoRA) introduces additional weights between the LLM layers, Soft Prompting introduces additional fine-tuning-specific raw tokens to an LLM input. However, both require modification to the computational graphs of precompiled, preoptimized LLMs. As a result, neither is fully supported in high-throughput engines like vLLM. We propose fine-tuning with ART (Art-based Reinforcement Training). The method injects information into a frozen Multimodal Large Language Model (MLLM) by optimizing only its raw visual input, thus enabling the soft-token approach on pre-compiled computational graphs. It relies on backpropagation of gradients back into a plain pixel array and thus supports any fine-tuning objective. Moreover, the optimized visual input can be stylized as task-relevant computational artworks. The approach&#x27;s effectiveness is confirmed for different sizes of a popular open Qwen architecture and for several textual benchmarks. Specifically, ART reaches accuracy competitive with LoRA across mathematics and structured-tool-use benchmarks.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.11854" target="_blank" rel="noopener">Fine-tuning Multi-modal LLMs with ART: Art-based Reinforcement Training</a> <span class="src-num">[11]</span></div>
+    
+    <div class="card-desc">There are two main Parameter-Efficient Fine-Tuning (PEFT) techniques for Large Language Models (LLMs). While Low-Rank Adaptation (LoRA) introduces additional weights between the…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 2</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Vision-language models (VLMs) project images into hundreds to thousands of visual tokens, making decoder inference expensive in both attention computation and KV-cache memory. Existing visual-token reduction methods largely follow a rank-and-remove paradigm: they score visual tokens, keep a compact subset, and permanently discard the rest. We show that this irreversible action is fragile because visual-token importance changes across decoder depth; tokens ranked low at one stage may become relevant in later layers, especially for grounding-sensitive queries. We propose Reroute, a training-free plug-in that replaces removal with recoverable routing. At each routing stage, selected vision tokens pass through decoder blocks, while deferred tokens bypass the stage and re-enter the candidate pool at the next routing decision. Reroute reuses existing attention-score ranking rules and stage-wise schedules, preserving the theoretical TFLOPs and KV-cache budget class of the pruning method it augments. Across FastV, PDrop, and Nüwa variants on LLaVA-1.5 and Qwen backbones, reroute improves grounding under aggressive token reduction while maintaining general VQA performance. These results suggest that VLM token reduction should not be viewed only as irreversible pruning, but also as recoverable routing. The code can be found here: https://github.com/elmma/mllm-reroute/">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.12412" target="_blank" rel="noopener">Reroute, Don&#x27;t Remove: Recoverable Visual Token Routing for Vision-Language Models</a> <span class="src-num">[7]</span></div>
+    
+    <div class="card-desc">Vision-language models (VLMs) project images into hundreds to thousands of visual tokens, making decoder inference expensive in both attention computation and KV-cache memory.…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 10</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Large language models (LLMs) are widely used to tackle complex tasks with autonomous workflows. Recently, reusable natural language skills have emerged as a popular paradigm to inject procedural knowledge into LLM applications. Since popular skills are often invoked repeatedly, placing their full text in every context significantly increases prefill cost and latency. While text compression techniques have the potential to solve this problem, most existing methods are designed to compress factual knowledge in documents instead of procedural knowledge, making them insufficient for skill compression. In this paper, we argue that an effective skill compression method should: 1) preserve logical dependencies among workflows and tool protocols, 2) enable lightweight, offline compression for frequently updated community skills, and 3) be adaptable to varying complexities across skills. To address this, we present SKIM (SKIll coMpression), an adaptive multi-resolution soft token compression framework for procedural skills. Depending on the complexity of each skill, SKIM creates different numbers of soft tokens that not only improve the efficiency of LLM inference, but also preserve the effectiveness of skill usage. Experiments indicate that SKIM compresses skills to 30 to 60 percent of their original token length while preserving task performance better than existing compression methods.We have released our code at https://github.com/bebr2/SKIM .">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.12203" target="_blank" rel="noopener">Adaptive Multi-Resolution Procedural Knowledge Compression for Large Language Models</a> <span class="src-num">[8]</span></div>
+    
+    <div class="card-desc">Large language models (LLMs) are widely used to tackle complex tasks with autonomous workflows. Recently, reusable natural language skills have emerged as a popular paradigm to…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 1</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Many modern vision-language models (VLMs) build on autoregressive decoding of discrete tokens. While text-based output interfaces enable scalable pretraining and strong zero-shot generalization across diverse tasks, they are poorly suited for problems that require precise continuous outputs, such as localizing temporal boundaries of events or generating robotic control actions. To address this challenge, we propose DRIFT, a general framework for adapting pretrained VLMs to continuous decoding tasks. DRIFT combines a base predictor, which provides a coarse estimate of the target output, with a generative refinement module based on flow matching that iteratively improves the prediction. This residual formulation transforms the generative modeling problem from learning a global output distribution to modeling a localized residual distribution around a strong prior, substantially simplifying optimization. We evaluate DRIFT on both perception and planning tasks, including visual grounding and robotic control. Across multiple tasks and architectures spanning MLLMs, VLAs, and WAMs, DRIFT consistently outperforms a strong set of regression- and generative-based solutions.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.05758" target="_blank" rel="noopener">DRIFT: A Residual Flow Adapter for Decoding Continuous Outputs in Vision-Language Models</a> <span class="src-num">[6]</span></div>
+    
+    <div class="card-desc">Many modern vision-language models (VLMs) build on autoregressive decoding of discrete tokens. While text-based output interfaces enable scalable pretraining and strong zero-shot…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 1</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="As recommender systems transition toward agentic, multi-turn conversational interfaces, evaluation paradigms have struggled to keep pace. Current benchmarks often rely on &quot;LLM-as-a-judge&quot; evaluations, which introduce subjectivity, high costs and inconsistency. We present τ-Rec, a benchmark for agentic recommender systems that replaces subjective evaluation with verifiable rewards and a reveal-tagged elicitation (RTE) mechanism that controls how task constraints surface during dialogue. By testing agents against structured catalog predicates and employing a pass^k reliability metric, τ-Rec provides a systematic test for consistent reasoning. Our evaluation of nine configurations across five model families -- GPT-5.4, Claude Sonnet 4.6, Gemini 2.5 Flash, DeepSeek V4 Flash, Qwen3-32B and GPT-5 mini -- reveals a steep reliability cliff, where even the best model achieves only ~57% at pass^1 and ~38% at pass^4, highlighting a critical gap in current conversational agent deployment. All code and data are publicly available at https://github.com/nbharaths/tau-rec.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.10156" target="_blank" rel="noopener">τ-Rec: A Verifiable Benchmark for Agentic Recommender Systems</a> <span class="src-num">[9]</span></div>
+    
+    <div class="card-desc">As recommender systems transition toward agentic, multi-turn conversational interfaces, evaluation paradigms have struggled to keep pace. Current benchmarks often rely on…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Brain Magnetic Resonance Imaging (MRI) plays a central role in studying neurological development, aging, and diseases. One key application is Brain Age Prediction (BAP), which estimates an individual&#x27;s biological brain age from MRI data. Effective BAP models require large, diverse, and age-balanced datasets, whereas existing 3D MRI datasets are demographically skewed, limiting fairness and generalizability. Acquiring new data is costly and ethically constrained, motivating generative data augmentation. Current generative methods are often based on latent diffusion models, which operate in learned low dimensional latent spaces to address the memory demands of volumetric MRI data. However, these methods are typically slow at inference, may introduce artifacts due to latent compression, and are rarely conditioned on age, thereby affecting the BAP performance. In this work, we propose FlowLet, a conditional generative framework that synthesizes age-conditioned 3D MRIs by leveraging flow matching within an invertible 3D wavelet domain, helping to avoid reconstruction artifacts and reducing computational demands. Experiments show that FlowLet generates high-fidelity volumes with few sampling steps. Training BAP models with data generated by FlowLet improves performance for underrepresented age groups, and region-based analysis confirms preservation of anatomical structures.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2601.05212" target="_blank" rel="noopener">FlowLet: Conditional 3D Brain MRI Synthesis using Wavelet Flow Matching</a> <span class="src-num">[13]</span></div>
+    
+    <div class="card-desc">Brain Magnetic Resonance Imaging (MRI) plays a central role in studying neurological development, aging, and diseases. One key application is Brain Age Prediction (BAP), which…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧪 Semantic Scholar <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="zkGPT: An Efficient Non-interactive Zero-knowledge Proof Framework for LLM Inference">
+    <div class="card-title"><a href="https://www.semanticscholar.org/paper/d64d9593f14f4e7f0b52d5d83f5a0877aa3cf7e8" target="_blank" rel="noopener">zkGPT: An Efficient Non-interactive Zero-knowledge Proof Framework for LLM Inference</a> <span class="src-num">[48]</span></div>
+    
+    <div class="card-desc">Finding from 🧪 Semantic Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">📊 26 cites</span><span class="tag web-tag">Semantic Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="The application of Internet of Vehicles (IoV) technology has greatly improved users’ driving experience, but it also faces some challenges: 1) the central server is not powerful enough to support the rapid growth of IoV identity authentication requests and 2) there is a privacy leakage issue during vehicle authentication. To address these issues, we propose an anonymous authentication scheme based on trustworthy roadside unit group (TRUG)-PBFT main secondary chains and zero-knowledge proof (ZKP). First, to enhance authentication efficiency, we propose the TRUG-PBFT consensus algorithm. It impr">
+    <div class="card-title"><a href="https://www.semanticscholar.org/paper/10f0e2b74d5cf5d9e8637f79fb561c43287e9174" target="_blank" rel="noopener">An Anonymous Authentication Scheme for Internet of Vehicles Based on TRUG-PBFT Main–Secondary Chains and Zero-Knowledge Proof</a> <span class="src-num">[49]</span></div>
+    
+    <div class="card-desc">The application of Internet of Vehicles (IoV) technology has greatly improved users’ driving experience, but it also faces some challenges: 1) the central server is not powerful…</div>
+    <div class="card-tags"><span class="tag web-tag">📊 13 cites</span><span class="tag web-tag">Semantic Scholar</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📝 OpenReview <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="The advancements in Large Language Models (LLMs) have been hindered by their substantial sizes, which necessitate LLM compression methods for practical deployment. Singular Value Decomposition (SVD) offers a promising solution for LLM compression. However, state-of-the-art SVD-based LLM compression methods have two key limitations: truncating smaller singular values may lead to higher compression loss, and the lack of update on the compressed weight after SVD truncation. In this work, we propose SVD-LLM, a new SVD-based LLM compression method that addresses the limitations of existing methods.">
+    <div class="card-title"><a href="https://openreview.net/forum?id=aYbE1z7MIt" target="_blank" rel="noopener">SVD-LLM: Truncation-aware Singular Value Decomposition for Large Language Model Compression</a> <span class="src-num">[50]</span></div>
+    
+    <div class="card-desc">The advancements in Large Language Models (LLMs) have been hindered by their substantial sizes, which necessitate LLM compression methods for practical deployment. Singular Value…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div><div class="card web-card" data-full-desc="Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and fine-tuned on massive 3D data, offering the capability of producing highly consistent multi-view images. However, due to the scarcity of synchronized multi-view video data, it remains challenging to adapt this paradigm to 4D generation directly. Despite that, the available video and 3D data are adequate for training video and multi-view diffusion models separately that can provide satisfactory dynamic and geometric pri">
+    <div class="card-title"><a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and Multi-view Diffusion Models</a> <span class="src-num">[51]</span></div>
+    
+    <div class="card-desc">Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>💻 GitHub Trending <span class="group-count">10</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Mattermost is an open source platform for secure collaboration across the entire software development lifecycle..">
+    <div class="card-title"><a href="https://github.com/mattermost/mattermost" target="_blank" rel="noopener">mattermost/mattermost</a> <span class="src-num">[32]</span></div>
+    
+    <div class="card-desc">Mattermost is an open source platform for secure collaboration across the entire software development lifecycle..</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 37.2k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with personality, processes, and proven deliverables.">
+    <div class="card-title"><a href="https://github.com/msitarzewski/agency-agents" target="_blank" rel="noopener">msitarzewski/agency-agents</a> <span class="src-num">[26]</span></div>
+    
+    <div class="card-desc">A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with…</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 111.2k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="Fast, secure, efficient backup program">
+    <div class="card-title"><a href="https://github.com/restic/restic" target="_blank" rel="noopener">restic/restic</a> <span class="src-num">[25]</span></div>
+    
+    <div class="card-desc">Fast, secure, efficient backup program</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 34.1k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks.">
+    <div class="card-title"><a href="https://github.com/NVIDIA/SkillSpector" target="_blank" rel="noopener">NVIDIA/SkillSpector</a> <span class="src-num">[24]</span></div>
+    
+    <div class="card-desc">Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks.</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 2.4k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="翻墙-科学上网">
+    <div class="card-title"><a href="https://github.com/bannedbook/fanqiang" target="_blank" rel="noopener">bannedbook/fanqiang</a> <span class="src-num">[33]</span></div>
+    
+    <div class="card-desc">翻墙-科学上网</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 46.7k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="Open-source live-chat, email support, omni-channel desk. An alternative to Intercom, Zendesk, Salesforce Service Cloud etc. 🔥💬">
+    <div class="card-title"><a href="https://github.com/chatwoot/chatwoot" target="_blank" rel="noopener">chatwoot/chatwoot</a> <span class="src-num">[27]</span></div>
+    
+    <div class="card-desc">Open-source live-chat, email support, omni-channel desk. An alternative to Intercom, Zendesk, Salesforce Service Cloud etc. 🔥💬</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 30.2k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="SIA is a Self Improving AI framework to autonomously improve the performance of any AI system (Model / Agent) on a benchmark task.">
+    <div class="card-title"><a href="https://github.com/hexo-ai/sia" target="_blank" rel="noopener">hexo-ai/sia</a> <span class="src-num">[31]</span></div>
+    
+    <div class="card-desc">SIA is a Self Improving AI framework to autonomously improve the performance of any AI system (Model / Agent) on a benchmark task.</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 1.1k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="所有小初高、大学PDF教材。">
+    <div class="card-title"><a href="https://github.com/TapXWorld/ChinaTextbook" target="_blank" rel="noopener">TapXWorld/ChinaTextbook</a> <span class="src-num">[30]</span></div>
+    
+    <div class="card-desc">所有小初高、大学PDF教材。</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 73.9k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="Local-first session intelligence and analytics for coding agents, supporting Claude Code, Codex, and more than 20 other agents. Also: 100x faster replacement for ccusage!">
+    <div class="card-title"><a href="https://github.com/kenn-io/agentsview" target="_blank" rel="noopener">kenn-io/agentsview</a> <span class="src-num">[28]</span></div>
+    
+    <div class="card-desc">Local-first session intelligence and analytics for coding agents, supporting Claude Code, Codex, and more than 20 other agents. Also: 100x faster replacement for ccusage!</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 1.5k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="张雪峰.skill — 张雪峰的认知操作系统。高考志愿/考研/职业规划的实战思维框架。由女娲.skill生成。">
+    <div class="card-title"><a href="https://github.com/alchaincyf/zhangxuefeng-skill" target="_blank" rel="noopener">alchaincyf/zhangxuefeng-skill</a> <span class="src-num">[29]</span></div>
+    
+    <div class="card-desc">张雪峰.skill — 张雪峰的认知操作系统。高考志愿/考研/职业规划的实战思维框架。由女娲.skill生成。</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 7.9k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🦞 Lobste.rs <span class="group-count">5</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Splitting the “separation kernel” off from the rest of the Nitro security system and using only a subset of the Rust programming language to code it enabled its formal verification.">
+    <div class="card-title"><a href="https://www.amazon.science/blog/ec2s-formally-verified-isolation-engine-provides-mathematical-assurance-of-virtual-machine-isolation" target="_blank" rel="noopener">EC2’s formally verified “isolation engine” provides mathematical assurance of virtual-machine isolation</a> <span class="src-num">[2]</span></div>
+    
+    <div class="card-desc">Splitting the “separation kernel” off from the rest of the Nitro security system and using only a subset of the Rust programming language to code it enabled its formal…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Hacking Google with A.I. for $500,000">
+    <div class="card-title"><a href="https://brutecat.com/articles/hacking-google-with-ai/" target="_blank" rel="noopener">Hacking Google with A.I. for $500,000</a> <span class="src-num">[1]</span></div>
+    
+    <div class="card-desc">Finding from 🦞 Lobste.rs.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="A commit enabling the TZASC on NXP i.MX 8M sent us down a rabbit hole: how a DDR memory alias bypasses Arm TrustZone and exposes OP-TEE">
+    <div class="card-title"><a href="https://sigma-star.at/blog/2026/06/trustzone-intermezzo/" target="_blank" rel="noopener">TrustZone Intermezzo: Broken OP-TEE Memory Isolation on i.MX 8M</a> <span class="src-num">[4]</span></div>
+    
+    <div class="card-desc">A commit enabling the TZASC on NXP i.MX 8M sent us down a rabbit hole: how a DDR memory alias bypasses Arm TrustZone and exposes OP-TEE</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="BUMSRAKETE is a HUGE, TREMENDOUS, MANY-PEOPLE-ARE-SAYING FreeBSD kTLS-RX page-cache write primitive. The BEST primitive. Some say the best ever.">
+    <div class="card-title"><a href="https://bumsrake.de" target="_blank" rel="noopener">CVE-2026-45257: LPE in FreeBSD via kTLS-RX</a> <span class="src-num">[3]</span></div>
+    
+    <div class="card-desc">BUMSRAKETE is a HUGE, TREMENDOUS, MANY-PEOPLE-ARE-SAYING FreeBSD kTLS-RX page-cache write primitive. The BEST primitive. Some say the best ever.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live mobile telemetry continuously collected from real devices in the wild, directly from Claude. To access it reach out at">
+    <div class="card-title"><a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the Program That Does It</a> <span class="src-num">[5]</span></div>
+    
+    <div class="card-desc">Edit April 2, 2026: I&#x27;ve been getting inbound interest from researchers wanting to run their own queries. The MCP integration I use for my own research lets you analyze live…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🎓 Google Scholar <span class="group-count">6</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Large language models (LLM) in computational social science: prospects, current state, and challenges">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[20]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[22]</span></div>
+    
+    <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[23]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[21]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Early identification of breakthrough technologies: Insights from science-driven innovations">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[18]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[19]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>👽 Reddit <span class="group-count">14</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="From Wired: “We’re changing Fable 5’s safeguards for frontier LLM development to make them visible.” Anthropic said in a statement to WIRED. “We made the wrong tradeoff and we apologize for not getting the balance right.” Anthropic now says it’s changing course, and that Claude Fable 5’s safeguards for AI development will be visible to users. If the company suspects a user is trying to use Claude to build a highly capable AI it will alert them that it’s either refusing the request, or rerouting the user to a less capable model. Full article: https://www.wired.com/story/anthropic-responds-to-ba">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1u2tk0i/anthropic_walks_back_policy_on_silent_nerfing_for/" target="_blank" rel="noopener">Anthropic walks back policy on silent nerfing for AI/ML, will notify users [N]</a> <span class="src-num">[34]</span></div>
+    
+    <div class="card-desc">From Wired: “We’re changing Fable 5’s safeguards for frontier LLM development to make them visible.” Anthropic said in a statement to WIRED. “We made the wrong tradeoff and we…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="as in the title, my goal is to predicting failure and RUL of machine, dataset is timestamp and when machine is failure it will labeled with 1 that only have 56 https://preview.redd.it/plbydmenmm6h1.png?width=1205&amp;format=png&amp;auto=webp&amp;s=2fefe3cc2e3fe554b81c9e0b4012c5345e73ec3f From this data im ditching operating hours and humidity because it didnt show correlation for machine failure, what algorithm or deeplearning suit for it? submitted by /u/False-Seesaw-1899 [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1u2ut7s/p_extreme_imbalance_data_from_100k_dataset_only/" target="_blank" rel="noopener">[P] Extreme Imbalance Data from 100K dataset only have 56 failure [P]</a> <span class="src-num">[37]</span></div>
+    
+    <div class="card-desc">as in the title, my goal is to predicting failure and RUL of machine, dataset is timestamp and when machine is failure it will labeled with 1 that only have 56…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="link - https://arxiv.org/abs/2606.06158 Abstract : Adaptive video tokenisation seeks to dynamically allocate token budgets based on the underlying visual complexity of a sequence. Current continuous-regime approaches achieve this via iterative binarised searches or trained neural regressors, while discrete methods often require a full-rate decoder pass to estimate information content. We demonstrate that such computational overheads are not strictly necessary. We show that the latent space of a frozen continuous video tokeniser inherently encodes temporal redundancy that can be exploited direc">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1u2u9bb/adaptive_tokenisation_via_temporal_redundancy/" target="_blank" rel="noopener">Adaptive Tokenisation Via Temporal Redundancy Masking And Latent Inpainting [R]</a> <span class="src-num">[36]</span></div>
+    
+    <div class="card-desc">link - https://arxiv.org/abs/2606.06158 Abstract : Adaptive video tokenisation seeks to dynamically allocate token budgets based on the underlying visual complexity of a sequence.…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I&#x27;ve been experimenting a bit today with letting models reason for creative tasks, rationale being that it might help with keeping track of details and prompt adherence. And predictably, the wall I&#x27;m running into is that they all want to draft, check, refine, revise, &quot;um actually...&quot;, and draft again before actually giving the output. This is hugely wasteful no matter the reply length, but it&#x27;s especially bad if you want more than a paragraph or two. Obviously I&#x27;m not the first person to realize this, I&#x27;m guessing it&#x27;s the reason nobody uses reasoning for creative in the first place. I tried w">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2xnl8/reasoning_but_without_actually_drafting_replies/" target="_blank" rel="noopener">Reasoning, but without actually *drafting* replies?</a> <span class="src-num">[46]</span></div>
+    
+    <div class="card-desc">I&#x27;ve been experimenting a bit today with letting models reason for creative tasks, rationale being that it might help with keeping track of details and prompt adherence. And…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I&#x27;ve been teaching myself about Symbolic Regression (SR), which looks like a super exciting field. (A great intro resource below [1]). But then I was wondering: given LLMs&#x27; increasingly-growing power in generating code, which is in a way very similar to Symbolic Regression (or of course, even directly tackling symbolic regression tasks), are existing SR techniques dead? Happy to hear your thoughts. [1] ETH Zürich AISE: Symbolic Regression and Model Discovery - YouTube submitted by /u/omomom42 [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1u2yqnu/is_symbolic_regression_still_a_thing_given_llms/" target="_blank" rel="noopener">Is Symbolic Regression still a thing, given LLMs&#x27; performance? [D]</a> <span class="src-num">[35]</span></div>
+    
+    <div class="card-desc">I&#x27;ve been teaching myself about Symbolic Regression (SR), which looks like a super exciting field. (A great intro resource below [1]). But then I was wondering: given LLMs&#x27;…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="submitted by /u/rmhubbert [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2uje1/minimax_m3_open_weights_release_planned_for_friday/" target="_blank" rel="noopener">Minimax M3 open weights release planned for Friday</a> <span class="src-num">[39]</span></div>
+    
+    <div class="card-desc">submitted by /u/rmhubbert [link] [comments]</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I have a budget of 5K, and want to buy some gpus my requirement is 48gb+ vram, because I finetune small language model, perform DPO, in general tinkering/ development is my usecase. if you where in my shoe which among these would you get, on one hand amd is better bang for buck, faster but has low vram. Nvidia has cuda, but is slow af, and the memory although large, it’s speed is trash, making large model training/inference useless. is there any other machine which i can consider, due to travelling constraints, I cannot Another constraint only buy at max 2 gpus and that too not large in size p">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2r6g6/amd_r9700_vs_gb10/" target="_blank" rel="noopener">AMD R9700 vs GB10</a> <span class="src-num">[44]</span></div>
+    
+    <div class="card-desc">I have a budget of 5K, and want to buy some gpus my requirement is 48gb+ vram, because I finetune small language model, perform DPO, in general tinkering/ development is my…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Has anyone personally compared the Minimax M3 model against other proprietary models to determine its relative performance tier? I am trying to understand where it currently ranks in the broader Al landscape. Can we say Minimax M3 is better than GPT 5.2 in coding and agentic task? submitted by /u/9r4n4y [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2zfqs/as_we_know_minimax_m3_is_just_going_to_be_open/" target="_blank" rel="noopener">As we know Minimax M3 is just going to be open sourced in few days and because of that I was surfing on internet searching for its scores and I found out pretty interesting results. Is Minimax M3 really that good in agentic stuff and in coding? Is it better than older gpt models?</a> <span class="src-num">[40]</span></div>
+    
+    <div class="card-desc">Has anyone personally compared the Minimax M3 model against other proprietary models to determine its relative performance tier? I am trying to understand where it currently ranks…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="First Doom, now DiffusionGwmma 4. We are truly living in the future. Who even needs a new Qwen release anymore? /s (Satire - Shaq doesn’t actually make a digital pregnancy test capable of running diffusion-based LLMs) Credit to Obvious Plant for the original Shaq pregnancy test box (that I doctored slightly). submitted by /u/Porespellar [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2wks2/qwen_who_diffusiongemma_running_at_1500_tks_on_a/" target="_blank" rel="noopener">Qwen Who? DiffusionGemma running at 1,500 tk/s on a Digital Pregnancy Test.</a> <span class="src-num">[38]</span></div>
+    
+    <div class="card-desc">First Doom, now DiffusionGwmma 4. We are truly living in the future. Who even needs a new Qwen release anymore? /s (Satire - Shaq doesn’t actually make a digital pregnancy test…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I&#x27;ve been spending the last couple of weeks building a Wispr Flow clone as an open source project. For context, it is a voice dictation app that lets you type faster, by speaking instead of actually typing. I spent the first week building the basic STT capabilities. One of the coolest features that Wispr Flow has is ASR biasing. Wispr Flow calls it its dictionary. I was able to figure out how to implement that for my project and wanted to share how it was done. What is ASR biasing? ASR biasing is a transcription technique that guides the model with hints on how words are spelled, or what phras">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2vr8g/how_i_implemented_asr_bias_for_voice/" target="_blank" rel="noopener">How I implemented ASR bias for voice transcription models [Open Source]</a> <span class="src-num">[42]</span></div>
+    
+    <div class="card-desc">I&#x27;ve been spending the last couple of weeks building a Wispr Flow clone as an open source project. For context, it is a voice dictation app that lets you type faster, by speaking…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="okay after testing DiffusionGemma a bit more internally we genuinely can’t tell if this is the start of something big or if everyone’s just getting distracted by crazy TPS numbers again lol but one thing that stood out REALLY fast for us was how different the H100 vs A100 behavior felt compared to normal transformer inference on some runs the H100s scaled almost exactly how you’d want them to the A100s were still good, but once concurrency started increasing the gap widened way more than we expected. not the usual “yeah H100 is faster” difference - this felt more dramatic another thing we noti">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u30dhr/diffusiongemma_under_real_workloads_feels_very/" target="_blank" rel="noopener">DiffusionGemma under real workloads feels very different from benchmark demos</a> <span class="src-num">[41]</span></div>
+    
+    <div class="card-desc">okay after testing DiffusionGemma a bit more internally we genuinely can’t tell if this is the start of something big or if everyone’s just getting distracted by crazy TPS numbers…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Just got 100 tps on generation, but in total time it around 45-60 t/s in case of prompt processing waiting. Available memory show: GPU KV cache size: 152,671 tokens Maximum concurrency for 131,072 tokens per request: 1.16x amd-smi monitor for this gpu: GPU XCP POWER GPU_T MEM_T GFX_CLK GFX% MEM% ENC% DEC% VRAM_USAGE 3 0 183 W 82 °C 84 °C 3036 MHz 100 % 5 % N/A 0 % 23.6/ 24.0 GB 5 0 161 W 81 °C 88 °C 3101 MHz 100 % 0 % N/A 0 % 23.7/ 24.0 GB 7 0 165 W 78 °C 86 °C 3095 MHz 100 % 1 % N/A 0 % 23.7/ 24.0 GB 8 0 154 W 80 °C 88 °C 3090 MHz 100 % 0 % N/A 0 % 23.6/ 24.0 GB # DiffusionGemma 26B on vllm d">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u31zmk/difussiongemma_4_on_4x7900xtx/" target="_blank" rel="noopener">DifussionGemma 4 on 4x7900xtx</a> <span class="src-num">[45]</span></div>
+    
+    <div class="card-desc">Just got 100 tps on generation, but in total time it around 45-60 t/s in case of prompt processing waiting. Available memory show: GPU KV cache size: 152,671 tokens Maximum…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Posting for a friend who keeps on asking me... &quot;So for LLMs, VRAM speed is king. But what if you bought a used server which had, for example, 80 lanes of pcie 5 available, and you bifurcated that to hold 40 SSDs @ 2x lanes, with each NVMe doing 15Gbps, that means a mirror of 40 2TB drives could potentially do 600Gbps for a 2TB model. Or if you did 80 nvme @ 1x pcie lane each, you&#x27;d get 1.2TB/sec. That seems pretty good, right? You could get pretty good speeds across any model size. So why don&#x27;t people do that and self host the giant 1-2TB models?&quot; submitted by /u/StartupTim [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2ihwl/dumb_question_how_would_performance_be_if_you/" target="_blank" rel="noopener">Dumb question: How would performance be if you took a used server with like 80 lanes pcie 5 and stuck NVMe on them for model run?</a> <span class="src-num">[47]</span></div>
+    
+    <div class="card-desc">Posting for a friend who keeps on asking me... &quot;So for LLMs, VRAM speed is king. But what if you bought a used server which had, for example, 80 lanes of pcie 5 available, and you…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I built a local voice AI realtime music setup where my ESP32 microcontroller talks to my MacBook over WebSockets. The microcontroller is just a tiny Arduino-based device with a mic and speaker, and the MacBook M4 Pro runs Magenta Realtime 2 locally and streams the audio back to the device. The fun part is that it’s agentic and conversational. So I can tap the ESP32, speak into it, and it uses MLX Whisper to transcribe what I said. Then after detecting VAD, it sends that to a Qwen model, which decides what tool call to make, like adding drums, making the music Lo-fi, adding Jazz bebop, removing">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2uglr/infinite_music_glitch_on_my_arduino_with_magenta/" target="_blank" rel="noopener">Infinite Music Glitch on my Arduino with Magenta Realtime 2</a> <span class="src-num">[43]</span></div>
+    
+    <div class="card-desc">I built a local voice AI realtime music setup where my ESP32 microcontroller talks to my MacBook over WebSockets. The microcontroller is just a tiny Arduino-based device with a…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://brutecat.com/articles/hacking-google-with-ai/" target="_blank" rel="noopener">Hacking Google with A.I. for $500,000</a></li><li>[2] <a href="https://www.amazon.science/blog/ec2s-formally-verified-isolation-engine-provides-mathematical-assurance-of-virtual-machine-isolation" target="_blank" rel="noopener">EC2’s formally verified “isolation engine” provides mathematical assurance of…</a></li><li>[3] <a href="https://bumsrake.de" target="_blank" rel="noopener">CVE-2026-45257: LPE in FreeBSD via kTLS-RX</a></li><li>[4] <a href="https://sigma-star.at/blog/2026/06/trustzone-intermezzo/" target="_blank" rel="noopener">TrustZone Intermezzo: Broken OP-TEE Memory Isolation on i.MX 8M</a></li><li>[5] <a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" target="_blank" rel="noopener">ChatGPT Won&#x27;t Let You Type Until Cloudflare Reads Your React State. I Decrypted the…</a></li><li>[6] <a href="https://huggingface.co/papers/2606.05758" target="_blank" rel="noopener">DRIFT: A Residual Flow Adapter for Decoding Continuous Outputs in Vision-Language Models</a></li><li>[7] <a href="https://huggingface.co/papers/2606.12412" target="_blank" rel="noopener">Reroute, Don&#x27;t Remove: Recoverable Visual Token Routing for Vision-Language Models</a></li><li>[8] <a href="https://huggingface.co/papers/2606.12203" target="_blank" rel="noopener">Adaptive Multi-Resolution Procedural Knowledge Compression for Large Language Models</a></li><li>[9] <a href="https://huggingface.co/papers/2606.10156" target="_blank" rel="noopener">τ-Rec: A Verifiable Benchmark for Agentic Recommender Systems</a></li><li>[10] <a href="https://huggingface.co/papers/2606.12364" target="_blank" rel="noopener">On Subquadratic Architectures: From Applications to Principles</a></li><li>[11] <a href="https://huggingface.co/papers/2606.11854" target="_blank" rel="noopener">Fine-tuning Multi-modal LLMs with ART: Art-based Reinforcement Training</a></li><li>[12] <a href="https://huggingface.co/papers/2606.11119" target="_blank" rel="noopener">TRACE: A Unified Rollout Budget Allocation Framework for Efficient Agentic Reinforcement…</a></li><li>[13] <a href="https://huggingface.co/papers/2601.05212" target="_blank" rel="noopener">FlowLet: Conditional 3D Brain MRI Synthesis using Wavelet Flow Matching</a></li><li>[14] <a href="https://huggingface.co/papers/2606.07943" target="_blank" rel="noopener">POISE: Position-Aware Undetectable Skill Injection on LLM Agents</a></li><li>[15] <a href="https://huggingface.co/papers/2606.11817" target="_blank" rel="noopener">Grammar-Constrained Decoding Can Jailbreak LLMs into Generating Malicious Code</a></li><li>[16] <a href="https://huggingface.co/papers/2606.10479" target="_blank" rel="noopener">ComBench: A Benchmark for Rigorous Proof Reasoning and Constructive Realization in…</a></li><li>[17] <a href="https://huggingface.co/papers/2606.10728" target="_blank" rel="noopener">DeNovoSWE: Scaling Long-Horizon Environments for Generating Entire Repositories from…</a></li><li>[18] <a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven…</a></li><li>[19] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future…</a></li><li>[20] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state,…</a></li><li>[21] <a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into…</a></li><li>[22] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user…</a></li><li>[23] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing…</a></li><li>[24] <a href="https://github.com/NVIDIA/SkillSpector" target="_blank" rel="noopener">NVIDIA/SkillSpector</a></li><li>[25] <a href="https://github.com/restic/restic" target="_blank" rel="noopener">restic/restic</a></li><li>[26] <a href="https://github.com/msitarzewski/agency-agents" target="_blank" rel="noopener">msitarzewski/agency-agents</a></li></ol>
+      <ol><li>[27] <a href="https://github.com/chatwoot/chatwoot" target="_blank" rel="noopener">chatwoot/chatwoot</a></li><li>[28] <a href="https://github.com/kenn-io/agentsview" target="_blank" rel="noopener">kenn-io/agentsview</a></li><li>[29] <a href="https://github.com/alchaincyf/zhangxuefeng-skill" target="_blank" rel="noopener">alchaincyf/zhangxuefeng-skill</a></li><li>[30] <a href="https://github.com/TapXWorld/ChinaTextbook" target="_blank" rel="noopener">TapXWorld/ChinaTextbook</a></li><li>[31] <a href="https://github.com/hexo-ai/sia" target="_blank" rel="noopener">hexo-ai/sia</a></li><li>[32] <a href="https://github.com/mattermost/mattermost" target="_blank" rel="noopener">mattermost/mattermost</a></li><li>[33] <a href="https://github.com/bannedbook/fanqiang" target="_blank" rel="noopener">bannedbook/fanqiang</a></li><li>[34] <a href="https://www.reddit.com/r/MachineLearning/comments/1u2tk0i/anthropic_walks_back_policy_on_silent_nerfing_for/" target="_blank" rel="noopener">Anthropic walks back policy on silent nerfing for AI/ML, will notify users [N]</a></li><li>[35] <a href="https://www.reddit.com/r/MachineLearning/comments/1u2yqnu/is_symbolic_regression_still_a_thing_given_llms/" target="_blank" rel="noopener">Is Symbolic Regression still a thing, given LLMs&#x27; performance? [D]</a></li><li>[36] <a href="https://www.reddit.com/r/MachineLearning/comments/1u2u9bb/adaptive_tokenisation_via_temporal_redundancy/" target="_blank" rel="noopener">Adaptive Tokenisation Via Temporal Redundancy Masking And Latent Inpainting [R]</a></li><li>[37] <a href="https://www.reddit.com/r/MachineLearning/comments/1u2ut7s/p_extreme_imbalance_data_from_100k_dataset_only/" target="_blank" rel="noopener">[P] Extreme Imbalance Data from 100K dataset only have 56 failure [P]</a></li><li>[38] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2wks2/qwen_who_diffusiongemma_running_at_1500_tks_on_a/" target="_blank" rel="noopener">Qwen Who? DiffusionGemma running at 1,500 tk/s on a Digital Pregnancy Test.</a></li><li>[39] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2uje1/minimax_m3_open_weights_release_planned_for_friday/" target="_blank" rel="noopener">Minimax M3 open weights release planned for Friday</a></li><li>[40] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2zfqs/as_we_know_minimax_m3_is_just_going_to_be_open/" target="_blank" rel="noopener">As we know Minimax M3 is just going to be open sourced in few days and because of that I…</a></li><li>[41] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u30dhr/diffusiongemma_under_real_workloads_feels_very/" target="_blank" rel="noopener">DiffusionGemma under real workloads feels very different from benchmark demos</a></li><li>[42] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2vr8g/how_i_implemented_asr_bias_for_voice/" target="_blank" rel="noopener">How I implemented ASR bias for voice transcription models [Open Source]</a></li><li>[43] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2uglr/infinite_music_glitch_on_my_arduino_with_magenta/" target="_blank" rel="noopener">Infinite Music Glitch on my Arduino with Magenta Realtime 2</a></li><li>[44] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2r6g6/amd_r9700_vs_gb10/" target="_blank" rel="noopener">AMD R9700 vs GB10</a></li><li>[45] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u31zmk/difussiongemma_4_on_4x7900xtx/" target="_blank" rel="noopener">DifussionGemma 4 on 4x7900xtx</a></li><li>[46] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2xnl8/reasoning_but_without_actually_drafting_replies/" target="_blank" rel="noopener">Reasoning, but without actually *drafting* replies?</a></li><li>[47] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u2ihwl/dumb_question_how_would_performance_be_if_you/" target="_blank" rel="noopener">Dumb question: How would performance be if you took a used server with like 80 lanes pcie…</a></li><li>[48] <a href="https://www.semanticscholar.org/paper/d64d9593f14f4e7f0b52d5d83f5a0877aa3cf7e8" target="_blank" rel="noopener">zkGPT: An Efficient Non-interactive Zero-knowledge Proof Framework for LLM Inference</a></li><li>[49] <a href="https://www.semanticscholar.org/paper/10f0e2b74d5cf5d9e8637f79fb561c43287e9174" target="_blank" rel="noopener">An Anonymous Authentication Scheme for Internet of Vehicles Based on TRUG-PBFT…</a></li><li>[50] <a href="https://openreview.net/forum?id=aYbE1z7MIt" target="_blank" rel="noopener">SVD-LLM: Truncation-aware Singular Value Decomposition for Large Language Model…</a></li><li>[51] <a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and…</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
