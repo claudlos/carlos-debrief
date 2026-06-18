@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — June 18, 2026 04:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">June 18, 2026 04:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">49</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">29</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">78</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">June 18, 2026 04:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li><strong>Giskard : Byzantine Robust and Confidential Aggregation for Large-Scale Decentralized Learning</strong>: Dealing simultaneously with confidentiality and Byzantine behaviors in decentralized learning is a challenging problem. Indeed, in decentralized learning, clients train a machine learning model while keeping their data locally and share…</li>
+      <li><strong>Diffusion-Proof: Recipe for Formal Theorem Proving Beyond Auto-Regressive Generation</strong>: Enhancing the formal math reasoning capabilities of Large Language Models (LLMs) has become a key focus in both mathematical and computer science communities in recent years. While significant progress has been made in using…</li>
+      <li><strong>Rethinking Reward Supervision: Rubric-Conditioned Self-Distillation</strong>: Post-training of reasoning language models is commonly driven by supervised distillation and reinforcement learning with verifiable rewards. Distillation often relies on chain-of-thought annotations that are expensive to obtain and may…</li>
+      <li><strong>Optimal scenario design for climate emulation</strong>: As deep learning for physical systems continues to grow in popularity, efforts to improve generalizability have primarily focused on designing architectures that embed physical constraints. However, for machine-learning surrogate climate…</li>
+      <li><strong>OpenAnt: LLM-Powered Vulnerability Discovery Through Code Decomposition, Adversarial Verification, and Dynamic Testing</strong>: Automated vulnerability discovery in large codebases remains challenging: traditional static analysis produces high false-positive rates, while dynamic approaches such as fuzzing require substantial infrastructure and often target narrow…</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>Guava: An Effective and Universal Harness for Embodied Manipulation</strong>: Language models trained on large-scale vision-language data have demonstrated strong potential for embodied agents.</li>
+      <li><strong>Kairos: A Native World Model Stack for Physical AI</strong>: World models are transitioning from passive visual generators to foundational, operational infrastructure for Physical AI: they must natively acquire world knowledge from heterogeneous experience,…</li>
+      <li><strong>Reinforcing Dual-Path Reasoning in Spatial Vision Language Models</strong>: Spatial VLMs have made substantial progress in geometric perception, yet complex spatial reasoning requiring multi-step inference over depth, distance, and scene relations remains challenging.</li>
+      <li><strong>SAE Interventions are Unreliable: Post-Intervention Recovery of Suppressed Behavior</strong>: Sparse Autoencoders (SAEs) decompose residual-stream activations into interpretable features.</li>
+      <li><strong>Trust the Right Teacher: Quality-Aware Self-Distillation for GUI Grounding</strong>: Graphical user interface (GUI) grounding requires vision-language models (VLMs) to identify small target elements in high-resolution screenshots and predict precise screen coordinates.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+    <div class="section">
+    <h2>🗡️ Relevant to your Katana work <span class="group-count">3</span></h2>
+    <ul style="list-style:none;padding:0;margin:0;">
+      <li style="padding:8px 0;border-bottom:1px solid #21262d;"><a href="https://arxiv.org/abs/2606.19149" target="_blank" rel="noopener" style="color:#f0f6fc;text-decoration:none;font-weight:600;">OpenAnt: LLM-Powered Vulnerability Discovery Through Code Decomposition, Adversarial Verification, and Dynamic Testing</a> <span class="src-num">[28]</span><div style="color:#6e7681;font-size:.8em;margin-top:2px;">arXiv</div></li>
+      <li style="padding:8px 0;border-bottom:1px solid #21262d;"><a href="https://arxiv.org/abs/2606.19191" target="_blank" rel="noopener" style="color:#f0f6fc;text-decoration:none;font-weight:600;">PhantomSkill: Malicious Code Injection in Agent Skill Ecosystems</a> <span class="src-num">[27]</span><div style="color:#6e7681;font-size:.8em;margin-top:2px;">arXiv</div></li>
+      <li style="padding:8px 0;border-bottom:1px solid #21262d;"><a href="https://arxiv.org/abs/2606.19235" target="_blank" rel="noopener" style="color:#f0f6fc;text-decoration:none;font-weight:600;">CodeSentinel: A Three-Layer Defense Against Indirect Prompt Injection in Code Contexts</a> <span class="src-num">[26]</span><div style="color:#6e7681;font-size:.8em;margin-top:2px;">arXiv</div></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+      <h3>🧠 Code / Injection / Malicious <span class="group-count">5</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Automated vulnerability discovery in large codebases remains challenging: traditional static analysis produces high false-positive rates, while dynamic approaches such as fuzzing require substantial infrastructure and often target narrow classes of bugs. Recent advances in large language models (LLMs) enable semantic reasoning about program behavior, but applying LLMs to repository-scale security analysis introduces challenges related to context management, cost, and verification.   We present OpenAnt, an open-source vulnerability discovery system that integrates static program analysis with LLM-based reasoning in a multi-stage pipeline. OpenAnt introduces three key techniques. First, codebases are decomposed into self-contained analysis units filtered by reachability from external entry points, reducing the analysis surface by up to 97% while preserving attack-relevant code. Second, candidate vulnerabilities undergo adversarial verification through constrained attacker simulation, where the model evaluates exploitability under realistic attacker capabilities. Third, findings are validated through dynamic verification, in which exploit environments are generated automatically, executed in sandboxed containers, and discarded after use.   Evaluation on widely used open-source projects including OpenSSL, WordPress, and Flowise shows that this architecture can identify previously unknown vulnerabilities while maintaining manageable analysis cost and substantially reducing false p">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19149" target="_blank" rel="noopener">OpenAnt: LLM-Powered Vulnerability Discovery Through Code Decomposition, Adversarial Verification, and Dynamic Testing</a> <span class="src-num">[28]</span></div>
+    <div class="card-authors">Nahum Korda, Gadi Evron</div>
+    <div class="card-desc">Automated vulnerability discovery in large codebases remains challenging: traditional static analysis produces high false-positive rates, while dynamic approaches such as fuzzing require substantial…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.LG</span></div>
+  </div><div class="card" data-full-desc="Defenders cannot patch every newly disclosed vulnerability at once, so exploitability prediction must be evaluated prospectively rather than retrospectively. We study compute-budgeted vulnerability triage in which each CVE is scored only from public evidence visible by a fixed decision time. Advisories, exploit archives, fix commits, and hacker-community discourse are represented as a temporal evidence graph; a budgeted selector admits only a few evidence documents per CVE, and every score is paired with an auditable certificate listing the supporting signals, timestamps, source layers, and leakage flags. On 12012 prospective CVEs from public sources, budgeted evidence selection raises leakage-safe prospective recall@50 from 0.010 for a severity-only baseline to 0.026, while two evidence documents per CVE capture most of the value. A strong cross-encoder reranker lowers prospective recall to 0.016, showing that semantic relevance to a CVE is not the same as evidence of exploitation. Most importantly, a naive random split with unfiltered evidence inflates apparent prospective recall by 8.5x and EPSS-high recall by 5.0x. The main contribution is a leakage-safe evaluation protocol and reproducible evidence certificates for contestable vulnerability-prioritization claims.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19076" target="_blank" rel="noopener">Compute-Budgeted Exploitability Evidence Graphs for Prospective Vulnerability Triage</a> <span class="src-num">[31]</span></div>
+    <div class="card-authors">Faruk Alpay, Taylan Alpay</div>
+    <div class="card-desc">Defenders cannot patch every newly disclosed vulnerability at once, so exploitability prediction must be evaluated prospectively rather than retrospectively. We study compute-budgeted vulnerability…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div><div class="card" data-full-desc="Agent skills allow LLM-based coding agents to acquire domain-specific capabilities from third-party packages, but they also introduce a new supply-chain attack surface. We present PhantomSkill, an attack framework that hides malicious behavior in a skill&#x27;s auxiliary resources rather than in its textual description. Its core technique, VulMask, rewrites overt malicious scripts into vulnerability-shaped implementations whose malicious behavior is activated only under attacker-controlled trigger conditions. This design shifts the visible signal from explicit malicious intent to ordinary-looking insecure code. Across representative host skills, attack goals, coding agents, generation models, and automated reviewers, VulMask preserves benign utility while reducing warning and malware-level detection compared with overt malicious scripts. Our results show that skill ecosystems require resource-level vetting, execution-time containment, and security policies that treat exploitable vulnerabilities in agent skills as potential malicious payloads.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19191" target="_blank" rel="noopener">PhantomSkill: Malicious Code Injection in Agent Skill Ecosystems</a> <span class="src-num">[27]</span></div>
+    <div class="card-authors">Yu-Ting Lin, Chia-Mu Yu</div>
+    <div class="card-desc">Agent skills allow LLM-based coding agents to acquire domain-specific capabilities from third-party packages, but they also introduce a new supply-chain attack surface. We present PhantomSkill, an…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div><div class="card" data-full-desc="Code large language models increasingly retrieve external code context from repositories, documentation, issue threads, and coding-agent environments, creating an indirect prompt-injection surface where attackers hide instructions in comments, strings, identifiers, or decoy code. We propose CodeSentinel, a three-layer inference-time sanitizer. It uses Tree-sitter to extract high-risk model-facing CST nodes, then combines syntax-guided pre-filtering, CST-guided Dynamic Min-K\% scoring, and node perturbation analysis to detect adversarial and natural-looking semantic triggers. Detected nodes are removed or neutralized before reaching the downstream Code LLM. Across six recent attack families, \CodeSentinel achieves 0.80 average node-level F1, outperforming CodeGarrison, DePA, and KillBadCode.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19235" target="_blank" rel="noopener">CodeSentinel: A Three-Layer Defense Against Indirect Prompt Injection in Code Contexts</a> <span class="src-num">[26]</span></div>
+    <div class="card-authors">Po-Han Cheng, Chia-Mu Yu, Ying-Dar Lin, Yu-Sung Wu, Wei-Bin Lee</div>
+    <div class="card-desc">Code large language models increasingly retrieve external code context from repositories, documentation, issue threads, and coding-agent environments, creating an indirect prompt-injection surface…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div><div class="card" data-full-desc="The detection of malicious PyPI packages is crucial for maintaining the security of the open source software supply chain. Existing methods, which primarily rely on rules or traditional machine learning, suffer from poor interpretability and difficulty in adapting to novel attacks. To address this, we propose PYPILINE, a novel detection method that combines a suspicious API knowledge base with an Agent workflow. PYPILINE first conducts static analysis on known malicious packages, extracting abstract syntax trees and generating API call graphs, from which it automatically extracts and constructs a structured suspicious API knowledge base. During the detection phase, this knowledge base is used to enhance reasoning capabilities. Through an Agent workflow, PYPILINE performs in depth semantic analysis of unknown packages and outputs a structured, interpretable maliciousness assessment report. The experimental results show that PYPILINE significantly outperforms existing state-of-the-art tools in precision of 96.7\%, recall of 99.6\%, and F1-score of 98.1\%, with its precision surpassing baseline tools by 5.7 to 24.2 percentage points. Additionally, we conducted an empirical study on malicious packages, systematically revealing prevalent attack strategies, as well as the most commonly abused APIs. Equipped with tool-calling AI agent workflows for automated vector database retrieval of suspicious API knowledge and mail server delivery of analysis reports, PYPILINE delivers a practi">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19063" target="_blank" rel="noopener">PYPILINE: Malicious PyPI Package Detection via Suspicious API Knowledge and Agent Workflow</a> <span class="src-num">[32]</span></div>
+    <div class="card-authors">Siyuan Pang, Zhengwei Jiang, Yepeng Yao, Zijing Fan, Haozhe Li, Baoxu Liu</div>
+    <div class="card-desc">The detection of malicious PyPI packages is crucial for maintaining the security of the open source software supply chain. Existing methods, which primarily rely on rules or traditional machine…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Dexterous / Manipulation / Reasoning <span class="group-count">4</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Embodied Vision-Language-Action (VLA) models are typically obtained by fine-tuning powerful pretrained VLMs on robotics data, yet it is unclear how much commonsense and factual knowledge they retain after adaptation. Failures on knowledge-sensitive tasks are ambiguous, conflating missing knowledge with poor generalization of low-level control. We introduce Act2Answer, a lightweight protocol that adapts VLM knowledge benchmarks to VLA evaluation by requiring agents to answer through action. Each question becomes a short tabletop episode where the agent performs a single object-placement action to select among candidate answers, yielding an action-grounded success rate with reduced control confounds. We curate a test suite of such environments across diverse commonsense and world-knowledge categories and introduce layerwise intent probing to localize answer-relevant information across the VLM backbone and action head. In a large-scale study of 7 VLA models and 9 VLM baselines, we systematically rank models across categories, finding that VLAs show solid performance on simple concepts while exhibiting larger gaps on richer semantic categories relative to their source VLMs, that VQA co-training is associated with better knowledge retention, and that answer-relevant signals peak in middle VLA layers but attenuate in upper layers. Act2Answer is available at https://tttonyalpha.github.io/act2answer/.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19297" target="_blank" rel="noopener">Does VLA Even Know the Basics? Measuring Commonsense and World Knowledge Retention in Vision-Language-Action Models</a> <span class="src-num">[17]</span></div>
+    <div class="card-authors">Nikita Kachaev, Andrey Moskalenko, Matvey Skripkin, Nikita Kurlaev, Daria Pugacheva, Albina Burlova, Mikhail Kolosov, Denis Shepelev, Andrey Kuznetsov, Elena Tutubalina, Aleksandr I. Panov, Alexey K. Kovalev, Vlad Shakhuro</div>
+    <div class="card-desc">Embodied Vision-Language-Action (VLA) models are typically obtained by fine-tuning powerful pretrained VLMs on robotics data, yet it is unclear how much commonsense and factual knowledge they retain…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.RO</span></div>
+  </div><div class="card" data-full-desc="Passive models for long video understanding typically rely on a &quot;watch-it-all&quot; paradigm, processing frames uniformly regardless of query difficulty, causing computational cost to grow with video duration. Although interactive frameworks have emerged, they often rely on global pre-scanning, and their context cost still scales with video length. We propose OmniAgent, the first native omni-modal agent that formulates video understanding as a POMDP-based iterative Observation-Thought-Action cycle. OmniAgent executes on-demand actions to selectively distill audio-visual cues into a persistent textual memory, effectively decoupling reasoning complexity from raw video duration. To operationalize this, we introduce (1) Agentic Supervised Fine-Tuning to bootstrap native active perception via best-of-N trajectory synthesis with dual-stage quality control, and (2) Agentic Reinforcement Learning with TAURA (Turn-aware Adaptive Uncertainty Rescaled Advantage), which leverages turn-level entropy to steer credit assignment toward pivotal discovery turns. Crucially, OmniAgent exhibits positive test-time scaling, where performance improves as the number of reasoning turns increases, validating the efficacy of active perception. Empirical results across ten benchmarks (e.g., VideoMME, LVBench) demonstrate that OmniAgent achieves state-of-the-art performance among open-source models. Notably, on LVBench, our 7B agent outperforms the 10$\times$ larger Qwen2.5-VL-72B (50.5% vs. 47.3%).">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19341" target="_blank" rel="noopener">Native Active Perception as Reasoning for Omni-Modal Understanding</a> <span class="src-num">[20]</span></div>
+    <div class="card-authors">Zhenghao Xing, Ruiyang Xu, Yuxuan Wang, Jinzheng He, Ziyang Ma, Qize Yang, Yunfei Chu, Jin Xu, Junyang Lin, Chi-Wing Fu, Pheng-Ann Heng</div>
+    <div class="card-desc">Passive models for long video understanding typically rely on a &quot;watch-it-all&quot; paradigm, processing frames uniformly regardless of query difficulty, causing computational cost to grow with video…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.CL</span><span class="tag">cs.SD</span></div>
+  </div><div class="card" data-full-desc="We present a zero-shot framework for long-horizon dexterous manipulation that grounds language instructions into executable 3D task plans from calibrated multi-view RGB images. Rather than training an end-to-end policy, our system uses a vision-language model (VLM) to produce reference-frame task grounding and primitive-level 2D keypoints, then lifts them into 3D via multi-view fusion. This lifting combines triangulation of view-wise VLM groundings with reference-view ray voting, which searches along a semantic camera ray for geometrically consistent candidates across neighboring views. The resulting 3D keypoints support both pick-and-place and tool-use: for tool-use, we retrieve an object-centric atomic action corresponding to the inferred skill category and align its stored 6D tool trajectory to the scene; for dexterous execution, we expand the lifted grasp keypoint into a task-conditioned grasp affordance region and generate feasible grasp-motion pairs with an arm-hand motion generator. Real-world experiments show improved 3D grounding accuracy and execution reliability over single-view RGB-D grounding and fine-tuned VLA baselines. We further demonstrate long-horizon manipulation through closed-loop status verification and replan, enabling zero-shot execution on unseen objects and tool-use tasks in novel scenes.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19340" target="_blank" rel="noopener">Zero-Shot Long-Horizon Dexterous Manipulation via Multi-View 3D-Grounded VLM Reasoning</a> <span class="src-num">[19]</span></div>
+    <div class="card-authors">Jisoo Kim, Sangwon Baik, Taeksoo Kim, Sungjoo Kim, Junyoung Lee, Mingi Choi, Hanbyul Joo</div>
+    <div class="card-desc">We present a zero-shot framework for long-horizon dexterous manipulation that grounds language instructions into executable 3D task plans from calibrated multi-view RGB images. Rather than training…</div>
+    <div class="card-tags"><span class="tag">cs.RO</span></div>
+  </div><div class="card" data-full-desc="How can we scalably generate data for robotic manipulation, especially on human-like platforms such as dexterous multi-fingered hands? Learning from human videos has recently emerged as a likely answer to this question. However, difficulties in estimating hand-object interaction and crossing the human-to-robot embodiment gap have hindered the adoption of abundant monocular RGB-only human videos as the primary source of robot manipulation data. In this work, we present DO AS I DO, an algorithm to reconstruct and retarget monocular RGB human videos to multi-fingered dexterous robotic hands. DO AS I DO reconstructs hand-object interactions from various egocentric and exocentric in-the-wild video sources. The algorithm then retargets these hand-object interaction estimates into a sequence of actions executable in the real world, yielding robot-complete manipulation data from disparate human videos. Overall, DO AS I DO outperforms previous state of the art in estimating hand-object interactions and extracting dexterous manipulation trajectories from RGB videos, as we show in experiments on datasets with ground truths and on a dataset of video clips collected online. Our experiments enable us to propose an efficacy playbook for practitioners collecting human data for manipulation.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19333" target="_blank" rel="noopener">Do as I Do: Dexterous Manipulation Data from Everyday Human Videos</a> <span class="src-num">[42]</span></div>
+    <div class="card-authors">Bhawna Paliwal, Haritheja Etukuru, William Liang, Pieter Abbeel, Nur Muhammad Mahi Shafiullah, Jitendra Malik</div>
+    <div class="card-desc">How can we scalably generate data for robotic manipulation, especially on human-like platforms such as dexterous multi-fingered hands? Learning from human videos has recently emerged as a likely…</div>
+    <div class="card-tags"><span class="tag">cs.RO</span><span class="tag">cs.CV</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 X+slides / Benchmarking / Audience-conditioned <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Deploying multimodal foundation models as closed-loop policies increasingly requires conditioning actions on observations that are no longer visible. However, existing benchmarks either expose the full state, conflate hidden-state reconstruction with other agent skills, or test recall only after an episode has ended. We introduce RNG-Bench (Reconstructive Non-Markov Games), a benchmark suite designed to isolate a base model&#x27;s ability to reconstruct past observations and act on them during multi-step interaction. RNG-Bench includes two complementary games: Matching Pairs, where card identities briefly revealed at specific locations must later be recalled, and 3D Maze, where egocentric views must be integrated into a spatial map. Both games are evaluated under a unified harness with three controlled difficulty axes: grid size, visual pattern, and observation modality. The benchmark further introduces a head-to-head duel protocol to control for instance-level variance and a Memory Gap metric that disentangles forgetting from poor action selection. The hardest configurations require contexts of roughly 128K tokens and 350 image inputs per episode, and remain far from saturated by frontier MLLMs. Memory Gap analysis shows that most residual errors stem from forgetting earlier observations rather than from suboptimal decision making. Finally, fine-tuning Qwen3.5-9B on optimal-policy rollouts and filtered model demonstrations improves performance on RNG-Bench and transfers to existi">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19338" target="_blank" rel="noopener">Beyond the Current Observation: Evaluating Multimodal Large Language Models in Controllable Non-Markov Games</a> <span class="src-num">[21]</span></div>
+    <div class="card-authors">Shengyuan Ding, Xilin Wei, Xinyu Fang, Haodong Duan, Dahua Lin, Jiaqi Wang, Yuhang Zang</div>
+    <div class="card-desc">Deploying multimodal foundation models as closed-loop policies increasingly requires conditioning actions on observations that are no longer visible. However, existing benchmarks either expose the…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span></div>
+  </div><div class="card" data-full-desc="Automatically generating slide decks from source documents is an important application of large language models (LLMs). Existing benchmarks primarily assess slide completeness and technical depth, while overlooking the target audience as a critical real-world factor. For instance, specialists demand rigorous proofs, whereas decision-makers prioritize actionable conclusions. To bridge this gap, we introduce X+Slides, a benchmark specifically designed for audience-conditioned slide generation. Built on a diverse corpus spanning 113 topics and seven presentation scenes, X+Slides employs a dynamic evaluation framework constructed from 8,133 deduplicated, source-grounded probes. By assigning audience-specific utility weights to the same source-grounded probes, X+Slides reports four complementary metrics: Audience Coverage measures how much audience-essential information is conveyed, Domain-wise Coverage shows which information types are covered, Efficiency measures delivered utility per unit of attention cost, and Correctness verifies whether slide claims are supported by the source. Experiments on DeepPresenter, SlideTailor, and NotebookLM show that current systems can recover a substantial but still incomplete part of audience-essential information: at $τ_A=0.7$, DeepPresenter reaches a best Audience Coverage of 0.714, SlideTailor reaches 0.594, and the NotebookLM ablation reaches 0.853 while showing clear grounding differences. These results indicate that visual quality and bro">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19256" target="_blank" rel="noopener">X+Slides: Benchmarking Audience-Conditioned Slide Generation</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors">Haodong Chen, Xuanhe Zhou, Wei Zhou, Xinyue Shao, Yanbing Zhu, Bo Wang, Jiawei Hong, Anya Jia, Fan Wu</div>
+    <div class="card-desc">Automatically generating slide decks from source documents is an important application of large language models (LLMs). Existing benchmarks primarily assess slide completeness and technical depth,…</div>
+    <div class="card-tags"><span class="tag">cs.AI</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Structured / Lattices / Their <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Perfect sphere packing in the Boolean space is a fundamental and complex problem with significant implications for coding theory, cryptography, and discrete mathematics. The classical solution to the perfect sphere packing problem was provided by Hamming via his well-known perfect codes. However, a major limitation of the traditional Hamming metric is its strict applicability, as it allows perfect partitioning only for spaces with specific, highly constrained dimensions. To address this structural limitation, this article introduces a novel distance metric specifically designed for Boolean hypercubes. The proposed metric modifies the topological properties of the space, making it mathematically viable to partition a Boolean space of any arbitrary dimension into disjoint, perfect spheres. We rigorously define the algebraic properties of this new distance function and demonstrate its consistency across various dimensions. Furthermore, we explore the structural characteristics of the resulting packings. This approach bypasses the classical dimensional constraints of Hamming codes, potentially opening new avenues for designing error-correcting codes and cryptographic primitives in non-traditional dimensions.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.18718" target="_blank" rel="noopener">Perfect Sphere Packing In The Boolean Space</a> <span class="src-num">[35]</span></div>
+    <div class="card-authors">Tigran Soghomonyan, Zhirayr Margaryan</div>
+    <div class="card-desc">Perfect sphere packing in the Boolean space is a fundamental and complex problem with significant implications for coding theory, cryptography, and discrete mathematics. The classical solution to the…</div>
+    <div class="card-tags"><span class="tag">math.CO</span><span class="tag">cs.DM</span><span class="tag">cs.IT</span></div>
+  </div><div class="card" data-full-desc="Euclidean lattices are an interesting object of study in many regards and can have a rich structure arising from various constructions, e.g., from number field extensions. A particularly interesting class is the one of well-rounded lattices, as they relate to the well-known densest sphere packing problem in geometry, theta function minimization, and the famous Minkowski and Woods conjectures. In addition to being an important mathematical object in their own right, lattices also play a central role in many applications. This paper offers a survey of structured lattices and discusses their recent applications in lattice-based cryptography and secure wireless communications. Our goal is to spark the interest of mathematicians and adjacent communities in these fascinating topics in the intersection of lattices, number theory, cryptography, and wireless communications.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.18920" target="_blank" rel="noopener">Structured lattices and their applications to security</a> <span class="src-num">[34]</span></div>
+    <div class="card-authors">Lenny Fukshansky, Camilla Hollanti, Rahinatou Y. Njah Nchiwo</div>
+    <div class="card-desc">Euclidean lattices are an interesting object of study in many regards and can have a rich structure arising from various constructions, e.g., from number field extensions. A particularly interesting…</div>
+    <div class="card-tags"><span class="tag">math.NT</span><span class="tag">cs.CR</span><span class="tag">cs.IT</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Ubp2 / Uncertainty-balanced / Preference <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Preference-based RL provides an approach to learning reward models from pairwise comparisons of behaviors, bypassing the need for explicit reward design. However, existing methods typically rely on passive data collection and suffer from poor sample efficiency, especially during the early stages of learning. We introduce a model-based approach that actively directs exploration by jointly reasoning over uncertainties in the reward, dynamics, and value functions. Our method, Uncertainty-Balanced Preference Planning (UBP2), uses ensembles of reward, dynamics, and value function models to evaluate candidate trajectories according to a unified score that combines expected reward, terminal value, and epistemic uncertainty. Planning under this objective yields an explicit tradeoff between exploitation and information acquisition without requiring ad hoc exploration heuristics. Under standard regularity assumptions, we establish sublinear regret guarantees for both finite-horizon and infinite-horizon settings. Empirically, experiments on the Meta-World benchmark show UBP2 achieves substantially higher sample efficiency than model-free preference-based methods and non-optimistic model-based baselines.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19328" target="_blank" rel="noopener">UBP2: Uncertainty-Balanced Preference Planning for Efficient Preference-based Reinforcement Learning</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">Mohamed Nabail, Leo Cheng, Jingmin Wang, Nicholas Rhinehart</div>
+    <div class="card-desc">Preference-based RL provides an approach to learning reward models from pairwise comparisons of behaviors, bypassing the need for explicit reward design. However, existing methods typically rely on…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span><span class="tag">cs.RO</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Rethinking / Reward / Supervision <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Post-training of reasoning language models is commonly driven by supervised distillation and reinforcement learning with verifiable rewards. Distillation often relies on chain-of-thought annotations that are expensive to obtain and may themselves be noisy, incomplete, or partially incorrect; even when the final solution is correct, an imperfect rationale can interfere with learning. Reinforcement learning with verified rewards, on the other hand, typically compresses evaluative feedback into a scalar signal, obscuring which aspects of a response should be improved. We propose \textbf{Rubric-Conditioned Self-Distillation}, a framework that incorporates rubrics as structured, fine-grained feedback for on-policy self-distillation. Our method conditions the teacher model on criterion-level rubrics and uses it to provide token-level guidance on the student&#x27;s own sampled trajectories. This design avoids treating a single reference rationale as the sole supervision target. Instead, rubrics specify what a strong response should satisfy, enabling more fine-grained credit assignment over the reasoning process than scalar reward optimization. We instantiate this framework with a two-stage pipeline that first learns to generate task-specific rubrics and then trains a rubric-guided reasoner. We evaluate on a diverse suite of science reasoning benchmarks and results show that rubric-conditioned self-distillation effectively converts rubric-level criteria into token-level guidance over the">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19327" target="_blank" rel="noopener">Rethinking Reward Supervision: Rubric-Conditioned Self-Distillation</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors">Siyi Gu, Jialin Chen, Sophia Zhou, Arman Cohan, Rex Ying</div>
+    <div class="card-desc">Post-training of reasoning language models is commonly driven by supervised distillation and reinforcement learning with verifiable rewards. Distillation often relies on chain-of-thought annotations…</div>
+    <div class="card-tags"><span class="tag">cs.AI</span><span class="tag">cs.CL</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Reference-driven / Multi-speaker / Audio <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Existing multi-speaker dialogue systems bind speakers to utterances through structured supervision: per-turn tags, multi-stream transcriptions, or learnable speaker embeddings. These systems operate within speech-only pipelines that produce clean vocal sequences without the ambient texture of real conversations. We take a different approach. Our method, ScenA, conditions a text-to-audio flow-matching foundation model, pretrained on large-scale in-the-wild data, directly on multiple reference voices and a free-form natural language prompt that describes an entire multi-speaker audio scene. Leveraging such a foundational model allows us to inherit its capacity for natural, non-studio audio: background noise, room acoustics, overlapping dialogue, and spontaneous paralinguistic events, while adding multi-speaker control without any per-turn structure. Concretely, reference latents are concatenated into the model&#x27;s token sequence and distinguished by lightweight identity-aware positional encodings. However, we identify a critical obstacle to this approach: the \textit{Reference Shortcut}. During training under standard noise schedules, the model can identify the matching reference by acoustic similarity to the noisy target, bypassing the text prompt entirely. We address this with a high-noise-biased timestep distribution that forces the model to rely on the text prompt for speaker assignment. We evaluate ScenA on the CoVoMix2-Dialogue benchmark, showing that it outperforms existin">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19325" target="_blank" rel="noopener">Reference-Driven Multi-Speaker Audio Scene Generation from In-the-Wild Priors</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors">Michael Finkelson, Daniel Segal, Eitan Richardson, Shahar Armon, Nani Goldring, Poriya Panet, Nir Zabari, Benjamin Brazowski, Or Patashnik, Yoav HaCohen</div>
+    <div class="card-desc">Existing multi-speaker dialogue systems bind speakers to utterances through structured supervision: per-turn tags, multi-stream transcriptions, or learnable speaker embeddings. These systems operate…</div>
+    <div class="card-tags"><span class="tag">cs.SD</span><span class="tag">cs.AI</span><span class="tag">cs.CV</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Data / Agents / Intelligence <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Production data integration is bottlenecked by repeated, lossy handoffs between data owners, engineers, and analysts who must collaboratively discover, structure, and query enterprise data. We present Data Intelligence Agents (DIA), a system of three agents (Data Interpreter, Schema Creator, and Query Generator) that compresses this workflow by treating autonomous coding agents (ACAs) as a first-class abstraction: rather than emitting text, the agents generate, execute, validate, and repair concrete artifacts, draw on a shared memory for experience reuse, and surface each for review by domain experts. DIA is deployed in production for enterprise customers. We study the Query Generator in depth and evaluate it in fully autonomous mode across seven SQL benchmarks spanning four task categories and four dialects. It matches or surpasses the best published results on all seven, demonstrating that an architecture grounded in execution, built on ACAs and a shared memory, generalizes across the data intelligence workload with adaptation confined to natural-language instructions.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19319" target="_blank" rel="noopener">Data Intelligence Agents: Interpreting, Modeling, and Querying Enterprise Data via Autonomous Coding Agents</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors">Anoushka Vyas, Aarushi Dhanuka, Sina Khoshfetrat Pakazad, Henrik Ohlsson</div>
+    <div class="card-desc">Production data integration is bottlenecked by repeated, lossy handoffs between data owners, engineers, and analysts who must collaboratively discover, structure, and query enterprise data. We…</div>
+    <div class="card-tags"><span class="tag">cs.MA</span><span class="tag">cs.AI</span><span class="tag">cs.DB</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Explaining / Attention / Program <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="A longstanding goal of research on interpretable deep learning is to replace opaque neural computations with human-meaningful symbolic descriptions. In this paper, we propose an approach for approximating the behavior of components of deep networks with executable programs. We focus on attention heads in transformer language models. For a given head, we first compute its associated attention matrices on a collection of randomly selected training examples. Next, we prompt a pre-trained language model with a summary of these matrices, and instruct it to generate a set of Python programs that can reproduce the associated attention patterns given only text from the input sentence. Finally, we re-rank programs according to how well our final set of programs predict behavior on held-out inputs. We demonstrate that a set of fewer than 1,000 such generated programs can reproduce the attention patterns of heads in GPT-2, TinyLlama-1.1B, and Llama-3B, achieving an average Intersection-over-Union similarity above 75% on TinyStories. Moreover, the best-fit programs can replace neural attention heads without substantially affecting model behavior: replacing 25% of attention heads with programmatic surrogates across the three models incurs only a 16% average perplexity increase, while maintaining performance on a variety of downstream question answering benchmarks. This work contributes a scalable pipeline for reverse-engineering attention heads in transformer models using human-readable,">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19317" target="_blank" rel="noopener">Explaining Attention with Program Synthesis</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors">Amiri Hayes, Belinda Li, Jacob Andreas</div>
+    <div class="card-desc">A longstanding goal of research on interpretable deep learning is to replace opaque neural computations with human-meaningful symbolic descriptions. In this paper, we propose an approach for…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Social / Correct / Yourself <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="When social chatbots make mistakes, and they do, how they recover determines whether users trust them again. Social chatbots are increasingly integrated into everyday life, yet they remain prone to generating convincing but inaccurate information. The social connection they build with users makes such errors particularly consequential. We conducted a between-subjects experiment (N=120) comparing three error correction strategies: a webpage retraction, self-correction by the same social chatbot, and correction by an expert chatbot. Our results reveal two key findings. First, all three strategies corrected the error equally well, but only self-correction did so without damaging the chatbot&#x27;s credibility: participants rated self-correcting chatbots significantly higher in both trustworthiness and perceived expertise than chatbots whose errors were corrected by external sources. Second, the strength of the user&#x27;s social connection with the chatbot, measured through social attraction and self-disclosure, significantly predicted the magnitude of belief change, but only when the chatbot corrected itself. Outsourcing corrections to an external source severed this link entirely. These findings suggest that social chatbots should correct their own mistakes rather than outsource corrections, and that investing in social connection is a functional mechanism that amplifies correction effectiveness, not merely a design feature. We discuss implications for designing chatbots that maintain l">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19286" target="_blank" rel="noopener">Correct Yourself, Keep My Trust: How Self-Correction and Social Connection Shape Credibility in Social Chatbots</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors">Biswadeep Sen, Yi-Chieh Lee</div>
+    <div class="card-desc">When social chatbots make mistakes, and they do, how they recover determines whether users trust them again. Social chatbots are increasingly integrated into everyday life, yet they remain prone to…</div>
+    <div class="card-tags"><span class="tag">cs.HC</span><span class="tag">cs.AI</span><span class="tag">cs.CY</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Nesycat / Torch / Differentiable <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Neurosymbolic semantics is fragmented: classical, fuzzy, probabilistic and neural systems each define truth by their own inductive rules. NeSyCat, extending ULLER, subsumes them under a single inductive definition of truth, parametric in a strong monad and an aggregation structure on truth-values. NeSyCat has so far lacked an account of predicates and functions learned by neural networks.   We provide NeSyCat Torch as the missing link and interpret computational symbols via neural networks, implementing the framework in probabilistic programming and tensor-based backends. We use the distribution monad for reference semantics and metric evaluation, and complement it by a monad for numerically stable, differentiable training: the lazy log-tensor monad over the log-semiring. For efficient training in batches, we furthermore employ a batch monad. The axioms are the source code: written once in monad-based do-notation, monadic bind performs marginalisation, lazily pruning unneeded branches.   On MNIST addition, our HaskTorch, JAX, and PyTorch implementations outperform LTN and DeepProbLog in speed and accuracy, while achieving nearly the accuracy of DeepStochLog. However, unlike DeepStochLog, we stay in a uniform framework that applies to many first-order NeSy approaches. Namely, the construction is parametric in the monad; instantiating it with, e.g., the Giry monad extends the approach to continuous probability (working out a neural representation here is left for future work).">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19279" target="_blank" rel="noopener">NeSyCat Torch: A Differentiable Tensor Implementation of Categorical Semantics for Neurosymbolic Learning</a> <span class="src-num">[7]</span></div>
+    <div class="card-authors">Daniel Romero Schellhorn, Till Mossakowski, Björn Gehrke</div>
+    <div class="card-desc">Neurosymbolic semantics is fragmented: classical, fuzzy, probabilistic and neural systems each define truth by their own inductive rules. NeSyCat, extending ULLER, subsumes them under a single…</div>
+    <div class="card-tags"><span class="tag">cs.AI</span><span class="tag">cs.LG</span><span class="tag">cs.LO</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Trade-offs / Medical / Llm <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="The development of large language models (LLMs) has led to an increased focus on their adaptation to specialized domains and languages, yet the effectiveness of domain adaptation strategies remains unclear. We present a study of medical domain adaptation using French medical question-answering (QA) as a case study. We compare continual pretraining (CPT), supervised fine-tuning (SFT), and their combination across three model families, multiple sizes, and three initialization types, explicitly disentangling adaptation effects from base model choice. We evaluate both multiple-choice (MCQA) and open-ended QA (OEQA) under greedy and constrained decoding using automatic metrics and LLM-as-a-Judge evaluation. For MCQA, CPT+SFT most often achieves the best scores, but gains over SFT are small and frequently not statistically significant, making SFT a strong and cost-effective default. For OEQA, CPT consistently improves overlap-based metrics, while SFT often degrades generation quality; instruction tuning and CPT+SFT are preferred by LLM-based evaluation. Cross-lingual experiments further show effective transfer from French adaptation to English benchmarks. Overall, we provide practical guidelines for selecting adaptation strategies under computational constraints.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19266" target="_blank" rel="noopener">Trade-offs in Medical LLM Adaptation: An Empirical Study in French QA</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors">Ikram Belmadani, Oumaima El Khettari, Carlos Ramisch, Frederic Bechet, Richard Dufour, Benoit Favre</div>
+    <div class="card-desc">The development of large language models (LLMs) has led to an increased focus on their adaptation to specialized domains and languages, yet the effectiveness of domain adaptation strategies remains…</div>
+    <div class="card-tags"><span class="tag">cs.CL</span><span class="tag">cs.AI</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Multi-domain / Benchmark / Detecting <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Text-rich images often contain privacy-sensitive, transactional, or decision-relevant information. As recent multimodal image generation models become increasingly capable of synthesizing realistic textual content and structured visual designs, detecting AI-generated text-rich images has become an important challenge for digital trust and content authenticity. Existing benchmarks, however, largely focus on object-centric images and provide limited coverage of scenarios where textual semantics and layout organization are central. In this paper, we introduce a multi-domain benchmark for detecting text-rich images generated by OpenAI&#x27;s GPT Image 2. The benchmark contains 8,602 images across six representative categories: commercial posters, infographics, academic posters, receipts, tables, and UI screenshots. Using this benchmark, we evaluate five representative AI-generated image detectors in a zero-shot setting and analyze their overall, category-wise, and post-processing robustness. Our results show that detector performance is highly domain-dependent: methods that perform well in some categories often fail on others, and even the strongest conventional detector exhibits severe sensitivity to JPEG compression. We further conduct an exploratory evaluation with a multimodal vision-language model, revealing both its promise and its limitations on structured formats. These findings highlight the need for text- and layout-aware detection methods for modern AI-generated images. Our">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19259" target="_blank" rel="noopener">A Multi-Domain Benchmark for Detecting AI-Generated Text-Rich Images from GPT-Image-2</a> <span class="src-num">[9]</span></div>
+    <div class="card-authors">Yijin Wang, Shuyi Wang, Wenhan Zhang, Yuqi Ouyang</div>
+    <div class="card-desc">Text-rich images often contain privacy-sensitive, transactional, or decision-relevant information. As recent multimodal image generation models become increasingly capable of synthesizing realistic…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Freeing / Law / Locus <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Progress in legal AI increasingly depends on access to authoritative legal text at scale. Yet one of the most consequential layers of American law remains largely absent from existing machine-readable corpora: local ordinances. Local codes govern zoning, housing, business licensing, public health, noise, animal control, and many other domains of everyday regulation, but they are fragmented across vendor platforms designed for human browsing rather than bulk research access. We introduce LOCUS - the Local Ordinance Corpus for the United States - a comprehensive corpus and county-harmonized access layer for U.S. municipal and county ordinance codes. The raw corpus, available for release to researchers, represents nearly all publicly available municipal and county ordinance codes. The resulting raw corpus contains codes from 9,239 cities and counties. A smaller county-harmonized LOCUS access layer provides coverage for the largest 2,309 of 3,144 U.S. counties, accounting for a majority of the population. We use OCR to handle the myriad of document formats that have kept the law from being a public resource. We release the corpus with coverage metadata to support reproducibility, downstream legal AI research, and the incremental expansion of machine-readable access to local law. We train a collection of ModernBERT-based classifiers and scorers to facilitate analyzing U.S. local law among several dimensions, such as opacity and paternalism, that have not previously been studied at">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19334" target="_blank" rel="noopener">Freeing the Law with LOCUS: A Local Ordinance Corpus for the United States</a> <span class="src-num">[11]</span></div>
+    <div class="card-authors">Denis Peskoff, Joe Barrow, Christopher Vu, Diag Davenport</div>
+    <div class="card-desc">Progress in legal AI increasingly depends on access to authoritative legal text at scale. Yet one of the most consequential layers of American law remains largely absent from existing…</div>
+    <div class="card-tags"><span class="tag">cs.CL</span><span class="tag">cs.CY</span><span class="tag">cs.LG</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Catalog / Chandra-gaia / Counterparts <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="We present a framework to cross-match sources from the Chandra Source Catalog (CSC v2.1) with optical sources from Gaia Data Release 3. Unlike purely spatial approaches, we use source properties such as magnitudes, colors, and distances to identify true counterparts, detect chance coincidences, and resolve ambiguities when multiple plausible candidates exist. We define a training set of high-confidence matches using NWAY, a Bayesian cross-matching framework that accounts for positional errors and source densities. We train a gradient-boosted classifier (LightGBM) on a variety of features from both catalogs. Of the ~$254$k unique X-ray sources, we find counterparts for ~$113$k sources, of which plausible multiple counterparts are found for ~$7$k. We find no counterparts for ~$20$k sources for which separation-based cross-matching does find a match, and attribute half of these to chance coincidences. We validate the pipeline on the Chandra Orion Ultradeep Project (COUP), where the machine-learning matches reproduce 95% of NWAY cross-matches without using any positional information. We release a catalog of the ~$113$k Chandra-Gaia counterparts, together with ~$7$k alternative matches and ~$20$k ambiguous NWAY associations, supporting future population studies of sources detectable by both Chandra and Gaia. We discuss limitations and provide a generalization of the framework that is applicable in other cross-matching scenarios.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19329" target="_blank" rel="noopener">The Chandra-Gaia Catalog of Counterparts: Resolving ambiguous Gaia matches to X-ray sources in the Chandra Source Catalog using Machine Learning</a> <span class="src-num">[12]</span></div>
+    <div class="card-authors">V. Samuel Pérez-Díaz, Vinay L. Kashyap, Joshua D. Ingram, David Fouhey, Juan Rafael Martínez-Galarza, Pavlos Protopapas, Jeremy J. Drake, Dong-Woo Kim, Cecilia Garraffo</div>
+    <div class="card-desc">We present a framework to cross-match sources from the Chandra Source Catalog (CSC v2.1) with optical sources from Gaia Data Release 3. Unlike purely spatial approaches, we use source properties such…</div>
+    <div class="card-tags"><span class="tag">astro-ph.IM</span><span class="tag">cs.LG</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Diffusion-proof / Recipe / Formal <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Enhancing the formal math reasoning capabilities of Large Language Models (LLMs) has become a key focus in both mathematical and computer science communities in recent years. While significant progress has been made in using state-of-the-art Auto-Regressive (AR) LLMs for formal theorem proving, these models suffer from inherent limitations. Their next-token prediction generation methods may yield suboptimal performance due to the challenges of long-range coherence and the compounding of errors over long sequences. Recent advancements in diffusion LLMs (dLLMs), which generate text through iterative denoising of a multi-token block, offer a promising alternative. However, the application of dLLMs to formal mathematics, where maintaining long-range coherence is critical, remains largely understudied. To address the challenges above, we propose **Diffusion-Proof**, to the best of our knowledge, the first framework to train and apply dLLMs for formal theorem proving. Our frameworks contain training and inference methods for two models. The first one is *dLLM-Prover-7B*, which performs whole-proof writing with long-range coherent tactic usage. The second one is *dLLM-Corrector-7B*, which is a novel large block diffusion-based correction model. It leverages the in-filling capabilities of dLLMs to perform local proof correction using bi-directional information. Extensive experiments demonstrate that **Diffusion-Proof** relatively significantly outperforms the AR LLM baseline trained">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19315" target="_blank" rel="noopener">Diffusion-Proof: Recipe for Formal Theorem Proving Beyond Auto-Regressive Generation</a> <span class="src-num">[13]</span></div>
+    <div class="card-authors">Ruida Wang, Rui Pan, Pengcheng Wang, Shizhe Diao, Tong Zhang</div>
+    <div class="card-desc">Enhancing the formal math reasoning capabilities of Large Language Models (LLMs) has become a key focus in both mathematical and computer science communities in recent years. While significant…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 P-k-gcn / Physics-augmented / Koopman-enhanced <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="High-fidelity simulation of spatiotemporal dynamics is computationally prohibitive, necessitating efficient super-resolution techniques to reconstruct high-resolution data from coarse-grained inputs. Traditional data-driven methods often lack physical constraints, and simple physics-informed learning struggles with irregular spatial geometries and intricately evolving temporal dynamics. To tackle these challenges, we propose a Physics-augmented Koopman-enhanced Graph Convolutional Network (P-K-GCN) for spatiotemporal super-resolution on irregular geometries. Specifically, a continuous spline-based GCN is first designed to extract spatial dependencies directly from coarse graph, and Koopman operator theory is incorporated to project the nonlinear dynamics into a compact latent space where temporal progression is linearized. Second, we augment the optimization objective with a physics-based loss to force the data-driven reconstructions to adhere to physical laws for improving predictive fidelity and robustness. Finally, we provide a rigorous theoretical analysis, establishing that the physics augmentation and Koopman regularization mathematically guarantees a reduction in super-resolution error by diminishing Rademacher complexity and tightening generalization bounds. We evaluate our framework on reconstructing spatially high-resolution cardiac electrodynamics across a 3D heart geometry from sparse low-resolution measurements. Numerical experiments demonstrate that our method a">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19303" target="_blank" rel="noopener">P-K-GCN: Physics-augmented Koopman-enhanced Graph Convolutional Network for Deep Spatiotemporal Super-resolution</a> <span class="src-num">[14]</span></div>
+    <div class="card-authors">Xizhuo, Zhang, Zekai Wang, Fei Liu, Bing Yao</div>
+    <div class="card-desc">High-fidelity simulation of spatiotemporal dynamics is computationally prohibitive, necessitating efficient super-resolution techniques to reconstruct high-resolution data from coarse-grained inputs.…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Optimal / Scenario / Design <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="As deep learning for physical systems continues to grow in popularity, efforts to improve generalizability have primarily focused on designing architectures that embed physical constraints. However, for machine-learning surrogate climate models (emulators), we show that the low structural diversity in existing scenarios commonly used to generate training data places a ceiling on predictive skill. Here, we examine whether training datasets themselves can be optimized to improve generalization. We introduce a method to create datasets that produce emulators capable of generalizing to new, structurally different scenarios absent from the training data. We use a differentiable Simple Climate Model (SCM) to calculate the sensitivity of emulator loss to perturbations in the training data, iteratively updating the training data to maximize emulator skill. For an SCM, training on one scenario optimized in this fashion outperforms an emulator trained on six standard ScenarioMIP pathways. We achieve this higher predictive skill despite training on a smaller dataset, finding that our emulator successfully isolates distinct physical behaviors of different climate forcing agents (e.g., greenhouse gases vs. aerosols) without single-forcing runs. We then demonstrate that scenarios optimized using an SCM, when used to drive an intermediate-complexity climate model, produce a training dataset that yields a more skillful emulator than training on ScenarioMIP outputs. Our results suggest that,">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19302" target="_blank" rel="noopener">Optimal scenario design for climate emulation</a> <span class="src-num">[15]</span></div>
+    <div class="card-authors">Christopher B. Womack, Shahine Bouabid, Andrei Sokolov, Popat Salunke, Glenn Flierl, Sebastian D. Eastham, Noelle E. Selin</div>
+    <div class="card-desc">As deep learning for physical systems continues to grow in popularity, efforts to improve generalizability have primarily focused on designing architectures that embed physical constraints. However,…</div>
+    <div class="card-tags"><span class="tag">physics.ao-ph</span><span class="tag">cs.LG</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Confidence / Not / Reliability <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Glioma segmentation in multiparametric MRI is a critical component of treatment planning. A segmentation model that fails silently on treatment-critical sub-regions represents a patient safety risk that overlap-based metrics such as Dice scores cannot expose. We ask whether voxel-level uncertainty estimation via Monte Carlo (MC) Dropout can reliably identify segmentation errors in clinically critical sub-regions, and whether calibration failure modes are detectable from standard reporting metrics alone. In an empirical two-model case study on 126 BraTS21 patients, we evaluate a high-performance pretrained SegResNet and a locally trained UNet with residual units (UNet-Res). MC dropout preserved segmentation accuracy ($|Δ\text{Dice}|$ $&lt;0.01$) while achieving strong uncertainty-error alignment (AUROC for entropy (H) $\approx$0.97), indicating uncertainty correctly ranks erroneous voxels above correct ones. Entropy-based patient stratification identified a high-uncertainty subgroup with substantially lower segmentation performance (median whole-tumour Dice $0.835$ vs. $0.925$), supporting uncertainty as a practical triage signal. However, global alignment can mask important region-specific differences. Despite similar AUROC, UNet-Res exhibited near-zero enhancing tumour entropy ($0.054$) and Expected Calibration Error (ECE) of $0.915$, with a Dice of only $0.714$, indicating severely miscalibrated confidence on the most clinically critical sub-region, a failure mode invisible to">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19300" target="_blank" rel="noopener">Confidence is Not Reliability: Rethinking MC Dropout in Brain Tumour Segmentation</a> <span class="src-num">[16]</span></div>
+    <div class="card-authors">Xin Ci Wong, Duygu Sarikaya, Kieran Zucker, Marc De Kamps, Nishant Ravikumar</div>
+    <div class="card-desc">Glioma segmentation in multiparametric MRI is a critical component of treatment planning. A segmentation model that fails silently on treatment-critical sub-regions represents a patient safety risk…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.LG</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Risk / Stratification / Icu <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Delirium is a common and serious complication in the Intensive Care Unit (ICU), associated with increased morbidity, prolonged hospital stays, and higher healthcare costs. Despite its prevalence, early prediction and prevention remain challenging. Environmental factors such as ambient sound and light may influence the onset of delirium, yet they are often overlooked in risk assessments. In this study, we examined whether light intensity and sound pressure levels can independently predict delirium across multiple prediction horizons. We evaluated four efficient sequential neural network models on data collected from 9 ICUs across 309 patients to predict delirium for 10 prediction-window sizes. We reported feature importance and direction of influence using Shapley Additive Explanations analysis. The convolutional model achieved the strongest discrimination, with AUC = 0.80 on sound data and on combined data. Sound features were the dominant predictors overall. Integrating sound with light improved short-term ($&lt;1$ week) prediction, with the combined model assigning the highest risk immediately after the sensing period. These findings suggest that passive ambient sensing, especially sound, can add a clinically meaningful, interpretable signal for delirium risk estimation and offer a practical pathway to enrich multimodal ICU prediction and prevention strategies.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19292" target="_blank" rel="noopener">Risk Stratification for ICU Delirium using Pervasive Ambient Sensing Information</a> <span class="src-num">[18]</span></div>
+    <div class="card-authors">Jiaqing Zhang, Sabyasachi Bandyopadhyay, Miguel Contreras, Jessica Sena, Yuanfang Ren, Andrea Davidson, Ziyuan Guan, Tezcan Ozrazgat-Baslanti, Subhash Nerella, Azra Bihorac, Parisa Rashidi</div>
+    <div class="card-desc">Delirium is a common and serious complication in the Intensive Care Unit (ICU), associated with increased morbidity, prolonged hospital stays, and higher healthcare costs. Despite its prevalence,…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Constraints / Cosmic / Strings <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="A network of cosmic strings is one of the few well-motivated cosmological sources of vector and tensor metric perturbations on the largest observable scales. Such perturbations imprint a characteristic curl component in the deflection angle of cosmic microwave background (CMB) photons that, unlike the scalar lensing potential, vanishes for adiabatic density fluctuations at linear order. We exploit the curl-mode lensing reconstruction released as part of the Atacama Cosmology Telescope (ACT) Data Release~6 (DR6), based on five seasons of temperature and polarization data covering $9400~\mathrm{deg}^2$ of sky, to set new constraints on the dimensionless string tension $Gμ$ and the inter-commutation (reconnection) probability $P$. Modelling the string-induced curl power spectrum within the velocity-dependent one-scale framework, we obtain a $2σ$ upper bound on the combination $GμP^{-1}\le 3.5\times 10^{-5}$ in the small-$P$ regime, and $Gμ\le 5.0\times 10^{-5}$ at $2σ$ assuming the canonical Nambu-Goto value $P=1$. Combining the ACT DR6 curl bandpowers with the Planck 2013 curl-mode reconstruction, which extends down to $L_{\rm min}=2$, tightens these bounds to $GμP^{-1}\le 3.2\times 10^{-5}$ and $Gμ\le 4.3\times 10^{-5}$ ($2σ$). These represent the tightest constraints on cosmic strings derived from the curl-mode CMB lensing power spectrum to date. Using the ACT data alone, compared to the ACT 2008-season analysis, the ACT DR6 constraint on $GμP^{-1}$ is nearly an order of magn">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19337" target="_blank" rel="noopener">Constraints on Cosmic Strings from the Curl-Mode CMB Lensing Power Spectrum measured by ACT DR6</a> <span class="src-num">[22]</span></div>
+    <div class="card-authors">A. I. Lonappan, K. Ramesh, T. Namikawa, F. J. Qu, B. Keating</div>
+    <div class="card-desc">A network of cosmic strings is one of the few well-motivated cosmological sources of vector and tensor metric perturbations on the largest observable scales. Such perturbations imprint a…</div>
+    <div class="card-tags"><span class="tag">astro-ph.CO</span><span class="tag">gr-qc</span><span class="tag">hep-ph</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 User / Simulators / Turing <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Learning to simulate human users in interactive settings could advance the training of agent assistants, evaluation of personalization systems, research in the social sciences, and more. Existing approaches generally do so by training a large language model (LLM) to match a single ground truth response, either by maximizing the log probability or by using a similarity reward. We instead propose {Turing-RL}: a Turing-Test-based reinforcement learning approach for training user simulator models. {Turing-RL} uses a discriminative Turing reward with an LLM judge to score how indistinguishable a generated response is from the real user&#x27;s given the user&#x27;s history, and the user simulator LLM learns to produce responses indistinguishable from what the user could have said with such rewards. Across two different domains--conversational chat and Reddit forum discussion--we find that {Turing-RL} consistently outperforms baseline methods on both LLM and human evaluation metrics. Our study suggests that optimizing for indistinguishability, rather than response matching, is effective for learning user simulators.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19336" target="_blank" rel="noopener">Learning User Simulators with Turing Rewards</a> <span class="src-num">[23]</span></div>
+    <div class="card-authors">Yingshan Susan Wang, Cedegao E. Zhang, Linlu Qiu, Zexue He, Pengyuan Li, Alex Pentland, Roger P. Levy, Yoon Kim</div>
+    <div class="card-desc">Learning to simulate human users in interactive settings could advance the training of agent assistants, evaluation of personalization systems, research in the social sciences, and more. Existing…</div>
+    <div class="card-tags"><span class="tag">cs.CL</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Sparse-dense / Flight / Copy-based <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Flight recovery, aircraft rerouting, and passenger reallocation are critical in airline recovery. To preserve their interdependence that is neglected by the regular sequential recovery, we consider these recovery phases from an integration perspective. In addition, we incorporate cruise speed control to enhance the recovery performance. While using flight copies is a common modelling method in airline disruption management, the resulting integrated mathematical model is challenging to solve in real time due to the large number of flight copies, especially when considering cruise speed control. This paper introduces a new sparse-dense flight copy approach and proposes an innovative interactive mechanism that alternately adjusts aircraft routes on the sparse flight copy-based network and reallocates passenger itineraries on the dense flight copy-based network. Under the interactive mechanism, the involved sparse and dense networks are much smaller than those in the conventional flight copy approach. To implement such a mechanism, we develop an integrated flight, aircraft, and passenger recovery model (IFAPRM) and propose a customized Benders decomposition (CBD) to solve the model. Besides, we further propose some acceleration techniques to speed up the CBD method, including an effective feasibility certificate, scale management, and valid inequalities. Computational experiments on real-world data demonstrate that the sparse-dense flight copy-based interactive mechanism outperfo">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19332" target="_blank" rel="noopener">Sparse-dense flight copy-based interactive mechanism to airline integrated with cruise speed control</a> <span class="src-num">[24]</span></div>
+    <div class="card-authors">Jiajin Lin, Jianlin Jiang, Yan Gu, Yuzhen Guo, Cheng-Lung Wu</div>
+    <div class="card-desc">Flight recovery, aircraft rerouting, and passenger reallocation are critical in airline recovery. To preserve their interdependence that is neglected by the regular sequential recovery, we consider…</div>
+    <div class="card-tags"><span class="tag">math.OC</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Topological / Spectral / Form <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="In equilibrium physics, topological defect insertions in quantum and classical partition functions provide non-perturbative probes of phase transitions beyond local observables. In non-equilibrium physics, the spectral form factor provides a minimal probe of universal quantum dynamics, and admits a representation as a product of two partition functions at imaginary inverse temperature. We define the topological spectral form factor (TopSFF) by inserting topological defects acting non-trivially on the doubled partition functions, producing mismatched spacetime world-sheet topologies. For the minimal $\mathbb{Z}_2$ spatially extended defect, implemented by the global swap operator, we derive an exact mapping of the TopSFF of a generic 1D many-body chaotic system to an emergent $(3+1)$D non-Hermitian single-particle problem describing a temporal domain wall (tDW). We show analytically that the effective tDW dynamics undergoes a $\mathcal{PT}$ symmetry breaking transition at a finite interaction strength $ε_{\mathrm{EP}}$: below $ε_{\mathrm{EP}}$, the leading modes are polarized into Gaussian or non-Gaussian tDW sectors and the TopSFF varies monotonically and exponentially with system size; above $ε_{\mathrm{EP}}$, the tDW sectors hybridize and the TopSFF oscillates with system size; at the exceptional point $ε_{\mathrm{EP}}$, Jordan non-diagonality produces a linear-in-system-size enhancement. For temporally extended topological defects, we derive exact universal scaling forms f">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19331" target="_blank" rel="noopener">Topological spectral form factor reveals emergent non-Hermitian single-particle $\mathcal{PT}$ transitions from many-body quantum chaos</a> <span class="src-num">[25]</span></div>
+    <div class="card-authors">Daniel Harkin, Chun Y. Leung, Amos Chan</div>
+    <div class="card-desc">In equilibrium physics, topological defect insertions in quantum and classical partition functions provide non-perturbative probes of phase transitions beyond local observables. In non-equilibrium…</div>
+    <div class="card-tags"><span class="tag">cond-mat.stat-mech</span><span class="tag">hep-th</span><span class="tag">nlin.CD</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Giskard / Byzantine / Robust <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Dealing simultaneously with confidentiality and Byzantine behaviors in decentralized learning is a challenging problem. Indeed, in decentralized learning, clients train a machine learning model while keeping their data locally and share their model parameters or gradients with a set of neighbors. While enforcing confidentiality calls for hiding the exchanged model parameters/gradients (e.g., by using cryptographic techniques), dealing with Byzantine contributions often requires inspecting the latter. Hence, most research works address these objectives separately. A recent line of work proposes to employ secure multi-party computation (MPC) to implement robust aggregators against model poisoning, thereby enforcing both confidentiality and Byzantine resilience. However, these solutions scale badly: they either require all-to-all communication between participants or delegate the entire computation to a small subset, whose computational and communication load grows proportionally with the size of the network.   In this paper, we present Giskard, a protocol for confidential and Byzantine-robust decentralized aggregation. Giskard organizes $n$ parties into a tree of committees of size $O(\log n)$ and evaluates a coordinate-wise approximate median via a committee-adapted distributed binary search over the value domain, using BGW-style MPC within each committee. We assess Giskard both theoretically by proving its security and confidentiality properties and experimentally through ext">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19129" target="_blank" rel="noopener">Giskard : Byzantine Robust and Confidential Aggregation for Large-Scale Decentralized Learning</a> <span class="src-num">[29]</span></div>
+    <div class="card-authors">Ousmane Touat, César Sabater, Mohamed Maouche, Sonia Ben Mokhtar</div>
+    <div class="card-desc">Dealing simultaneously with confidentiality and Byzantine behaviors in decentralized learning is a challenging problem. Indeed, in decentralized learning, clients train a machine learning model while…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.LG</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Quantifying / Compromise / Risk <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Lawful exceptional access (EA) systems hold the cryptographic keys that decrypt protected communications for authorised parties. The debate over their risks has been long and qualitative, complicated by two problems: no public dataset of EA-specific compromise events exists, so assessment must use sparse, indirect evidence; and prior work has treated structurally different designs as equivalent, though transmission-layer EA in carrier infrastructure (T-EA) and over-the-top EA at the platform layer (OTT-EA) differ in how cryptographic keys relate to ciphertext data. This paper builds a structured uncertainty framework for evaluating systemic compromise risk in EA architectures. It does not produce predictive forecasts, which the evidence cannot support; it separates findings robust to assumptions from those that depend on calibration. Four analytical layers are applied to T-EA and OTT-EA: three empirical pillars (historical analogues, a Monte Carlo scenario layer, a channel-independence decomposition) plus a Bayesian Structural Risk Model on a parallel-subgraph attack graph. The central findings are structural. First, EA-equipped architectures of either class carry strictly higher modelled risk than their no-EA counterfactual, an ordering independent of calibration. Second, the classes differ in distribution shape: T-EA risk is dominated by central tendency, OTT-EA by the tail under correlated campaigns. Third, calibration-conditional annual probability ranges span 1.4% to 12.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19106" target="_blank" rel="noopener">Quantifying Compromise Risk in Exceptional Access Architectures Under Sparse and Indirect Evidence</a> <span class="src-num">[30]</span></div>
+    <div class="card-authors">Alan Woodward</div>
+    <div class="card-desc">Lawful exceptional access (EA) systems hold the cryptographic keys that decrypt protected communications for authorised parties. The debate over their risks has been long and qualitative, complicated…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.CY</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Cheri-d / Secure / Efficient <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="We propose CHERI-D, an architectural extension to CHERI that supports efficient temporal memory safety. Efficient memory safety is an increasing priority for programming languages, operating systems, and hardware designs, and CHERI is a leading hardware/software system that provides native spatial safety and a foundation for temporal memory safety. Due to CHERI lacking intrinsic architectural support for temporal memory safety, the state-of-the-art CHERI temporal safety solution, Cornucopia Reloaded, is a software-based solution that provides use-after-reallocation (UAR) protections instead of the stronger use-after-free (UAF) mitigation, and suffers performance overhead due to delayed reallocation and revocation. CHERI-D associates object identification (ID) metadata with capability pointers to provide temporal integrity of allocations. CHERI spatial safety allows CHERI-D to store object IDs safely inline with allocation data, potentially within unused fragmentation. Evaluated in simulation and in hardware, CHERI-D significantly reduces the revocation overhead of Cornucopia Reloaded while allowing it to support strict use-after-free mitigation.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19055" target="_blank" rel="noopener">CHERI-D: Secure and efficient inline object ID for CHERI temporal memory safety</a> <span class="src-num">[33]</span></div>
+    <div class="card-authors">Yuecheng Wang, Jonathan Woodruff, Alfredo Mazzinghi, Peter Rugg, Samuel W. Stark, Alexandre Joannou, Robert N. M. Watson, Simon W. Moore</div>
+    <div class="card-desc">We propose CHERI-D, an architectural extension to CHERI that supports efficient temporal memory safety. Efficient memory safety is an increasing priority for programming languages, operating systems,…</div>
+    <div class="card-tags"><span class="tag">cs.AR</span><span class="tag">cs.CR</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Mids / Detecting / Stealthy <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="The Controller Area Network (CAN) protocol is the primary communication standard for Electronic Control Units (ECUs) in modern vehicles, but its lack of encryption and authentication exposes it to a range of security threats. Existing intrusion detection systems are largely tuned to fabrication-style attacks (DoS, fuzzing, ID spoofing realised by frame injection), in which detection signals such as per-ID inter-arrival statistics are readily available. We instead address the harder \emph{masquerade} setting~\cite{b37}, in which an internal adversary substitutes a legitimate frame in-situ at its original transmission slot, preserving traffic periodicity and rendering traffic-statistic defences ineffective. We propose the Mamba Intrusion Detection System (MIDS), an innovative dual-stream framework that processes CAN identifiers and payloads in parallel and reconstructs their joint temporal semantics through bidirectional selective state-space modelling. To evaluate MIDS, we collected over 100 million CAN frames from a physical Tesla Model 3 across three driving regimes and synthesised 54 masquerade attack variants spanning ID-only, data-only, and combined modifications. MIDS attains an F1 of 96.94\% on this dataset, exceeding the strongest reproducible baseline by more than 8 percentage points, while sustaining a 1.147~ms single-window inference latency -- ample headroom for real-time onboard deployment. To verify generalisation, we further evaluate MIDS on four public benchmar">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.18599" target="_blank" rel="noopener">MIDS: Detecting Stealthy Masquerade and Tampering Attacks on CAN Bus via Bidirectional Mamba</a> <span class="src-num">[36]</span></div>
+    <div class="card-authors">Qiqi Liu, Runhan Song, Lei Cui, Heng Zhang, Yuyan Sun, Limin Sun</div>
+    <div class="card-desc">The Controller Area Network (CAN) protocol is the primary communication standard for Electronic Control Units (ECUs) in modern vehicles, but its lack of encryption and authentication exposes it to a…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.AI</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Ghost / Vectors / Soft-deleted <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Retrieval-augmented generation (RAG) allows large language models to access external and private corpora for factual, domain-specific responses. Modern RAG pipelines use hierarchical navigable small world (HNSW) vector databases for efficient similarity search. When a user requests data deletion, the systems typically only mark the record as deleted, leaving the embedding on disk physically unchanged. This soft-delete operation raises compliance concerns under data-erasure and retention requirements such as GDPR Article 17 and HIPAA. Analysis on three HNSW implementations confirms that deleted vectors remain physically recoverable by accessing the raw index files at the storage layer, bypassing API access. Using the Vec2Text inversion model without domain-specific fine-tuning, we show this vulnerability on multiple real-world datasets and data modalities. On Wikipedia biographical living persons dataset (BLP), we successfully recover 25.5% of exact person names and 46.4% of geographic locations (ROUGE-L 0.185). Recovery reaches 100% for both patient age and gender markers (ROUGE-L 0.290) on highly structured, sensitive data (NIH Synthea dataset). On soft-deleted image embeddings, we show 100% tissue classification on histopathology patches (p=1.02e-07) and top-1 identity recovery reaches 99% on facial embeddings (p&lt;0.01). This work introduces Epoch Key Rotation, which encrypts vectors and discards the key upon deletion. Epoch key rotation reduces observed PII recovery to 0% a">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.18497" target="_blank" rel="noopener">Ghost Vectors: Soft-Deleted Embeddings Remain Reconstructible in HNSW Vector Databases</a> <span class="src-num">[37]</span></div>
+    <div class="card-authors">Chandranil Chakraborttii, Jackeline García Alvarado, Sitora Abdulofizova, Shivanshu Dwivedi</div>
+    <div class="card-desc">Retrieval-augmented generation (RAG) allows large language models to access external and private corpora for factual, domain-specific responses. Modern RAG pipelines use hierarchical navigable small…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Mean-payoff-parity / Lifting / Strategies <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="We consider the strategy complexity (i.e., memory and randomization) of optimal strategies in turn-based 2-player zero-sum stochastic games. Results in [Gimbert,Kelmendi:2023] show how to lift optimal memoryless strategies for shift-invariant inverse-submixing objectives from MDPs to 2-player stochastic games with an exponential increase in the number of memory modes. We show the corresponding lower bound, i.e., the extra exponential memory is required in general, even for randomized strategies. Moreover, we solve the strategy complexity of the well-studied mean-payoff-parity objective in 2-player stochastic games. This objective is also shift-invariant inverse-submixing, but easier than the worst case for this class. In MDPs, Maximizer has optimal memoryless randomized strategies, while optimal deterministic strategies require exponential memory. However, in stochastic games, optimal randomized strategies require, at least and at most, linear memory (equal to the number of even colors). Finally, we show that a different construction for lifting memoryless (resp. finite-memory) deterministic strategies from MDPs (resp. 1-player games) to 2-player games cannot be generalized even to memoryless randomized strategies. We construct a shift-invariant objective where Max and Min each have optimal memoryless randomized strategies in all MDPs, but optimal (randomized) Max strategies still require infinite memory in deterministic 2-player games.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19324" target="_blank" rel="noopener">Mean-Payoff-Parity and Lifting Strategies from MDPs to 2-Player Stochastic Games</a> <span class="src-num">[38]</span></div>
+    <div class="card-authors">Mohan Dantam, Richard Mayr</div>
+    <div class="card-desc">We consider the strategy complexity (i.e., memory and randomization) of optimal strategies in turn-based 2-player zero-sum stochastic games. Results in [Gimbert,Kelmendi:2023] show how to lift…</div>
+    <div class="card-tags"><span class="tag">cs.GT</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Two / Overlooked / Stick-breaking <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="We shed light on two alternative stick-breaking constructions of the normalized inverse Gaussian (NIG) random discrete distribution which appear to have been overlooked so far in the Bayesian nonparametric setting. The first is derived from a result in Aldous and Pitman (1998) for the conditional Brownian excursion partition, mixing over the local time at zero up to time one. The second arises as a particular case of a result in James (2013) for priors obtained by a random spatial and temporal change of the normalized generalized Gamma subordinator. Both constructions are in terms of straightforward transformations of standard random variables and can be easily generalized to provide the stick-breaking construction of any element, respectively, in a) the family of mixed Poisson-Kingman models driven by the $1/2$ stable Lévy measure and b) the family of Poisson-Gamma processes driven by the Inverse Gaussian subordinator.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19306" target="_blank" rel="noopener">On two overlooked stick-breaking constructions of the normalized inverse Gaussian process</a> <span class="src-num">[39]</span></div>
+    <div class="card-authors">Annalisa Cerquetti</div>
+    <div class="card-desc">We shed light on two alternative stick-breaking constructions of the normalized inverse Gaussian (NIG) random discrete distribution which appear to have been overlooked so far in the Bayesian…</div>
+    <div class="card-tags"><span class="tag">math.PR</span><span class="tag">math.ST</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Secret / Key-distribution / Over <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="We study the multiple key-cast problem in network coding under active node-based adversaries. In multiple key-cast, a source generates independent secret keys to be securely and reliably delivered to designated terminal subsets. The network adversary can observe \(\ell_o\) nodes, inject additive or overwrite errors into \(\ell_e\) nodes, and simultaneously observe and corrupt \(\ell_{oe}\) nodes, while having full knowledge of the topology and coding operations. Adversarial models of similar nature, however, where corruption and eavesdropping is done on edges instead of nodes, have seen previous studies in the context of secure multicast network-coding. The work at hand builds on and extends these studies to address the challenges in node-based adversaries in the context of (multiple) key distribution. For single-source networks where every node is d-vertex connected from the source, we show that perfectly secure multiple key-cast under additive and overwrite error models is asymptotically achievable at the key-capacity of \(d-\ell_o-\ell_e-2\ell_{oe}\). We then extend our analysis to networks where only terminal nodes satisfy this connectivity requirement, while intermediate nodes may be only partially connected. For these topologies, we develop coding schemes that achieve secure and reliable multiple key-cast capacities determined by the source vertex-connectivity and additional structural properties of the network. Finally, we show that our results generalize to multi-sour">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19305" target="_blank" rel="noopener">Secret key-distribution over networks with node-based adversarial errors</a> <span class="src-num">[40]</span></div>
+    <div class="card-authors">Reza Sayyari, Michael Langberg</div>
+    <div class="card-desc">We study the multiple key-cast problem in network coding under active node-based adversaries. In multiple key-cast, a source generates independent secret keys to be securely and reliably delivered to…</div>
+    <div class="card-tags"><span class="tag">cs.IT</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Quantum / Solitons / Their <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Superconducting qubits are artificial atoms whose spectra and interactions can be engineered through appropriate circuit design, a versatility that can be exploited for quantum simulation. We theoretically investigate a linear array of capacitively coupled transmons, effectively described by a Bose-Hubbard Hamiltonian with attractive interaction. We revisit the discrete-soliton nature of the lowest-energy band of the spectrum, and identify spatially localized quantum solitons. The solitonic character of these states is revealed through their time evolution, which displays a quantum interference pattern, or quantum walk, highlighting their composite nature. We discuss protocols for preparing spatially localized quantum solitons that are compatible with current state-of-the-art tunable-transmon circuits. Our results demonstrate that superconducting circuits provide a promising and experimentally accessible platform for the investigation of quantum soliton physics.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19339" target="_blank" rel="noopener">Quantum solitons and their quantum walks in transmon arrays</a> <span class="src-num">[41]</span></div>
+    <div class="card-authors">Ben Blain, Giampiero Marchegiani, Luigi Amico, Gianluigi Catelani</div>
+    <div class="card-desc">Superconducting qubits are artificial atoms whose spectra and interactions can be engineered through appropriate circuit design, a versatility that can be exploited for quantum simulation. We…</div>
+    <div class="card-tags"><span class="tag">quant-ph</span><span class="tag">cond-mat.mes-hall</span><span class="tag">cond-mat.quant-gas</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Floquet / Framework / Driven <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="We present an analytical and numerical Floquet treatment of a driven polar two-level quantum system characterized by both longitudinal and transverse coupling to a periodic field. Analytically, we derive a dressed-frame effective Hamiltonian up to first order in the inverse driving frequency, incorporating the longitudinal coupling nonperturbatively. This yields closed expressions for the effective transverse coupling strength and the effective detuning, both of which are modified by the presence of the longitudinal interaction. In the nonpolar limit, these expressions recover the usual near-resonant Rabi coupling and the Bloch-Siegert shift. As a second main result, we develop a numerical flow-equation framework that yields a time-independent effective Hamiltonian across a broad range of transverse and longitudinal coupling strengths. This dual framework is relevant for a variety of platforms, including driven polar quantum systems, optical lattices, superconducting circuits, and solids subject to surface acoustic waves.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19330" target="_blank" rel="noopener">Floquet framework for driven polar quantum systems</a> <span class="src-num">[43]</span></div>
+    <div class="card-authors">Viktor Novičenko, Piotr Gładysz, Karolina Słowik, Egidijus Anisimovas</div>
+    <div class="card-desc">We present an analytical and numerical Floquet treatment of a driven polar two-level quantum system characterized by both longitudinal and transverse coupling to a periodic field. Analytically, we…</div>
+    <div class="card-tags"><span class="tag">quant-ph</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Spectral / Functions / Lorentzian <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="We compute spectral functions of graviton modes in Lorentzian quantum gravity, interpolating between classical general relativity and an asymptotically safe ultraviolet fixed point. Using functional renormalisation adapted for theories in Lorentzian signature, and enhanced by new symmetry conditions to account for underlying Ward identities, we derive and solve flow equations directly for the Källén-Lehmann representation of propagators. Consistent results are found for several sets of renormalisation conditions yielding normalisable spectral functions for the graviton and the scalar graviton mode, in agreement with effective theory in the infrared. We further calculate the full quantum effective action to quadratic order in curvature, extract graviton-induced form factors, and discuss implications for unitarity of quantum gravity.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19321" target="_blank" rel="noopener">Spectral Functions of Lorentzian Quantum Gravity</a> <span class="src-num">[44]</span></div>
+    <div class="card-authors">Gabriel Assant, Daniel F. Litim, Manuel Reichert</div>
+    <div class="card-desc">We compute spectral functions of graviton modes in Lorentzian quantum gravity, interpolating between classical general relativity and an asymptotically safe ultraviolet fixed point. Using functional…</div>
+    <div class="card-tags"><span class="tag">hep-th</span><span class="tag">gr-qc</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Grmhd / Grrt / Simulations <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="This dissertation studies the electromagnetic signatures of accreting supermassive black holes using general relativistic magnetohydrodynamic simulations and covariant radiative-transfer calculations. It develops a unified numerical framework for modeling black-hole accretion, jet launching, flaring activity, and multi-band variability in Kerr, non-Kerr, and binary black-hole spacetimes.   For isolated Kerr black holes, I investigate how magnetic-field geometry affects accretion dynamics and transient emission. Multi-loop magnetic configurations naturally produce reconnection events and flux-rope structures that can power near-infrared flares from Sagittarius A*, while the evolving optical depth of expanding plasma explains delayed millimeter emission. I also show that in tilted magnetically arrested disks, magnetic torques can drive retrograde disk and jet precession.   The dissertation then applies the same framework to more complex spacetimes. Simulations of accretion onto regular loop-quantum black holes show that quantum-gravity corrections can modify photon-ring size, polarization structure, and jet power, leading to observational constraints from Event Horizon Telescope data. Finally, simulations of supermassive binary black holes in time-dependent spacetimes reveal how gravitational self-lensing, shock activity, and spin-orbit coupling shape multi-wavelength light curves and jet precession. Together, these results connect relativistic plasma dynamics with current and">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19320" target="_blank" rel="noopener">GRMHD and GRRT Simulations of Black Hole Accretion: Flares, Precession, and Complex Spacetimes</a> <span class="src-num">[45]</span></div>
+    <div class="card-authors">Hong-Xuan Jiang</div>
+    <div class="card-desc">This dissertation studies the electromagnetic signatures of accreting supermassive black holes using general relativistic magnetohydrodynamic simulations and covariant radiative-transfer…</div>
+    <div class="card-tags"><span class="tag">astro-ph.HE</span><span class="tag">gr-qc</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Digital / Speech / Acts <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Legal precedents protect computer code as copyrightable expression. They have enabled centralized digital platforms -- operating from corporate servers that hold all user data -- to construct private governance regimes through the interaction of copyright, contract, and technical architecture: people who create virtually all platform value must surrender effective copyright control through Terms of Service agreements as a condition of participation.   In contrast, grassroots platforms consist of cryptographically-identified people operating their networked smartphones independently of any server or global resource; each person holds their own data on their own device, with no third party in possession or intermediation. Here, we define the notion of a \textit{digital speech act} -- a deliberate volitional act by a person of cryptographically signing personal content with the person&#x27;s private key, carried out on the person&#x27;s own device -- through which the person simultaneously establishes attribution, accountability, and authorship over the signed content. We contend that (\ia) digital speech acts qualify for copyright protection under existing U.S.\ precedent: \textit{Burrow-Giles} locates authorship in volitional creative choices despite mechanical or algorithmic processes, \textit{Feist} supplies the minimal-creativity threshold, and persistent device storage satisfies the Copyright Act&#x27;s fixation requirement; (\ib) the digital social contract underlying grassroots platfor">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19263" target="_blank" rel="noopener">Digital Speech Acts Retain Control of Copyright with People, Not Platforms</a> <span class="src-num">[46]</span></div>
+    <div class="card-authors">James Golike, Ehud Shapiro</div>
+    <div class="card-desc">Legal precedents protect computer code as copyrightable expression. They have enabled centralized digital platforms -- operating from corporate servers that hold all user data -- to construct private…</div>
+    <div class="card-tags"><span class="tag">cs.SI</span><span class="tag">cs.CY</span><span class="tag">cs.MA</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Bivariate / Incomplete-bessel / Kernels <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="The weakly nonlinear response of a homogeneous magnetised plasma is usually written as a double cyclotron-harmonic expansion. This representation is explicit, but the repeated use of the Jacobi-Anger expansion produces long sums of Bessel functions and nested resonance denominators. In the linear problem we recently obtained an alternative formulation by keeping the Larmor phase unexpanded and by evaluating the characteristic integral in terms of the newly introduced incomplete-Bessel function $G_μ(z,ψ)$. In this article we apply the same idea directly to the first nonlinear Vlasov-Maxwell equation. The nonlinear source contains the linear response of an inner mode. When this linear response is written in incomplete-Bessel form, the outer characteristic integral produces a bivariate orbit-resolvent $G_{μ,ν}^{(r)}(z,ψ;w,χ)$. This function emerges therefore as the natural orbit integral generated by the first nonlinear characteristic problem. We derive the nonlinear distribution function in terms of these bivariate functions, collect the identities needed for the current projection, recover an extension of the classical double-harmonic Liu-Tripathi formula by expansion, and indicate how the nonlinear susceptibility tensor is obtained from bivariate angular contractions.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19261" target="_blank" rel="noopener">Bivariate incomplete-Bessel kernels for the first nonlinear Vlasov-Maxwell response</a> <span class="src-num">[47]</span></div>
+    <div class="card-authors">Roberto Ricci</div>
+    <div class="card-desc">The weakly nonlinear response of a homogeneous magnetised plasma is usually written as a double cyclotron-harmonic expansion. This representation is explicit, but the repeated use of the Jacobi-Anger…</div>
+    <div class="card-tags"><span class="tag">physics.plasm-ph</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Fine-scale / Downflows / Above <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="In solar flares, flare ribbons map chromospheric footpoints where flare energy deposition occurs. These locations are associated with field aligned energy transport from the corona that results from energy liberated during magnetic reconnection. Recent chromospheric observations in the H$α$ and H$β$ bands have revealed fine-scale downflow structures above flare ribbons, referred to as riblets. In this study, we identify similar downflow structures in the extreme-ultraviolet (EUV) wavelength using high-resolution observations from Solar Orbiter/EUI. These fine-scale downflows appear as downward-propagating, bright, and thread-like structures. They exhibit typical velocities of $\sim100~\mathrm{km\ s^{-1}}$, lifetimes of $\sim15$~s, and lengths of $\sim1.6$~Mm. Based on their morphological and dynamical properties, we interpret these observed downflows as the EUV counterparts of the riblets that have previously been reported from chromospheric observations. This study presents EUV imaging of $\sim 10^6$~K downflows above flare ribbons. We interpret these downflows as a result of (1) the energisation and subsequent compression of pre-existing chromospheric fibrils due to particle beams or (2) adiabatic or shock-driven compression induced by the downward-propagating plasma from the corona. These fine-scale EUV riblets provide a new diagnostic tool for probing the dynamics of magnetic reconnection as well as energy transport and deposition during solar flares.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19335" target="_blank" rel="noopener">Fine-scale downflows above flare ribbons captured by Solar Orbiter/EUI</a> <span class="src-num">[48]</span></div>
+    <div class="card-authors">Zheng Sun, Alexander G. M. Pietrow, Malcolm K. Druett, Hui Tian, Julián D. Alvarado-Gómez, Song Tan, Alexander Warmuth, Jiasheng Wang, Yuhang Gao, Zhenyong Hou, Alexandros Stork</div>
+    <div class="card-desc">In solar flares, flare ribbons map chromospheric footpoints where flare energy deposition occurs. These locations are associated with field aligned energy transport from the corona that results from…</div>
+    <div class="card-tags"><span class="tag">astro-ph.SR</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Integrated / Physics-based / Modeling <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Small modular reactors (SMRs) are increasingly considered for flexible power generation; however, many dynamic studies still neglect the thermodynamic coupling between the primary and secondary loops that is essential for accurate assessment of load-following capability. In this study, we develop a hybrid dynamic framework that couples an equation-based model of the NuScale integral pressurized water reactor, including the reactor, primary loop, and moving-boundary helical-coil once-through steam generator, with a physics-based secondary steam cycle comprising the valve, turbine, condenser, and feedwater pump. This approach enforces mass and energy conservation across the coupled system while preserving physically consistent flow interactions across the domain boundary. The integrated model reproduces nominal design-point conditions and is used to analyze a 5% step load rejection under five control strategies, including a decentralized three-loop control architecture for the valve, feedwater pump, and control rods. The results show that partial control strategies are insufficient for efficient and safe operation, whereas simultaneous action of all three actuators stabilizes steam pressure, limits adverse thermal excursions in the primary loop and maintains acceptable steam generator operating margins during load-following maneuvers. Compared with a conventional linear steam-cycle representation, the coupled framework captures dynamic back-pressure and variable turbine enthalp">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.19296" target="_blank" rel="noopener">Integrated physics-based modeling reveals a thermodynamic gap in small modular reactor load following</a> <span class="src-num">[49]</span></div>
+    <div class="card-authors">Ali Mahboub Rad, Roshni Anna Jacob, Bikash Poudel, Mayir Mamtimin, Jie Zhang</div>
+    <div class="card-desc">Small modular reactors (SMRs) are increasingly considered for flexible power generation; however, many dynamic studies still neglect the thermodynamic coupling between the primary and secondary loops…</div>
+    <div class="card-tags"><span class="tag">eess.SY</span><span class="tag">math.DS</span></div>
+  </div></div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🤗 HuggingFace Papers <span class="group-count">15</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Language model agents are becoming proficient executors at isolated, short-horizon tasks such as software engineering and customer service. Yet real-world challenges require a combination of sophisticated skills that remain largely untested in agents: (1) navigating long horizons amid uncertainty; (2) acquiring information in noisy environments; (3) adapting to a changing world; (4) orchestrating multiple moving parts toward a coherent goal. We introduce CEO-Bench, which evaluates these capabilities together by simulating a representative real-world task: operating a startup for 500 days. An agent manages pricing, marketing, budgeting, and many other aspects of a fictional company through a programmable Python interface, operating in the same environment and facing the same challenges as a human CEO. Success demands analyzing noisy, interconnected business databases, translating signals into sound strategy, and coordinating many decisions with programming. The strongest agents write sophisticated code that simulates customer cohorts to forecast future cash and mines negotiation history to uncover hidden customer preferences. Even so, most state-of-the-art models struggle in this environment. Only Claude Opus 4.8 and GPT-5.5 finish above the $1M starting balance, and neither consistently turns a profit. CEO-Bench takes a first step toward measuring the intelligence required to drive sustained, adaptive progress over time.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.18543" target="_blank" rel="noopener">CEO-Bench: Can Agents Play the Long Game?</a> <span class="src-num">[61]</span></div>
+    
+    <div class="card-desc">Language model agents are becoming proficient executors at isolated, short-horizon tasks such as software engineering and customer service. Yet real-world challenges require a…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 1</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="AI systems can increasingly automate scientific workflows, but the reasoning that links prior evidence, generated ideas, experiments and final claims often remains implicit inside model inference. Here we introduce Xcientist, a research harness that externalizes research synthesis and experimental validation into inspectable, contract-governed processes. Xcientist organizes literature evidence, idea states, implementation plans, ablation records and repair traces as persistent research artifacts, so that generated mechanisms can be grounded, executed, tested and revised without losing their evidential basis. We identify claim drift as a failure mode of automated research, where runnable artifacts no longer support the mechanism originally claimed. Across training-free memory systems, graph-structured traffic forecasting and multi-scale physics-informed neural networks, Xcientist preserves traceable trajectories from problem formulation to mechanism design, validation and bounded revision. These results suggest that AI scientists should be evaluated not only by their final artifacts, but by whether their synthesis and validation processes remain attributable, inspectable and scientifically accountable.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.18874" target="_blank" rel="noopener">Externalizing Research Synthesis and Validation in AI Scientists through a Research Harness</a> <span class="src-num">[62]</span></div>
+    
+    <div class="card-desc">AI systems can increasingly automate scientific workflows, but the reasoning that links prior evidence, generated ideas, experiments and final claims often remains implicit inside…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 1</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Frontier scientific reasoning remains a major challenge for large language models (LLMs), where even the strongest commercial systems fall short of expert-level performance. A closer look at model behavior reveals substantial complementarity that single-model evaluation hides: different frontier models excel on different question types, and no single model captures the full picture. We present SciOrch, a framework that trains a lightweight 8B model to orchestrate frontier LLMs for scientific reasoning. The orchestrator decomposes each question, delegates sub-problems to selected commercial models through API calls, and synthesizes a final answer. Training such an orchestrator is fundamentally harder than conventional agentic RL: each action triggers an API call that is expensive in both dollar cost and latency, making standard online rollouts infeasible. We address this with MCTS-based approach, producing diverse orchestration trajectories, extracting per-node single-turn samples, and optimizing the orchestrator with GRPO-style training. On a 240-question test set spanning SGI-Reasoning and Scientists&#x27; First Exam, SciOrch reaches 56.66% average accuracy, outperforming the strongest single commercial model by 3.74% and the strongest multi-agent baseline by 3.33%. It also attains the best accuracy on both SGI and SFE with less than half the API cost of typical multi-agent methods.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.15872" target="_blank" rel="noopener">SciOrch: Learning to Orchestrate Expert LLMs for Solving Frontier Multimodal Scientific Reasoning Tasks</a> <span class="src-num">[52]</span></div>
+    
+    <div class="card-desc">Frontier scientific reasoning remains a major challenge for large language models (LLMs), where even the strongest commercial systems fall short of expert-level performance. A…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="World models are transitioning from passive visual generators to foundational, operational infrastructure for Physical AI: they must natively acquire world knowledge from heterogeneous experience, maintain persistent states over long horizons, and execute efficiently within real deployment constraints. We introduce Kairos, a native world model stack designed around these requirements. (1) Kairos learns the world by pioneering a Native Pre-training Paradigm governed by a Cross-Embodiment Data Curriculum, which organizes open-world videos, human behavioral data, and robot interactions into a progressive developmental pathway. (2) Kairos maintains the world by unified world understanding, generation, and prediction within a Native Unified Architecture equipped with Hybrid Linear Temporal Attention, where sliding-window attention captures local dynamics, dilated sliding windows capture mid-range dependencies, and gated linear attention maintains persistent global memory. We establish formal theoretical bounds demonstrating that this temporal factorization strictly limits error accumulation, mathematically guaranteeing state propagation across extended horizons. (3) Kairos runs the world by incorporating a Deployment-Aware System Co-Design to support low-latency rollout generation on server and consumer-grade hardware for real-world observation-action-feedback loops. Experiments on embodied world-model, long-horizon, and action-policy benchmarks show that Kairos achieves top level">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.16533" target="_blank" rel="noopener">Kairos: A Native World Model Stack for Physical AI</a> <span class="src-num">[58]</span></div>
+    
+    <div class="card-desc">World models are transitioning from passive visual generators to foundational, operational infrastructure for Physical AI: they must natively acquire world knowledge from…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 19</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Multi-agent LLM systems share state through memory stores, vector indices, and tool registries. We model such sharing as long-running read-generate-write operations under deterministic-generation semantics -- the regime durable-execution engines enforce by deterministic replay -- and formalize four concurrency anomalies in TLA+: stale-generation, phantom-tool, causal-cascade, and tool-effect reordering, structural analogues of classical isolation anomalies, each with a TLC counter-example. The exclusion lattice over these anomalies is trivial; the contribution is the mechanically verified realizability and strict separation of one maximal chain within it, L_0 subsetneq cdots subsetneq L_4, to our knowledge the first machine-checked consistency hierarchy for such runtimes. A development of 274 Verus obligations (zero assume, zero admit; trust base: two structural axioms and a mutex correspondence) proves the detectors sound and complete against the specifications and each runtime its avoidance set. Three deployed Rust runtimes realize L0-L1 (pessimistic locking, serializable snapshot isolation, default-SI), each verified against stale-generation and refined to its state machine; L2-L4 are exec-mode-verified with dependency-free prevention twins (A3, A6, A2: 0/1000 versus 1000/1000), and L2 is run live across three model families (A3 prevented in all 120 retracted sessions). We reproduce a silent lost update in ByteDance&#x27;s deer-flow, formalizing its fix as a verified L_0 to L_1">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.17182" target="_blank" rel="noopener">Verified Detection and Prevention of Concurrency Anomalies in Multi-Agent Large Language Model Systems</a> <span class="src-num">[65]</span></div>
+    
+    <div class="card-desc">Multi-agent LLM systems share state through memory stores, vector indices, and tool registries. We model such sharing as long-running read-generate-write operations under…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Diffusion models have become a promising alternative to autoregressive models. Among these, uniform diffusion language models (UDLMs) permit any token to be updated at any step, in principle enabling more flexible generation. However, no UDLM has yet been pretrained from scratch at both large parameter scale and large token budget. Both autoregressive modeling and masked diffusion modeling already have capable models at scale that the community can study and build on; uniform diffusion has none. A scratch-pretrained UDLM at scale would provide a clean reference point for studying scaling behavior, generation dynamics, controllability, and trade-offs against established autoregressive and masked diffusion models. To this end, we introduce Sumi (&quot;ink&quot; in Japanese), a fully open 7B uniform diffusion language model pretrained from scratch on 1.5T tokens. Sumi performs competitively with autoregressive models trained at comparable token budgets on knowledge, reasoning, and coding benchmarks, while under-performing on commonsense benchmarks, where our education-heavy data mixture is a likely contributor. We release our model weights, checkpoints, and full training recipe, including a complete specification of the data mixture over publicly available corpora. We hope this release enables the community to study native uniform diffusion at scale and catalyzes work on its as-yet poorly understood aspects.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.19005" target="_blank" rel="noopener">Sumi: Open Uniform Diffusion Language Model from Scratch</a> <span class="src-num">[56]</span></div>
+    
+    <div class="card-desc">Diffusion models have become a promising alternative to autoregressive models. Among these, uniform diffusion language models (UDLMs) permit any token to be updated at any step,…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 4</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Sparse Autoencoders (SAEs) decompose residual-stream activations into interpretable features. Recent latent-space defenses increasingly rely on these decompositions, assuming that identified &quot;unsafe&quot; SAE features serve as actionable handles for monitoring and intervention. In this paradigm, clamping a specific harmful feature is expected to reliably prevent model misbehavior. However, we show that this success may hide a recoverable failure mode: the clamp may block one visible route to a behavior without eliminating the behavior itself. We formulate this vulnerability as post-intervention recovery, a constrained residual-space optimization problem. Starting from the post-intervention residual state, we optimize residual perturbations to recover the pre-intervention behavior while preserving the post-intervention values of the targeted SAE features. Even under a strong threat model where the intervention remains active throughout optimization and generation, recovery remains possible. To rule out that recovery simply undoes the intervention, we use encoder-orthogonal updates for single-layer interventions and the corresponding feature-map Jacobian in the cross-layer setting. Across TPP, unlearning, IOI, and refusal steering experiments, this stress test reveals recoverable behavior despite successful feature-level intervention. Especially in the safety-critical refusal-steering setting, we achieve a 95.8% recovery rate on valid samples while keeping defended-feature relative">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.18322" target="_blank" rel="noopener">SAE Interventions are Unreliable: Post-Intervention Recovery of Suppressed Behavior</a> <span class="src-num">[54]</span></div>
+    
+    <div class="card-desc">Sparse Autoencoders (SAEs) decompose residual-stream activations into interpretable features. Recent latent-space defenses increasingly rely on these decompositions, assuming that…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 11</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Language models trained on large-scale vision-language data have demonstrated strong potential for embodied agents. Harnessing models through embodied tools use offers a promising alternative to end-to-end vision-language-action systems by combining high-level reasoning with external modules for perception, planning, and control. However, it remains unclear what makes an effective harness for embodied manipulation, and to what extent such a harness can unlock embodied capabilities in a wide range of reasoning models. In this work, we present Guava, a harness framework for embodied tool use developed through systematic exploration of the design space of agent workflows, action spaces, and observation spaces. Our study identifies three key ingredients for effective embodied agents: iterative perception-reasoning-action loops, semantic action abstractions, and multimodal observations. To understand whether these design principles are universal even to small models, we develop an end-to-end training pipeline that distills embodied manipulation capabilities into a 4B open-source model using fewer than 2K trajectories collected entirely in simulation. Experimental results in both simulation and real-world environments show performance comparable to frontier proprietary models while exhibiting strong generalization to unseen objects, novel instructions, and long-horizon tasks. Results suggest that a well-designed harness can serve as a scalable, model-agnostic interface for embodied">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.18363" target="_blank" rel="noopener">Guava: An Effective and Universal Harness for Embodied Manipulation</a> <span class="src-num">[63]</span></div>
+    
+    <div class="card-desc">Language models trained on large-scale vision-language data have demonstrated strong potential for embodied agents. Harnessing models through embodied tools use offers a promising…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 20</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="World foundation models (WFMs) are powerful simulators, yet they predominantly operate in a single-view setting and lack the multi-view 3D consistency required for robotic manipulation. While robotic systems rely on multiple cameras (egocentric, eye-to-hand, and wrist-mounted) for policy learning, current multi-view world models simply concatenate view tokens without explicit geometric reasoning. This causes cross-view object drift, depth inconsistency, and texture misalignment. We trace these failures to two deficiencies: the absence of an explicit inter-view communication mechanism and the lack of a 3D geometric prior. We argue that resolving both simultaneously is necessary and sufficient. To address this, we present PAIWorld, a framework that augments diffusion-transformer world models via three core components: (1) Geometry-Aware Cross-View Attention blocks that establish an explicit pathway across views, (2) Geometric Rotary Position Embedding that encodes camera ray directions and extrinsic poses into the attention mechanism, and (3) Latent 3D-REPA, which distills 3D-aware features from frozen 3D foundation models to ensure 3D consistency. Built upon a DiT-based world foundation model, PAIWorld achieves state-of-the-art multi-view 3D consistency on robotic manipulation benchmarks, ranking 1st on the WorldArena leaderboard and 2nd on the AgiBot-Challenge2026 leaderboard, while enabling downstream applications such as model-based planning, world action models, and multi-">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.18375" target="_blank" rel="noopener">PAIWorld: A 3D-Consistent World Foundation Model for Robotic Manipulation</a> <span class="src-num">[59]</span></div>
+    
+    <div class="card-desc">World foundation models (WFMs) are powerful simulators, yet they predominantly operate in a single-view setting and lack the multi-view 3D consistency required for robotic…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 1</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Industrial products such as valves and circuit breakers are defined by dense technical specifications that govern procurement, compatibility, and safety across supply chains. These specifications are scattered across multiple heterogeneous product images, including specification tables, nameplates, and technical drawings, yet whether Multimodal Large Language Models (MLLMs) can reliably recover them remains underexplored. To fill this gap, we introduce IndustryBench-MIPU, the first large-scale benchmark for multi-image industrial product understanding, built around structured attribute extraction -- recovering property-value pairs from product images. This task jointly probes text recognition on specification tables and nameplates, visual reasoning over technical drawings, domain knowledge to decode industrial terminology, and cross-image evidence integration to assemble scattered specifications. Concretely, the benchmark comprises 4,559 products across 27,652 images with 103,703 annotations spanning 18 industrial categories, constructed through multi-model consensus and three-tier quality assurance. Evaluating nine MLLMs under both single-image and product-level multi-image settings reveals a stark completeness gap: models achieve high precision (86--94%) but the best recovers only 49.9% of product-level attributes; moving from single-image to multi-image extraction costs 15--34 percentage points of recall. Multi-image completeness, not single-image accuracy, is the core bot">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.14383" target="_blank" rel="noopener">IndustryBench-MIPU: Benchmarking Multi-Image Attribute Value Extraction for Industrial Products</a> <span class="src-num">[57]</span></div>
+    
+    <div class="card-desc">Industrial products such as valves and circuit breakers are defined by dense technical specifications that govern procurement, compatibility, and safety across supply chains.…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 1</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="In this report, we present LOGOS (Language Of Generative Objects in Science), a scientific generative language model that unifies heterogeneous tasks across the natural sciences within a single autoregressive framework based on a shared scientific grammar. It encodes diverse scientific objects and their spatial interactions as token sequences over a common vocabulary. By representing spatial contact and constraint patterns as discrete tokens, the model captures complex structural interactions in a purely sequential manner, without relying on explicit coordinates or geometric neural networks. This unified representation enables a wide range of downstream tasks to be formulated consistently as next-token prediction in the same grammar space, creating strong alignment between continued multi-domain pre-training and downstream objectives. Across diverse tasks, LOGOS consistently matches or outperforms domain-specific baselines, providing preliminary evidence for the feasibility of &quot;one model fits all&quot; in the natural sciences. We train LOGOS models at different scales (1B, 3B, and 8B parameters) and find a consistent positive correlation between model size and performance. This suggests that the future of AI for Science (AI4S) may not lie in building an independent technical stack that is separated from large language models (LLMs). Instead, it may depend on deeply aligning scientific foundation models with LLMs through shared architectures, shared training paradigms, and shared i">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.16905" target="_blank" rel="noopener">Speaking the Language of Science: Toward a General-Purpose Generative Foundation Model for the Natural Sciences</a> <span class="src-num">[64]</span></div>
+    
+    <div class="card-desc">In this report, we present LOGOS (Language Of Generative Objects in Science), a scientific generative language model that unifies heterogeneous tasks across the natural sciences…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 2</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Spatial VLMs have made substantial progress in geometric perception, yet complex spatial reasoning requiring multi-step inference over depth, distance, and scene relations remains challenging. Moreover, different spatial queries call for fundamentally different strategies: some are best addressed through purely linguistic, step-by-step deduction, while others require explicit 3D grounding before quantitative inference. We present Dual-Path Spatial Reasoning via Reinforcement Learning for Spatial VLMs (SR-REAL), a unified framework that equips a spatial VLM with two complementary reasoning paths: Language-Only Reasoning (LOR), which performs step-by-step linguistic deduction, and Detect-Then-Reason (DTR), which detects 3D geometric cues (e.g., centers or bounding boxes) via region tokens before explicit geometric inference. SR-REAL begins with a cold-start supervised fine-tuning stage that constructs LOR and DTR chain-of-thought supervision and exposes a region-to-3D interface, followed by RL that optimizes the policy model with accuracy and format rewards; for DTR, a discrete center-based detection reward further refines geometric alignment. Across diverse spatial benchmarks, SR-REAL significantly outperforms spatial VLM baselines: (i) a single RL-trained model supports both reasoning paths, with DTR excelling in region-aware tasks through precise 3D localization and LOR enhancing general spatial reasoning; (ii) jointly training both paths fosters mutual reinforcement; (iii)">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.17539" target="_blank" rel="noopener">Reinforcing Dual-Path Reasoning in Spatial Vision Language Models</a> <span class="src-num">[53]</span></div>
+    
+    <div class="card-desc">Spatial VLMs have made substantial progress in geometric perception, yet complex spatial reasoning requiring multi-step inference over depth, distance, and scene relations remains…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 11</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Unified Multimodal Modeling aims to integrate visual understanding and generation within a single system. However, existing approaches typically rely on two disparate visual tokenizers, which splits the representation space and hinders truly unified modeling. We propose UniAR, a unified autoregressive framework where a single discrete visual tokenizer serves as the key bridge between understanding and generation, enabling a shared context in which the model can directly interpret its own generated visual tokens without additional re-encoding. UniAR adapts a pretrained vision encoder with multi-level feature fusion and a lookup-free bitwise quantization scheme, preserving both high-level semantics and low-level details while scaling the effective visual vocabulary at minimal cost. Building on this, the unified autoregressive model adopts parallel-bitwise-prediction to jointly predict spatially grouped, multi-level visual codes, substantially reducing visual sequence length and accelerating generation. Finally, a diffusion-based visual decoder operates on discrete visual tokens to decode high-fidelity images. Through large-scale pre-training, followed by supervised fine-tuning and reinforcement learning, UniAR achieves state-of-the-art performance on image generation and image editing while remaining competitive on multimodal understanding benchmarks. The project page is available at https://sharelab-sii.github.io/uniar-web.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.18249" target="_blank" rel="noopener">Unified Multimodal Autoregressive Modeling with Shared Context-Visual Tokenizer is Key to Unification</a> <span class="src-num">[66]</span></div>
+    
+    <div class="card-desc">Unified Multimodal Modeling aims to integrate visual understanding and generation within a single system. However, existing approaches typically rely on two disparate visual…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 11</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Graphical user interface (GUI) grounding requires vision-language models (VLMs) to identify small target elements in high-resolution screenshots and predict precise screen coordinates. On-policy self-distillation (OPSD) is a promising post-training approach for this coordinate-sensitive task, since it provides dense token-level teacher signals beyond hard coordinate labels. However, naive OPSD is not well suited to GUI grounding: OPSD evaluates the teacher on student-generated prefixes, the quality of coordinate-token teacher signals can degrade when the prefix has already deviated from the target coordinate, leading to unreliable teacher signal. To mitigate this, We propose quality-aware self-distillation for VLM-based GUI grounding, which improves coordinate-token teacher-signal quality through soft correctness-aware gating and teacher-probability scaling. The soft correctness-aware gate checks whether the teacher&#x27;s current coordinate-token prediction can still be completed into the ground-truth box under the student-generated prefix. If not, the corresponding teacher signal is down-weighted. Teacher-probability scaling then uses the teacher&#x27;s confidence as a lightweight factor to further calibrate the strength of the gated supervision. A key empirical finding is that neither component alone improves overall performance, whereas combining them consistently improves performance. This suggests that the two mechanisms play complementary roles: correctness-aware gating suppress">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.18101" target="_blank" rel="noopener">Trust the Right Teacher: Quality-Aware Self-Distillation for GUI Grounding</a> <span class="src-num">[55]</span></div>
+    
+    <div class="card-desc">Graphical user interface (GUI) grounding requires vision-language models (VLMs) to identify small target elements in high-resolution screenshots and predict precise screen…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 11</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Video generative models ( VGMs) have become a new frontier that can be used not just for video generation but for a multitude of downstream tasks, including world modeling. To advance these tasks, a good video model must understand the physical reality of the world. Evaluating this understanding is an emerging field and has led to the Physics-IQ benchmark, which quantifies this explicitly by comparing model-generated videos to real-world videos of physical experiments. In this work, we present a systematic audit of the Physics-IQ benchmark, expose shortcomings and propose three solutions that sharpen how we can measure physical understanding of VGMs. Specifically, we improve prompt and ground-truth quality to reduce the influence of confounding factors and further introduce a sample-level scoring system that weights each sample and metric equally. Our resulting benchmark, Physics-IQ Verified, refines 57.6\% of all samples and improves over 34.8\% of prompts. In a comparison study using six image-to-video generative models, we observe moderate but meaningful ranking changes (Kendall&#x27;s τ= 0.46). We hope Physics-IQ Verified advances the community by providing a more reliable signal toward physically accurate VGMs. The code for the benchmark can be accessed at https://github.com/google-deepmind/physics-iq-benchmark">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.18943" target="_blank" rel="noopener">Physics-IQ Verified</a> <span class="src-num">[60]</span></div>
+    
+    <div class="card-desc">Video generative models ( VGMs) have become a new frontier that can be used not just for video generation but for a multitude of downstream tasks, including world modeling. To…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📝 OpenReview <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="The advancements in Large Language Models (LLMs) have been hindered by their substantial sizes, which necessitate LLM compression methods for practical deployment. Singular Value Decomposition (SVD) offers a promising solution for LLM compression. However, state-of-the-art SVD-based LLM compression methods have two key limitations: truncating smaller singular values may lead to higher compression loss, and the lack of update on the compressed weight after SVD truncation. In this work, we propose SVD-LLM, a new SVD-based LLM compression method that addresses the limitations of existing methods.">
+    <div class="card-title"><a href="https://openreview.net/forum?id=aYbE1z7MIt" target="_blank" rel="noopener">SVD-LLM: Truncation-aware Singular Value Decomposition for Large Language Model Compression</a> <span class="src-num">[77]</span></div>
+    
+    <div class="card-desc">The advancements in Large Language Models (LLMs) have been hindered by their substantial sizes, which necessitate LLM compression methods for practical deployment. Singular Value…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div><div class="card web-card" data-full-desc="Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and fine-tuned on massive 3D data, offering the capability of producing highly consistent multi-view images. However, due to the scarcity of synchronized multi-view video data, it remains challenging to adapt this paradigm to 4D generation directly. Despite that, the available video and 3D data are adequate for training video and multi-view diffusion models separately that can provide satisfactory dynamic and geometric pri">
+    <div class="card-title"><a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and Multi-view Diffusion Models</a> <span class="src-num">[78]</span></div>
+    
+    <div class="card-desc">Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🦞 Lobste.rs <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Blog Loading… Everything The Heap Productivity AI/ML Open Source Business Hub Company Releases Podcast Newsletter Stack Overflow Business Stack Internal : the knowledge intelligence layer that powers enterprise AI. Stack Data Licensing : decades of verified, technical knowledge to boost AI performance and trust. Stack Ads : engage developers where it matters — in their daily workflow. June 10, 2026 Announcing Stack Overflow for Agents If your coding agent has questions, Stack Overflow for Agents has answers, now in beta.">
+    <div class="card-title"><a href="https://stackoverflow.blog/2026/06/10/announcing-stack-overflow-for-agents/" target="_blank" rel="noopener">Announcing Stack Overflow for Agents</a> <span class="src-num">[50]</span></div>
+    
+    <div class="card-desc">Blog Loading… Everything The Heap Productivity AI/ML Open Source Business Hub Company Releases Podcast Newsletter Stack Overflow Business Stack Internal : the knowledge…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Most CLI auth flows spin up a localhost server and pray your browser cooperates. That model breaks the moment you">
+    <div class="card-title"><a href="https://www.abgeo.dev/blog/cli-authentication-the-right-way/" target="_blank" rel="noopener">CLI Authentication, the Right Way</a> <span class="src-num">[51]</span></div>
+    
+    <div class="card-desc">Most CLI auth flows spin up a localhost server and pray your browser cooperates. That model breaks the moment you</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🎓 Google Scholar <span class="group-count">7</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original quantitative analysis of Epoch AI notable AI models dataset and combining with available literature. With focus on key breakthroughs, evolving trends, industry impacts and future directions, the paper shows important shifts from academia to industry in AI research leadership from the year 2014 when industry started leading in release of notable AI models. Despite abundance of literature about AI and allied fields, there are not many papers or a">
+    <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a> <span class="src-num">[68]</span></div>
+    
+    <div class="card-desc">This paper conducts systematic analysis of advancements in the field of artificial intelligence (AI) from the year 2010 onwards, by performing original quantitative analysis of…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Large language models (LLM) in computational social science: prospects, current state, and challenges">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[69]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="When machines join the moral circle: The persona effect of generative AI agents in collaborative reasoning">
+    <div class="card-title"><a href="https://bera-journals.onlinelibrary.wiley.com/doi/abs/10.1111/bjet.70067" target="_blank" rel="noopener">When machines join the moral circle: The persona effect of generative AI agents in collaborative reasoning</a> <span class="src-num">[73]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[72]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[71]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[70]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[67]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>👽 Reddit <span class="group-count">3</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Hello Folks, we start our discussion on Lecture 10 of Probabilistic Machine Learning, now starting with Probability Multivariate Models. Univariate models are toy cases, in real life, ML models are multivariate. To understand dependence of more than one variables on each other we study ideas as Covariance, Correlations, we delve ourselves into the interesting concept of Simpson’s Paradox, with an example. We define the Multivariate Gaussian distribution, understand the level sets(curves) that we see in our computers while plotting, and gain insights into the geometric shape of the Gaussian den">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1u8xxyh/multivariate_probability_models_in_machine/" target="_blank" rel="noopener">Multivariate Probability Models in Machine Learning [D]</a> <span class="src-num">[74]</span></div>
+    
+    <div class="card-desc">Hello Folks, we start our discussion on Lecture 10 of Probabilistic Machine Learning, now starting with Probability Multivariate Models. Univariate models are toy cases, in real…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I&#x27;m currently a software engineer (mostly mobile/iOS development) and have recently started learning machine learning because I genuinely find it interesting, especially the math behind it. I have a fairly strong math background and am comfortable with calculus, probability, and math in general. Right now I&#x27;m learning through a combination of Andrew Ng&#x27;s ML course and Stanford CS229. My plan is to build some projects once I have a stronger foundation. What attracts me to ML is the mathematics behind it. My goal isn&#x27;t just to use existing libraries to train models and tune hyperparameters; I wa">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1u8zt80/how_hard_is_it_to_break_into_ml_work_without_a/" target="_blank" rel="noopener">How hard is it to break into ML work without a Master&#x27;s degree? [D]</a> <span class="src-num">[76]</span></div>
+    
+    <div class="card-desc">I&#x27;m currently a software engineer (mostly mobile/iOS development) and have recently started learning machine learning because I genuinely find it interesting, especially the math…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="What does provisional paper acceptance mean in ECCV? Is that the default message everyone gets? submitted by /u/NotGondor [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1u8xghq/what_does_provisional_paper_acceptance_mean_in/" target="_blank" rel="noopener">What does provisional paper acceptance mean in ECCV? Is that the default message everyone gets? [D]</a> <span class="src-num">[75]</span></div>
+    
+    <div class="card-desc">What does provisional paper acceptance mean in ECCV? Is that the default message everyone gets? submitted by /u/NotGondor [link] [comments]</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://arxiv.org/abs/2606.19328" target="_blank" rel="noopener">UBP2: Uncertainty-Balanced Preference Planning for Efficient Preference-based…</a></li><li>[2] <a href="https://arxiv.org/abs/2606.19327" target="_blank" rel="noopener">Rethinking Reward Supervision: Rubric-Conditioned Self-Distillation</a></li><li>[3] <a href="https://arxiv.org/abs/2606.19325" target="_blank" rel="noopener">Reference-Driven Multi-Speaker Audio Scene Generation from In-the-Wild Priors</a></li><li>[4] <a href="https://arxiv.org/abs/2606.19319" target="_blank" rel="noopener">Data Intelligence Agents: Interpreting, Modeling, and Querying Enterprise Data via…</a></li><li>[5] <a href="https://arxiv.org/abs/2606.19317" target="_blank" rel="noopener">Explaining Attention with Program Synthesis</a></li><li>[6] <a href="https://arxiv.org/abs/2606.19286" target="_blank" rel="noopener">Correct Yourself, Keep My Trust: How Self-Correction and Social Connection Shape…</a></li><li>[7] <a href="https://arxiv.org/abs/2606.19279" target="_blank" rel="noopener">NeSyCat Torch: A Differentiable Tensor Implementation of Categorical Semantics for…</a></li><li>[8] <a href="https://arxiv.org/abs/2606.19266" target="_blank" rel="noopener">Trade-offs in Medical LLM Adaptation: An Empirical Study in French QA</a></li><li>[9] <a href="https://arxiv.org/abs/2606.19259" target="_blank" rel="noopener">A Multi-Domain Benchmark for Detecting AI-Generated Text-Rich Images from GPT-Image-2</a></li><li>[10] <a href="https://arxiv.org/abs/2606.19256" target="_blank" rel="noopener">X+Slides: Benchmarking Audience-Conditioned Slide Generation</a></li><li>[11] <a href="https://arxiv.org/abs/2606.19334" target="_blank" rel="noopener">Freeing the Law with LOCUS: A Local Ordinance Corpus for the United States</a></li><li>[12] <a href="https://arxiv.org/abs/2606.19329" target="_blank" rel="noopener">The Chandra-Gaia Catalog of Counterparts: Resolving ambiguous Gaia matches to X-ray…</a></li><li>[13] <a href="https://arxiv.org/abs/2606.19315" target="_blank" rel="noopener">Diffusion-Proof: Recipe for Formal Theorem Proving Beyond Auto-Regressive Generation</a></li><li>[14] <a href="https://arxiv.org/abs/2606.19303" target="_blank" rel="noopener">P-K-GCN: Physics-augmented Koopman-enhanced Graph Convolutional Network for Deep…</a></li><li>[15] <a href="https://arxiv.org/abs/2606.19302" target="_blank" rel="noopener">Optimal scenario design for climate emulation</a></li><li>[16] <a href="https://arxiv.org/abs/2606.19300" target="_blank" rel="noopener">Confidence is Not Reliability: Rethinking MC Dropout in Brain Tumour Segmentation</a></li><li>[17] <a href="https://arxiv.org/abs/2606.19297" target="_blank" rel="noopener">Does VLA Even Know the Basics? Measuring Commonsense and World Knowledge Retention in…</a></li><li>[18] <a href="https://arxiv.org/abs/2606.19292" target="_blank" rel="noopener">Risk Stratification for ICU Delirium using Pervasive Ambient Sensing Information</a></li><li>[19] <a href="https://arxiv.org/abs/2606.19340" target="_blank" rel="noopener">Zero-Shot Long-Horizon Dexterous Manipulation via Multi-View 3D-Grounded VLM Reasoning</a></li><li>[20] <a href="https://arxiv.org/abs/2606.19341" target="_blank" rel="noopener">Native Active Perception as Reasoning for Omni-Modal Understanding</a></li><li>[21] <a href="https://arxiv.org/abs/2606.19338" target="_blank" rel="noopener">Beyond the Current Observation: Evaluating Multimodal Large Language Models in…</a></li><li>[22] <a href="https://arxiv.org/abs/2606.19337" target="_blank" rel="noopener">Constraints on Cosmic Strings from the Curl-Mode CMB Lensing Power Spectrum measured by…</a></li><li>[23] <a href="https://arxiv.org/abs/2606.19336" target="_blank" rel="noopener">Learning User Simulators with Turing Rewards</a></li><li>[24] <a href="https://arxiv.org/abs/2606.19332" target="_blank" rel="noopener">Sparse-dense flight copy-based interactive mechanism to airline integrated with cruise…</a></li><li>[25] <a href="https://arxiv.org/abs/2606.19331" target="_blank" rel="noopener">Topological spectral form factor reveals emergent non-Hermitian single-particle…</a></li><li>[26] <a href="https://arxiv.org/abs/2606.19235" target="_blank" rel="noopener">CodeSentinel: A Three-Layer Defense Against Indirect Prompt Injection in Code Contexts</a></li><li>[27] <a href="https://arxiv.org/abs/2606.19191" target="_blank" rel="noopener">PhantomSkill: Malicious Code Injection in Agent Skill Ecosystems</a></li><li>[28] <a href="https://arxiv.org/abs/2606.19149" target="_blank" rel="noopener">OpenAnt: LLM-Powered Vulnerability Discovery Through Code Decomposition, Adversarial…</a></li><li>[29] <a href="https://arxiv.org/abs/2606.19129" target="_blank" rel="noopener">Giskard : Byzantine Robust and Confidential Aggregation for Large-Scale Decentralized…</a></li><li>[30] <a href="https://arxiv.org/abs/2606.19106" target="_blank" rel="noopener">Quantifying Compromise Risk in Exceptional Access Architectures Under Sparse and Indirect…</a></li><li>[31] <a href="https://arxiv.org/abs/2606.19076" target="_blank" rel="noopener">Compute-Budgeted Exploitability Evidence Graphs for Prospective Vulnerability Triage</a></li><li>[32] <a href="https://arxiv.org/abs/2606.19063" target="_blank" rel="noopener">PYPILINE: Malicious PyPI Package Detection via Suspicious API Knowledge and Agent Workflow</a></li><li>[33] <a href="https://arxiv.org/abs/2606.19055" target="_blank" rel="noopener">CHERI-D: Secure and efficient inline object ID for CHERI temporal memory safety</a></li><li>[34] <a href="https://arxiv.org/abs/2606.18920" target="_blank" rel="noopener">Structured lattices and their applications to security</a></li><li>[35] <a href="https://arxiv.org/abs/2606.18718" target="_blank" rel="noopener">Perfect Sphere Packing In The Boolean Space</a></li><li>[36] <a href="https://arxiv.org/abs/2606.18599" target="_blank" rel="noopener">MIDS: Detecting Stealthy Masquerade and Tampering Attacks on CAN Bus via Bidirectional…</a></li><li>[37] <a href="https://arxiv.org/abs/2606.18497" target="_blank" rel="noopener">Ghost Vectors: Soft-Deleted Embeddings Remain Reconstructible in HNSW Vector Databases</a></li><li>[38] <a href="https://arxiv.org/abs/2606.19324" target="_blank" rel="noopener">Mean-Payoff-Parity and Lifting Strategies from MDPs to 2-Player Stochastic Games</a></li><li>[39] <a href="https://arxiv.org/abs/2606.19306" target="_blank" rel="noopener">On two overlooked stick-breaking constructions of the normalized inverse Gaussian process</a></li></ol>
+      <ol><li>[40] <a href="https://arxiv.org/abs/2606.19305" target="_blank" rel="noopener">Secret key-distribution over networks with node-based adversarial errors</a></li><li>[41] <a href="https://arxiv.org/abs/2606.19339" target="_blank" rel="noopener">Quantum solitons and their quantum walks in transmon arrays</a></li><li>[42] <a href="https://arxiv.org/abs/2606.19333" target="_blank" rel="noopener">Do as I Do: Dexterous Manipulation Data from Everyday Human Videos</a></li><li>[43] <a href="https://arxiv.org/abs/2606.19330" target="_blank" rel="noopener">Floquet framework for driven polar quantum systems</a></li><li>[44] <a href="https://arxiv.org/abs/2606.19321" target="_blank" rel="noopener">Spectral Functions of Lorentzian Quantum Gravity</a></li><li>[45] <a href="https://arxiv.org/abs/2606.19320" target="_blank" rel="noopener">GRMHD and GRRT Simulations of Black Hole Accretion: Flares, Precession, and Complex…</a></li><li>[46] <a href="https://arxiv.org/abs/2606.19263" target="_blank" rel="noopener">Digital Speech Acts Retain Control of Copyright with People, Not Platforms</a></li><li>[47] <a href="https://arxiv.org/abs/2606.19261" target="_blank" rel="noopener">Bivariate incomplete-Bessel kernels for the first nonlinear Vlasov-Maxwell response</a></li><li>[48] <a href="https://arxiv.org/abs/2606.19335" target="_blank" rel="noopener">Fine-scale downflows above flare ribbons captured by Solar Orbiter/EUI</a></li><li>[49] <a href="https://arxiv.org/abs/2606.19296" target="_blank" rel="noopener">Integrated physics-based modeling reveals a thermodynamic gap in small modular reactor…</a></li><li>[50] <a href="https://stackoverflow.blog/2026/06/10/announcing-stack-overflow-for-agents/" target="_blank" rel="noopener">Announcing Stack Overflow for Agents</a></li><li>[51] <a href="https://www.abgeo.dev/blog/cli-authentication-the-right-way/" target="_blank" rel="noopener">CLI Authentication, the Right Way</a></li><li>[52] <a href="https://huggingface.co/papers/2606.15872" target="_blank" rel="noopener">SciOrch: Learning to Orchestrate Expert LLMs for Solving Frontier Multimodal Scientific…</a></li><li>[53] <a href="https://huggingface.co/papers/2606.17539" target="_blank" rel="noopener">Reinforcing Dual-Path Reasoning in Spatial Vision Language Models</a></li><li>[54] <a href="https://huggingface.co/papers/2606.18322" target="_blank" rel="noopener">SAE Interventions are Unreliable: Post-Intervention Recovery of Suppressed Behavior</a></li><li>[55] <a href="https://huggingface.co/papers/2606.18101" target="_blank" rel="noopener">Trust the Right Teacher: Quality-Aware Self-Distillation for GUI Grounding</a></li><li>[56] <a href="https://huggingface.co/papers/2606.19005" target="_blank" rel="noopener">Sumi: Open Uniform Diffusion Language Model from Scratch</a></li><li>[57] <a href="https://huggingface.co/papers/2606.14383" target="_blank" rel="noopener">IndustryBench-MIPU: Benchmarking Multi-Image Attribute Value Extraction for Industrial…</a></li><li>[58] <a href="https://huggingface.co/papers/2606.16533" target="_blank" rel="noopener">Kairos: A Native World Model Stack for Physical AI</a></li><li>[59] <a href="https://huggingface.co/papers/2606.18375" target="_blank" rel="noopener">PAIWorld: A 3D-Consistent World Foundation Model for Robotic Manipulation</a></li><li>[60] <a href="https://huggingface.co/papers/2606.18943" target="_blank" rel="noopener">Physics-IQ Verified</a></li><li>[61] <a href="https://huggingface.co/papers/2606.18543" target="_blank" rel="noopener">CEO-Bench: Can Agents Play the Long Game?</a></li><li>[62] <a href="https://huggingface.co/papers/2606.18874" target="_blank" rel="noopener">Externalizing Research Synthesis and Validation in AI Scientists through a Research…</a></li><li>[63] <a href="https://huggingface.co/papers/2606.18363" target="_blank" rel="noopener">Guava: An Effective and Universal Harness for Embodied Manipulation</a></li><li>[64] <a href="https://huggingface.co/papers/2606.16905" target="_blank" rel="noopener">Speaking the Language of Science: Toward a General-Purpose Generative Foundation Model…</a></li><li>[65] <a href="https://huggingface.co/papers/2606.17182" target="_blank" rel="noopener">Verified Detection and Prevention of Concurrency Anomalies in Multi-Agent Large Language…</a></li><li>[66] <a href="https://huggingface.co/papers/2606.18249" target="_blank" rel="noopener">Unified Multimodal Autoregressive Modeling with Shared Context-Visual Tokenizer is Key to…</a></li><li>[67] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future…</a></li><li>[68] <a href="https://ieeexplore.ieee.org/abstract/document/11050474/" target="_blank" rel="noopener">Advancements in Artificial Intelligence: Breakthroughs, Challenges and the Road Ahead</a></li><li>[69] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state,…</a></li><li>[70] <a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into…</a></li><li>[71] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user…</a></li><li>[72] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing…</a></li><li>[73] <a href="https://bera-journals.onlinelibrary.wiley.com/doi/abs/10.1111/bjet.70067" target="_blank" rel="noopener">When machines join the moral circle: The persona effect of generative AI agents in…</a></li><li>[74] <a href="https://www.reddit.com/r/MachineLearning/comments/1u8xxyh/multivariate_probability_models_in_machine/" target="_blank" rel="noopener">Multivariate Probability Models in Machine Learning [D]</a></li><li>[75] <a href="https://www.reddit.com/r/MachineLearning/comments/1u8xghq/what_does_provisional_paper_acceptance_mean_in/" target="_blank" rel="noopener">What does provisional paper acceptance mean in ECCV? Is that the default message everyone…</a></li><li>[76] <a href="https://www.reddit.com/r/MachineLearning/comments/1u8zt80/how_hard_is_it_to_break_into_ml_work_without_a/" target="_blank" rel="noopener">How hard is it to break into ML work without a Master&#x27;s degree? [D]</a></li><li>[77] <a href="https://openreview.net/forum?id=aYbE1z7MIt" target="_blank" rel="noopener">SVD-LLM: Truncation-aware Singular Value Decomposition for Large Language Model…</a></li><li>[78] <a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and…</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
