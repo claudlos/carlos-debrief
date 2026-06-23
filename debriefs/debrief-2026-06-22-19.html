@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos's Debrief — June 22, 2026 19:00</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-overlay: rgba(1, 4, 9, 0.85);
+    --border: #30363d;
+    --border-strong: #484f58;
+    --text: #c9d1d9;
+    --text-bright: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --accent-green: #3fb950;
+    --accent-purple: #d2a8ff;
+    --accent-orange: #f0883e;
+    --accent-pink: #ff7b72;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 56px 20px 36px;
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+  }
+  .header h1 {
+    font-size: 2.4em;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle { color: var(--text-muted); font-size: 1.1em; }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 26px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .header .stat-num {
+    font-size: 1.9em;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1.1;
+  }
+  .header .stat-label {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Toolbar */
+  .header .topics {
+    margin-top: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    padding: 0 16px;
+  }
+  .header .topics-label {
+    color: var(--text-subtle);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+  }
+  .header .topic {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid #21262d;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .header .curated {
+    margin-top: 14px;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+    font-style: italic;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-size: 0.95em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+  }
+  .search-input::placeholder { color: var(--text-subtle); }
+  .filter-count { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+
+  /* Quick Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #1a2332 0%, #161b22 100%);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--accent-green); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright); }
+
+  /* News Headlines */
+  .news-box {
+    background: linear-gradient(135deg, #2a1f14 0%, #1c1814 100%);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--accent-orange); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 {
+    font-size: 1.5em;
+    color: var(--text-bright);
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .section-group { margin-bottom: 32px; }
+  .section-group h3 {
+    color: var(--accent);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle);
+    font-size: 0.78em;
+    font-weight: 400;
+    background: var(--tag-bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.08);
+  }
+  .card::after {
+    content: '⤢';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--text-subtle);
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent); }
+  .card-title {
+    font-size: 1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    padding-right: 24px;
+  }
+  .card-title a { color: var(--text-bright); text-decoration: none; }
+  .card-title a:hover { color: var(--accent); text-decoration: underline; }
+  .src-num { color: var(--text-subtle); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent-hover);
+    font-size: 0.74em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .web-tag { color: var(--accent-purple); }
+  .web-card { border-left: 3px solid #8957e5; }
+
+  /* Sources */
+  .sources { margin-top: 44px; }
+  .sources h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px;
+    font-size: 0.82em;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 56px;
+    border-top: 1px solid #21262d;
+    color: var(--text-subtle);
+    font-size: 0.85em;
+  }
+
+  /* Modal — large reading view */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.18);
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2.4em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg); color: var(--text-bright); }
+  .modal-title {
+    font-size: 2.15em;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent); }
+  .modal-authors {
+    color: var(--text-muted);
+    font-size: 1.15em;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text);
+    font-size: 1.3em;
+    line-height: 1.75;
+    margin-bottom: 32px;
+    white-space: pre-wrap;
+  }
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(88, 166, 255, 0.06);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle); font-size: 1em; }
+
+  /* Filtering helpers */
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  /* Animations */
+  @keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.6em; }
+    .header { padding: 36px 16px 24px; }
+    .header .stats { gap: 12px; }
+    .header .stat { padding: 10px 18px; min-width: 100px; }
+    .header .stat-num { font-size: 1.5em; }
+    .container { padding: 20px 14px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 8px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.08em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">June 22, 2026 19:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">25</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">25</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">Topics searched:</span>
+    <span class="topic">Artificial Intelligence</span>
+    <span class="topic">Machine Learning</span>
+    <span class="topic">Large Language Models</span>
+    <span class="topic">Security &amp; Cybersecurity</span>
+    <span class="topic">Cryptography</span>
+    <span class="topic">Zero Knowledge</span>
+    <span class="topic">Quantum Computing</span>
+    <span class="topic">Crypto &amp; Blockchain</span>
+    <span class="topic">AI Agents &amp; Reasoning</span>
+    <span class="topic">AI Safety &amp; Alignment</span>
+  </div>
+  <div class="curated">June 22, 2026 19:00 — Curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li><strong>MCompassRAG: Topic Metadata as a Semantic Compass for Paragraph-Level Retrieval</strong>: Retrieval-augmented generation (RAG) systems depend critically on how documents are chunked and searched. Fine-grained chunks can improve retrieval precision but expand the search space, increasing latency and cost; larger chunks reduce…</li>
+      <li><strong>SproutRAG: Attention-Guided Tree Search with Progressive Embeddings for Long-Document RAG</strong>: Retrieval-augmented generation (RAG) systems must balance retrieval granularity with contextual coherence, a challenge that existing methods address through LLM-guided chunking, single-level context expansion, or hierarchical…</li>
+      <li><strong>Configurable Clinical Information Extraction with Agentic RAG: What Works, What Breaks, and Why</strong>: Patient contexts span hundreds of heterogeneous documents and thousands of structured data points, yet the document-level metadata that AI systems need for retrieval and triage is absent or incomplete. Standard retrieval-augmented…</li>
+      <li><strong>Characterizing Narrative Content in Web-scale LLM Pretraining Data</strong>: The narrative composition of web-scale LLM pretraining corpora remains largely unexplored even though narrative is a fundamental mode of human communication. We present the first fine-grained study of narrative features in Dolma, a…</li>
+      <li><strong>When, Where, and How: Adaptive Binning for Tabular Self-Supervised Learning</strong>: Medical tabular data are ubiquitous in clinical research, but deep learning for tables remains underexplored because reliable labels often require costly expert adjudication, even though structured clinical variables are routinely…</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>MCompassRAG: Topic Metadata as a Semantic Compass for Paragraph-Level Retrieval</strong>: Retrieval-augmented generation (RAG) systems depend critically on how documents are chunked and searched.</li>
+      <li><strong>SproutRAG: Attention-Guided Tree Search with Progressive Embeddings for Long-Document RAG</strong>: Retrieval-augmented generation (RAG) systems must balance retrieval granularity with contextual coherence, a challenge that existing methods address through LLM-guided chunking, single-level context…</li>
+      <li><strong>Configurable Clinical Information Extraction with Agentic RAG: What Works, What Breaks, and Why</strong>: Patient contexts span hundreds of heterogeneous documents and thousands of structured data points, yet the document-level metadata that AI systems need for retrieval and triage is absent or…</li>
+      <li><strong>Prompt Injection as Role Confusion</strong>: Project page for Prompt Injection as Role Confusion, accepted to ICML 2026.</li>
+      <li><strong>Characterizing Narrative Content in Web-scale LLM Pretraining Data</strong>: The narrative composition of web-scale LLM pretraining corpora remains largely unexplored even though narrative is a fundamental mode of human communication.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+    <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🤗 HuggingFace Papers <span class="group-count">5</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Retrieval-augmented generation (RAG) systems depend critically on how documents are chunked and searched. Fine-grained chunks can improve retrieval precision but expand the search space, increasing latency and cost; larger chunks reduce the number of candidates but make dense similarity less reliable, as the representation for each chunk mixes multiple topics and introduces more semantic noise. This trade-off becomes especially limiting in deep research tasks, where retrieval must be both fast and precise across large, heterogeneous corpora. We introduce MCompassRAG, a metadata-guided retrieval framework that uses topic-level signals as a semantic compass for selecting relevant evidence. Instead of relying only on cosine similarity between queries and noisy chunk embeddings, MCompassRAG enriches chunk representations with topic metadata in the same embedding space and trains a lightweight retriever through LLM-teacher distillation. At inference time, MCompassRAG performs topic-aware retrieval without additional LLM calls, improving both efficiency and evidence quality. Across six complex retrieval benchmarks, MCompassRAG improves information efficiency (IE) by 8.24% on average with over 5 times lower latency than the strongest efficient RAG baselines. Code is available on https://github.com/AmirAbaskohi/MCompassRAG.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.18508" target="_blank" rel="noopener">MCompassRAG: Topic Metadata as a Semantic Compass for Paragraph-Level Retrieval</a> <span class="src-num">[8]</span></div>
+    
+    <div class="card-desc">Retrieval-augmented generation (RAG) systems depend critically on how documents are chunked and searched. Fine-grained chunks can improve retrieval precision but expand the search…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 9</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Retrieval-augmented generation (RAG) systems must balance retrieval granularity with contextual coherence, a challenge that existing methods address through LLM-guided chunking, single-level context expansion, or hierarchical summarization. These approaches variously depend on costly LLM calls during indexing or retrieval, limit context aggregation to a single granularity level, or introduce information loss through summarization. We present SproutRAG, an attention-guided hierarchical RAG framework that addresses this trade-off by organizing sentence-level chunks into progressively larger but semantically coherent units, using learned inter-sentence attention to construct a binary chunking tree. Unlike prior approaches that rely on external LLMs, fixed context expansion, or lossy summarization, SproutRAG learns which attention heads and layers best capture semantic document structure, enabling multi-granularity retrieval without additional LLM calls or compressed summaries. At retrieval time, SproutRAG uses hierarchical beam search to retrieve candidates at multiple granularities, capturing multi-sentence relevance beyond flat retrieval. The framework is trained end-to-end with a joint objective that improves both embeddings and tree structure. Experiments across four benchmarks spanning scientific, legal, and open-domain settings demonstrate that SproutRAG improves information efficiency (IE) by 6.1% on average over the strongest baseline. Code is available on https://github">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.18381" target="_blank" rel="noopener">SproutRAG: Attention-Guided Tree Search with Progressive Embeddings for Long-Document RAG</a> <span class="src-num">[7]</span></div>
+    
+    <div class="card-desc">Retrieval-augmented generation (RAG) systems must balance retrieval granularity with contextual coherence, a challenge that existing methods address through LLM-guided chunking,…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 8</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Patient contexts span hundreds of heterogeneous documents and thousands of structured data points, yet the document-level metadata that AI systems need for retrieval and triage is absent or incomplete. Standard retrieval-augmented generation fails on this data, mishandling temporal reasoning, cross-document dependencies, and missing metadata. We deploy ACIE (Agentic Clinical Information Extraction) at University Medicine Essen: an on-premise agentic RAG pipeline that reasons over complete patient contexts and grounds every answer in source passages for clinician verification. We quantify the metadata gap, trace the architectural decisions it shaped, and evaluate extraction alongside an independent retrospective lymphoma registry study, in which nuclear-medicine physicians verify every extracted value against its cited sources. Across 7,326 judgments, clinicians accepted 96.5\% of extractions, with per-type acceptance ranging from 80\% to 99\%.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.19602" target="_blank" rel="noopener">Configurable Clinical Information Extraction with Agentic RAG: What Works, What Breaks, and Why</a> <span class="src-num">[9]</span></div>
+    
+    <div class="card-desc">Patient contexts span hundreds of heterogeneous documents and thousands of structured data points, yet the document-level metadata that AI systems need for retrieval and triage is…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 5</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="The narrative composition of web-scale LLM pretraining corpora remains largely unexplored even though narrative is a fundamental mode of human communication. We present the first fine-grained study of narrative features in Dolma, a 3-trillion-token open pretraining corpus. Drawing on narrative theory, we design a framework spanning three core narrative elements (agency, setting, and events) operationalized as 11 interpretable dimensions. After sampling and annotating a diverse set of 400 passages, we finetune and validate NarraBERT, a RoBERTa-based model for fine-grained narrative prediction. We apply NarraBERT to 3M passages, resulting in a new dataset, NarraDolma. We find (i) narrative structure is measurable at scale across extremely heterogeneous data, (ii) we uncover a continuous, multidimensional narrative structure underlying web text, and (iii) narrative qualities are unequally distributed across pretraining sources and topics in ways that current curation practices neither measure nor account for. Our framework, dataset, and analyses provide a foundation for understanding how narrative qualities are distributed in LLM pretraining data and for studying how data composition affects narrative reasoning tasks. We publicly release NarraDolma and NarraBERT.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.19468" target="_blank" rel="noopener">Characterizing Narrative Content in Web-scale LLM Pretraining Data</a> <span class="src-num">[6]</span></div>
+    
+    <div class="card-desc">The narrative composition of web-scale LLM pretraining corpora remains largely unexplored even though narrative is a fundamental mode of human communication. We present the first…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 2</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Medical tabular data are ubiquitous in clinical research, but deep learning for tables remains underexplored because reliable labels often require costly expert adjudication, even though structured clinical variables are routinely available in tabular form. Self-supervised learning can leverage these unlabeled tables, and recent binning-based pretexts offer a promising inductive bias, but existing objectives fix a single global quantile discretization and apply feature-agnostic supervision. We propose Adaptive Binning, a training-adaptive discretization pretext for tabular SSL that couples discretization to learning through a feature-wise coarse-to-fine curriculum. Motivated by the spectral bias of neural networks and the principles of curriculum learning, our method progressively refines discretization per feature upon plateau detection and selects representation-aware splits to jointly improve value-space concentration and representation-space coherence. A heterogeneity-aware objective unifies categorical reconstruction with ordinal supervision for numerical features, and experiments on public medical tabular datasets under unified evaluation protocols show consistent gains for linear probing and fine-tuning without dataset-specific discretization tuning. We further introduce a medical tabular SSL benchmark with standardized protocols to support reproducible progress in this underexplored domain. Our code is available at https://github.com/labhai/Adaptive-Binning.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.19827" target="_blank" rel="noopener">When, Where, and How: Adaptive Binning for Tabular Self-Supervised Learning</a> <span class="src-num">[5]</span></div>
+    
+    <div class="card-desc">Medical tabular data are ubiquitous in clinical research, but deep learning for tables remains underexplored because reliable labels often require costly expert adjudication, even…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 1</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📝 OpenReview <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="The advancements in Large Language Models (LLMs) have been hindered by their substantial sizes, which necessitate LLM compression methods for practical deployment. Singular Value Decomposition (SVD) offers a promising solution for LLM compression. However, state-of-the-art SVD-based LLM compression methods have two key limitations: truncating smaller singular values may lead to higher compression loss, and the lack of update on the compressed weight after SVD truncation. In this work, we propose SVD-LLM, a new SVD-based LLM compression method that addresses the limitations of existing methods.">
+    <div class="card-title"><a href="https://openreview.net/forum?id=aYbE1z7MIt" target="_blank" rel="noopener">SVD-LLM: Truncation-aware Singular Value Decomposition for Large Language Model Compression</a> <span class="src-num">[24]</span></div>
+    
+    <div class="card-desc">The advancements in Large Language Models (LLMs) have been hindered by their substantial sizes, which necessitate LLM compression methods for practical deployment. Singular Value…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div><div class="card web-card" data-full-desc="Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and fine-tuned on massive 3D data, offering the capability of producing highly consistent multi-view images. However, due to the scarcity of synchronized multi-view video data, it remains challenging to adapt this paradigm to 4D generation directly. Despite that, the available video and 3D data are adequate for training video and multi-view diffusion models separately that can provide satisfactory dynamic and geometric pri">
+    <div class="card-title"><a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and Multi-view Diffusion Models</a> <span class="src-num">[25]</span></div>
+    
+    <div class="card-desc">Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🦞 Lobste.rs <span class="group-count">4</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Project page for Prompt Injection as Role Confusion, accepted to ICML 2026. We show prompt injections are driven by a flaw in how LLMs perceive roles. This lets us create new attacks, explain mech interp results, and predict when attacks succeed. We then discuss what roles are and why they matter, and share research ideas for a science of roles.">
+    <div class="card-title"><a href="https://role-confusion.github.io" target="_blank" rel="noopener">Prompt Injection as Role Confusion</a> <span class="src-num">[4]</span></div>
+    
+    <div class="card-desc">Project page for Prompt Injection as Role Confusion, accepted to ICML 2026. We show prompt injections are driven by a flaw in how LLMs perceive roles. This lets us create new…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Modern GPU workloads, especially large language model (LLM) inference, suffer from kernel launch overheads and coarse synchronization that limit inter-kernel parallelism. Recent megakernel techniques fuse multiple operators into a single persistent kernel to eliminate launch gaps and expose inter-kernel parallelism, but struggle to handle dynamic shapes and data-dependent computation in real workloads. We present Event Tensor, a unified compiler abstraction for dynamic megakernels. Event Tensor encodes dependencies between tiled tasks, and enables first-class support for both shape and data-de">
+    <div class="card-title"><a href="https://arxiv.org/abs/2604.13327" target="_blank" rel="noopener">Event Tensor: A Unified Abstraction for Compiling Dynamic Megakernel</a> <span class="src-num">[1]</span></div>
+    
+    <div class="card-desc">Modern GPU workloads, especially large language model (LLM) inference, suffer from kernel launch overheads and coarse synchronization that limit inter-kernel parallelism. Recent…</div>
+    <div class="card-tags"><span class="tag web-tag">📊 0 cites</span><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Today we are introducing TIRx , an open-source, hardware-native DSL and compiler for ML kernels, built on Apache TVM. It targets the part of the AI software stack where fast-moving kernels meet fast-moving hardware: TIRx compiles to GPUs and specialized AI accelerators today and is designed to grow with the generations that follow. The same design serves expert-written kernels, agent-generated kernels, and megakernel systems.">
+    <div class="card-title"><a href="https://tvm.apache.org/2026/06/22/tirx" target="_blank" rel="noopener">TIRx: An Open Compiler Stack for Evolving Frontier ML Kernels</a> <span class="src-num">[2]</span></div>
+    
+    <div class="card-desc">Today we are introducing TIRx , an open-source, hardware-native DSL and compiler for ML kernels, built on Apache TVM. It targets the part of the AI software stack where…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="A practical setup for a Raspberry Pi-friendly voice assistant based on Platypush.">
+    <div class="card-title"><a href="https://blog.platypush.tech/article/Local-voice-assistant" target="_blank" rel="noopener">A fully local voice assistant setup</a> <span class="src-num">[3]</span></div>
+    
+    <div class="card-desc">A practical setup for a Raspberry Pi-friendly voice assistant based on Platypush.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🎓 Google Scholar <span class="group-count">6</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Early identification of breakthrough technologies: Insights from science-driven innovations">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[10]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[11]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Large language models (LLM) in computational social science: prospects, current state, and challenges">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[12]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[13]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[14]</span></div>
+    
+    <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[15]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📰 Hacker News <span class="group-count">5</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="The AI shift in cyber risk: why leaders must act now">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=48637477" target="_blank" rel="noopener">The AI shift in cyber risk: why leaders must act now</a> <span class="src-num">[16]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="(https://www.cyber.gov.au/about-us/view-all-content/news/five-eyes-cyber-security-agencies-statement)">
+    <div class="card-title"><a href="https://www.cyber.gov.au/about-us/view-all-content/news/five-eyes-cyber-security-agencies-statement" target="_blank" rel="noopener">(https://www.cyber.gov.au/about-us/view-all-content/news/five-eyes-cyber-security-agencies-statement)</a> <span class="src-num">[17]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="Five Eyes joint statement on AI models taking down governments and businesses">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=48636626" target="_blank" rel="noopener">Five Eyes joint statement on AI models taking down governments and businesses</a> <span class="src-num">[18]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="New Presidential Executive Orders to Fast-Track Quantum Computing">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=48635759" target="_blank" rel="noopener">New Presidential Executive Orders to Fast-Track Quantum Computing</a> <span class="src-num">[19]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="The Trump administration backs quantum computing yet again following an unprecedented funding package in May.">
+    <div class="card-title"><a href="https://www.barrons.com/articles/trump-quantum-computing-executive-orders-3c1aabe2" target="_blank" rel="noopener">(https://www.barrons.com/articles/trump-quantum-computing-executive-orders-3c1aabe2)</a> <span class="src-num">[20]</span></div>
+    
+    <div class="card-desc">The Trump administration backs quantum computing yet again following an unprecedented funding package in May.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>👽 Reddit <span class="group-count">3</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Hi folks, Niels here from the open-source team at Hugging Face. I continue working on a revival of paperswithcode.co as we&#x27;re back to the &quot;age of research&quot; per Ilya Sutskever! Hence, it&#x27;s important to discover each other&#x27;s research and build on each other&#x27;s work, so we can collectively build the next Transformer. Below, I&#x27;ll go over each of the new features that were recently added. ## Support for SOTA badges Yes, that&#x27;s right, totally like the old website. You can see that GLM-5.2, for instance, is obviously the hottest blog post today, achieves SOTA on PostTrainBench, and performs well on ma">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1ucm508/some_new_updates_to_papers_with_code_p/" target="_blank" rel="noopener">Some new updates to Papers with Code [P]</a> <span class="src-num">[21]</span></div>
+    
+    <div class="card-desc">Hi folks, Niels here from the open-source team at Hugging Face. I continue working on a revival of paperswithcode.co as we&#x27;re back to the &quot;age of research&quot; per Ilya Sutskever!…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I&#x27;m looking for human-in-the-loop platforms that allow you to automatically transcribe audio followed by manually fixing the transcriptions and fine tuning the model. Is there a local (not an online service) installable platform for doing this? submitted by /u/neuralbeans [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1ucuohi/recommendations_for_speech_annotation_tools_d/" target="_blank" rel="noopener">Recommendations for speech annotation tools [D]</a> <span class="src-num">[22]</span></div>
+    
+    <div class="card-desc">I&#x27;m looking for human-in-the-loop platforms that allow you to automatically transcribe audio followed by manually fixing the transcriptions and fine tuning the model. Is there a…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Hi all, I&#x27;m looking for literature on relatively specific tooling. In autoregressive LLMs, there is substantial published work that used NLI on sub-claims produced by LLMs to gauge correctness of LLM answers. In diffusion (or D-) LLMs, the SoTA model generations that I see (outside of perhaps LLaDA) seem to struggle to be as correct syntactically as the generations from premier AR LLMs, in addition to the issue of semantic correctness. My intuition is that this complicates the usage of NLI (the syntactic noise). What is the SoTA on syntax-robust NLI? submitted by /u/RepresentativeBee600 [link]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1ucy7p3/syntactically_robust_nli_for_semantics_of/" target="_blank" rel="noopener">Syntactically robust NLI for semantics of imperfectly generated text? [R]</a> <span class="src-num">[23]</span></div>
+    
+    <div class="card-desc">Hi all, I&#x27;m looking for literature on relatively specific tooling. In autoregressive LLMs, there is substantial published work that used NLI on sub-claims produced by LLMs to…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://arxiv.org/abs/2604.13327" target="_blank" rel="noopener">Event Tensor: A Unified Abstraction for Compiling Dynamic Megakernel</a></li><li>[2] <a href="https://tvm.apache.org/2026/06/22/tirx" target="_blank" rel="noopener">TIRx: An Open Compiler Stack for Evolving Frontier ML Kernels</a></li><li>[3] <a href="https://blog.platypush.tech/article/Local-voice-assistant" target="_blank" rel="noopener">A fully local voice assistant setup</a></li><li>[4] <a href="https://role-confusion.github.io" target="_blank" rel="noopener">Prompt Injection as Role Confusion</a></li><li>[5] <a href="https://huggingface.co/papers/2606.19827" target="_blank" rel="noopener">When, Where, and How: Adaptive Binning for Tabular Self-Supervised Learning</a></li><li>[6] <a href="https://huggingface.co/papers/2606.19468" target="_blank" rel="noopener">Characterizing Narrative Content in Web-scale LLM Pretraining Data</a></li><li>[7] <a href="https://huggingface.co/papers/2606.18381" target="_blank" rel="noopener">SproutRAG: Attention-Guided Tree Search with Progressive Embeddings for Long-Document RAG</a></li><li>[8] <a href="https://huggingface.co/papers/2606.18508" target="_blank" rel="noopener">MCompassRAG: Topic Metadata as a Semantic Compass for Paragraph-Level Retrieval</a></li><li>[9] <a href="https://huggingface.co/papers/2606.19602" target="_blank" rel="noopener">Configurable Clinical Information Extraction with Agentic RAG: What Works, What Breaks,…</a></li><li>[10] <a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven…</a></li><li>[11] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future…</a></li><li>[12] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state,…</a></li><li>[13] <a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into…</a></li></ol>
+      <ol><li>[14] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user…</a></li><li>[15] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing…</a></li><li>[16] <a href="https://news.ycombinator.com/item?id=48637477" target="_blank" rel="noopener">The AI shift in cyber risk: why leaders must act now</a></li><li>[17] <a href="https://www.cyber.gov.au/about-us/view-all-content/news/five-eyes-cyber-security-agencies-statement" target="_blank" rel="noopener">(https://www.cyber.gov.au/about-us/view-all-content/news/five-eyes-cyber-security-agencies…</a></li><li>[18] <a href="https://news.ycombinator.com/item?id=48636626" target="_blank" rel="noopener">Five Eyes joint statement on AI models taking down governments and businesses</a></li><li>[19] <a href="https://news.ycombinator.com/item?id=48635759" target="_blank" rel="noopener">New Presidential Executive Orders to Fast-Track Quantum Computing</a></li><li>[20] <a href="https://www.barrons.com/articles/trump-quantum-computing-executive-orders-3c1aabe2" target="_blank" rel="noopener">(https://www.barrons.com/articles/trump-quantum-computing-executive-orders-3c1aabe2)</a></li><li>[21] <a href="https://www.reddit.com/r/MachineLearning/comments/1ucm508/some_new_updates_to_papers_with_code_p/" target="_blank" rel="noopener">Some new updates to Papers with Code [P]</a></li><li>[22] <a href="https://www.reddit.com/r/MachineLearning/comments/1ucuohi/recommendations_for_speech_annotation_tools_d/" target="_blank" rel="noopener">Recommendations for speech annotation tools [D]</a></li><li>[23] <a href="https://www.reddit.com/r/MachineLearning/comments/1ucy7p3/syntactically_robust_nli_for_semantics_of/" target="_blank" rel="noopener">Syntactically robust NLI for semantics of imperfectly generated text? [R]</a></li><li>[24] <a href="https://openreview.net/forum?id=aYbE1z7MIt" target="_blank" rel="noopener">SVD-LLM: Truncation-aware Singular Value Decomposition for Large Language Model…</a></li><li>[25] <a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and…</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Generated by Hermes Agent • arXiv • Google Scholar • Lobste.rs • Hacker News • HuggingFace
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() {
+    return cards.filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open !== 'true') return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden');
+        shown++;
+        return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('hidden');
+        shown++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
