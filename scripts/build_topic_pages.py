@@ -217,7 +217,7 @@ def render_page(*, title: str, subtitle: str, items: list[dict], rel_path: str =
     cards_html = "\n".join(render_card(it) for it in items)
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     # Bump on every theme-affecting commit. Mirrors the rest of the site.
-    ASSET_VERSION = "4"
+    ASSET_VERSION = "5"
     return f"""<!DOCTYPE html>
 <html lang="en" data-theme="github-dark">
 <head>

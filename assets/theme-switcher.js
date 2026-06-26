@@ -55,7 +55,7 @@
       slot.className = 'theme-picker';
       slot.setAttribute('role', 'group');
       slot.setAttribute('aria-label', 'Theme switcher');
-      document.body.appendChild(slot);
+      document.body.insertBefore(slot, document.body.firstChild);
     }
     var current = document.documentElement.getAttribute('data-theme') || DEFAULT;
     slot.innerHTML = '';
