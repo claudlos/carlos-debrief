@@ -300,7 +300,9 @@ def build_feed_pages(index: list[dict], out_dir: Path) -> dict[str, int]:
     ]:
         items.sort(key=lambda it: it.get("_d", ""), reverse=True)
         items = items[:400]
-        page = render_page(title=title, subtitle=sub, items=items, rel_path="../")
+        # Feed pages live at the site ROOT, so assets/links need empty rel_path
+        # (not "../" like topic pages which live in topics/<slug>.html).
+        page = render_page(title=title, subtitle=sub, items=items, rel_path="")
         (out_dir / f"{slug}.html").write_text(page)
     return {"research": len(papers), "news": len(news)}
 
