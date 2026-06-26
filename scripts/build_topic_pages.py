@@ -161,7 +161,7 @@ PAGE_CSS = """
   .filter-count { color: var(--text-muted, #8b949e); font-size: 0.85em; white-space: nowrap; }
 
   .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
-  .card { background: var(--bg-elevated, #161b22); border: 1px solid var(--border-soft, #21262d); border-radius: 12px; padding: 18px 20px; transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+  .card { background: var(--bg-elevated, #161b22); border: 1px solid var(--border, #30363d); border-radius: 12px; padding: 18px 20px; transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s; display: flex; flex-direction: column; position: relative; overflow: hidden; }
   .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent, #58a6ff); opacity: 0.5; transition: opacity 0.18s; }
   .card:hover { border-color: var(--accent, #58a6ff); transform: translateY(-3px); box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4)); }
   .card:hover::before { opacity: 1; }
