@@ -217,7 +217,7 @@ def render_page(*, title: str, subtitle: str, items: list[dict], rel_path: str =
     cards_html = "\n".join(render_card(it) for it in items)
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     # Bump on every theme-affecting commit. Mirrors the rest of the site.
-    ASSET_VERSION = "7"
+    ASSET_VERSION = "8"
     return f"""<!DOCTYPE html>
 <html lang="en" data-theme="github-dark">
 <head>
@@ -228,13 +228,8 @@ def render_page(*, title: str, subtitle: str, items: list[dict], rel_path: str =
 <link rel="alternate" type="application/rss+xml" title="Carlos's Debrief" href="{rel_path}feed.xml">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="{rel_path}assets/themes.css?v={ASSET_VERSION}">
-<script src="{rel_path}assets/theme-switcher.js?v={ASSET_VERSION}" defer></script>
 <style>
-  :root {{
-    /* Theme tokens come from themes.css — DO NOT redefine them here or the
-       active theme loses. Only local-layout aliases go in this block. */
-  }}
-  {PAGE_CSS}
+{PAGE_CSS}
 </style>
 </head>
 <body>
@@ -245,6 +240,7 @@ def render_page(*, title: str, subtitle: str, items: list[dict], rel_path: str =
   <button type="button" data-theme="dark-mono">Mono</button>
   <button type="button" data-theme="light">Light</button>
 </div>
+<script src="{rel_path}assets/theme-switcher.js?v={ASSET_VERSION}"></script>
 <div class="page-header">
   <h1>{escape(title)}</h1>
   <div class="subtitle">{escape(subtitle)}</div>
