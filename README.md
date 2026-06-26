@@ -25,15 +25,17 @@ to zoom in and read the full abstract without leaving the page.
 - **🔎 In-page search filter** — type to instantly filter all cards across every section by title, authors, or tags. Press `/` to focus the search box.
 - **🔁 Persistent dedup** — every paper/article ID and title hash is recorded forever, so the same paper never appears in two debriefs.
 - **📚 Full abstracts** — every arXiv card embeds the full untruncated abstract; web cards embed the article's `<meta description>` or first paragraph.
-- **🎨 3 themes** — switch with the widget in the top-right corner, or press **Alt+T** to cycle. Persists in `localStorage`.
+- **🎨 5 themes** — switch with the widget in the top-right corner, or press **Alt+T** to cycle. Persists in `localStorage`.
 
 ### Themes
 
 | Theme | Look |
 |---|---|
 | **Default** | GitHub-dark — the original palette |
-| **Cyber** | Neon cyan + hot pink, monospace headings, glow effects |
-| **Monk** | Warm sepia + deep brown, serif headings, contemplative |
+| **Cyber** | Matrix green on pure black, monospace everywhere, neon glow on hover |
+| **Modern** | Light, indigo accents, generous whitespace, sharp shadows |
+| **Mono** | Pure monochrome dark, JetBrains Mono, no color — terminal aesthetic |
+| **Light** | Warm off-white, burnt-orange accents, Notion/Bear-style |
 
 ![Click-to-zoom modal showing full abstract](assets/modal.png)
 

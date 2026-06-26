@@ -9,15 +9,25 @@
   var STORAGE_KEY = 'carlos-debrief.theme';
   var THEMES = [
     { id: 'github-dark', label: 'Default' },
-    { id: 'cyberpunk',   label: 'Cyber' },
-    { id: 'dark-monk',   label: 'Monk' },
+    { id: 'cyber',       label: 'Cyber' },
+    { id: 'modern',      label: 'Modern' },
+    { id: 'dark-mono',   label: 'Mono' },
+    { id: 'light',       label: 'Light' },
   ];
   var DEFAULT = 'github-dark';
 
   function readStored() {
     try {
       var v = localStorage.getItem(STORAGE_KEY);
-      if (v && THEMES.some(function (t) { return t.id === v; })) return v;
+      if (!v) return null;
+      // Migrate removed theme IDs (cyberpunk -> cyber, dark-monk -> dark-mono)
+      // so users who picked the old names still get a valid theme.
+      var LEGACY = { cyberpunk: 'cyber', 'dark-monk': 'dark-mono' };
+      if (Object.prototype.hasOwnProperty.call(LEGACY, v)) {
+        v = LEGACY[v];
+        try { localStorage.setItem(STORAGE_KEY, v); } catch (e) { /* ignore */ }
+      }
+      if (THEMES.some(function (t) { return t.id === v; })) return v;
     } catch (e) { /* localStorage may be blocked; fall back */ }
     return null;
   }
@@ -28,7 +38,9 @@
 
   function apply(id) {
     document.documentElement.setAttribute('data-theme', id);
-    document.documentElement.style.colorScheme = id === 'dark-monk' ? 'light dark' : 'dark';
+    // Hint the browser which color-scheme variants to expect (for native form controls / scrollbars).
+    var LIGHT_THEMES = { modern: 1, light: 1 };
+    document.documentElement.style.colorScheme = LIGHT_THEMES[id] ? 'light' : 'dark';
     persist(id);
     // notify any listeners (e.g. for analytics or tag-color refresh)
     document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: id } }));
