@@ -269,17 +269,21 @@ body {
 * { box-sizing: border-box; }
 h1, h2, h3, h4 { font-family: var(--font-heading); }
 
-/* Theme switcher widget */
+/* Theme switcher widget.
+ *
+ * Position strategy:
+ * - Desktop (>=720px): floats top-right, doesn't block content.
+ * - Mobile (<720px): pins to BOTTOM of screen, full-width, so it never
+ *   overlaps the H1 / cards. `padding-bottom` on body reserves space.
+ */
 .theme-picker {
   position: fixed;
-  top: 16px;
-  right: 16px;
   z-index: 999;
   display: inline-flex;
   gap: 4px;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 4px;
   box-shadow: var(--shadow-card);
   backdrop-filter: blur(8px);
@@ -288,7 +292,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   background: transparent;
   border: 0;
   padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-family: var(--font-mono);
   font-size: 0.78em;
   letter-spacing: 0.04em;
@@ -296,6 +300,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   color: var(--text-muted);
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
+  min-width: 56px;
 }
 .theme-picker button:hover {
   color: var(--text-bright);
@@ -305,6 +310,25 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   background: var(--accent);
   color: var(--bg);
   font-weight: 600;
+}
+
+/* Desktop: top-right, compact */
+@media (min-width: 720px) {
+  .theme-picker { top: 16px; right: 16px; }
+  body { padding-bottom: 0; }
+}
+/* Mobile: pinned bottom, full-width row, with body bottom padding so content
+   never disappears under it. */
+@media (max-width: 719px) {
+  .theme-picker {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    justify-content: space-between;
+    width: calc(100vw - 24px);
+  }
+  .theme-picker button { padding: 8px 6px; flex: 1 1 0; }
+  body { padding-bottom: 72px; }
 }
 
 /* Per-theme polish on the picker */
