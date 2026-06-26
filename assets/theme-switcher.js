@@ -47,9 +47,10 @@
   }
 
   function mount() {
-    // Inline picker mount so pages don't need to add HTML.
+    // Picker is rendered statically in the HTML; wire up its buttons.
     var slot = document.getElementById('theme-picker');
     if (!slot) {
+      // Fallback: create it (shouldn't happen on modern pages).
       slot = document.createElement('div');
       slot.id = 'theme-picker';
       slot.className = 'theme-picker';
@@ -58,22 +59,28 @@
       document.body.insertBefore(slot, document.body.firstChild);
     }
     var current = document.documentElement.getAttribute('data-theme') || DEFAULT;
-    slot.innerHTML = '';
-    THEMES.forEach(function (t) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.dataset.theme = t.id;
-      b.textContent = t.label;
-      b.setAttribute('aria-pressed', String(t.id === current));
-      b.addEventListener('click', function () { apply(t.id); update(); });
-      slot.appendChild(b);
-    });
+    // Wire up any pre-existing buttons or create them.
+    var existingButtons = slot.querySelectorAll('button[data-theme]');
+    if (existingButtons.length === 0) {
+      slot.innerHTML = '';
+      THEMES.forEach(function (t) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.dataset.theme = t.id;
+        b.textContent = t.label;
+        slot.appendChild(b);
+      });
+    }
     function update() {
       var c = document.documentElement.getAttribute('data-theme') || DEFAULT;
-      Array.prototype.forEach.call(slot.querySelectorAll('button'), function (btn) {
+      Array.prototype.forEach.call(slot.querySelectorAll('button[data-theme]'), function (btn) {
         btn.setAttribute('aria-pressed', String(btn.dataset.theme === c));
       });
     }
+    Array.prototype.forEach.call(slot.querySelectorAll('button[data-theme]'), function (btn) {
+      btn.addEventListener('click', function () { apply(btn.dataset.theme); update(); });
+    });
+    update();
   }
 
   // Apply stored theme BEFORE first paint to avoid flash.

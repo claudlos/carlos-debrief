@@ -217,7 +217,7 @@ def render_page(*, title: str, subtitle: str, items: list[dict], rel_path: str =
     cards_html = "\n".join(render_card(it) for it in items)
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     # Bump on every theme-affecting commit. Mirrors the rest of the site.
-    ASSET_VERSION = "5"
+    ASSET_VERSION = "6"
     return f"""<!DOCTYPE html>
 <html lang="en" data-theme="github-dark">
 <head>
@@ -238,6 +238,13 @@ def render_page(*, title: str, subtitle: str, items: list[dict], rel_path: str =
 </style>
 </head>
 <body>
+<div id="theme-picker" class="theme-picker" role="group" aria-label="Theme switcher">
+  <button type="button" data-theme="github-dark">Default</button>
+  <button type="button" data-theme="cyber">Cyber</button>
+  <button type="button" data-theme="modern">Modern</button>
+  <button type="button" data-theme="dark-mono">Mono</button>
+  <button type="button" data-theme="light">Light</button>
+</div>
 <div class="page-header">
   <h1>{escape(title)}</h1>
   <div class="subtitle">{escape(subtitle)}</div>
