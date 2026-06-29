@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="github-dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<title>Carlos's Debrief — June 29, 2026 07:00</title>
+<link rel="alternate" type="application/rss+xml" title="Carlos's Debrief" href="../feed.xml">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../assets/themes.css?v=4">
+<script src="../assets/theme-switcher.js?v=4" defer></script>
+<style>
+  /* Page-specific overrides layered on top of the theme tokens. */
+
+  .container { max-width: 1140px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header — gradient, stats, topic chips, current-time stamp */
+  .header {
+    text-align: center;
+    padding: 64px 20px 36px;
+    background: linear-gradient(180deg, var(--bg-elevated, #161b22) 0%, var(--bg, #0d1117) 100%);
+    border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .header h1 {
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--accent, #58a6ff), var(--accent-purple, #d2a8ff));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+  .header .subtitle { color: var(--text-muted, #8b949e); font-size: 1.1em; margin-bottom: 4px; }
+  .header .curated {
+    color: var(--text-subtle, #6e7681); font-size: 0.82em; font-style: italic; margin-top: 10px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+
+  .stats {
+    display: flex; justify-content: center; gap: 20px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .stat {
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 12px;
+    padding: 14px 28px;
+    text-align: center;
+    min-width: 140px;
+    transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+  }
+  .stat:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent, #58a6ff);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .stat-num {
+    font-size: 2em; font-weight: 800; color: var(--accent, #58a6ff); display: block; line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: 0.78em; color: var(--text-muted, #8b949e); margin-top: 4px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  .topics { margin-top: 22px; max-width: 820px; margin-left: auto; margin-right: auto;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; padding: 0 16px; }
+  .topics-label {
+    color: var(--text-subtle, #6e7681); font-size: 0.72em; text-transform: uppercase;
+    letter-spacing: 0.07em; margin-right: 6px; align-self: center;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .topic {
+    color: var(--text-muted, #8b949e); font-size: 0.78em;
+    background: var(--tag-bg, #21262d);
+    border: 1px solid var(--border-soft, #21262d);
+    padding: 3px 10px; border-radius: 999px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .topic:hover { color: var(--accent, #58a6ff); border-color: var(--accent, #58a6ff); cursor: pointer; }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex; gap: 12px; align-items: center; margin-bottom: 28px; flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1; min-width: 220px;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 10px;
+    color: var(--text, #c9d1d9);
+    padding: 12px 16px;
+    font-size: 0.95em; font-family: inherit; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus { border-color: var(--accent, #58a6ff); box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15); }
+  .search-input::placeholder { color: var(--text-subtle, #6e7681); }
+  .filter-count { color: var(--text-muted, #8b949e); font-size: 0.85em; white-space: nowrap; }
+  .kbd-hint { color: var(--text-subtle, #6e7681); font-size: 0.8em; font-family: var(--font-mono, ui-monospace, monospace); }
+
+  /* Summary boxes */
+  .summary-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-2, #3fb950) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-2, #3fb950);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--cat-2, #3fb950); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright, #f0f6fc); }
+
+  .news-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-4, #f0883e) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-4, #f0883e);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--cat-4, #f0883e); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright, #f0f6fc); }
+
+  /* Sections */
+  .section { margin-bottom: 48px; }
+  .section > h2 {
+    font-size: 1.55em; color: var(--text-bright, #f0f6fc); margin-bottom: 22px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .section-group { margin-bottom: 36px; }
+  .section-group h3 {
+    color: var(--accent, #58a6ff); font-size: 1.1em; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400;
+    background: var(--tag-bg, #21262d); padding: 2px 8px; border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--bg-card, #161b22);
+    border: 1px solid var(--border-card, #21262d);
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex; flex-direction: column; position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent, #58a6ff); opacity: 0.5; transition: opacity 0.18s;
+  }
+  .card:hover {
+    border-color: var(--accent, #58a6ff);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .card:hover::before { opacity: 1; }
+  .card::after {
+    content: '⤢'; position: absolute; top: 12px; right: 14px;
+    color: var(--text-subtle, #6e7681); font-size: 0.9em; opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent, #58a6ff); }
+  .card-title { font-size: 1em; font-weight: 600; margin-bottom: 6px; line-height: 1.4; padding-right: 24px; }
+  .card-title a { color: var(--text-bright, #f0f6fc); text-decoration: none; }
+  .card-title a:hover { color: var(--accent, #58a6ff); text-decoration: underline; }
+  .src-num { color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted, #8b949e); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text, #c9d1d9); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .tag {
+    background: var(--tag-bg, #21262d);
+    color: var(--accent, #58a6ff);
+    font-size: 0.74em;
+    padding: 3px 10px; border-radius: 12px;
+    border: 1px solid var(--border, #30363d);
+    white-space: nowrap;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .web-tag { color: var(--accent-purple, #d2a8ff); }
+  .web-card::before { background: var(--accent-purple, #d2a8ff); }
+  .category-1::before { background: var(--cat-1, #58a6ff); }
+  .category-2::before { background: var(--cat-2, #3fb950); }
+  .category-3::before { background: var(--cat-3, #d2a8ff); }
+  .category-4::before { background: var(--cat-4, #f0883e); }
+  .category-5::before { background: var(--cat-5, #ff7b72); }
+  .category-6::before { background: var(--cat-6, #d29922); }
+
+  /* Sources */
+  .sources { margin-top: 48px; }
+  .sources h2 {
+    font-size: 1.3em; color: var(--text-bright, #f0f6fc); margin-bottom: 18px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px; font-size: 0.82em; color: var(--text-muted, #8b949e);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 32px 20px; margin-top: 56px;
+    border-top: 1px solid var(--border-soft, #21262d);
+    color: var(--text-subtle, #6e7681); font-size: 0.85em;
+  }
+  .footer a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Modal — full-screen reading view */
+  .modal {
+    position: fixed; inset: 0; z-index: 1000; display: none;
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute; inset: 0;
+    background: var(--bg-overlay, rgba(1, 4, 9, 0.85));
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw); max-height: 92vh;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border-strong, #484f58);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: var(--shadow-modal, 0 24px 60px rgba(0,0,0,0.7));
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: absolute; top: 18px; right: 22px;
+    background: none; border: none;
+    color: var(--text-muted, #8b949e); font-size: 2.4em; line-height: 1;
+    cursor: pointer; padding: 6px 16px; border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 2;
+  }
+  .modal-close:hover { background: var(--tag-bg, #21262d); color: var(--text-bright, #f0f6fc); }
+  .modal-title {
+    font-size: 2.15em; font-weight: 700; color: var(--text-bright, #f0f6fc);
+    line-height: 1.25; margin-bottom: 18px; padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent, #58a6ff); }
+  .modal-authors {
+    color: var(--text-muted, #8b949e); font-size: 1.15em; font-style: italic; margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text, #c9d1d9); font-size: 1.3em; line-height: 1.75;
+    margin-bottom: 32px; white-space: pre-wrap;
+  }
+  .modal-hint {
+    position: absolute; bottom: 16px; right: 24px;
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .modal-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border, #30363d);
+  }
+  .modal-nav button {
+    background: none; border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e);
+    padding: 12px 24px; border-radius: 10px; cursor: pointer;
+    font-size: 1em; font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent, #58a6ff); color: var(--accent, #58a6ff); background: var(--tag-bg, #21262d);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle, #6e7681); font-size: 1em; font-variant-numeric: tabular-nums; }
+
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Cyber tweak: matrix-green glow on card hover */
+  :root[data-theme="cyber"] .card:hover {
+    box-shadow: 0 0 24px rgba(0, 255, 65, 0.4), 0 0 48px rgba(0, 255, 65, 0.15);
+    border-color: #00ff41;
+  }
+  /* Dark-mono tweak: no glow, just a hairline; slower animations for less noise */
+  :root[data-theme="dark-mono"] .card {
+    border-radius: 0;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  :root[data-theme="dark-mono"] .card::before { width: 2px; }
+  /* Modern tweak: snappier shadows, slightly more padding */
+  :root[data-theme="modern"] .card {
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+  /* Light tweak: warmer hover, no shadow-blur */
+  :root[data-theme="light"] .card:hover {
+    box-shadow: 0 4px 14px rgba(60, 50, 40, 0.1);
+  }
+
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.7em; }
+    .header { padding: 40px 14px 24px; }
+    .stats { gap: 10px; }
+    .stat { padding: 10px 16px; min-width: 100px; }
+    .stat-num { font-size: 1.6em; }
+    .container { padding: 20px 12px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 6px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; border-radius: 12px; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.05em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 16px; }
+  }
+</style>
+</head>
+<body>
+<div id="theme-picker" class="theme-picker" role="group" aria-label="Theme switcher">
+  <button type="button" data-theme="github-dark">Default</button>
+  <button type="button" data-theme="cyber">Cyber</button>
+  <button type="button" data-theme="modern">Modern</button>
+  <button type="button" data-theme="dark-mono">Mono</button>
+  <button type="button" data-theme="light">Light</button>
+</div>
+<script src="assets/theme-switcher.js?v=8"></script>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">June 29, 2026 07:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">49</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">31</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">80</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">// topics</span>
+    {{TOPIC_CHIPS}}
+  </div>
+  <div class="curated">June 29, 2026 07:00 · curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li><strong>DexCompose: Reusing Dexterous Policies for Multi-Task Manipulation with a Single Hand</strong>: Dexterous manipulation policies can solve individual skills, but composing them to perform multiple tasks with a single hand remains challenging. Adding a new task on top of an existing manipulation skill often imposes conflicting demands…</li>
+      <li><strong>Which Nash Equilibrium? Solver-Dependent Selection on Zero-Sum Nash Polytopes</strong>: Many two-player zero-sum games admit not a unique Nash equilibrium but a convex set of them: a polytope of profiles that all share the minimax value V* yet prescribe different behaviour. Standard solvers each converge to some equilibrium…</li>
+      <li><strong>Agentic Hardware Design as Repository-Level Code Evolution</strong>: We present HORIZON, a self-evolving agent framework that treats hardware design as repository-level code evolution. A Markdown harness is compiled into a project pack containing domain knowledge, an executable evaluator, an acceptance…</li>
+      <li><strong>Towards Automating Scientific Review with Google&#x27;s Paper Assistant Tool</strong>: Artificial intelligence is driving a revolution in scientific discovery, accelerating everything from hypothesis generation to mathematical theorem proving. However, this rapid acceleration is creating a systemic challenge: traditional…</li>
+      <li><strong>Parameter Efficient Hybrid Transformer (PEHT) for Network Traffic Prediction via Dynamic Urban Congestion Integration</strong>: Accurate network traffic prediction is a critical element for efficient resource allocation in dynamic urban cellular networks. However, prediction remains challenging because network demand is influenced by complex mobility patterns,…</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>PhysisForcing: Physics Reinforced World Simulator for Robotic Manipulation</strong>: Video generation models have emerged as a promising paradigm for embodied world simulation.</li>
+      <li><strong>Translation as a Bridging Action: Transferring Manipulation Skills from Humans to Robots</strong>: We study whether we can learn novel manipulation skills from human actions to a bi-manual robot with parallel grippers.</li>
+      <li><strong>Ante: New Way to Blend Borrow Checking and Reference Counting</strong>: Ante has taken the first step towards something we all thought was impossible: blending reference counting and borrow checking without run-time crashes.</li>
+      <li><strong>Qwen-Image-2.0-RL Technical Report</strong>: We present Qwen-Image-2.0-RL, a post-training pipeline that applies reinforcement learning from human feedback (RLHF) and on-policy distillation (OPD) to improve both the visual quality and…</li>
+      <li><strong>Formalizing Latent Thoughts: Four Axioms of Thought Representation in LLMs</strong>: We introduce an axiomatic evaluation framework for latent thought representations in LLMs, comprising metrics that are independent of downstream benchmark scores and reveal representational failures…</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+    <span class="kbd-hint">/ focus · Alt+T theme</span>
+  </div>
+
+    <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+      <h3>🧠 Artificial Intelligence <span class="group-count">10</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Dexterous manipulation policies can solve individual skills, but composing them to perform multiple tasks with a single hand remains challenging. Adding a new task on top of an existing manipulation skill often imposes conflicting demands on overlapping fingers and contact modes, causing destructive interference between preserving an existing manipulation outcome and executing a new one. We propose DexCompose, a role-aware residual composition framework that reuses pretrained dexterous policies for multi-task manipulation through explicit finger-level action ownership. Given two pretrained full-hand policies, DexCompose first collects successful post-task states from the first skill and performs release tests over candidate finger masks to identify which fingers are necessary for maintaining the established skill state. It then trains two asymmetric residual modules: a bounded residual stabilizer for task preservation, and a context-aware residual that adapts the frozen downstream policy only within the action subspace assigned to the new task. We evaluate the framework on 16 composite dexterous manipulation tasks spanning four object-retention skills and four downstream interactions. DexCompose achieves a 77.4% average composite success rate, demonstrating that structural action ownership with dual residuals offers a promising direction for composing dexterous skills beyond conventional policy chaining.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28323" target="_blank" rel="noopener">DexCompose: Reusing Dexterous Policies for Multi-Task Manipulation with a Single Hand</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">Dihong Huang, Zhenyu Wei, Zhuxiu Xu, Yunchao Yao, Sikai Li, Mingyu Ding</div>
+    <div class="card-desc">Dexterous manipulation policies can solve individual skills, but composing them to perform multiple tasks with a single hand remains challenging. Adding a new task on top of an existing manipulation…</div>
+    <div class="card-tags"><span class="tag">cs.RO</span><span class="tag">cs.AI</span><span class="tag">cs.CV</span></div>
+  </div><div class="card" data-full-desc="Many two-player zero-sum games admit not a unique Nash equilibrium but a convex set of them: a polytope of profiles that all share the minimax value V* yet prescribe different behaviour. Standard solvers each converge to some equilibrium and are treated as interchangeable. We ask whether they instead select different members of the Nash set, systematically as a function of the algorithm rather than the seed. Using a tabular, exactly solvable testbed of six games with analytically known Nash sets -- including a two-dimensional Nash polytope and Kuhn poker -- we find that (i) selection is determined by the algorithm, not the seed, but families differ only on asymmetric Nash sets; (ii) regularized last-iterate methods (R-NaD, magnetic mirror descent) select the maximum-entropy member, the information projection of their uniform reference onto the Nash set -- exactly on the 2-D polytope and at 99.7% of maximum entropy in Kuhn -- while regret-averaging methods (CFR, CFR+, fictitious play) drift to a lower-entropy face; we confirm this on a randomized 180-game ensemble, where R-NaD attains the maximum-entropy member in 100% of converged games while CFR+ sits strictly below it in 94% (paired Wilcoxon p &lt; 10^-27); (iii) the selected member has downstream consequences against sub-optimal opponents that scale with sequential/hidden-information structure but stay bounded -- in Kuhn the max-entropy member is a strictly better hedge, whereas on the matrix games the members differ without">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28308" target="_blank" rel="noopener">Which Nash Equilibrium? Solver-Dependent Selection on Zero-Sum Nash Polytopes</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors">Luis Leal</div>
+    <div class="card-desc">Many two-player zero-sum games admit not a unique Nash equilibrium but a convex set of them: a polytope of profiles that all share the minimax value V* yet prescribe different behaviour. Standard…</div>
+    <div class="card-tags"><span class="tag">cs.GT</span><span class="tag">cs.AI</span><span class="tag">cs.LG</span></div>
+  </div><div class="card" data-full-desc="We present HORIZON, a self-evolving agent framework that treats hardware design as repository-level code evolution. A Markdown harness is compiled into a project pack containing domain knowledge, an executable evaluator, an acceptance predicate, and a git/runtime policy; a hands-free agent loop then evolves an isolated git worktree, using repository operations for state management, tracing, and replay. This extends prior works of repository-scale self-evolution from EDA software systems, to hardware-design artifacts themselves. We evaluate our approach on ChipBench, RTLLM, Verilog-Eval, and nine CVDP categories, achieving 100\% benchmark completion across all suites with a fully hands-free agentic loop. However, we do not claim that agentic AI for hardware design is solved: these benchmarks are controlled proxies for a much broader engineering problem in chip design. Section~\ref{sec:discuss} examines the limitations of the current study and highlights open research challenges.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28279" target="_blank" rel="noopener">Agentic Hardware Design as Repository-Level Code Evolution</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors">Cunxi Yu, Chenhui Deng, Nathaniel Pinckney, Brucek Khailany</div>
+    <div class="card-desc">We present HORIZON, a self-evolving agent framework that treats hardware design as repository-level code evolution. A Markdown harness is compiled into a project pack containing domain knowledge, an…</div>
+    <div class="card-tags"><span class="tag">cs.AR</span><span class="tag">cs.AI</span></div>
+  </div><div class="card" data-full-desc="Artificial intelligence is driving a revolution in scientific discovery, accelerating everything from hypothesis generation to mathematical theorem proving. However, this rapid acceleration is creating a systemic challenge: traditional human peer review cannot scale to match the influx of AI-assisted science. Ultimately, to resolve this tension, we must also deploy AI to accelerate the verification and review process itself. To frame the discussion around this transition, we propose a taxonomy consisting of four progressive levels of AI-human collaboration in scientific evaluation, and discuss various trade-offs involved with each.   As a step toward this future, we introduce the Paper Assistant Tool (PAT), an agentic AI framework built for deep scientific review and verification. PAT ingests full scientific manuscripts and produces a comprehensive evaluation, checking theoretical results, validating experiments, suggesting improvements, and identifying potential flaws. By utilizing inference scaling techniques, PAT is able to identify deeper issues than a single model call alone, achieving a 34% improvement over zero-shot recall on mathematical errors in the SPOT benchmark. Pilot deployments of PAT as a pre-submission tool for authors at two major Computer Science conferences -- STOC and ICML -- demonstrate its ability to identify critical errors and suggest substantive improvements to research papers. By catching errors early, PAT eases the cognitive burden placed on refere">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28277" target="_blank" rel="noopener">Towards Automating Scientific Review with Google&#x27;s Paper Assistant Tool</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors">Rajesh Jayaram, Drew Tyler, David Woodruff, Corinna Cortes, Yossi Matias, Vahab Mirrokni, Vincent Cohen-Addad</div>
+    <div class="card-desc">Artificial intelligence is driving a revolution in scientific discovery, accelerating everything from hypothesis generation to mathematical theorem proving. However, this rapid acceleration is…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span><span class="tag">cs.CL</span></div>
+  </div><div class="card" data-full-desc="Accurate network traffic prediction is a critical element for efficient resource allocation in dynamic urban cellular networks. However, prediction remains challenging because network demand is influenced by complex mobility patterns, congestion dynamics, and heterogeneous user behavior. This paper introduces the Parameter-Efficient Hybrid Transformer (PEHT), a network traffic prediction framework that integrates urban mobility and congestion information into a Transformer-based architecture. PEHT separates primary network communication features from secondary urban mobility features and incorporates Low-Rank Adaptation (LoRA) into the Transformer encoder to reduce the number of trainable parameters while maintaining high predictive accuracy. A multimodal fusion strategy then injects external mobility and congestion features into the decoder to improve traffic forecasting. Experiments on the Telecom Italia Milan dataset and multiple synthetic congestion scenarios show that PEHT outperforms state-of-the-art baselines in terms of RMSE, MAE, and $R^2$. The implementation is available in the GitHub repository.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28274" target="_blank" rel="noopener">Parameter Efficient Hybrid Transformer (PEHT) for Network Traffic Prediction via Dynamic Urban Congestion Integration</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors">Abdolazim Rezaei, Mehdi Sookhak, Mahboobeh Haghparast</div>
+    <div class="card-desc">Accurate network traffic prediction is a critical element for efficient resource allocation in dynamic urban cellular networks. However, prediction remains challenging because network demand is…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.AI</span></div>
+  </div><div class="card" data-full-desc="The transition from static chat bots to autonomous agents--equipped with persistent memory, tool-use protocols, and multi-agent collaboration--has fundamentally expanded the AI threat landscape. Current defense mechanisms, such as perimeter security and training-time alignment, remain external to the agent&#x27;s active reasoning loop. Consequently, they fall short: a fully aligned agent remains highly vulnerable to runtime hijacking via memory poisoning, tool-chain manipulation, or multi-agent protocol attacks. To address this critical gap, we introduce the Agent-Native Immune System (ANIS), the first biologically inspired, endogenous defense architecture embedded directly within the agent&#x27;s cognitive loop. Our framework presents four primary contributions. First, we design a six-layer Immune Tower (L0-L5), distinctly incorporating Barrier Immunity (L1) as a non-cognitive, physical-and-logical isolation layer. Second, we establish a unified taxonomy of Agent Viruses and Agent Vaccines, formalizing the critical distinction between superficial non-parametric defenses and robust parametric vaccines. Third, we conceptualize the Harness Triad--Meta, Self, and Auto--a self-monitoring, meta-cognitive automation backbone that drives Continual Immune Learning (CIL), enabling vaccines to dynamically adapt to novel threats. Finally, we establish a rigorous theoretical demarcation between model alignment and agent immunity: while alignment provides a static &quot;constitutional&quot; value foundation">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28270" target="_blank" rel="noopener">Agent-Native Immune System: Architecture, Taxonomy, and Engineering</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors">Bo Shen, Lifeng Chang, Tianyuan Wei, Yunpeng Li, Feng Shi, Yichen Han, Peijie Gao, Shiyi Kuang, Xin Chang, Dehui Li</div>
+    <div class="card-desc">The transition from static chat bots to autonomous agents--equipped with persistent memory, tool-use protocols, and multi-agent collaboration--has fundamentally expanded the AI threat landscape.…</div>
+    <div class="card-tags"><span class="tag">cs.AI</span><span class="tag">cs.MA</span></div>
+  </div><div class="card" data-full-desc="Test-time adaptation (TTA) has emerged as a promising paradigm for mitigating distribution shifts in deep models. However, existing TTA approaches for anomaly segmentation remain limited by their reliance on pixel-level heuristics, such as confidence thresholding or entropy minimisation, which fail to preserve structural consistency under noise and texture variation. Moreover, they typically treat anomaly maps as flat intensity fields, ignoring the higher-order spatial relationships that characterise complex defect geometries. We introduce TopoTTA (Topological Test-Time Adaptation), a novel framework that integrates persistent homology, a tool from topological data analysis, into the TTA pipeline to enforce geometric and structural coherence during adaptation. By applying multi-level cubical complex filtration to anomaly score maps, TopoTTA derives robust topological pseudo-labels that guide a lightweight test-time classifier, enhancing segmentation quality without retraining the backbone model. The approach avoids reliance on method-specific raw-score thresholding for mask binarisation, preserves connectivity, and generalises across both 2D and 3D modalities. Extensive experiments across six standard benchmarks (MVTec AD, VisA, Real-IAD, MVTec 3D-AD, AnomalyShapeNet, and MVTec LOCO) demonstrate an average 15% F1 improvement over state-of-the-art unsupervised anomaly detection and segmentation methods, with the largest gains on anomalies exhibiting complex geometric or struct">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28268" target="_blank" rel="noopener">Learning Topology-Aware Representations via Test-Time Adaptation for Anomaly Segmentation</a> <span class="src-num">[7]</span></div>
+    <div class="card-authors">Ali Zia, Usman Ali, Abdul Rehman, Umer Ramzan, Kang Han, Muhammad Faheem, Shahnawaz Qureshi, Wei Xiang</div>
+    <div class="card-desc">Test-time adaptation (TTA) has emerged as a promising paradigm for mitigating distribution shifts in deep models. However, existing TTA approaches for anomaly segmentation remain limited by their…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span></div>
+  </div><div class="card" data-full-desc="Understanding how performance scales jointly with model size and data is a central problem in modern machine learning. Existing theoretical works on scaling laws typically describe generalization as a function of data or compute, often in fixed-feature or infinite-width regimes and for online SGD. Here, we instead study how generalization scales with the number of trainable parameters and the number of samples in a feature-learning model. We analyze $\ell_2$-regularized empirical test error minimization in a quadratic two-layer network in a finite-sample setting with structured data. This setting allows for an explicit characterization of the generalization error as a function of the number of samples, model width, and regularization. Our results reveal a phase diagram with distinct scaling regimes as the number of parameters varies. In particular, the generalization error follows data-dependent power laws controlled by the spectral structure of the target. We further characterize the transitions between regimes, including the onset of interpolation, and their impact on generalization.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28242" target="_blank" rel="noopener">How Width and Data Shape Generalization Scaling Laws in Quadratic Neural Networks</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors">Julius Girardin, Emanuele Troiani, Yizhou Xu, Vittorio Erba, Florent Krzakala, Lenka Zdeborová</div>
+    <div class="card-desc">Understanding how performance scales jointly with model size and data is a central problem in modern machine learning. Existing theoretical works on scaling laws typically describe generalization as…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cond-mat.dis-nn</span><span class="tag">cs.AI</span></div>
+  </div><div class="card" data-full-desc="Autonomous coding agents now open and merge pull requests in shared repositories at scale, and the field evaluates them the way it has always evaluated components, one agent at a time, on isolated benchmark tasks. Yet agents that each pass their own tests still leave repositories that accumulate problems no single contribution accounts for. We ask whether this problem belongs to the individual agent or to the repository where it accumulates. We study integration friction, the cost of integrating a contribution into a codebase that other contributors are concurrently changing. Across more than 930,000 agent-authored pull requests, we measure how much of the variation in friction stays with the repository after the contribution, its author, its size, and its agent are accounted for. About half does, and it survives full controls. In the same repositories, agent-authored contributions concentrate this repository-level friction roughly twice as much as human ones (intraclass correlation 0.30 versus 0.16), a gap that holds after controlling for codebase size, age, task shape, process maturity, and merge path. The risk is a property of the ecosystem, not the agent. AI-native software is therefore better measured and governed at the ecosystem level than one agent at a time.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28235" target="_blank" rel="noopener">Govern the Repository, Not the Agent: Measuring Ecosystem-Level Risk in AI-Native Software</a> <span class="src-num">[9]</span></div>
+    <div class="card-authors">Daniel Russo</div>
+    <div class="card-desc">Autonomous coding agents now open and merge pull requests in shared repositories at scale, and the field evaluates them the way it has always evaluated components, one agent at a time, on isolated…</div>
+    <div class="card-tags"><span class="tag">cs.SE</span><span class="tag">cs.AI</span></div>
+  </div><div class="card" data-full-desc="Flow Matching (FM) has achieved remarkable generative performance, yet it suffers from exposure bias due to discrepancies between training and inference. Existing mitigation strategies typically rely on static constraints or external heuristics. In this work, we propose that exposure bias itself inherently contains dynamic signals that can guide its own rectification. To leverage this, we introduce DEFAR (DirEctional-Frequency Adaptive Rectification). This framework simulates the single-step inference process during training to identify exposure bias. It utilizes directional and frequency-adaptive feedback signals from the bias itself to enhance the model&#x27;s bias tolerance. It consists of two key components: (1) Anti-Drift Rectification (ADR). ADR treats inference-time drift as a signal to learn the direction to steer deviated states back toward the target. ADR endows the model with intrinsic active self-rectification capabilities; (2) Frequency Compensation (FC). Empirically, we observe that accumulated bias often stems from a lack of low-frequency components in high-noise stages, and exposure bias carries the missing frequency. FC leverages the bias itself as a self-feedback weighting factor to reinforce the missing frequency components. Experiments on CIFAR-10, CelebA-64, and ImageNet-256/512 show that DEFAR outperforms prior baselines and further demonstrates favorable scalability, compatibility, and inference robustness.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28226" target="_blank" rel="noopener">Exposure Bias Can Alleviate Itself via Directional and Frequency Rectification in Flow Matching</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors">Guanbo Huang, Jingjia Mao, Fanding Huang, Fengkai Liu, Xiangyang Luo, Yaoyuan Liang, Jiasheng Lu, Xiaoe Wang, Pei Liu, Ruiliu Fu, Ruqi Huang, Shao-Lun Huang</div>
+    <div class="card-desc">Flow Matching (FM) has achieved remarkable generative performance, yet it suffers from exposure bias due to discrepancies between training and inference. Existing mitigation strategies typically rely…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Machine Learning <span class="group-count">6</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Binary classification from positive-only samples is a variant of PAC learning in which the learner receives i.i.d. samples from the positive region of an unknown target concept, but is evaluated under the original distribution (which places mass on both positive and negative regions). This model dates back to Natarajan [1987, STOC], and the characterization of improper learning is well-known -- it even appears in textbooks. The characterization of proper positive-only learning, however, has long remained open. In this work, we revisit and settle this question: a concept class is properly learnable from positive-only samples if and only if it has finite VC dimension and satisfies a new combinatorial condition, which we call uniform exterior separability. Together with several separation results, this characterization reveals a surprisingly rich landscape that differs sharply from standard PAC learning: proper and improper learning are separated, randomized and deterministic proper learning are separated, there are classes for which no ERM is a learner, and finite VC dimension does not suffice even for non-uniform learning. Along the way, we introduce new combinatorial dimensions that we believe can be of broader interest in learning theory.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28309" target="_blank" rel="noopener">Surprises in Proper Positive-Only Learning</a> <span class="src-num">[11]</span></div>
+    <div class="card-authors">Shai Ben-David, Farnam Mansouri, Anay Mehrotra, Manolis Zampetakis</div>
+    <div class="card-desc">Binary classification from positive-only samples is a variant of PAC learning in which the learner receives i.i.d. samples from the positive region of an unknown target concept, but is evaluated…</div>
+    <div class="card-tags"><span class="tag">stat.ML</span><span class="tag">cs.LG</span><span class="tag">math.ST</span></div>
+  </div><div class="card" data-full-desc="We analyze Bregman ADMM for nonconvex linearly constrained problems under two-sided relative smoothness, a condition that replaces the standard Lipschitz gradient assumption with a Hessian comparison relative to a Bregman kernel. This setting covers polynomial objectives arising in matrix and tensor models for which a global Lipschitz-gradient constant need not exist. We show that on an invariant open state-space domain, one iteration of Bregman ADMM defines a smooth primal--dual fixed-point map whose strict-saddle KKT points are unstable fixed points; consequently, from random initialization the iterates converge to a strict saddle with probability zero. Combined with existing first-order convergence results, this yields almost-sure second-order stationarity of limiting KKT points. We extend the analysis to a multi-block star consensus formulation for distributed optimization. The technical novelty lies in a determinant reduction with a Bregman-specific symmetrization and scaling step in the two block spectral argument, together with a null space cancellation exploiting the star graph structure in the consensus case. Numerical experiments on distributed matrix factorization illustrate the theory, and a symmetric tensor factorization example demonstrates the broader Bregman proximal splitting idea beyond the separable consensus setting.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28307" target="_blank" rel="noopener">Second-Order KKT Guarantees for Bregman ADMM in Nonconvex and Non-Lipschitz Optimization</a> <span class="src-num">[12]</span></div>
+    <div class="card-authors">Shuang Li, Zhihui Zhu, Qiuwei Li</div>
+    <div class="card-desc">We analyze Bregman ADMM for nonconvex linearly constrained problems under two-sided relative smoothness, a condition that replaces the standard Lipschitz gradient assumption with a Hessian comparison…</div>
+    <div class="card-tags"><span class="tag">math.OC</span><span class="tag">cs.LG</span></div>
+  </div><div class="card" data-full-desc="Inference-time scaling is a promising paradigm to improve generative models, especially when outputs must satisfy structural constraints or optimize downstream rewards. We consider Masked Diffusion Model (MDM) and introduce MDM-VGB, a discrete diffusion sampler that augments unmasking generation with theoretically principled reward-guided remasking. Inspired by the recent success of the classical Jerrum-Sinclair backtracking Markov chain in reward-tilted generation, MDM-VGB extends the backtracking random walk from a fixed prefix tree to a masked-state graph, allowing tokens to be unmasked and remasked at arbitrary positions. The resulting sampler favors unmasking and remasking moves that lead to higher-value partial configurations, enabling both effective high-reward generation and efficient repair of low-reward samples. We prove that MDM-VGB is robust to process-verifier noise and achieves quadratic complexity, while popular test-time heuristics such as best-of-$N$ can incur exponential complexity due to error accumulation. Our theoretical findings are corroborated by strong empirical performance, particularly on popular constraint-satisfaction and scientific benchmarks such as Sudoku and QM9.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28301" target="_blank" rel="noopener">VGB for Masked Diffusion Model: Efficient Test-time Scaling for Reward Satisfaction and Sample Editing</a> <span class="src-num">[13]</span></div>
+    <div class="card-authors">Kijung Jeon, Thuy-Duong Vuong, Molei Tao</div>
+    <div class="card-desc">Inference-time scaling is a promising paradigm to improve generative models, especially when outputs must satisfy structural constraints or optimize downstream rewards. We consider Masked Diffusion…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.DS</span><span class="tag">math.NA</span></div>
+  </div><div class="card" data-full-desc="Preference-based alignment often struggles to capture the reasoning that underlies human judgments. Many evaluations rely on multiple interacting criteria, yet pairwise labels reveal only the final choice rather than the considerations that shape preferences. Inverse Constitutional AI (ICAI) improves interpretability in decision making by summarizing preferences into natural-language principles, but its single-pass explanations miss much of the nuance involved in complex decisions. We introduce Democratic ICAI, a novel approach that gathers multiple competing rationales through structured persona debate, offering a broader and more expressive account of the factors influencing each comparison. From these richer signals, we derive clearer and more comprehensive steering principles and use them to guide decision modeling through both LLM-based and decision-tree judges. Experiments on creative preference benchmarks, MuCE-Pref and LiTBench, across multiple creative task categories show that Democratic ICAI yields a more faithful preference structure. It improves average preference prediction across tasks relative to deliberative prompting and principle-based baselines, while producing constitutions that LLM annotators prefer.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28294" target="_blank" rel="noopener">Democratic ICAI: Debating Our Way to Steering Principles from Preferences</a> <span class="src-num">[14]</span></div>
+    <div class="card-authors">Kevin Kingslin, Anish Natekar, Ashutosh Ranjan, Vivek Srivastava, Savita Bhat, Shirish Karande</div>
+    <div class="card-desc">Preference-based alignment often struggles to capture the reasoning that underlies human judgments. Many evaluations rely on multiple interacting criteria, yet pairwise labels reveal only the final…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.MA</span></div>
+  </div><div class="card" data-full-desc="Ab initio modeling has established Wigner&#x27;s SU(4) and Elliott&#x27;s SU(3) as dominant symmetries of the nuclear force in light and intermediate-mass nuclei. We ask whether they also govern nuclear binding across the entire chart. Our aim is not high-precision prediction but physical insight, through interpretable, symmetry-based models. From the SU(3) and SU(4) Casimir operators we construct three neural-network (NN) mass models: Feature-Informed NN (FINN) for point predictions, Gaussian-Informed NN (GINN) adding uncertainty quantification, and Wigner-Informed NN (WINN) -- a mass formula using the Casimirs as an operator basis. All are trained on AME2016 and validated on nuclei new to AME2020. The SU(4) operators alone cut the root-mean-square error (RMSE) by nearly half on train and test data, and by about a fifth on extrapolation, relative to the liquid-drop baseline -- showing that Wigner&#x27;s symmetry carries predictive information beyond bulk properties. Despite its compact form, WINN reaches the lowest validation RMSE, 0.430 MeV -- competitive with state-of-the-art mass models -- which we read less as a benchmark than as evidence that its symmetry basis captures important physics. WINN further reveals i) an enhancement of the quadratic SU(4) Casimir near the neutron dripline, signaling restoration of Wigner&#x27;s symmetry, and ii) an unexpected gain of the quartic operator in the superheavy region. We thereby elevate emergent symmetries from the hidden order within individual nucl">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28287" target="_blank" rel="noopener">Bridging Ab Initio Symmetries and Global Nuclear Masses with Interpretable Neural Networks</a> <span class="src-num">[15]</span></div>
+    <div class="card-authors">Phong Dang, Evander Espinoza, Xiaoliang Wan, Michela Negro, Jerry P. Draayer, Feng Pan, Tomas Dytrych, Daniel Langr, David Kekejian</div>
+    <div class="card-desc">Ab initio modeling has established Wigner&#x27;s SU(4) and Elliott&#x27;s SU(3) as dominant symmetries of the nuclear force in light and intermediate-mass nuclei. We ask whether they also govern nuclear…</div>
+    <div class="card-tags"><span class="tag">nucl-th</span><span class="tag">cs.LG</span></div>
+  </div><div class="card" data-full-desc="PAC-Bayesian bounds provide finite-sample guarantees for data-dependent randomized predictors, but applying them to learning-based control is difficult because the natural objective is a quadratic trajectory cost. Such losses are unbounded, non-Lipschitz , and lead to response-dependent Chernoff terms. We employ System Level Synthesis parameterization, which exposes the closed-loop trajectory map of a linear system directly and makes the quadratic control loss amenable to explicit certification. Moreover, we provide a set of PAC-Bayes-Chernoff certificates for posterior distributions over feasible closed-loop responses. For Gaussian disturbance trajectories with arbitrary covariance, we derive an exact one-sided Gaussian transform and a tractable quadratic upper bound expressed through closed-loop sensitivity quantities. We also derive a posterior-localized surrogate for settings where pointwise closed-loop response certificates are unavailable or have support related admissibility issues. Although PAC-Bayes certifies a non-degenerate posterior, the convex quadratic form of the SLS loss transfers the certificate to the posterior mean response. We present a deterministic mean response deployment result that is particularly suitable for control while retaining the stochastic posterior in the bound. Additionally, we provide a data-driven bound for this deployment, transitioning away from an oracle bound. Minimizing this bound naturally results in a learning algorithm for control">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28281" target="_blank" rel="noopener">PAC-Bayesian Certificates for Quadratic Closed-Loop Control</a> <span class="src-num">[16]</span></div>
+    <div class="card-authors">Domagoj Herceg</div>
+    <div class="card-desc">PAC-Bayesian bounds provide finite-sample guarantees for data-dependent randomized predictors, but applying them to learning-based control is difficult because the natural objective is a quadratic…</div>
+    <div class="card-tags"><span class="tag">eess.SY</span><span class="tag">cs.LG</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Large Language Models <span class="group-count">8</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="We introduce PerceptionRubrics, a rubric-based evaluation framework that addresses the gap between saturated benchmark scores and real-world brittleness. Shifting evaluation from holistic semantic matching to rigorous atomic auditing, PerceptionRubrics pairs 1,038 information-dense images with over 12,000 instance-specific rubrics. These criteria are derived from golden captions constructed via a novel Circular Peer-Review consensus pipeline and then distilled into a dual-stream system of Must-Right (essential facts) and Easy-Wrong (fine-grained details) rubrics. Crucially, PerceptionRubrics implements a Gated Scoring mechanism: unlike linear averages, failure on mandatory visual facts triggers sharp binary penalties. Extensive evaluation yields critical insights: (1) The Reliability Gap: models often verify fragmented elements correctly yet fail strict conjunctive constraints, exposing brittleness in dense domains; (2) Open-Closed Stratification: contrary to reasoning trends, we reveal a persistent 8% perception deficit between open-source and proprietary frontiers; and (3) Human-Aligned Rigor: our gated metrics substantially out-align conventional benchmarks, validating that strict perceptual fidelity is the prerequisite for reliable generation.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28322" target="_blank" rel="noopener">PerceptionRubrics: Calibrating Multimodal Evaluation to Human Perception</a> <span class="src-num">[17]</span></div>
+    <div class="card-authors">Yana Wei, Hongbo Peng, Yanlin Lai, Liang Zhao, Kangheng Lin, En Yu, Keyu Lv, Han Zhou, Yin Tang, Haodong Li, Mitt Huang, Hangyu Guo, Jianjian Sun, Zheng Ge, Xiangyu Zhang, Daxin Jiang, Vishal M. Patel</div>
+    <div class="card-desc">We introduce PerceptionRubrics, a rubric-based evaluation framework that addresses the gap between saturated benchmark scores and real-world brittleness. Shifting evaluation from holistic semantic…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span></div>
+  </div><div class="card" data-full-desc="We present StructSplat, a feed-forward and generalizable 3D Gaussian reconstruction framework that operates directly on uncalibrated images without requiring camera parameters. Existing methods either rely on per-scene optimization or assume known camera poses, and often entangle geometry and appearance within a unified backbone, limiting reconstruction fidelity and generalization. Our key idea is to adopt a structured representation that organizes geometry, semantic, and texture cues with explicit roles in the reconstruction process. Specifically, we introduce a pixel-aligned feature injection mechanism to enable accurate texture modeling from 2D observations, incorporate semantic-aware priors to improve global consistency, and design a camera alignment strategy to prevent information leakage and improve generalization. Experiments show that our method significantly outperforms prior approaches on challenging benchmarks. On DL3DV, our method achieves 28.045 PSNR, surpassing AnySplat (22.377) by +5.67 dB. In cross-dataset evaluation, our method achieves +1.94 dB over AnySplat on ACID and +1.72 dB on RealEstate10K. Project page: https://structsplat.github.io Code: https://github.com/J-C-Zhao/StructSplat">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28321" target="_blank" rel="noopener">StructSplat: Generalizable 3D Gaussian Splatting from Uncalibrated Sparse Views</a> <span class="src-num">[18]</span></div>
+    <div class="card-authors">Jia-Chen Zhao, Beiqi Chen, Xinyang Chen, Guangcong Wang, Liqiang Nie</div>
+    <div class="card-desc">We present StructSplat, a feed-forward and generalizable 3D Gaussian reconstruction framework that operates directly on uncalibrated images without requiring camera parameters. Existing methods…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span></div>
+  </div><div class="card" data-full-desc="Scaling imitation learning requires large datasets, yet human teleoperation inevitably produces mixed-quality demonstrations containing hesitations and recoveries. Prior frame-level progress reward models supervise on absolute temporal progress proxies that suffer from label noise, or require costly human annotations to define subtask boundaries. We present WARP (Warp-Augmented Relative Progress), a novel fully self-supervised algorithm for learning dense, signed relative progress magnitudes directly from successful demonstrations. WARP generates per-frame progress targets via time-warp augmentations of demonstrations (variable playback speeds and reversals) and we train WARP-RM to predict the normalized elapsed time between input frames. Aggregating these predictions across overlapping windows yields a dense frame-level progress signal. We then introduce WARP-BC, which leverages these scalar reward estimates to upweight high-advantage action chunks during behavior cloning, where chunk-level advantage is obtained by aggregating per-frame rewards. We evaluate our approach on a physical bimanual robot system performing a long-horizon deformable object manipulation task: folding T-shirts from a random crumpled start. To evaluate policy robustness against suboptimal data, we construct training datasets of varying quality using episode length as a proxy for teleoperation sub-optimality. As the dataset is widened to admit more inefficiencies, WARP-BC maintains a 19/20 success rate">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28320" target="_blank" rel="noopener">WARP-RM: A Warp-Augmented Relative Progress Reward Model for Data Curation</a> <span class="src-num">[19]</span></div>
+    <div class="card-authors">Justin Yu, Andrew Goldberg, Kavish Kondap, Karim El-Refai, Ethan Ransing, Qianzhong Chen, Mac Schwager, Fred Shentu, Philipp Wu, Ken Goldberg</div>
+    <div class="card-desc">Scaling imitation learning requires large datasets, yet human teleoperation inevitably produces mixed-quality demonstrations containing hesitations and recoveries. Prior frame-level progress reward…</div>
+    <div class="card-tags"><span class="tag">cs.RO</span></div>
+  </div><div class="card" data-full-desc="We study the near-threshold scattering and bound-state structure of the $NΩ$ system by solving the Lippmann-Schwinger (L-S) equation within the framework of the meson exchange model and the Pomeron exchange model. The numerical results indicate that after incorporating the Pomeron exchange mechanism, the observables of the ${^5}S{_2}$ channel, such as the binding energy, scattering length, and effective range, agree better with the experimental measurements. In addition, The Pomeron exchange can provide an extra attractive interaction to make the hadronic state more compact. We also predict the scattering behavior of the ${^3}S{_1}$ channel and confirm that a weak quasi-bound state exists in this channel. Future experimental measurements on the ${^3}S{_1}$ channel will provide an important criterion for verifying the dynamic role played by the Pomeron exchange mechanism within the $NΩ$ system.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28319" target="_blank" rel="noopener">Near-threshold scattering of proton and Omega baryon and possible bound states</a> <span class="src-num">[20]</span></div>
+    <div class="card-authors">Yu-Jie Feng, Qian Wang, Qiang Zhao</div>
+    <div class="card-desc">We study the near-threshold scattering and bound-state structure of the $NΩ$ system by solving the Lippmann-Schwinger (L-S) equation within the framework of the meson exchange model and the Pomeron…</div>
+    <div class="card-tags"><span class="tag">hep-ph</span></div>
+  </div><div class="card" data-full-desc="People&#x27;s opinions can change both from their interactions with each other and from their interactions with media sources. Bounded-confidence models (BCMs) of opinion dynamics provide one framework to study such dynamics. In a BCM, the nodes of a network are agents with continuous-valued opinions, and these agents interact with each other via the edges of the network. In this paper, we extend the original Deffuant--Weisbuch (DW) BCM by incorporating influence from two media sources -- one with a positive value and one with a negative value -- to capture the effects of a polarized media landscape. We show both numerically and analytically that our extended DW model exhibits drifting behavior in which a large cluster of opinions shifts toward one of the media agents. We analyze how the drift trajectory and speed depend on the model parameters, and we identify conditions in which drift is promoted or suppressed. Our results provide insight into how competing media sources can influence collective opinion formation in social systems.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28318" target="_blank" rel="noopener">Drift Behavior in a Bounded-Confidence Opinion Model with Media Influence</a> <span class="src-num">[21]</span></div>
+    <div class="card-authors">Oliver Zheng, Mason A. Porter</div>
+    <div class="card-desc">People&#x27;s opinions can change both from their interactions with each other and from their interactions with media sources. Bounded-confidence models (BCMs) of opinion dynamics provide one framework to…</div>
+    <div class="card-tags"><span class="tag">physics.soc-ph</span><span class="tag">cs.SI</span></div>
+  </div><div class="card" data-full-desc="Many combinatorial designs ask for equal distribution of given symbols across the entries of a matrix. The paramount examples are Latin squares, where each symbol from $\{1,\dots,n\}$ appears once per row and column of an $n\times n$ matrix. Generalized Latin rectangles extend this to $λn \times n$ matrices with repeated symbols under controlled column frequencies. In this more general setting, we examine structural properties of pairwise reflection-symmetry, which requires that, on every pair of columns, each ordered symbol pair $(p,q)$ occurs as often as its reversal $(q,p)$. This order-balance is precisely what makes head-to-head comparisons unbiased, i.e., no symbol gains a systematic advantage from the position it occupies relative to another, a fairness demand arising for instance when scheduling tournaments or laying out comparative trials. Existence of such objects for odd $λ$ turns out to be remarkably more subtle than for even $λ$. After showing that existence holds also for sufficiently large odd $λ$, we initiate the search for the smallest possible value of $λ$ in this setting. We obtain the insight that a column multiplicity of $λ=1$ can be achieved if and only if $n$ is a power of two. We complement the existence results with a direct product construction and add several further observations on the property. Finally, we propose and evaluate a quadratically constrained integer program to computationally search for these objects. The resulting experiments reveal t">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28315" target="_blank" rel="noopener">Pairwise Reflection Symmetry in Generalized Latin Rectangles</a> <span class="src-num">[22]</span></div>
+    <div class="card-authors">Enrico Iurlano, Günther R. Raidl</div>
+    <div class="card-desc">Many combinatorial designs ask for equal distribution of given symbols across the entries of a matrix. The paramount examples are Latin squares, where each symbol from $\{1,\dots,n\}$ appears once…</div>
+    <div class="card-tags"><span class="tag">cs.DM</span><span class="tag">math.CO</span></div>
+  </div><div class="card" data-full-desc="The 21-cm absorption line of neutral hydrogen has been a long hypothesized observational feature of the spectra of Fast Radio Bursts (FRBs). The difficulties associated with detector noise in extracting HI absorption have been previously studied. We test the role that scintillation plays in the HI absorption line&#x27;s detectability, and characterize the regimes where a realistic FRB may yield the 21-cm line. We build an efficient model to simulate diffractive scintillation arising from FRB passage through a thin scattering screen. We find that the absorption profile is detectable in a scintillation-dominated high signal-to-noise spectrum if the scintillation decorrelation bandwidth differs significantly in scale from the width of the absorption profile. Active repeaters also enable favorable conditions as the absorption signal improves when repeat bursts are stacked. Repeat bursts must be separated in time by more than the diffractive scintillation timescale, otherwise flux modulations with frequency are correlated. By cross-referencing repeating FRB positions with an observational catalog of Milky Way molecular clouds detected in CO, we find that the sightline to FRB 20180916B may intersect a Galactic molecular cloud. For currently operating and planned sensitive telescopes, the presence of both scintillation and noise requires $\gtrsim 1000$ bursts to be stacked to detect the HI absorption line at a $5σ$ significance. Improvement in detector sensitivities will help probe HI cl">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28314" target="_blank" rel="noopener">The Role of Scintillation in Detecting HI Absorption in FRB Spectra</a> <span class="src-num">[23]</span></div>
+    <div class="card-authors">Om Gupta, Pawan Kumar, Paz Beniamini, Edward L. Robinson</div>
+    <div class="card-desc">The 21-cm absorption line of neutral hydrogen has been a long hypothesized observational feature of the spectra of Fast Radio Bursts (FRBs). The difficulties associated with detector noise in…</div>
+    <div class="card-tags"><span class="tag">astro-ph.HE</span><span class="tag">astro-ph.GA</span><span class="tag">astro-ph.SR</span></div>
+  </div><div class="card" data-full-desc="We present a method for simulating operator dynamics in out-of-equilibrium quantum systems. Due to the rapid growth of complexity in these systems, this is typically speaking an intractable task. However, exceptional progress has been made in recent years to sidestep this barrier, with the introduction of a number of methods that make use of a truncation of the simulation to low-weight (the number of non-trivial terms in a Pauli string basis expansion) observables, which turns out to be a good approximation for many dynamical quantities of interest, e.g., two-point infinite-temperature correlation functions between local operators. In this work, we extend this idea to a leaner truncation protocol, truncating operators based on their diameter - that is, the size of the region on the lattice on which they are non-trivially supported. Using existing analysis for generic circuits we argue that this kind of truncation protocol is physically well-motivated, and show via extensive numerical simulations for a number of systems of interest (here, the kicked Ising model and the Heisenberg XXZ model) that it is effective, and allows us to efficiently and accurately extract local correlation functions and transport properties.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28313" target="_blank" rel="noopener">Diameter truncated operator evolution</a> <span class="src-num">[24]</span></div>
+    <div class="card-authors">Tom Holden-Dye, Max Marvell, Joel Mills, Christoper J. Turner, Arijeet Pal</div>
+    <div class="card-desc">We present a method for simulating operator dynamics in out-of-equilibrium quantum systems. Due to the rapid growth of complexity in these systems, this is typically speaking an intractable task.…</div>
+    <div class="card-tags"><span class="tag">quant-ph</span><span class="tag">cond-mat.stat-mech</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 AI Agents &amp; Reasoning <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Active galactic nuclei (AGN) are thought to have dusty outflows; however, unlike the gas phase, measuring the kinematics of dust is challenging. We present the detection and analysis of the kinematics of dust in five type 2 quasars (QSO2s) at $z\sim0.1$ from the Quasar Feedback (QSOFEED) sample observed with JWST/MIRI spectroscopy. We use Principal Component Analysis (PCA) tomography to produce velocity maps of Polycyclic Aromatic Hydrocarbon (PAH) features, which are the smallest carbonaceous dust particles. We are then able to compare velocity maps of the PAHs with emission lines of ionised and molecular gas. We are able to produce velocity maps of the 11.3 $μ$m PAH feature, which traces large and neutral PAHs, for three out of the five objects where all three show the presence of an outflow in the PAH kinematics. This becomes particularly clear after subtracting disk kinematics, where the H$_2$ rotational transitions also show residuals consistent with an outflow. Compared to previous work with Seyfert galaxies, this work suggests that dusty outflows are more common at higher Eddington ratios, $λ_{\rm Edd}\gtrsim0.1$, in agreement with previous suggestions, although the sample size is small. We are unable to produce velocity maps for the 6.2 $μ$m PAH, which traces ionised PAHs, potentially due to differences in the intrinsic profile and/or suppression of the feature in AGN, which was seen previously in Seyfert galaxies. This reflects studies of PAH band ratios where AGN ou">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28311" target="_blank" rel="noopener">Kinematic detection of dusty outflows from AGN: PAH kinematics of type 2 quasars with JWST/MIRI spectroscopy</a> <span class="src-num">[25]</span></div>
+    <div class="card-authors">Fergus R. Donnan, Cristina Ramos Almeida, Omaira González Martín, Karin Sandstrom, Anelise Audibert, Marina Bianchin, Miguel Pereira-Santaella, Ismael García-Bernete</div>
+    <div class="card-desc">Active galactic nuclei (AGN) are thought to have dusty outflows; however, unlike the gas phase, measuring the kinematics of dust is challenging. We present the detection and analysis of the…</div>
+    <div class="card-tags"><span class="tag">astro-ph.GA</span><span class="tag">astro-ph.HE</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 AI Safety &amp; Guardrails <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Anytime-valid confidence sequences and e-processes are built almost universally from one recipe: average exponential test statistics over a prior on the tilting scale, then invoke Ville&#x27;s inequality on the resulting nonnegative supermartingale. The mixing prior sets the width of the detection boundary and is usually chosen by hand. We recast the recipe as a two-player game with information as currency. A Learner commits to the prior; Nature adaptively produces a mean-zero score process whose difficulty is priced by a cumulant-generating-function charge. The Learner&#x27;s mixture wealth obeys a single pathwise Gibbs-variational identity that holds along every realized path with no expectation operator; Ville&#x27;s inequality, the equalizer condition, the GROW characterization, and the saddlepoint formula are all specializations of it. Three messages organize the rest. First, the law of the iterated logarithm (LIL) is the minimax boundary of this sequential-detection game, not arbitrary combinatorial slack. Second, the optimal prior is not a design choice but the forced equalizer strategy -- the unique law that makes every boundary-crossing time equally costly for Nature -- and it yields the sharp first iterated-log correction in closed form, with coefficient 3/2 = 1 + 1/2 (one for the Erdős baseline, one half for the Laplace envelope around the saddle). Third, in the log-log scale chart the equalizer is exactly the Jeffreys prior on the scale-of-scales. The Erdős-Kolmogorov integral t">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28324" target="_blank" rel="noopener">The multiply iterated law of the iterated logarithm: game-theoretic foundations of sequential detection boundaries</a> <span class="src-num">[26]</span></div>
+    <div class="card-authors">Akshay Balsubramani</div>
+    <div class="card-desc">Anytime-valid confidence sequences and e-processes are built almost universally from one recipe: average exponential test statistics over a prior on the tilting scale, then invoke Ville&#x27;s inequality…</div>
+    <div class="card-tags"><span class="tag">math.ST</span></div>
+  </div><div class="card" data-full-desc="Non-standard inflationary models often predict oscillatory features in the primordial power spectrum. We present constraints on general oscillatory templates for primordial power spectra, including those that vary linearly and logarithmically with wavenumber, as well as oscillations induced by inflationary particle production. We utilize the Planck 2018 and Atacama Cosmology Telescope Data Release 6 cosmic microwave background data as well as large-scale structure data from the Dark Energy Spectroscopic Instrument Data Release 2. To efficiently explore the multimodal posteriors for these models as well as performing mode comparisons, we integrate the preconditioned sequential Monte Carlo sampler, pocoMC, into the widely used sampling code, Cobaya. We find that the combined dataset tightens the 95% CL upper bounds on the general oscillation amplitudes to $A_{\text{lin}} &lt; 0.021$, $A_{\text{log}} &lt; 0.022$, and $A_{\text{log rf}} &lt; 0.023$, restricting the amplitude to $\sim 2\%\, A_s$. For the inflationary particle production model, our analysis places a maximum a posteriori constraint on the coupling constant of $g = 0.034$. While these models all provide an improved fit to the data compared to the concordance $Λ$CDM model, the Bayesian evidence still reveals a moderate preference for $Λ$CDM compared to models with general oscillations and is inconclusive regarding the particle production model, suggesting that the added complexity of these models beyond the standard model is n">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28310" target="_blank" rel="noopener">Constraining primordial oscillations and inflationary particle production with Planck, ACT DR6, and DESI DR2</a> <span class="src-num">[27]</span></div>
+    <div class="card-authors">Simran K. Nerval, Renee Hlozek, Hidde T. Jense, J. Richard Bond</div>
+    <div class="card-desc">Non-standard inflationary models often predict oscillatory features in the primordial power spectrum. We present constraints on general oscillatory templates for primordial power spectra, including…</div>
+    <div class="card-tags"><span class="tag">astro-ph.CO</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Security &amp; Cybersecurity <span class="group-count">8</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Jailbreak attacks bypass LLM safety alignment, yet their mechanisms remain poorly understood. We provide evidence that attacks do not comprehensively eliminate safety features, but instead selectively suppress specific attention heads. We identify two functionally differentiated types: Adversarially Compromised Heads (ACHs) concentrated in early layers, which are suppressed under attacks, and Safety-Aligned Heads (SAHs) in mid-layers, which maintain robust activations even when attacks succeed. Ablation studies support the causal role of ACHs and the contribution of SAHs to robust activations: suppressing a small number of ACHs is sufficient to induce jailbreak-like behavior on normally refused inputs, while removing SAHs substantially weakens mid-layer safety activations. Token-level attribution further shows that ACH suppression is driven specifically by attack-template tokens, providing a mechanistic account of why attacks can bypass refusal decisions through ACH suppression while leaving internal safety signals sustained by SAHs -- a phenomenon we term Robust Harmful Features. To validate the practical significance of this robustness, we show that simply reading these persistent activations -- without any training -- yields competitive aggregate detection performance with strong adversarial robustness.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28153" target="_blank" rel="noopener">Robust Harmful Features Under Jailbreak Attacks: Mechanistic Evidence from Attention Head Specialization in Large Language Models</a> <span class="src-num">[28]</span></div>
+    <div class="card-authors">Yanchen Yin, Dongqi Han, Linghui Li</div>
+    <div class="card-desc">Jailbreak attacks bypass LLM safety alignment, yet their mechanisms remain poorly understood. We provide evidence that attacks do not comprehensively eliminate safety features, but instead…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.AI</span></div>
+  </div><div class="card" data-full-desc="Developers may reference vulnerabilities in pull request discussions through both explicit identifiers, such as CVEs or GHSAs, and implicit security-related language (e.g., &quot;unauthorized access&quot; or &quot;SQL injection&quot;). Prior work has primarily focused on explicit identifiers, potentially overlooking vulnerability discussions that lack formal references. Bots and coding agents are becoming more common in pull requests, raising new questions about how different accounts communicate about vulnerabilities. In this registered report, we describe our planned study of vulnerability communication in pull requests by humans, bots, and coding agents. Building on the AIDev-pop dataset, we analyze explicit vulnerability references and implicit security-related signals across pull request titles, descriptions, review comments, commit messages, and timeline discussions. We further investigate whether these references are associated with vulnerabilities introduced or fixed in the modified code and how they relate to pull request review activity and outcomes. This study contributes a large-scale empirical investigation of vulnerability communication practices in modern software development.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28125" target="_blank" rel="noopener">How Humans, Bots, and Agents Communicate About Vulnerabilities in Pull Requests</a> <span class="src-num">[29]</span></div>
+    <div class="card-authors">Pien Rooijendijk, Christoph Treude, Mairieli Wessel</div>
+    <div class="card-desc">Developers may reference vulnerabilities in pull request discussions through both explicit identifiers, such as CVEs or GHSAs, and implicit security-related language (e.g., &quot;unauthorized access&quot; or…</div>
+    <div class="card-tags"><span class="tag">cs.SE</span><span class="tag">cs.CR</span></div>
+  </div><div class="card" data-full-desc="The rapid proliferation of automated, multi-vector malware threats poses a significant risk to heterogeneous, resource constrained cyber-physical networks. Conventional epidemiological models often treat security defenses as static parameters, failing to capture the strategic, asymmetric maneuvers between an attacker and a defender. To address the gap, this paper proposes a Game-Theory-Integrated Modified Multi- Wireless Sensor Epidemic Malware Propagation (GTI-mSEMP) framework. This paper analyzed and compared the operational trajectories of Susceptible (S) and Recovered (R) node populations across three different operational regimes: Balanced Matchup, Exploit Surge and Hardened Defense. Numerical simulation results capture the real-time transient dynamics of the network state variables, demonstrating how the epidemic curve shifts when either the defensive or offensive scaling vectors hold an efficiency advantage. The proposed mathematical and numerical framework provides a rigorous foundation that can be deployed in highly adversarial network environments to evaluate dynamic malware propagation and predict localized node population states.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28079" target="_blank" rel="noopener">GTI-mSEMP Framework : A Proposed Framework to Stimulate Malware Propagation with Inclusion of Attacker-Defender Strategy</a> <span class="src-num">[30]</span></div>
+    <div class="card-authors">Shadeeb Hossain, Kristopher Wilson</div>
+    <div class="card-desc">The rapid proliferation of automated, multi-vector malware threats poses a significant risk to heterogeneous, resource constrained cyber-physical networks. Conventional epidemiological models often…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.GT</span><span class="tag">cs.NI</span></div>
+  </div><div class="card" data-full-desc="Large language models (LLMs) have increasingly moved from standalone text generation systems to agents that invoke external tools, access environments, and execute multi-step tasks. However, conventional function-calling benchmarks mainly evaluate task completion and API correctness, while privacy evaluation benchmarks typically focus on final responses or privacy judgments. Neither perspective captures purpose-bound information flow across an executed multi-tool trajectory. Motivated by this limitation in current agent evaluation, ToolPrivacyBench audits whether task-private atoms are routed only to authorized tools and downstream sinks, thereby evaluating both task completion and privacy over-disclosure during tool use. The benchmark contains 2,150 cases, including 1,150 fully synthetic privacy-sensitive business workflows and 1,000 cases adapted from existing multi-tool and function-calling benchmarks. Each case is represented by a policy knowledge base. After an agent executes against mock business backends, the evaluator compares recorded tool arguments and backend audit logs with this policy knowledge base. The evaluation covers nine widely used agents to characterize purpose-bound privacy over-disclosure. The results show that successful tool execution does not imply appropriate privacy disclosure: an agent may complete a task while transmitting unnecessary private information through intermediate tool calls. ToolPrivacyBench therefore formalizes a need-to-know disclos">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28061" target="_blank" rel="noopener">ToolPrivacyBench: Benchmarking Purpose-Bound Privacy in Tool-Using LLM Agents</a> <span class="src-num">[31]</span></div>
+    <div class="card-authors">Shijing Hu, Liang Liu, Zhu Meng, Zhicheng Zhao</div>
+    <div class="card-desc">Large language models (LLMs) have increasingly moved from standalone text generation systems to agents that invoke external tools, access environments, and execute multi-step tasks. However,…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.AI</span></div>
+  </div><div class="card" data-full-desc="Cyber deception research has focused on improving honeypot deception capabilities to increase attacker engagement and extend their interactions to collect more and better intelligence. For SSH honeypots, this relies on the assumption that attackers log in, open a shell, and type. We tested whether this still held by deploying eleven SSH honeypots that served both interactive and non-interactive session requests for fifteen days. We collected 177,622 authenticated sessions and validated our results against an independent Cowrie dataset over the same time window. We found that 99.23% of sessions were non-interactive. Interactive sessions account for only 0.10%. The same pattern held in the comparative third-party dataset used for evaluation. This finding is important because a honeypot that focuses on interactive shells or evaluates success based on session length and the number of commands can miss most authenticated attacks and draw the wrong conclusions about what attackers do after login.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28006" target="_blank" rel="noopener">Ghost Without Shell: Measuring Non-Interactive SSH Attacks on Honeypots</a> <span class="src-num">[32]</span></div>
+    <div class="card-authors">Veronica Valeros, Muris Sladić, Sebastian Garcia</div>
+    <div class="card-desc">Cyber deception research has focused on improving honeypot deception capabilities to increase attacker engagement and extend their interactions to collect more and better intelligence. For SSH…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div><div class="card" data-full-desc="Threshold private set intersection (TPSI) allows parties to reveal their intersection only when its cardinality reaches a prescribed threshold. Existing quantum TPSI protocols typically rely on a third party (TP) to interpret the final results, which deviates from the cardinality-testing paradigm of TPSI. In this paper, we propose a quantum multiparty TPSI protocol with explicit cardinality testing. Our protocol develops a rotation-based quantum construction in which single-photon sequences are sequentially processed through participant-side data rotations, TP--participant masking rotations, and correlated aggregate rotations. This design produces hidden-label measurement vectors: TP can complete the final measurement, but cannot interpret the semantic meaning of the outcomes. Based on these hidden measurements, we further realize the threshold decision through an oblivious linear evaluation (OLE)-based inner product procedure and a lightweight garbled circuit, revealing only \(\mathbf 1[|\bigcap_i X_i|\ge τ]\) before conditional intersection reconstruction. We prove the correctness and security of the proposed protocol, and further validate its feasibility through quantum-circuit simulations implemented on the IBM \textsf{Qiskit} platform.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.27996" target="_blank" rel="noopener">Quantum Multi-Party Threshold Private Set Intersection with Explicit Cardinality Testing</a> <span class="src-num">[33]</span></div>
+    <div class="card-authors">Zixian Gong, Kun Tian, Yi Zhang, Fengxia Liu</div>
+    <div class="card-desc">Threshold private set intersection (TPSI) allows parties to reveal their intersection only when its cardinality reaches a prescribed threshold. Existing quantum TPSI protocols typically rely on a…</div>
+    <div class="card-tags"><span class="tag">quant-ph</span><span class="tag">cs.CR</span></div>
+  </div><div class="card" data-full-desc="Threshold private set intersection (TPSI) allows parties to reveal their intersection only when its cardinality reaches a prescribed threshold. Existing quantum TPSI protocols typically rely on a third party (TP) to interpret the final results, which deviates from the cardinality-testing paradigm of TPSI. In this paper, we propose a quantum multiparty TPSI protocol with explicit cardinality testing. Our protocol develops a rotation-based quantum construction in which single-photon sequences are sequentially processed through participant-side data rotations, TP--participant masking rotations, and correlated aggregate rotations. This design produces hidden-label measurement vectors: TP can complete the final measurement, but cannot interpret the semantic meaning of the outcomes. Based on these hidden measurements, we further realize the threshold decision through an oblivious linear evaluation (OLE)-based inner product procedure and a lightweight garbled circuit, revealing only \(\mathbf 1[|\bigcap_i X_i|\ge τ]\) before conditional intersection reconstruction. We prove the correctness and security of the proposed protocol, and further validate its feasibility through quantum-circuit simulations implemented on the IBM \textsf{Qiskit} platform.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.27994" target="_blank" rel="noopener">Verifiable and Collusion-Resistant Multi-Party Quantum Private Set Operations</a> <span class="src-num">[34]</span></div>
+    <div class="card-authors">Zixian Gong, Kun Tian, Yi Zhang, Fengxia Liu</div>
+    <div class="card-desc">Threshold private set intersection (TPSI) allows parties to reveal their intersection only when its cardinality reaches a prescribed threshold. Existing quantum TPSI protocols typically rely on a…</div>
+    <div class="card-tags"><span class="tag">quant-ph</span><span class="tag">cs.CR</span></div>
+  </div><div class="card" data-full-desc="LLM-based SSH honeypots can generate believable interactions, but evaluations indicate they remain somewhat identifiable to determined attackers, indicating the need for a better scaffolding. We present a new LLM-based honeypot design that uses a multi-agent, multi-LLM architecture to address the limitations of the previous shelLM LLM honeypot. Our honeypot, called AdvancedShelLM, uses two LLM agents, a Manager and a Worker, that better understand the commands while reducing incorrect responses and increasing deception. It implements an advanced permanent filesystem, allowing many simultaneous attackers to see the same changing files for the first time. It was evaluated with: (i) unit tests for generative capabilities, (ii) an AI attacker (ARACNE) to assess realism and deception, (iii) human attackers to assess its deceptive capability, and (iv) an Internet deployment to evaluate deception in real-world attacks. In unit test results, AdvancedShelLM achieved a pass rate of up to 99.02%. The AI attacker ARACNE had issues making a decision if the system is honeypot or not, but showed slight bias towards saying honeypot, even for a real Ubuntu shell. With human attackers, AdvancedShelLM deceived more humans than Cowrie, but had similar results as shelLM. The Internet deployment showed concrete evidence that the output of AdvancedShelLM can influence the behaviour of real-life attackers.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.27990" target="_blank" rel="noopener">AdvancedShelLM: A Stateful Multi-Agent LLM Honeypot for SSH Deception</a> <span class="src-num">[35]</span></div>
+    <div class="card-authors">Muris Sladić, Eman Alibalić, Veronica Valeros, Carlos Catania, Sebastian Garcia</div>
+    <div class="card-desc">LLM-based SSH honeypots can generate believable interactions, but evaluations indicate they remain somewhat identifiable to determined attackers, indicating the need for a better scaffolding. We…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Hacking &amp; Pen Testing <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Force-Free Electrodynamics (FFE) describes the evolution of the electromagnetic field in magnetically dominated plasmas, but ceases to be hyperbolic once the magnetic dominance condition $F^{ab}F_{ab}&gt;0$ is lost. We demonstrate that, after the loss of magnetic dominance, FFE may be replaced by a theory of null fields, $F^{ab}F_{ab}=0=F^{ab}\tilde{F}_{ab}$, characterized by the condition that its principal null direction is tangent to a geodesic congruence. In flat spacetime, this theory may be equivalently stated as the condition that the field satisfies $\vec{B}^2-\vec{E}^2=0=\vec{E}\cdot\vec{B}$ and the integral curves of the drift velocity $\vec{E}\times\vec{B}/\vec{B}^{2}$ are straight lines. We develop the general structure and the properties of this theory and test it against 1D PIC simulations using the collision of planar symmetric Alfvén waves. We find that the force-free combined with the null continuation shows remarkable macroscopic agreement with PIC simulations, including the birth and evolution of the null region ($F^{ab}F_{ab}=0$) and the formation of a current sheet. As an independent test, we apply the null continuation to Adhikari&#x27;s type-changing solution, an exact FFE solution exhibiting finite-time loss of magnetic dominance, and also find macroscopic agreement with 1D PIC simulations.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28317" target="_blank" rel="noopener">Continuation of Force-Free Electrodynamics upon the loss of magnetic dominance</a> <span class="src-num">[36]</span></div>
+    <div class="card-authors">Morifumi Mizuno</div>
+    <div class="card-desc">Force-Free Electrodynamics (FFE) describes the evolution of the electromagnetic field in magnetically dominated plasmas, but ceases to be hyperbolic once the magnetic dominance condition…</div>
+    <div class="card-tags"><span class="tag">astro-ph.HE</span><span class="tag">gr-qc</span><span class="tag">hep-th</span></div>
+  </div><div class="card" data-full-desc="Active Galactic Nuclei (AGN) are among the brightest sources in the Universe, and those that are also jetted are uniquely valuable at the earliest epochs, because their relativistic outflows can regulate the gas supply of their host galaxies, potentially affecting both early star formation and the rapid growth of supermassive black holes (SMBHs). Their compact, high-brightness-temperature radio cores provide the sharpest beacons for very long baseline interferometry (VLBI), enabling direct constraints on Doppler boosting, jet duty cycles, and jet$-$environment coupling at extreme redshifts. In this White Paper, we discuss how the SKA-VLBI will provide sub-$μ$Jy sensitivity together with milliarcsecond (mas) angular resolution to image and characterise jetted AGN at $z&gt;6$ across SKA-Mid and SKA-Low frequencies. These observations can directly test SMBHs ($&gt;10^6$ M$_{\odot}$) formation/evolution models (including jet-assisted super-Eddington phases) and infer the geometry of the Universe, directly probing the cosmological framework at high precision. Synergies with current and next-generation multi-band facilities will also be crucial to fully understand their host galaxies and their environment, providing an unprecedented panchromatic knowledge of the first jetted AGN.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28304" target="_blank" rel="noopener">SKA$-$VLBI view of AGN jets in the early Universe</a> <span class="src-num">[37]</span></div>
+    <div class="card-authors">C. Spingola, M. Mezcua, Y. Liu, S. Frey, S. Belladitta, T. An, M. Giroletti, A. Caccianiga, A. Moretti, L. Ighina, T. Sbarrato, G. Migliori, D. Dallacasa, L. I. Gurvits, K. É. Gabányi, K. Perger, Z. Paragi, R. D. Baldi, E. Bañados, G. Bernardi, M. Bondi, E. De Rubeis, F. D&#x27;Ammando, F. De Gasperin, I. Delvecchio, F. Vito, K. Rubinur, M. Krezinger, R. Lico, E. Momjian, M. Orienti, J. Hodgson, C. Stanghellini, A. Wang, M. Latif, H. Cao</div>
+    <div class="card-desc">Active Galactic Nuclei (AGN) are among the brightest sources in the Universe, and those that are also jetted are uniquely valuable at the earliest epochs, because their relativistic outflows can…</div>
+    <div class="card-tags"><span class="tag">astro-ph.GA</span><span class="tag">astro-ph.HE</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Bug Bounty &amp; Vulns <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Gamma-ray bursts (GRBs) are the most luminous electromagnetic explosions in the Universe, and offer unique laboratories for studying relativistic jets, compact-object formation, particle acceleration, and the high-redshift Universe. The early optical emission of GRBs, particularly within seconds to minutes after the burst, carries crucial information about the central engine, jet magnetization, bulk Lorentz factor, and circumburst environment. We present a comprehensive review of the early optical phenomenology of GRBs and the essential role played by ground-based robotic optical telescopes to observe the fleeting early-time phenomena through rapid, automated responses to real-time GRB alerts and high-cadence photometry. We examine the key early optical features of GRBs, including prompt optical emission coincident with the $γ$-ray phase, bright reverse shock optical flashes, the onset of external forward shock afterglow, and superimposed optical flares, plateaus, and discuss the diagnostic power of each in constraining jet physics. We discuss the physical mechanisms underlying these phenomena and their implications for GRB physics (e.g., estimating the initial Lorentz factor $Γ_0$, magnetization, and the density profile). Early optical observations have constrained the initial bulk Lorentz factor $Γ_0 \sim 100$--$1000$, weak-to-moderate ejecta magnetization for events with prominent reverse shocks, the circumburst density profile, and the geometry of the magnetic field in th">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28267" target="_blank" rel="noopener">Early Optical Follow-up of Gamma-Ray Bursts: The Critical Role of Robotic Telescopes</a> <span class="src-num">[38]</span></div>
+    <div class="card-authors">Rahul Gupta, Judith Racusin, Gor Oganesyan, Ramandeep Gill, Sergey Karpov, Samantha R. Oates, Maria Gritsevich, Alberto J. Castro-Tirado, Vladimir Lipunov, Benjamin P. Gompertz, Maria Giovanna Dainotti, S. Bradley Cenko, Bing Zhang, Toktarkhan Komesh, Martin Jelínek, Stéphane Basa, Takanori Sakamoto, Carl W. Akerlof, Antonio Martin Carrillo, Sam Shilling, Ryan Seeb, Shashi B. Pandey, Varun Bhalerao, M. D. Caballero-Garcia, Ivan Panchenko, Pavel Balanutsa, Artem Kuznetsov, Kirill Zhirkov, Natalia Tyurina</div>
+    <div class="card-desc">Gamma-ray bursts (GRBs) are the most luminous electromagnetic explosions in the Universe, and offer unique laboratories for studying relativistic jets, compact-object formation, particle…</div>
+    <div class="card-tags"><span class="tag">astro-ph.HE</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 CVE &amp; Malware <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="This paper introduces a new application of the perfectly matched layer (PML) for mitigating model top wave reflections in geophysical fluid models. Typically, a strong Laplacian or Rayleigh damping sponge layer is used near the upper boundary, but these often need many vertical levels or a high model top to be sufficiently effective. An advantage of the PML is that, at the continuous level, it is free of wave reflection at the onset of the damping layer. This enables the PML to be effective even with a thin damping layer. We derive PMLs for the linear and nonlinear versions of the Boussinesq equations, which are a simplified model for vertical dynamics in the atmosphere. In the nonlinear system, we define a novel PML that damps perturbations from a hydrostatically balanced reference state. We approximate the PML equations using the compatible finite element method for numerical experiments. First, tests with the linear Boussinesq system show that the PML is more effective than a typical sponge layer in absorbing acoustic waves near the model top. Next, tests in the nonlinear system show that i) the PML can damp acoustic waves even when they are under-resolved by the time discretisation, and ii) the PML can avoid the standing wave pattern caused by model top reflection of orographic gravity waves. We propose that the PML is worth further development and investigation as a sponge layer alternative in dynamical cores for atmospheric modelling.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28303" target="_blank" rel="noopener">A perfectly matched layer for damping vertically propagating waves in the compressible Boussinesq equations</a> <span class="src-num">[39]</span></div>
+    <div class="card-authors">Timothy C. Andrews, Kenneth Duru, David Lee</div>
+    <div class="card-desc">This paper introduces a new application of the perfectly matched layer (PML) for mitigating model top wave reflections in geophysical fluid models. Typically, a strong Laplacian or Rayleigh damping…</div>
+    <div class="card-tags"><span class="tag">math.NA</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Cryptography <span class="group-count">4</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="We provide the first mapping of the critical surface in (2+1)-flavor QCD in the full $(T,μ_B,μ_Q,μ_S)$ space, anchored on lattice QCD results at vanishing chemical potentials and obtained within an expansion along contours of constant entropy density. In the pure $μ_B$ direction, this framework yields a critical point at $(T_c,μ_{B,c}) \simeq (114,\, 602)$ MeV. Here we extend the construction to arbitrary directions in the three-dimensional chemical-potential space, parametrized by spherical coordinates $(μ,θ,\varphi)$, with the radial expansion truncated at $\mathcal{O}(μ^2)$. The resulting two-dimensional surface carries a direction-dependent critical temperature $T_c(θ,\varphi)$ and baryochemical potential $μ_{B,c}(θ,\varphi)$, which quantify the shift of the critical point relative to the pure $μ_B$ direction. We find that $μ_{B,c}$ increases by 40-100 MeV along the approximately strangeness neutral direction [$μ_S \approx (0.15$--$0.33)\, μ_B$, $μ_Q \approx 0$] relevant for heavy-ion collisions, while the critical temperature stays essentially unchanged. In the charge-neutral, weak-equilibrium direction~[$μ_Q \approx -(0.05$--$0.1) \,μ_B$, $μ_S = 0$] relevant for neutron star mergers, the critical point, and the associated first-order phase transition, remain present at essentially the same location in the $(T,μ_B)$ plane. We find no evidence for a critical point at large isospin densities, $|μ_Q| / μ_B \gtrsim 1$, relevant for cosmic trajectories in the early Universe,">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28282" target="_blank" rel="noopener">QCD critical surface from constant entropy contours</a> <span class="src-num">[40]</span></div>
+    <div class="card-authors">Hitansh Shah, Tristan Gyure, Anabella Leon, Francesco Di Clemente, Mauricio Hippert, Claudia Ratti, Volodymyr Vovchenko</div>
+    <div class="card-desc">We provide the first mapping of the critical surface in (2+1)-flavor QCD in the full $(T,μ_B,μ_Q,μ_S)$ space, anchored on lattice QCD results at vanishing chemical potentials and obtained within an…</div>
+    <div class="card-tags"><span class="tag">nucl-th</span><span class="tag">hep-ph</span></div>
+  </div><div class="card" data-full-desc="We compute the classical gravitational Compton amplitude at the fourth post-Minkowskian order, $\mathcal{O}(G^4)$, within the Worldline Quantum Field Theory framework. We derive the associated $N$-matrix element, which provides the gravitational-wave scattering phase shift at the same order. As a nontrivial check, we show that our result agrees with black-hole perturbation theory.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28239" target="_blank" rel="noopener">Gravitational Compton scattering at the fourth post-Minkowskian order</a> <span class="src-num">[41]</span></div>
+    <div class="card-authors">Giacomo Brunello, Mario Meo, Sid Smith</div>
+    <div class="card-desc">We compute the classical gravitational Compton amplitude at the fourth post-Minkowskian order, $\mathcal{O}(G^4)$, within the Worldline Quantum Field Theory framework. We derive the associated…</div>
+    <div class="card-tags"><span class="tag">hep-th</span><span class="tag">gr-qc</span></div>
+  </div><div class="card" data-full-desc="Identifying quantum phases of matter is key to understanding strongly correlated materials, but remains a challenging task for both conventional computers and current quantum processors. Here, we introduce and implement a hybrid quantum-classical neural network for quantum phase recognition by combining a hardware-efficient parameterized quantum circuit and a feedforward neural network. We jointly train both components with superconducting quantum hardware in the optimization loop, to experimentally demonstrate a classifier for the quantum phases of surface code lattices with up to 4x4 sites in a magnetic field. To learn nonlocal features of the topological phase, we train the hybrid neural network to distinguish topological ground states of the surface code from a featureless ensemble of product states. This allows the trained classifier to distinguish topological ground states from randomly chosen product states, even when subjected to any single-qubit Pauli error. The classifier reaches accuracies above 85% in single-shot measurements, and above 99% when averaging over ten measurements. We expect hybrid neural networks such as the one presented here to be a promising approach for characterizing quantum states in scenarios where classical methods exhibit an unfavorable scaling of sample complexity.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28201" target="_blank" rel="noopener">Hybrid Quantum-Classical Neural Networks for Recognizing Quantum Phases</a> <span class="src-num">[42]</span></div>
+    <div class="card-authors">Colin Scarato, Johannes Knörzer, Markus K. Hoffmann, Leon C. Sander, Luca Hofele, Shengpu Wang, Kilian Hanke, Ashay Sathe, Dominic Hagmann, Alexander Flasby, Michael J. Hartmann, Petr Zapletal, Andreas Wallraff, Christoph Hellings</div>
+    <div class="card-desc">Identifying quantum phases of matter is key to understanding strongly correlated materials, but remains a challenging task for both conventional computers and current quantum processors. Here, we…</div>
+    <div class="card-tags"><span class="tag">quant-ph</span></div>
+  </div><div class="card" data-full-desc="With increasing maturity of quantum computers, standard methods for characterizing global properties of their output quantum states via direct measurements and classical post-processing are becoming increasingly impractical due to large measurement costs. Although quantum neural networks could directly process quantum states to identify underlying characteristics with reduced measurement efforts, they often require deep quantum circuits that cannot be implemented on existing devices. To overcome these challenges, we introduce a hybrid quantum-classical neural network that consists of a shallow parameterized quantum circuit, measurements, and a classical neural network. The parameterized quantum circuit performs a nonlocal transformation of the measurement basis, which is jointly trained with the classical neural network to maximize the statistical distance between data obtained by measuring different quantum states. Using supervised learning, we demonstrate that the hybrid neural network distinguishes the topological phase of the surface code from a symmetry-enriched topological phase and random product states. Moreover, this hybrid neural network reduces both inference and training sample complexities of recognizing the topological phase by approximately one order of magnitude compared to a classical neural network trained on randomized Pauli measurements. As this hybrid neural network features a shallow quantum circuit that can be readily implemented on existing quantum com">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28199" target="_blank" rel="noopener">Hybrid quantum-classical neural network for sample-efficient recognition of topological phases</a> <span class="src-num">[43]</span></div>
+    <div class="card-authors">Markus K. Hoffmann, Leon C. Sander, Colin Scarato, Christoph Hellings, Johannes Knörzer, Michael J. Hartmann, Petr Zapletal</div>
+    <div class="card-desc">With increasing maturity of quantum computers, standard methods for characterizing global properties of their output quantum states via direct measurements and classical post-processing are becoming…</div>
+    <div class="card-tags"><span class="tag">quant-ph</span><span class="tag">cond-mat.str-el</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Zero Knowledge <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="The statistics of stationary points are a powerful way to understand mean-field random landscapes, and the Kac--Rice formula is a general way to compute them. A longstanding technical barrier to these calculations is the presence of the absolute value of the determinant of the Hessian. Neglecting the absolute value produces an elegant 2-index supersymmetric representation of the problem, but is often incorrect. We develop an expanded 4-index supersymmetric representation of the complexity problem which incorporates the absolute value naturally via spontaneous supersymmetry breaking along a particular superspace direction. Positing that no additional symmetry breaking occurs implies the reduction to five order parameters corresponding to elements of a superspace operator algebra generated by the spontaneously SUSY-breaking operator. We relate the order parameters to the geometry and spectra of stationary points, showing that the SUSY-breaking order parameter corresponds to the spectral density of the Hessian at zero eigenvalue. We give examples of this formalism applied to calculate the annealed complexity of several models, including the perceptron and the Sherrington--Kirkpatrick model. The framework is naturally extended to quenched complexity, where each order parameter corresponds to a replica matrix.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28298" target="_blank" rel="noopener">Stationary point complexity via minimal supersymmetry breaking</a> <span class="src-num">[44]</span></div>
+    <div class="card-authors">Jaron Kent-Dobias</div>
+    <div class="card-desc">The statistics of stationary points are a powerful way to understand mean-field random landscapes, and the Kac--Rice formula is a general way to compute them. A longstanding technical barrier to…</div>
+    <div class="card-tags"><span class="tag">cond-mat.dis-nn</span><span class="tag">cond-mat.stat-mech</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Quantum Computing <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Based on time-dependent Ginzburg-Landau field theory we show that rapid cooling through the second-order phase transition into superfluid \Hea\ excites collective modes of newly formed chiral domains, in addition to topological defects that are formed via the Kibble-Zurek mechanism. Simulations of temperature quenches in the presence of Gaussian space-time white noise generate a highly excited inhomogeneous condensate. Large-scale simulations exhibit a complex network of domain walls and vortices. We report results for the excitation of bosonic collective modes by thermal noise as well as nonequilibrium temperature quenches, followed by coarsening dynamics tracked in terms of the Fourier components of the order parameter amplitudes. For thermal states, the spectrum of bosonic excitations is defined by a power spectral density (PSD) for each mode, which is sensitive to the Langevin damping. For weak damping the PSD onsets sharply at the frequency corresponding to the mass of the bosonic mode, then decays as $1/ω$. We also track the dynamics of the order parameter following a temperature quench. We report results for the scaling exponents of Kibble-Zurek freeze-out time and correlation length as a function of quench rate for several damping rates. The dynamical exponent $z$ is shown to transition smoothly from $z=1$ to $z=2$ as the damping is increased, while the correlation length exponent, $ν\approx 1/2$, is independent of damping.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28306" target="_blank" rel="noopener">Excitation of Collective Modes in a Chiral Superfluid by Thermal Quench</a> <span class="src-num">[45]</span></div>
+    <div class="card-authors">Noble Gluscevich, J. A. Sauls</div>
+    <div class="card-desc">Based on time-dependent Ginzburg-Landau field theory we show that rapid cooling through the second-order phase transition into superfluid \Hea\ excites collective modes of newly formed chiral…</div>
+    <div class="card-tags"><span class="tag">cond-mat.supr-con</span><span class="tag">cond-mat.stat-mech</span></div>
+  </div><div class="card" data-full-desc="In recent work the authors determine complete columns of symmetric-group decomposition matrices in odd prime characteristic $p$ labeled by $p$-regular partitions for which every hook of length divisible by $p$ has even arm length. In the present paper we enumerate these partitions and prove that each block of $p$-weight $w$ contains precisely \[ \binom{w+\frac{p-3}{2}}{w} \] such partitions.   More generally, for any integers $d,e&gt;1$, we study and enumerate $d$-balanced $e$-regular partitions -- partitions for which every hook of length divisible by $e$ has arm length divisible by $d$. Our first main result is that the crystal (affine) reflections preserve the $d$-balanced property for all $d,e &gt; 1$. It follows that, for fixed $d$, $e$, and $w$, the number of $d$-balanced $e$-regular partitions in a block of $e$-weight $w$ is independent of the $e$-core. We then compute this number by working in RoCK blocks, obtaining an explicit binomial formula valid for every block.   We also investigate closely related odd sequences of partitions. Among others, we find the generating function of the number of odd sequences occurring in a block. Alongside their representation-theoretic relevance, we expect these results to be of independent combinatorial interest.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28305" target="_blank" rel="noopener">Divisible Arm Lengths, Crystal Reflections, and Enumeration of Newly Found Decomposition Columns</a> <span class="src-num">[46]</span></div>
+    <div class="card-authors">David J. Hemmer, Pavel Turek</div>
+    <div class="card-desc">In recent work the authors determine complete columns of symmetric-group decomposition matrices in odd prime characteristic $p$ labeled by $p$-regular partitions for which every hook of length…</div>
+    <div class="card-tags"><span class="tag">math.CO</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Crypto &amp; Blockchain <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="We consider the semilinear parabolic equation \[ \partial_t u = Δu + 2\mathfrak{q}\,δ_{\mathbb{S}}\,\nabla u + |u|^{p-1}u \qquad \text{in } (0,\infty)\times\mathbb{R}^N, \] where $|\mathfrak{q}|\le 1$, $p&gt;1$, and $\mathbb{S}$ is a fixed interface hyperplane.   Working in Lebesgue spaces, we first establish local well-posedness of mild solutions. This is achieved by combining Gaussian bounds for the associated fundamental solution with a contraction mapping argument adapted to the lack of spatial homogeneity induced by the interface term.   We then prove a sharp Fujita-type dichotomy for nonnegative solutions. Specifically, we show that every nontrivial solution blows up in finite time when $1&lt;p \le 1+\frac{2}{N}$, whereas for $p&gt;1+\frac{2}{N}$ global solutions exist for sufficiently small initial data. The blow-up analysis relies on a suitably adapted test-function method that accounts for the presence of the interface.   It is noteworthy that the critical exponent coincides with the classical Fujita exponent for the heat equation, indicating that the Fujita phenomenon remains stable under the presence of discontinuous diffusion effects and interface transmission conditions. To the best of our knowledge, this is the first result of this type for operators involving a singular drift supported on a hypersurface.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28248" target="_blank" rel="noopener">The Fujita exponent across an interface</a> <span class="src-num">[47]</span></div>
+    <div class="card-authors">Mohamed Majdoub, Ezzedine Mliki</div>
+    <div class="card-desc">We consider the semilinear parabolic equation \[ \partial_t u = Δu + 2\mathfrak{q}\,δ_{\mathbb{S}}\,\nabla u + |u|^{p-1}u \qquad \text{in } (0,\infty)\times\mathbb{R}^N, \] where $|\mathfrak{q}|\le…</div>
+    <div class="card-tags"><span class="tag">math.AP</span><span class="tag">math.PR</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Decentralized Networks <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="This article relates the theory of embedded contact homology (ECH) with the dynamics of Anosov flows. We show that in many cases the ECH capacities of a symplectic 4-manifold are infinite, including cotangent disk bundles over closed oriented surfaces of genus at least two. We prove that ECH obstructs Reeb Anosov and Hamiltonian Anosov flows, addressing the four-dimensional case of a question posed by Herman in 1998. Further, we obtain Floer-theoretic obstructions to a 3-manifold admitting any Anosov flow. As an application, we give new constraints on the existence of embedded Lagrangians of genus at least two in symplectic 4-manifolds. In an appendix, some related results in all dimensions are proved for capacities constructed from rational symplectic field theory.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28316" target="_blank" rel="noopener">Infinite ECH Capacities and Anosov Flows</a> <span class="src-num">[48]</span></div>
+    <div class="card-authors">Gabriel Beiner</div>
+    <div class="card-desc">This article relates the theory of embedded contact homology (ECH) with the dynamics of Anosov flows. We show that in many cases the ECH capacities of a symplectic 4-manifold are infinite, including…</div>
+    <div class="card-tags"><span class="tag">math.SG</span><span class="tag">math.DS</span><span class="tag">math.GT</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Networking <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="This paper presents a multi-period mixed-integer linear programming (MILP) framework for planning the transition from conventional to electric aircraft in regional aviation. The model jointly optimizes fleet acquisition, infrastructure deployment, and service allocation over time, while accounting for policy constraints such as emissions reduction targets, electric service share, and budget limits. A real-world case study based on Helijet&#x27;s short-haul network in British Columbia demonstrates the applicability of the model. The results show that electrification can reduce emissions by more than 70\% within five years while remaining economically viable. However, the transition is primarily limited by the capacity of the fleet and operational structure, rather than the charging infrastructure, leading to unmet demand under direct aircraft replacement. These findings emphasize the need for coordinated planning across fleet sizing, scheduling, and route prioritization to ensure a practical and efficient transition to electric aviation.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2606.28312" target="_blank" rel="noopener">Optimal Deployment of Electric Aircraft for Canadian Domestic Flights</a> <span class="src-num">[49]</span></div>
+    <div class="card-authors">Elham Soufiani, Mehrdad Pirnia</div>
+    <div class="card-desc">This paper presents a multi-period mixed-integer linear programming (MILP) framework for planning the transition from conventional to electric aircraft in regional aviation. The model jointly…</div>
+    <div class="card-tags"><span class="tag">q-fin.MF</span><span class="tag">math.OC</span></div>
+  </div></div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🤗 HuggingFace Papers <span class="group-count">16</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Video generation models have emerged as a promising paradigm for embodied world simulation. However, both general-domain video generators and robot-specific data fine-tuned models can still produce physically implausible manipulations, including discontinuous motion trajectories and inconsistent robot-object interactions, which limits their reliability as world simulators. Through extensive experiments, we find that such physical instability mainly arises from two factors: deformation of moving objects and implausible spatio-temporal correlations among interacting entities, particularly during contact. Building on this observation, we propose PhysisForcing, a scalable training framework that strengthens physical consistency by focusing supervision on physics-informative regions through joint optimization of pixel-level and semantic-level features. The framework consists of a pixel-level trajectory alignment loss, which supervises DiT features using reference point trajectories, and a semantic-level relational alignment loss, which aligns DiT features with inter-region relations extracted from a frozen video understanding encoder. Extensive experiments on R-Bench, PAI-Bench, and EZS-Bench show that PhysisForcing consistently improves embodied video generation over strong baselines, improving the Wan2.2-I2V-A14B and Cosmos3-Nano base models on R-Bench by 22.3\% and 9.2\% (7.1\% and 3.7\% over vanilla finetuning), with the Cosmos3-Nano variant attaining the best overall score. B">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.28128" target="_blank" rel="noopener">PhysisForcing: Physics Reinforced World Simulator for Robotic Manipulation</a> <span class="src-num">[69]</span></div>
+    
+    <div class="card-desc">Video generation models have emerged as a promising paradigm for embodied world simulation. However, both general-domain video generators and robot-specific data fine-tuned models…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 30</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="We study whether we can learn novel manipulation skills from human actions to a bi-manual robot with parallel grippers. Human action data is cheap, abundant, and diverse, making it one of the most promising resources for scaling up robot learning. Yet transferring skills from humans to robots remains hard: most prior work treats humans as just another bi-manual 6DoF embodiment, where hand-pose estimates are noisy and the contact patterns of human fingers differ fundamentally from those of a parallel gripper. We argue that learning rotation-inclusive action signals from human data is therefore sub-optimal, and instead propose a bridging action representation: the relative wrist translation within the initial head-camera frame, an action space shared by humans and robots. To handle the potential absence of certain action components in different embodiments, we build a π_0-like vision-language-action model with interleaved action tokens and attention masking. On a suite of novel bi-manual manipulation tasks, our bridging action transfers human manipulation knowledge to robots far more effectively than noisy 6DoF human actions and scales with the amount of human data.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.28133" target="_blank" rel="noopener">Translation as a Bridging Action: Transferring Manipulation Skills from Humans to Robots</a> <span class="src-num">[60]</span></div>
+    
+    <div class="card-desc">We study whether we can learn novel manipulation skills from human actions to a bi-manual robot with parallel grippers. Human action data is cheap, abundant, and diverse, making…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 27</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="We present Qwen-Image-2.0-RL, a post-training pipeline that applies reinforcement learning from human feedback (RLHF) and on-policy distillation (OPD) to improve both the visual quality and instruction-following capability of the Qwen-Image-2.0 diffusion model. To provide reliable reward signals, we construct task-specific composite reward models by fine-tuning vision-language models with a pointwise scoring paradigm and chain-of-thought reasoning. For text-to-image generation, the reward models cover alignment, aesthetics, and portrait fidelity dimensions. For image editing tasks, the reward system addresses instruction-following accuracy and face identity preservation. Building on this reward system, we develop a scalable GRPO-based RL training framework, incorporating a hybrid classifier-free guidance (CFG) strategy to preserve pre-trained knowledge, prompt curation via intra-group reward range filtering, and per-category reward weight calibration. To merge the task-specialized RL policies for T2I and editing, we propose on-policy distillation as the final training stage, which consolidates multiple teachers into a single student model through trajectory-level velocity matching. Extensive evaluation shows that Qwen-Image-2.0-RL achieves 57.84 overall score on Qwen-Image-Bench (+2.61 over the base model), Elo ratings of 1193 in text-to-image arena (+78) and 1349 in image edit arena (+93), demonstrating consistent gains in aesthetic quality, prompt adherence, and editing acc">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.27608" target="_blank" rel="noopener">Qwen-Image-2.0-RL Technical Report</a> <span class="src-num">[65]</span></div>
+    
+    <div class="card-desc">We present Qwen-Image-2.0-RL, a post-training pipeline that applies reinforcement learning from human feedback (RLHF) and on-policy distillation (OPD) to improve both the visual…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 19</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="We introduce an axiomatic evaluation framework for latent thought representations in LLMs, comprising metrics that are independent of downstream benchmark scores and reveal representational failures that benchmark accuracy masks. Existing evaluations conflate representation quality with model capacity. Therefore, failures cannot be attributed to the representation rather than to the model that processes it. We formalize four functional axioms (Causality, Minimality, Separability, and Stability) and define a quantitative measure for each, computed directly on the representation independently of downstream accuracy. We audit open-weight LLMs across 23 reasoning tasks (e.g., Spatial Reasoning, Factual QA). We find that no candidate satisfies all four axioms simultaneously, that the representations distinguish task type reliably but cannot distinguish between two questions within the same task, and that the representations encode little information beyond what is already present in the input embedding. The failure is consistent across dense, reasoning-distilled, and RL-trained model families, indicating that the gap is structural rather than a property of model size or training procedure.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.27378" target="_blank" rel="noopener">Formalizing Latent Thoughts: Four Axioms of Thought Representation in LLMs</a> <span class="src-num">[66]</span></div>
+    
+    <div class="card-desc">We introduce an axiomatic evaluation framework for latent thought representations in LLMs, comprising metrics that are independent of downstream benchmark scores and reveal…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 11</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Vision-language models (VLMs) are increasingly deployed in consumer, medical, financial, and enterprise applications. This broad deployment expands the safety surface: risks can arise from multimodal question answering, assistant responses, and cross-modal composition, while moderation policies may vary across products, regions, and deployment stages. Most existing guardrails either rely on fixed taxonomies or target only a narrow set of interaction settings, which limits their adaptability when safety rules change at deployment time. We present SingGuard, a policy-adaptive multimodal guardrail model family for safety assessment in multimodal conversations. SingGuard treats the active policy as a runtime input: given natural-language rules, it checks the target content against the active policy rule by rule and predicts both the safety label and the triggered rule. To balance efficiency and interpretability, SingGuard supports fast, hybrid, and slow inference regimes along a fast-to-slow reasoning spectrum, ranging from direct safety judgments to policy-grounded deliberation. We further optimize this behavior with fast--slow decoupled reinforcement learning. We also introduce SingGuard-Bench, a multimodal guardrail benchmark with 56{,}340 examples spanning 80+ fine-grained risk types across multimodal QA, adversarial attack, and dynamic-rule evaluation settings, including cross-modal joint-risk cases where each modality is harmless in isolation but their composition implies u">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.22873" target="_blank" rel="noopener">SingGuard: A Policy-Adaptive Multimodal LLM Guardrail with Dynamic Reasoning</a> <span class="src-num">[64]</span></div>
+    
+    <div class="card-desc">Vision-language models (VLMs) are increasingly deployed in consumer, medical, financial, and enterprise applications. This broad deployment expands the safety surface: risks can…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 10</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Text detoxification, the automated detection and mitigation of abusive and harmful content, is essential for ensuring the safety of online communities and protecting users. However, low resource languages such as Tatar have received little research attention. In this paper we present Tatoxa, a novel state-of-the-art system for text detoxification in the Tatar language. Comparative experiments show that the proposed approach outperforms existing open source and proprietary commercial LLMs on key quality metrics. We also introduce a new dataset for text detoxification in Tatar, designed for fine tuning and evaluation in low resource settings. Finally, cross lingual transfer experiments indicate that transfer from other languages, including the culturally close Russian, performs significantly worse than training on native Tatar data even when a large Russian corpus is available.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.26015" target="_blank" rel="noopener">The Tatoxa System for Text Detoxification in Low-Resource Languages: The Case of Tatar</a> <span class="src-num">[54]</span></div>
+    
+    <div class="card-desc">Text detoxification, the automated detection and mitigation of abusive and harmful content, is essential for ensuring the safety of online communities and protecting users.…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 6</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Knowledge-based Visual Question Answering (KB-VQA) requires models to combine image understanding with external knowledge. Most prior methods use a fixed retrieve-then-generate pipeline with a pre-selected retriever and a static top-k setting, which is not adaptive during reasoning. We propose ProMSA, a progressive multimodal search agent for KB-VQA. Given an image-question pair, the agent iteratively chooses image search, text search, or stop, under explicit tool-call budgets and with deduplication to avoid redundant retrieval. For training, we first use rejection-sampling SFT to learn valid tool-use formats, then optimize the agent with TN-GSPO, a sequence-level RL objective that normalizes updates by both generation length and tool-interaction depth. Experiments on E-VQA and InfoSeek show consistent gains over strong RAG and agent baselines, and improved retrieval and end-to-end accuracy. The code is available at https://github.com/DingWu1021/Promsa.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.27974" target="_blank" rel="noopener">ProMSA:Progressive Multimodal Search Agents for Knowledge-Based Visual Question Answering</a> <span class="src-num">[61]</span></div>
+    
+    <div class="card-desc">Knowledge-based Visual Question Answering (KB-VQA) requires models to combine image understanding with external knowledge. Most prior methods use a fixed retrieve-then-generate…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 6</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Training and evaluating robot policies in the real world is costly and difficult to scale. We introduce SimFoundry, a modular and automated system for zero-shot real-to-sim scene construction from a video. SimFoundry generates sim-ready digital twins and supports object, scene, and task editing, enabling the automated generation of diverse digital cousins: affordance-preserving variations of reconstructed real-world scenes. Policies trained on SimFoundry data transfer zero-shot to challenging real tasks involving multi-step manipulation, articulated object interaction, and bimanual interaction, and its digital cousins (variations of the original scene, objects, and tasks) facilitate generalization to new real-world conditions. Across 7 manipulation tasks and 5 policy architectures, SimFoundry simulation evaluations strongly predict real-world performance, with mean Pearson correlation 0.911 and mean maximum ranking violation 0.018. When evaluating sim-trained policies zero-shot in the real world, policies trained with object, scene, and task cousins in simulation show average task success rate improvements of 17%, 21%, and 40%, respectively. Additional details at https://research.nvidia.com/labs/gear/simfoundry/ .">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.28276" target="_blank" rel="noopener">SimFoundry: Modular and Automated Scene Generation for Policy Learning and Evaluation</a> <span class="src-num">[68]</span></div>
+    
+    <div class="card-desc">Training and evaluating robot policies in the real world is costly and difficult to scale. We introduce SimFoundry, a modular and automated system for zero-shot real-to-sim scene…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 5</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="I describe my solution to the LeHome Challenge 2026, an ICRA 2026 competition on bimanual garment folding. The system placed 1st of 62 teams in the online (simulation) round and 2nd in the real-world final. It improves a vision-language-action (VLA) policy with a reinforcement-learning loop. The policy is its own value function: the same network that predicts actions also predicts success, progress, and a few task-relevant future quantities, and those predictions drive advantage estimation, live failure detection, and candidate selection. The work mostly recombines existing RL ideas with engineering and optimization contributions that can be used together as one recipe or individually: AWR + RECAP combined for flow-matching VLA; an asynchronous distributed training / rollout pipeline through HuggingFace Hub; inference-time hyperparameters optimization via Thompson sampling; a sim-to-real recipe with camera-alignment tooling, heavy augmentation and DAgger-like HIL data collection.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.27163" target="_blank" rel="noopener">Learning to Fold: prizewinning solution at LeHome Challenge 2026 (1st place online, 2nd offline)</a> <span class="src-num">[58]</span></div>
+    
+    <div class="card-desc">I describe my solution to the LeHome Challenge 2026, an ICRA 2026 competition on bimanual garment folding. The system placed 1st of 62 teams in the online (simulation) round and…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 4</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Voice agents face a fundamental tension: the reasoning, retrieval, and tool use that make foundation models capable are iterative and slow, while conversational interaction demands responses on a millisecond timescale. Smaller, real-time models meet the latency bar but cannot match foundation models on complex tasks, leaving current voice agents to trade away either responsiveness or capability. We introduce conversational infill, where a small talker model both immediately generates contextually grounded responses to hide the latency of an external reasoner model and fluently integrates streamed reasoner knowledge into its responses during inference. We curate a 290,571-example synthetic dataset spanning six domains and demonstrate that this task is learnable across seven widely used small language models ranging from 135M to 1.7B parameters. Our system implementation, ConvFill, sustains millisecond-level time-to-first-response while closing the accuracy gap to within 6.3% of the corresponding frontier reasoner performance. In a live user study (n=18) with talker deployments running on an Apple M2 SoC, participants rank ConvFill on par with frontier models overall, prefer it for retrieval-heavy tasks, and rate it significantly more responsive. These results show that conversational infill unlocks a new point on the latency-capability Pareto frontier, offering a practical path toward voice agents that are both responsive and highly capable. Code, models, and datasets are avai">
+    <div class="card-title"><a href="https://huggingface.co/papers/2511.07397" target="_blank" rel="noopener">Thinking While Speaking: Inference-Time Knowledge Transfer for Responsive and Intelligent Conversational Voice Agents</a> <span class="src-num">[55]</span></div>
+    
+    <div class="card-desc">Voice agents face a fundamental tension: the reasoning, retrieval, and tool use that make foundation models capable are iterative and slow, while conversational interaction…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 3</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Multi-agent systems (MAS) built on large language models (LLMs) provide a promising framework for solving complex tasks through role specialization and structured interaction. However, their performance is often limited by miscoordination and, more fundamentally, the lack of fine-grained credit assignment across agents. Existing approaches typically rely on coarse-grained feedback, making it difficult to identify which agents or interaction steps are responsible for errors. We propose Gradient-Based Connections (GBC), an approach for fine-grained attribution and optimization of multi-agent systems. GBC models a MAS as a computational graph and introduces gradient-based connection weights to quantify the influence of each agent&#x27;s output on downstream agents at the token level. By constructing an attribution graph and propagating task-specific loss signals backward, our method enables precise identification of error sources and targeted prompt optimization. We further develop AgentChord, an efficient implementation that leverages prefix-based gradient computation. Experiments on MultiWOZ and τ-bench show that GBC improves multi-agent performance and outperforms strong single-agent and multi-agent baselines, and higher attribution quality is associated with greater optimization effectiveness. Code is available at: https://github.com/yxc-cyber/AgentChord.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.28187" target="_blank" rel="noopener">GBC: Gradient-Based Connections for Optimizing Multi-Agent Systems</a> <span class="src-num">[56]</span></div>
+    
+    <div class="card-desc">Multi-agent systems (MAS) built on large language models (LLMs) provide a promising framework for solving complex tasks through role specialization and structured interaction.…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 3</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Web-agent benchmarks overwhelmingly measure depth -- pinning one obscure answer behind a chain of constraints -- while breadth, exhaustively enumerating a closed set and filling each item&#x27;s attributes, is barely evaluated, especially outside English. Breadth is also hard to build: certifying that a gold set is complete and every cell correct is far costlier than checking a single answer. I introduce Ko-WideSearch, a Korean breadth-search benchmark built by an automated synthesize-and-verify pipeline. Each task names a set-parent entity -- a TV season, a dynasty, a league, an administrative region, an election -- and asks for its full membership plus a per-item attribute table, graded by Item-, Column-, and Row-F1. It spans 228 tables over 190 entities and sixteen categories across three difficulty tiers, set by two structural knobs I dial independently -- table width and a 2-D composite key -- so cross-product membership climbs from 0\% to 100\% across the tiers. A single normalization-aware comparator is shared between gold construction and grading, so stable date and count columns are not over-dropped on formatting alone. Across twenty web agents, the failure is consistent: agents recover the set but not the rows (e.g.\ Item-F1 92.8 against Row-F1 53.7), accuracy falls steadily as the knobs harden, and neither more search nor more spend closes the gap. Broken down by cell, the hard part is finding the right value, not formatting it: open-ended free-text cells fail most, whi">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.27595" target="_blank" rel="noopener">Ko-WideSearch: A Korean Breadth-Search Benchmark for Exhaustive Set Enumeration by Web Agents</a> <span class="src-num">[62]</span></div>
+    
+    <div class="card-desc">Web-agent benchmarks overwhelmingly measure depth -- pinning one obscure answer behind a chain of constraints -- while breadth, exhaustively enumerating a closed set and filling…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 3</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Vision-Language-Action (VLA) models can generalize across diverse manipulation tasks, but their imitation-learning-based policies remain brittle in precise physical interactions due to compounding execution errors; Can a reinforcement learning policy trained purely in simulation improve the robustness of real-world VLAs zero-shot? Residual RL, which learns a corrective policy on top of a frozen VLA, offers a natural framework, but existing approaches face a fundamental sim-to-real dilemma: privileged-state methods require lossy distillation for deployment; image-based methods suffer from the visual domain gap; and real-world RL is costly and unsafe. We propose an object-centric residual RL framework that refines VLA actions using object poses, enabling a compact observation space that transfers consistently between simulation and reality. To align the two domains, we additionally replay the same teleoperation demonstrations in simulation to train a sim counterpart of the real-world VLA. The residual RL policy is trained only in simulation with pose noise injection and dropout, and transfers zero-shot to the real robot. Across five manipulation tasks on a real Franka Research 3 (FR3) robot, our method improves the success rate from 42% to 76% zero-shot, and the improved rollouts can be further reused to retrain the base VLA for self-improvement without additional teleoperation. Project page: https://www.microsoft.com/en-us/research/articles/object-centric-residual-rl/">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.18953" target="_blank" rel="noopener">Object-Centric Residual RL for Zero-Shot Sim-to-Real VLA Enhancement</a> <span class="src-num">[57]</span></div>
+    
+    <div class="card-desc">Vision-Language-Action (VLA) models can generalize across diverse manipulation tasks, but their imitation-learning-based policies remain brittle in precise physical interactions…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 2</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Reinforcement learning (RL) post-training improves the reward alignment of flow-based generators, but often degrades perceptual quality in ways that are not captured by the reward proxy. We identify a simple structural signature of this drift: across three post-training methods (NFT, AWM, DPO), RL fine-tuning inflates the per-step velocity norm |v_θ| by 5% to 15% relative to the reference. A form of norm inflation has been studied in classifier-free guidance (CFG), where rescaling the velocity back to a reference norm at inference time can mitigate the resulting artifacts. However, this inference-time correction does not transfer cleanly to RL: rescaling v_θ to match |v_{ref}| at inference time neither improves reward nor fixes the quality degradation, because the inflation is co-adapted into the model weights. Furthermore, an adjoint sensitivity analysis shows that velocity magnitude rescaling carries no coherent first-order reward signal at the batch level, indicating that suppressing norm inflation is unlikely to remove a consistently reward-carrying component. Since inference-time renormalization fails while norm suppression carries no reward cost, training-time intervention is the appropriate strategy. Together, these findings motivate \methodname, a hinge penalty that activates only when |v_θ| exceeds |v_{ref}| and composes additively with any velocity-local base loss. Across two base models, three post-training methods, and two reward proxies, \methodname consistently">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.27771" target="_blank" rel="noopener">NormGuard: Reward-Preserving Norm Constraints in Flow-Matching Reinforcement Learning</a> <span class="src-num">[63]</span></div>
+    
+    <div class="card-desc">Reinforcement learning (RL) post-training improves the reward alignment of flow-based generators, but often degrades perceptual quality in ways that are not captured by the reward…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 2</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Artificial intelligence is driving a revolution in scientific discovery, accelerating everything from hypothesis generation to mathematical theorem proving. However, this rapid acceleration is creating a systemic challenge: traditional human peer review cannot scale to match the influx of AI-assisted science. Ultimately, to resolve this tension, we must also deploy AI to accelerate the verification and review process itself. To frame the discussion around this transition, we propose a taxonomy consisting of four progressive levels of AI-human collaboration in scientific evaluation, and discuss various trade-offs involved with each.
+  As a step toward this future, we introduce the Paper Assistant Tool (PAT), an agentic AI framework built for deep scientific review and verification. PAT ingests full scientific manuscripts and produces a comprehensive evaluation, checking theoretical results, validating experiments, suggesting improvements, and identifying potential flaws. By utilizing inference scaling techniques, PAT is able to identify deeper issues than a single model call alone, achieving a 34% improvement over zero-shot recall on mathematical errors in the SPOT benchmark. Pilot deployments of PAT as a pre-submission tool for authors at two major Computer Science conferences -- STOC and ICML -- demonstrate its ability to identify critical errors and suggest substantive improvements to research papers. By catching errors early, PAT eases the cognitive burden placed on refere">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.28277" target="_blank" rel="noopener">Towards Automating Scientific Review with Google&#x27;s Paper Assistant Tool</a> <span class="src-num">[67]</span></div>
+    
+    <div class="card-desc">Artificial intelligence is driving a revolution in scientific discovery, accelerating everything from hypothesis generation to mathematical theorem proving. However, this rapid…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 2</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Large language models (LLMs) can make scientific software easier to use. However, a general model does not automatically know which measurements a particular sensor can support, which algorithms are implemented in the current software, or which conclusions are justified by a computed result. These distinctions are especially important for low-channel electroencephalography (EEG), where sparse spatial coverage and variable signal quality make plausible but unsupported interpretations easy to produce. We present NeuraDock Agent, an open-source architecture that separates a deterministic local EEG engine from a hardware-aware language layer. The numerical engine parses recordings, performs quality control, executes reviewed spectral workflows, and writes machine-readable artifacts. The LLM receives only a compact, allowlisted summary and a versioned context pack. The context describes the seven-channel hardware, reviewed workflows, result fields, implementation boundaries, scientific limits, and reference cases. Raw EEG and dense per-sample arrays remain local
+  We evaluate the system at three levels. First, 12 recordings produced identical structured results over ten numerical repetitions, and a complete Rest/Task run produced identical result, report, and figure hashes over three repetitions. Second, request-capture and failure-injection experiments confirmed the tested data boundary and preservation of local artifacts under HTTP, malformed-output, and connection failures. Thi">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.26519" target="_blank" rel="noopener">Boundary-Aware Context Grounding for A Low-Channel EEG Agent</a> <span class="src-num">[59]</span></div>
+    
+    <div class="card-desc">Large language models (LLMs) can make scientific software easier to use. However, a general model does not automatically know which measurements a particular sensor can support,…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📝 OpenReview <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="The advancements in Large Language Models (LLMs) have been hindered by their substantial sizes, which necessitate LLM compression methods for practical deployment. Singular Value Decomposition (SVD) offers a promising solution for LLM compression. However, state-of-the-art SVD-based LLM compression methods have two key limitations: truncating smaller singular values may lead to higher compression loss, and the lack of update on the compressed weight after SVD truncation. In this work, we propose SVD-LLM, a new SVD-based LLM compression method that addresses the limitations of existing methods.">
+    <div class="card-title"><a href="https://openreview.net/forum?id=aYbE1z7MIt" target="_blank" rel="noopener">SVD-LLM: Truncation-aware Singular Value Decomposition for Large Language Model Compression</a> <span class="src-num">[79]</span></div>
+    
+    <div class="card-desc">The advancements in Large Language Models (LLMs) have been hindered by their substantial sizes, which necessitate LLM compression methods for practical deployment. Singular Value…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div><div class="card web-card" data-full-desc="Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and fine-tuned on massive 3D data, offering the capability of producing highly consistent multi-view images. However, due to the scarcity of synchronized multi-view video data, it remains challenging to adapt this paradigm to 4D generation directly. Despite that, the available video and 3D data are adequate for training video and multi-view diffusion models separately that can provide satisfactory dynamic and geometric pri">
+    <div class="card-title"><a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and Multi-view Diffusion Models</a> <span class="src-num">[80]</span></div>
+    
+    <div class="card-desc">Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>💻 GitHub Trending <span class="group-count">3</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="🧑‍🚀 Authentication and authorization infrastructure for SaaS and AI apps, built on OIDC and OAuth 2.1 with multi-tenancy, SSO, and RBAC.">
+    <div class="card-title"><a href="https://github.com/logto-io/logto" target="_blank" rel="noopener">logto-io/logto</a> <span class="src-num">[76]</span></div>
+    
+    <div class="card-desc">🧑‍🚀 Authentication and authorization infrastructure for SaaS and AI apps, built on OIDC and OAuth 2.1 with multi-tenancy, SSO, and RBAC.</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 12.3k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="基于 AI Agent + MCP 工具链 + 渗透 Skill 编排， 配合大语言模型， 自然语言输入 → 自动完成「信息收集 → 漏洞发现 → 漏洞利用 → 报告生成」全流程。">
+    <div class="card-title"><a href="https://github.com/Unclecheng-li/VulnClaw" target="_blank" rel="noopener">Unclecheng-li/VulnClaw</a> <span class="src-num">[77]</span></div>
+    
+    <div class="card-desc">基于 AI Agent + MCP 工具链 + 渗透 Skill 编排， 配合大语言模型， 自然语言输入 → 自动完成「信息收集 → 漏洞发现 → 漏洞利用 → 报告生成」全流程。</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 985</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="Disk encryption with strong security based on TrueCrypt">
+    <div class="card-title"><a href="https://github.com/veracrypt/VeraCrypt" target="_blank" rel="noopener">veracrypt/VeraCrypt</a> <span class="src-num">[78]</span></div>
+    
+    <div class="card-desc">Disk encryption with strong security based on TrueCrypt</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 10.3k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🦞 Lobste.rs <span class="group-count">4</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Ante has taken the first step towards something we all thought was impossible: blending reference counting and borrow checking without run-time crashes. 0">
+    <div class="card-title"><a href="https://verdagon.dev/blog/ante-blending-borrowing-rc" target="_blank" rel="noopener">Ante: New Way to Blend Borrow Checking and Reference Counting</a> <span class="src-num">[50]</span></div>
+    
+    <div class="card-desc">Ante has taken the first step towards something we all thought was impossible: blending reference counting and borrow checking without run-time crashes. 0</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Modern OpenPGP v6 certificate with post-quantum cryptography, reliable deletion, and transport-agnostic messaging for decentralized systems.">
+    <div class="card-title"><a href="https://autocrypt2.org" target="_blank" rel="noopener">Autocrypt v2 - Post-Quantum and Reliable Deletion</a> <span class="src-num">[51]</span></div>
+    
+    <div class="card-desc">Modern OpenPGP v6 certificate with post-quantum cryptography, reliable deletion, and transport-agnostic messaging for decentralized systems.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="What the CRA integrity requirement means in practice for embedded Linux devices.">
+    <div class="card-title"><a href="https://sigma-star.at/blog/2026/06/integrity-on-embedded-linux-devices-under-the-cyber-resilience-act/" target="_blank" rel="noopener">Integrity on Embedded Linux Devices under the Cyber Resilience Act</a> <span class="src-num">[52]</span></div>
+    
+    <div class="card-desc">What the CRA integrity requirement means in practice for embedded Linux devices.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Over the years, we have received, read and handled way over one thousand vulnerability reports filed against curl. We have seen most kinds. It is time for me to try to help future reporters by providing a short guide on how to submit a truly excellent vulnerability report to an Open Source project. Researchers We … Continue reading Do excellent vulnerability reports →">
+    <div class="card-title"><a href="https://daniel.haxx.se/blog/2026/06/29/do-excellent-vulnerability-reports/" target="_blank" rel="noopener">Do excellent vulnerability reports</a> <span class="src-num">[53]</span></div>
+    
+    <div class="card-desc">Over the years, we have received, read and handled way over one thousand vulnerability reports filed against curl. We have seen most kinds. It is time for me to try to help future…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🎓 Google Scholar <span class="group-count">6</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Early identification of breakthrough technologies: Insights from science-driven innovations">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[70]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[71]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Large language models (LLM) in computational social science: prospects, current state, and challenges">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[72]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into state-of-the-art techniques and future paradigms</a> <span class="src-num">[73]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[74]</span></div>
+    
+    <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[75]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://arxiv.org/abs/2606.28323" target="_blank" rel="noopener">DexCompose: Reusing Dexterous Policies for Multi-Task Manipulation with a Single Hand</a></li><li>[2] <a href="https://arxiv.org/abs/2606.28308" target="_blank" rel="noopener">Which Nash Equilibrium? Solver-Dependent Selection on Zero-Sum Nash Polytopes</a></li><li>[3] <a href="https://arxiv.org/abs/2606.28279" target="_blank" rel="noopener">Agentic Hardware Design as Repository-Level Code Evolution</a></li><li>[4] <a href="https://arxiv.org/abs/2606.28277" target="_blank" rel="noopener">Towards Automating Scientific Review with Google&#x27;s Paper Assistant Tool</a></li><li>[5] <a href="https://arxiv.org/abs/2606.28274" target="_blank" rel="noopener">Parameter Efficient Hybrid Transformer (PEHT) for Network Traffic Prediction via Dynamic…</a></li><li>[6] <a href="https://arxiv.org/abs/2606.28270" target="_blank" rel="noopener">Agent-Native Immune System: Architecture, Taxonomy, and Engineering</a></li><li>[7] <a href="https://arxiv.org/abs/2606.28268" target="_blank" rel="noopener">Learning Topology-Aware Representations via Test-Time Adaptation for Anomaly Segmentation</a></li><li>[8] <a href="https://arxiv.org/abs/2606.28242" target="_blank" rel="noopener">How Width and Data Shape Generalization Scaling Laws in Quadratic Neural Networks</a></li><li>[9] <a href="https://arxiv.org/abs/2606.28235" target="_blank" rel="noopener">Govern the Repository, Not the Agent: Measuring Ecosystem-Level Risk in AI-Native Software</a></li><li>[10] <a href="https://arxiv.org/abs/2606.28226" target="_blank" rel="noopener">Exposure Bias Can Alleviate Itself via Directional and Frequency Rectification in Flow…</a></li><li>[11] <a href="https://arxiv.org/abs/2606.28309" target="_blank" rel="noopener">Surprises in Proper Positive-Only Learning</a></li><li>[12] <a href="https://arxiv.org/abs/2606.28307" target="_blank" rel="noopener">Second-Order KKT Guarantees for Bregman ADMM in Nonconvex and Non-Lipschitz Optimization</a></li><li>[13] <a href="https://arxiv.org/abs/2606.28301" target="_blank" rel="noopener">VGB for Masked Diffusion Model: Efficient Test-time Scaling for Reward Satisfaction and…</a></li><li>[14] <a href="https://arxiv.org/abs/2606.28294" target="_blank" rel="noopener">Democratic ICAI: Debating Our Way to Steering Principles from Preferences</a></li><li>[15] <a href="https://arxiv.org/abs/2606.28287" target="_blank" rel="noopener">Bridging Ab Initio Symmetries and Global Nuclear Masses with Interpretable Neural Networks</a></li><li>[16] <a href="https://arxiv.org/abs/2606.28281" target="_blank" rel="noopener">PAC-Bayesian Certificates for Quadratic Closed-Loop Control</a></li><li>[17] <a href="https://arxiv.org/abs/2606.28322" target="_blank" rel="noopener">PerceptionRubrics: Calibrating Multimodal Evaluation to Human Perception</a></li><li>[18] <a href="https://arxiv.org/abs/2606.28321" target="_blank" rel="noopener">StructSplat: Generalizable 3D Gaussian Splatting from Uncalibrated Sparse Views</a></li><li>[19] <a href="https://arxiv.org/abs/2606.28320" target="_blank" rel="noopener">WARP-RM: A Warp-Augmented Relative Progress Reward Model for Data Curation</a></li><li>[20] <a href="https://arxiv.org/abs/2606.28319" target="_blank" rel="noopener">Near-threshold scattering of proton and Omega baryon and possible bound states</a></li><li>[21] <a href="https://arxiv.org/abs/2606.28318" target="_blank" rel="noopener">Drift Behavior in a Bounded-Confidence Opinion Model with Media Influence</a></li><li>[22] <a href="https://arxiv.org/abs/2606.28315" target="_blank" rel="noopener">Pairwise Reflection Symmetry in Generalized Latin Rectangles</a></li><li>[23] <a href="https://arxiv.org/abs/2606.28314" target="_blank" rel="noopener">The Role of Scintillation in Detecting HI Absorption in FRB Spectra</a></li><li>[24] <a href="https://arxiv.org/abs/2606.28313" target="_blank" rel="noopener">Diameter truncated operator evolution</a></li><li>[25] <a href="https://arxiv.org/abs/2606.28311" target="_blank" rel="noopener">Kinematic detection of dusty outflows from AGN: PAH kinematics of type 2 quasars with…</a></li><li>[26] <a href="https://arxiv.org/abs/2606.28324" target="_blank" rel="noopener">The multiply iterated law of the iterated logarithm: game-theoretic foundations of…</a></li><li>[27] <a href="https://arxiv.org/abs/2606.28310" target="_blank" rel="noopener">Constraining primordial oscillations and inflationary particle production with Planck,…</a></li><li>[28] <a href="https://arxiv.org/abs/2606.28153" target="_blank" rel="noopener">Robust Harmful Features Under Jailbreak Attacks: Mechanistic Evidence from Attention Head…</a></li><li>[29] <a href="https://arxiv.org/abs/2606.28125" target="_blank" rel="noopener">How Humans, Bots, and Agents Communicate About Vulnerabilities in Pull Requests</a></li><li>[30] <a href="https://arxiv.org/abs/2606.28079" target="_blank" rel="noopener">GTI-mSEMP Framework : A Proposed Framework to Stimulate Malware Propagation with…</a></li><li>[31] <a href="https://arxiv.org/abs/2606.28061" target="_blank" rel="noopener">ToolPrivacyBench: Benchmarking Purpose-Bound Privacy in Tool-Using LLM Agents</a></li><li>[32] <a href="https://arxiv.org/abs/2606.28006" target="_blank" rel="noopener">Ghost Without Shell: Measuring Non-Interactive SSH Attacks on Honeypots</a></li><li>[33] <a href="https://arxiv.org/abs/2606.27996" target="_blank" rel="noopener">Quantum Multi-Party Threshold Private Set Intersection with Explicit Cardinality Testing</a></li><li>[34] <a href="https://arxiv.org/abs/2606.27994" target="_blank" rel="noopener">Verifiable and Collusion-Resistant Multi-Party Quantum Private Set Operations</a></li><li>[35] <a href="https://arxiv.org/abs/2606.27990" target="_blank" rel="noopener">AdvancedShelLM: A Stateful Multi-Agent LLM Honeypot for SSH Deception</a></li><li>[36] <a href="https://arxiv.org/abs/2606.28317" target="_blank" rel="noopener">Continuation of Force-Free Electrodynamics upon the loss of magnetic dominance</a></li><li>[37] <a href="https://arxiv.org/abs/2606.28304" target="_blank" rel="noopener">SKA$-$VLBI view of AGN jets in the early Universe</a></li><li>[38] <a href="https://arxiv.org/abs/2606.28267" target="_blank" rel="noopener">Early Optical Follow-up of Gamma-Ray Bursts: The Critical Role of Robotic Telescopes</a></li><li>[39] <a href="https://arxiv.org/abs/2606.28303" target="_blank" rel="noopener">A perfectly matched layer for damping vertically propagating waves in the compressible…</a></li><li>[40] <a href="https://arxiv.org/abs/2606.28282" target="_blank" rel="noopener">QCD critical surface from constant entropy contours</a></li></ol>
+      <ol><li>[41] <a href="https://arxiv.org/abs/2606.28239" target="_blank" rel="noopener">Gravitational Compton scattering at the fourth post-Minkowskian order</a></li><li>[42] <a href="https://arxiv.org/abs/2606.28201" target="_blank" rel="noopener">Hybrid Quantum-Classical Neural Networks for Recognizing Quantum Phases</a></li><li>[43] <a href="https://arxiv.org/abs/2606.28199" target="_blank" rel="noopener">Hybrid quantum-classical neural network for sample-efficient recognition of topological…</a></li><li>[44] <a href="https://arxiv.org/abs/2606.28298" target="_blank" rel="noopener">Stationary point complexity via minimal supersymmetry breaking</a></li><li>[45] <a href="https://arxiv.org/abs/2606.28306" target="_blank" rel="noopener">Excitation of Collective Modes in a Chiral Superfluid by Thermal Quench</a></li><li>[46] <a href="https://arxiv.org/abs/2606.28305" target="_blank" rel="noopener">Divisible Arm Lengths, Crystal Reflections, and Enumeration of Newly Found Decomposition…</a></li><li>[47] <a href="https://arxiv.org/abs/2606.28248" target="_blank" rel="noopener">The Fujita exponent across an interface</a></li><li>[48] <a href="https://arxiv.org/abs/2606.28316" target="_blank" rel="noopener">Infinite ECH Capacities and Anosov Flows</a></li><li>[49] <a href="https://arxiv.org/abs/2606.28312" target="_blank" rel="noopener">Optimal Deployment of Electric Aircraft for Canadian Domestic Flights</a></li><li>[50] <a href="https://verdagon.dev/blog/ante-blending-borrowing-rc" target="_blank" rel="noopener">Ante: New Way to Blend Borrow Checking and Reference Counting</a></li><li>[51] <a href="https://autocrypt2.org" target="_blank" rel="noopener">Autocrypt v2 - Post-Quantum and Reliable Deletion</a></li><li>[52] <a href="https://sigma-star.at/blog/2026/06/integrity-on-embedded-linux-devices-under-the-cyber-resilience-act/" target="_blank" rel="noopener">Integrity on Embedded Linux Devices under the Cyber Resilience Act</a></li><li>[53] <a href="https://daniel.haxx.se/blog/2026/06/29/do-excellent-vulnerability-reports/" target="_blank" rel="noopener">Do excellent vulnerability reports</a></li><li>[54] <a href="https://huggingface.co/papers/2606.26015" target="_blank" rel="noopener">The Tatoxa System for Text Detoxification in Low-Resource Languages: The Case of Tatar</a></li><li>[55] <a href="https://huggingface.co/papers/2511.07397" target="_blank" rel="noopener">Thinking While Speaking: Inference-Time Knowledge Transfer for Responsive and Intelligent…</a></li><li>[56] <a href="https://huggingface.co/papers/2606.28187" target="_blank" rel="noopener">GBC: Gradient-Based Connections for Optimizing Multi-Agent Systems</a></li><li>[57] <a href="https://huggingface.co/papers/2606.18953" target="_blank" rel="noopener">Object-Centric Residual RL for Zero-Shot Sim-to-Real VLA Enhancement</a></li><li>[58] <a href="https://huggingface.co/papers/2606.27163" target="_blank" rel="noopener">Learning to Fold: prizewinning solution at LeHome Challenge 2026 (1st place online, 2nd…</a></li><li>[59] <a href="https://huggingface.co/papers/2606.26519" target="_blank" rel="noopener">Boundary-Aware Context Grounding for A Low-Channel EEG Agent</a></li><li>[60] <a href="https://huggingface.co/papers/2606.28133" target="_blank" rel="noopener">Translation as a Bridging Action: Transferring Manipulation Skills from Humans to Robots</a></li><li>[61] <a href="https://huggingface.co/papers/2606.27974" target="_blank" rel="noopener">ProMSA:Progressive Multimodal Search Agents for Knowledge-Based Visual Question Answering</a></li><li>[62] <a href="https://huggingface.co/papers/2606.27595" target="_blank" rel="noopener">Ko-WideSearch: A Korean Breadth-Search Benchmark for Exhaustive Set Enumeration by Web…</a></li><li>[63] <a href="https://huggingface.co/papers/2606.27771" target="_blank" rel="noopener">NormGuard: Reward-Preserving Norm Constraints in Flow-Matching Reinforcement Learning</a></li><li>[64] <a href="https://huggingface.co/papers/2606.22873" target="_blank" rel="noopener">SingGuard: A Policy-Adaptive Multimodal LLM Guardrail with Dynamic Reasoning</a></li><li>[65] <a href="https://huggingface.co/papers/2606.27608" target="_blank" rel="noopener">Qwen-Image-2.0-RL Technical Report</a></li><li>[66] <a href="https://huggingface.co/papers/2606.27378" target="_blank" rel="noopener">Formalizing Latent Thoughts: Four Axioms of Thought Representation in LLMs</a></li><li>[67] <a href="https://huggingface.co/papers/2606.28277" target="_blank" rel="noopener">Towards Automating Scientific Review with Google&#x27;s Paper Assistant Tool</a></li><li>[68] <a href="https://huggingface.co/papers/2606.28276" target="_blank" rel="noopener">SimFoundry: Modular and Automated Scene Generation for Policy Learning and Evaluation</a></li><li>[69] <a href="https://huggingface.co/papers/2606.28128" target="_blank" rel="noopener">PhysisForcing: Physics Reinforced World Simulator for Robotic Manipulation</a></li><li>[70] <a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven…</a></li><li>[71] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future…</a></li><li>[72] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state,…</a></li><li>[73] <a href="https://link.springer.com/article/10.1007/s10115-025-02429-y" target="_blank" rel="noopener">Artificial intelligence and machine learning in cybersecurity: a deep dive into…</a></li><li>[74] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user…</a></li><li>[75] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing…</a></li><li>[76] <a href="https://github.com/logto-io/logto" target="_blank" rel="noopener">logto-io/logto</a></li><li>[77] <a href="https://github.com/Unclecheng-li/VulnClaw" target="_blank" rel="noopener">Unclecheng-li/VulnClaw</a></li><li>[78] <a href="https://github.com/veracrypt/VeraCrypt" target="_blank" rel="noopener">veracrypt/VeraCrypt</a></li><li>[79] <a href="https://openreview.net/forum?id=aYbE1z7MIt" target="_blank" rel="noopener">SVD-LLM: Truncation-aware Singular Value Decomposition for Large Language Model…</a></li><li>[80] <a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and…</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <a href="../index.html">Carlos's Debrief</a> · curated by Hermes Research Scout · <a href="../topics.html">topics</a> · <a href="../top-500.html">top 500</a> · <a href="../feed.xml">RSS</a>
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+    <div class="modal-hint">← → navigate · esc close · alt+T theme</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() { return cards.filter((c) => !c.classList.contains('hidden')); }
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open === 'true') {
+      if (e.key === 'Escape') closeModal();
+      else if (e.key === 'ArrowLeft') navigate(-1);
+      else if (e.key === 'ArrowRight') navigate(1);
+    } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      document.getElementById('search').focus();
+    }
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden'); shown++; return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) { card.classList.remove('hidden'); shown++; }
+      else { card.classList.add('hidden'); }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
