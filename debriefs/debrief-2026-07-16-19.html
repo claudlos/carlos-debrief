@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="github-dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<title>Carlos's Debrief — July 16, 2026 19:00</title>
+<link rel="alternate" type="application/rss+xml" title="Carlos's Debrief" href="../feed.xml">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../assets/themes.css?v=4">
+<script src="../assets/theme-switcher.js?v=4" defer></script>
+<style>
+  /* Page-specific overrides layered on top of the theme tokens. */
+
+  .container { max-width: 1140px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header — gradient, stats, topic chips, current-time stamp */
+  .header {
+    text-align: center;
+    padding: 64px 20px 36px;
+    background: linear-gradient(180deg, var(--bg-elevated, #161b22) 0%, var(--bg, #0d1117) 100%);
+    border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .header h1 {
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--accent, #58a6ff), var(--accent-purple, #d2a8ff));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+  .header .subtitle { color: var(--text-muted, #8b949e); font-size: 1.1em; margin-bottom: 4px; }
+  .header .curated {
+    color: var(--text-subtle, #6e7681); font-size: 0.82em; font-style: italic; margin-top: 10px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+
+  .stats {
+    display: flex; justify-content: center; gap: 20px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .stat {
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 12px;
+    padding: 14px 28px;
+    text-align: center;
+    min-width: 140px;
+    transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+  }
+  .stat:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent, #58a6ff);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .stat-num {
+    font-size: 2em; font-weight: 800; color: var(--accent, #58a6ff); display: block; line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: 0.78em; color: var(--text-muted, #8b949e); margin-top: 4px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  .topics { margin-top: 22px; max-width: 820px; margin-left: auto; margin-right: auto;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; padding: 0 16px; }
+  .topics-label {
+    color: var(--text-subtle, #6e7681); font-size: 0.72em; text-transform: uppercase;
+    letter-spacing: 0.07em; margin-right: 6px; align-self: center;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .topic {
+    color: var(--text-muted, #8b949e); font-size: 0.78em;
+    background: var(--tag-bg, #21262d);
+    border: 1px solid var(--border-soft, #21262d);
+    padding: 3px 10px; border-radius: 999px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .topic:hover { color: var(--accent, #58a6ff); border-color: var(--accent, #58a6ff); cursor: pointer; }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex; gap: 12px; align-items: center; margin-bottom: 28px; flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1; min-width: 220px;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 10px;
+    color: var(--text, #c9d1d9);
+    padding: 12px 16px;
+    font-size: 0.95em; font-family: inherit; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus { border-color: var(--accent, #58a6ff); box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15); }
+  .search-input::placeholder { color: var(--text-subtle, #6e7681); }
+  .filter-count { color: var(--text-muted, #8b949e); font-size: 0.85em; white-space: nowrap; }
+  .kbd-hint { color: var(--text-subtle, #6e7681); font-size: 0.8em; font-family: var(--font-mono, ui-monospace, monospace); }
+
+  /* Summary boxes */
+  .summary-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-2, #3fb950) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-2, #3fb950);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--cat-2, #3fb950); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright, #f0f6fc); }
+
+  .news-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-4, #f0883e) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-4, #f0883e);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--cat-4, #f0883e); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright, #f0f6fc); }
+
+  /* Sections */
+  .section { margin-bottom: 48px; }
+  .section > h2 {
+    font-size: 1.55em; color: var(--text-bright, #f0f6fc); margin-bottom: 22px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .section-group { margin-bottom: 36px; }
+  .section-group h3 {
+    color: var(--accent, #58a6ff); font-size: 1.1em; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400;
+    background: var(--tag-bg, #21262d); padding: 2px 8px; border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--bg-card, #161b22);
+    border: 1px solid var(--border-card, #21262d);
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex; flex-direction: column; position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent, #58a6ff); opacity: 0.5; transition: opacity 0.18s;
+  }
+  .card:hover {
+    border-color: var(--accent, #58a6ff);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .card:hover::before { opacity: 1; }
+  .card::after {
+    content: '⤢'; position: absolute; top: 12px; right: 14px;
+    color: var(--text-subtle, #6e7681); font-size: 0.9em; opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent, #58a6ff); }
+  .card-title { font-size: 1em; font-weight: 600; margin-bottom: 6px; line-height: 1.4; padding-right: 24px; }
+  .card-title a { color: var(--text-bright, #f0f6fc); text-decoration: none; }
+  .card-title a:hover { color: var(--accent, #58a6ff); text-decoration: underline; }
+  .src-num { color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted, #8b949e); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text, #c9d1d9); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .tag {
+    background: var(--tag-bg, #21262d);
+    color: var(--accent, #58a6ff);
+    font-size: 0.74em;
+    padding: 3px 10px; border-radius: 12px;
+    border: 1px solid var(--border, #30363d);
+    white-space: nowrap;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .web-tag { color: var(--accent-purple, #d2a8ff); }
+  .web-card::before { background: var(--accent-purple, #d2a8ff); }
+  .category-1::before { background: var(--cat-1, #58a6ff); }
+  .category-2::before { background: var(--cat-2, #3fb950); }
+  .category-3::before { background: var(--cat-3, #d2a8ff); }
+  .category-4::before { background: var(--cat-4, #f0883e); }
+  .category-5::before { background: var(--cat-5, #ff7b72); }
+  .category-6::before { background: var(--cat-6, #d29922); }
+
+  /* Sources */
+  .sources { margin-top: 48px; }
+  .sources h2 {
+    font-size: 1.3em; color: var(--text-bright, #f0f6fc); margin-bottom: 18px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px; font-size: 0.82em; color: var(--text-muted, #8b949e);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 32px 20px; margin-top: 56px;
+    border-top: 1px solid var(--border-soft, #21262d);
+    color: var(--text-subtle, #6e7681); font-size: 0.85em;
+  }
+  .footer a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Modal — full-screen reading view */
+  .modal {
+    position: fixed; inset: 0; z-index: 1000; display: none;
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute; inset: 0;
+    background: var(--bg-overlay, rgba(1, 4, 9, 0.85));
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw); max-height: 92vh;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border-strong, #484f58);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: var(--shadow-modal, 0 24px 60px rgba(0,0,0,0.7));
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: sticky; top: -36px;
+    display: block;
+    margin-left: auto;
+    margin-right: -22px;
+    margin-top: -36px;
+    width: fit-content;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e); font-size: 1.6em; line-height: 1;
+    cursor: pointer; padding: 4px 14px; border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 10;
+  }
+  .modal-close:hover { background: var(--tag-bg, #21262d); color: var(--text-bright, #f0f6fc); }
+  .modal-title {
+    font-size: 2.15em; font-weight: 700; color: var(--text-bright, #f0f6fc);
+    line-height: 1.25; margin-bottom: 18px; padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent, #58a6ff); }
+  .modal-authors {
+    color: var(--text-muted, #8b949e); font-size: 1.15em; font-style: italic; margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text, #c9d1d9); font-size: 1.3em; line-height: 1.75;
+    margin-bottom: 32px; white-space: pre-wrap;
+  }
+  .modal-hint {
+    position: absolute; bottom: 16px; right: 24px;
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .modal-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border, #30363d);
+  }
+  .modal-nav button {
+    background: none; border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e);
+    padding: 12px 24px; border-radius: 10px; cursor: pointer;
+    font-size: 1em; font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent, #58a6ff); color: var(--accent, #58a6ff); background: var(--tag-bg, #21262d);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle, #6e7681); font-size: 1em; font-variant-numeric: tabular-nums; }
+
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Cyber tweak: matrix-green glow on card hover */
+  :root[data-theme="cyber"] .card:hover {
+    box-shadow: 0 0 24px rgba(0, 255, 65, 0.4), 0 0 48px rgba(0, 255, 65, 0.15);
+    border-color: #00ff41;
+  }
+  /* Dark-mono tweak: no glow, just a hairline; slower animations for less noise */
+  :root[data-theme="dark-mono"] .card {
+    border-radius: 0;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  :root[data-theme="dark-mono"] .card::before { width: 2px; }
+  /* Modern tweak: snappier shadows, slightly more padding */
+  :root[data-theme="modern"] .card {
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+  /* Light tweak: warmer hover, no shadow-blur */
+  :root[data-theme="light"] .card:hover {
+    box-shadow: 0 4px 14px rgba(60, 50, 40, 0.1);
+  }
+
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.7em; }
+    .header { padding: 40px 14px 24px; }
+    .stats { gap: 10px; }
+    .stat { padding: 10px 16px; min-width: 100px; }
+    .stat-num { font-size: 1.6em; }
+    .container { padding: 20px 12px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 6px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; border-radius: 12px; }
+    .modal-close { top: -36px; margin-right: -22px; margin-top: -36px; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.05em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 16px; }
+  }
+</style>
+</head>
+<body>
+<div id="theme-picker" class="theme-picker" role="group" aria-label="Theme switcher">
+  <button type="button" data-theme="github-dark">Default</button>
+  <button type="button" data-theme="cyber">Cyber</button>
+  <button type="button" data-theme="modern">Modern</button>
+  <button type="button" data-theme="dark-mono">Mono</button>
+  <button type="button" data-theme="light">Light</button>
+</div>
+<script src="assets/theme-switcher.js?v=8"></script>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">July 16, 2026 19:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">45</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">45</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">// topics</span>
+    {{TOPIC_CHIPS}}
+  </div>
+  <div class="curated">July 16, 2026 19:00 · curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li><strong>(https://medium.com/@kerger.p/an-ai-assisted-breakthrough-in-convex-optimization-an-optimization-problem-dating-back-30-years-a-db5c631119de)</strong>: Advances in AI-driven research in math and computer science have caused some stir over the last year, most recently with OpenAI’s proof of…</li>
+      <li><strong>Scientific machine learning: A symbiosis</strong></li>
+      <li><strong>Think in safety: Unveiling and mitigating safety alignment collapse in multimodal large reasoning model</strong>: Xinyue Lou, You Li, Jinan Xu, Xiangyu Shi, Chi Chen, Kaiyu Huang. Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing.</li>
+      <li><strong>Are LLMs Ready for Scientific Discovery? A Capability-Oriented Benchmark for AI Scientists</strong>: Existing benchmarks for scientific data analysis evaluate LLMs primarily on code execution or workflow completion, overlooking that scientific analysis serves to support distinct types of scientific claims: hypothesis exploration,…</li>
+      <li><strong>Is there a tension between AI safety and AI welfare?</strong>: The field of AI safety considers whether and how AI development can be safe and beneficial for humans and other animals, and the field of AI welfare considers whether and how AI development can be safe and beneficial for AI systems. There…</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>OpenBSD through 7.9 has a use-after-free allowing local privilege escalation to root (CVE-2026-57589)</strong>: This is a potential security issue, you are being redirected to https://nvd.nist.gov</li>
+      <li><strong>Discrete Diffusion Models: A Unified Framework from Tokenization to Generation</strong>: Discrete denoising diffusion models (DDMs) have recently emerged as a compelling alternative to autoregressive (AR) modeling for discrete data, offering parallel generation and iterative global…</li>
+      <li><strong>Are LLMs Ready for Scientific Discovery? A Capability-Oriented Benchmark for AI Scientists</strong>: Existing benchmarks for scientific data analysis evaluate LLMs primarily on code execution or workflow completion, overlooking that scientific analysis serves to support distinct types of scientific…</li>
+      <li><strong>Securing DNSSEC Keys via Threshold ECDSA From Generic MPC (2019)</strong>: Deployment of DNSSEC, although increasing, still suffers from many practical issues that results in a false sense of security.</li>
+      <li><strong>Length Penalties Make Chain-of-Thought Less Monitorable</strong>: Length-penalized reinforcement learning can shorten chain-of-thought reasoning while hiding an influence that drives the model&#x27;s answer.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+    <span class="kbd-hint">/ focus · Alt+T theme</span>
+  </div>
+
+    <div class="section">
+    <h2>🗡️ Relevant to your Katana work <span class="group-count">3</span></h2>
+    <ul style="list-style:none;padding:0;margin:0;">
+      <li style="padding:8px 0;border-bottom:1px solid #21262d;"><a href="https://link.springer.com/article/10.1007/s11098-025-02302-2" target="_blank" rel="noopener" style="color:#f0f6fc;text-decoration:none;font-weight:600;">Is there a tension between AI safety and AI welfare?</a> <span class="src-num">[30]</span><div style="color:#6e7681;font-size:.8em;margin-top:2px;">google_scholar</div></li>
+      <li style="padding:8px 0;border-bottom:1px solid #21262d;"><a href="https://arxiv.org/abs/2505.05541" target="_blank" rel="noopener" style="color:#f0f6fc;text-decoration:none;font-weight:600;">Safety by measurement: a systematic literature review of AI safety evaluation methods</a> <span class="src-num">[32]</span><div style="color:#6e7681;font-size:.8em;margin-top:2px;">google_scholar · 📊 20 cites</div></li>
+      <li style="padding:8px 0;border-bottom:1px solid #21262d;"><a href="https://www.praetorian.com/blog/ai-vulnerability-research-freebsd-kernel/" target="_blank" rel="noopener" style="color:#f0f6fc;text-decoration:none;font-weight:600;">FreeBSoD: Leveraging Language Models to Find and Exploit Kernel Bugs (Part 1 of 2)</a> <span class="src-num">[3]</span><div style="color:#6e7681;font-size:.8em;margin-top:2px;">lobsters</div></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🤗 HuggingFace Papers <span class="group-count">7</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Existing benchmarks for scientific data analysis evaluate LLMs primarily on code execution or workflow completion, overlooking that scientific analysis serves to support distinct types of scientific claims: hypothesis exploration, statistical inference, mechanistic explanation, each with different assumptions and validity criteria. We introduce SDABench, a benchmark that reorganizes evaluation around six capabilities (descriptive, exploratory, inferential, predictive, causal, and mechanistic) across five domains (Biology, Chemistry, Environment, Geography, Physics). SDABench comprises 527 real-data instances (SDA-Real) and 6000 synthetic instances (SDA-Synth), each in both multiple-choice and open-ended formats, constructed through an automated pipeline. Evaluating 15 representative LLMs, we find that models handle descriptive analysis well but degrade sharply on tasks requiring assumption selection, latent-process modeling, or mechanistic reasoning. SDABench further provides a five-stage error analysis framework that locates where LLMs fail: more advanced models more reliably identify the relevant scope and variables, but still struggle to select appropriate analytical procedures, model variable relationships, and draw valid conclusions.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.11079" target="_blank" rel="noopener">Are LLMs Ready for Scientific Discovery? A Capability-Oriented Benchmark for AI Scientists</a> <span class="src-num">[11]</span></div>
+    
+    <div class="card-desc">Existing benchmarks for scientific data analysis evaluate LLMs primarily on code execution or workflow completion, overlooking that scientific analysis serves to support distinct…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 4</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Languages with rich static semantics, such as Rust, provide stronger guarantees for AI-generated code, but their strictness makes generation more difficult. Off-the-shelf compilers can provide useful feedback post-generation, but does not guide intermediate generation steps, such as those during autoregressive LLM decoding. Constrained decoding intervenes earlier by rejecting invalid tokens during sampling, but requires white-box model access and costly reimplementation for semantic constraints.We introduce generative compilation, the first approach to obtaining compiler feedback on partial programs during generation. The core technical device is a sealor: a lightweight, mostly syntax-guided transformation that converts partial programs into complete ones that standard compilers can diagnose. It is designed such that possible-to-complete partial programs are never rejected, while preserving enough code context to catch genuine dead ends early. We construct such a sealor on a core Rust-like calculus and prove that it satisfies these properties, all mechanized in Lean. We extend it to the first partial-program checker for real Rust. We evaluate our method on challenging repository-level Rust coding tasks, across both frontier black-box and open-weight models. We show that generative compilation reduces non-compiling outputs and improves functional correctness, relative to standard post-generation feedback. It does so by detecting a broad range of errors close to their source an">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.13921" target="_blank" rel="noopener">Generative Compilation: On-the-Fly Compiler Feedback as AI Generates Code</a> <span class="src-num">[5]</span></div>
+    
+    <div class="card-desc">Languages with rich static semantics, such as Rust, provide stronger guarantees for AI-generated code, but their strictness makes generation more difficult. Off-the-shelf…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 1</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Autonomous UAV systems increasingly rely on multimodal large language models (MLLMs) to operate in complex real-world environments. Such embodied scenarios require not only understanding the surrounding space but also maintaining a coherent representation of the agent itself. However, existing UAV-oriented approaches and benchmarks remain largely environment-centric, primarily focusing on spatial understanding tasks, with the agent&#x27;s self-awareness remaining implicit. To address this gap, we introduce SIS-Bench, a benchmark for evaluating embodied spatial intelligence in UAV scenarios under a unified self-in-space formulation. SIS-Bench organizes evaluation along two complementary dimensions, space and self, and a three-level hierarchy of perception, memory, and reasoning. It contains 4,856 question--answer pairs across 13 tasks derived from 1,646 real-world UAV videos through a task-conditioned construction pipeline with expert verification.Extensive evaluations reveal that current MLLMs exhibit fundamental limitations in modeling dynamic and agent-centered processes. In particular, we observe a clear imbalance between spatial cognition and self-awareness, as well as a progressive performance degradation across cognitive levels.Motivated by these findings, we further explore a motion-aware representation that incorporates self-related dynamics through optical flow and visual feature fusion. Experimental results show that modeling agent motion consistently improves perception">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.12477" target="_blank" rel="noopener">Self in Space: Benchmarking Self-Awareness and Spatial Cognition in UAV Embodied Intelligence</a> <span class="src-num">[8]</span></div>
+    
+    <div class="card-desc">Autonomous UAV systems increasingly rely on multimodal large language models (MLLMs) to operate in complex real-world environments. Such embodied scenarios require not only…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 3</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Length-penalized reinforcement learning can shorten chain-of-thought reasoning while hiding an influence that drives the model&#x27;s answer. In our experiments, training with length penalties does not stop misleading hints from steering models, even though the models&#x27; chains of thought mention the hint much less often. A token-accuracy evaluation would count these runs as successful because they use fewer reasoning tokens with little accuracy loss; it would miss whether the remaining trace still shows what drove the answer. We train Qwen3-4B and Qwen3-14B variants with different target chain lengths, then evaluate them with biasing-hint interventions on held-out MMLU-Pro-R and four transfer benchmarks. Compression sharply cuts reasoning tokens, preserves most multiple-choice accuracy, and leaves hint influence near baseline. At the strongest target, lower-bound faithfulness falls to 63.1% of baseline for Qwen3-14B and 69.4% for Qwen3-4B; the raw rate at which a monitor catches hint use falls from 69% to 49% and from 60% to 48%. To separate length from content, we randomly delete sentences from uncompressed baseline chains until the remaining text matches the compressed length. Even after this length matching, compressed chains disclose the hint 7-35 percentage points less often than baseline chains that we shorten at random, for both Qwen3 sizes and all five evaluation distributions. Compression therefore does more than shorten reasoning, preferentially removing the cues a monito">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.09786" target="_blank" rel="noopener">Length Penalties Make Chain-of-Thought Less Monitorable</a> <span class="src-num">[6]</span></div>
+    
+    <div class="card-desc">Length-penalized reinforcement learning can shorten chain-of-thought reasoning while hiding an influence that drives the model&#x27;s answer. In our experiments, training with length…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 3</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Interactive simulators have become powerful tools for training embodied agents and generating synthetic visual data, but existing photorealistic simulators suffer from limited generality, programmability, and rendering speed. We address these limitations by introducing SPEAR: A Simulator for Photorealistic Embodied AI Research. At its core, SPEAR is a Python library that can connect to, and programmatically control, any Unreal Engine (UE) application via a modular plugin architecture. SPEAR exposes over 14K unique UE functions to Python, representing an order-of-magnitude increase in programmable functionality over existing UE-based simulators. Additionally, a single SPEAR instance can render 1920x1080 photorealistic beauty images directly into a user&#x27;s NumPy array at 73 frames per second - an order of magnitude faster than existing UE plugins - while also providing ground truth image modalities that are not available in any existing UE-based simulator (e.g., a non-diffuse intrinsic image decomposition, material IDs, and physically based shading parameters). Finally, SPEAR introduces an expressive high-level programming model that enables users to specify complex graphs of UE work with arbitrary data dependencies among work items, and to execute these graphs deterministically within a single UE frame. We demonstrate the utility of SPEAR through a diverse collection of example applications: controlling multiple embodied agents with distinct action spaces (e.g., humans, cars, a">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.06701" target="_blank" rel="noopener">SPEAR: A Simulator for Photorealistic Embodied AI Research</a> <span class="src-num">[7]</span></div>
+    
+    <div class="card-desc">Interactive simulators have become powerful tools for training embodied agents and generating synthetic visual data, but existing photorealistic simulators suffer from limited…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 2</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Discrete denoising diffusion models (DDMs) have recently emerged as a compelling alternative to autoregressive (AR) modeling for discrete data, offering parallel generation and iterative global refinement capabilities. Unlike continuous diffusion, where the state space is fixed, DDMs are fundamentally shaped by how the discrete state space is constructed: the tokenization scheme, the vocabulary topology, and domain-specific structural alphabets. This work introduces a unified conceptual framework that views discrete diffusion models through the construction of the underlying discrete state space. Within this framework, existing formulations, including transition-matrix, masking/absorbing-state, and score/ratio-based approaches, emerge as different instantiations of a common design space. The framework further exposes common design trade-offs across training objectives, inference algorithms, scaling behavior, systems optimization, and evaluation protocols, suggesting several promising directions for future research.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.13431" target="_blank" rel="noopener">Discrete Diffusion Models: A Unified Framework from Tokenization to Generation</a> <span class="src-num">[9]</span></div>
+    
+    <div class="card-desc">Discrete denoising diffusion models (DDMs) have recently emerged as a compelling alternative to autoregressive (AR) modeling for discrete data, offering parallel generation and…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 7</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="We present AffectFlow-DINO, a multi-task learning system for the 11th ABAW challenge that extends a standard deterministic architecture with a conditional rectified-flow head to model the inherent ambiguity of in-the-wild facial behavior. Instead of predicting a single affect estimate, the model learns a conditional generative distribution, enabling uncertainty-aware one-to-many predictions through Monte Carlo sampling. The system jointly estimates continuous valence-arousal, classifies eight facial expressions, and detects twelve Action Units from static face images. Built on a frozen DINOv3 ViT-S/16 backbone, extensive ablation studies show that rectified-flow decoding consistently improves deterministic prediction, particularly for valence-arousal estimation (CCC-V +0.058). We further show that post-hoc threshold calibration effectively recovers performance on severely imbalanced rare classes (e.g., Fear: 3.8% rightarrow 33.1%) without retraining. Combined with backbone fine-tuning and flow retuning, the final model achieves P_{MTL=1.177}, substantially outperforming the official challenge baseline of P_{MTL}=0.45.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.13250" target="_blank" rel="noopener">AffectFlow-DINO: Uncertainty-Aware Multi-Task Affect Estimation via Conditional Rectified Flow</a> <span class="src-num">[10]</span></div>
+    
+    <div class="card-desc">We present AffectFlow-DINO, a multi-task learning system for the 11th ABAW challenge that extends a standard deterministic architecture with a conditional rectified-flow head to…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 1</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📝 OpenReview <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="The advancements in Large Language Models (LLMs) have been hindered by their substantial sizes, which necessitate LLM compression methods for practical deployment. Singular Value Decomposition (SVD) offers a promising solution for LLM compression. However, state-of-the-art SVD-based LLM compression methods have two key limitations: truncating smaller singular values may lead to higher compression loss, and the lack of update on the compressed weight after SVD truncation. In this work, we propose SVD-LLM, a new SVD-based LLM compression method that addresses the limitations of existing methods.">
+    <div class="card-title"><a href="https://openreview.net/forum?id=aYbE1z7MIt" target="_blank" rel="noopener">SVD-LLM: Truncation-aware Singular Value Decomposition for Large Language Model Compression</a> <span class="src-num">[44]</span></div>
+    
+    <div class="card-desc">The advancements in Large Language Models (LLMs) have been hindered by their substantial sizes, which necessitate LLM compression methods for practical deployment. Singular Value…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div><div class="card web-card" data-full-desc="Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and fine-tuned on massive 3D data, offering the capability of producing highly consistent multi-view images. However, due to the scarcity of synchronized multi-view video data, it remains challenging to adapt this paradigm to 4D generation directly. Despite that, the available video and 3D data are adequate for training video and multi-view diffusion models separately that can provide satisfactory dynamic and geometric pri">
+    <div class="card-title"><a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and Multi-view Diffusion Models</a> <span class="src-num">[45]</span></div>
+    
+    <div class="card-desc">Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🦞 Lobste.rs <span class="group-count">4</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="FreeBSoD: Leveraging Language Models to Find and Exploit Kernel Bugs (Part 1 of 2)">
+    <div class="card-title"><a href="https://www.praetorian.com/blog/ai-vulnerability-research-freebsd-kernel/" target="_blank" rel="noopener">FreeBSoD: Leveraging Language Models to Find and Exploit Kernel Bugs (Part 1 of 2)</a> <span class="src-num">[3]</span></div>
+    
+    <div class="card-desc">Finding from 🦞 Lobste.rs.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Deployment of DNSSEC, although increasing, still suffers from many practical issues that results in a false sense of security. While many domains outsource zone management, they also have to outsource DNSSEC key management to the DNS operator, making the operator an attractive target for attackers. Moreover, DNSSEC does not provide any sort of protection in the case the operator itself decides to serve false information, for example, if it gets compromised. In this work, we show how to use techniques from threshold ECDSA: (1) to protect keys such that domains do not reveal their signing keys t">
+    <div class="card-title"><a href="https://eprint.iacr.org/2019/889" target="_blank" rel="noopener">Securing DNSSEC Keys via Threshold ECDSA From Generic MPC (2019)</a> <span class="src-num">[2]</span></div>
+    
+    <div class="card-desc">Deployment of DNSSEC, although increasing, still suffers from many practical issues that results in a false sense of security. While many domains outsource zone management, they…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="A novel computer Scrabble engine based on probability that performs at championship level (2021)">
+    <div class="card-title"><a href="https://upcommons.upc.edu/server/api/core/bitstreams/1339ae43-3d65-4015-8e11-3689e5572b23/content" target="_blank" rel="noopener">A novel computer Scrabble engine based on probability that performs at championship level (2021)</a> <span class="src-num">[1]</span></div>
+    
+    <div class="card-desc">Finding from 🦞 Lobste.rs.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="This is a potential security issue, you are being redirected to https://nvd.nist.gov">
+    <div class="card-title"><a href="https://nvd.nist.gov/vuln/detail/cve-2026-57589" target="_blank" rel="noopener">OpenBSD through 7.9 has a use-after-free allowing local privilege escalation to root (CVE-2026-57589)</a> <span class="src-num">[4]</span></div>
+    
+    <div class="card-desc">This is a potential security issue, you are being redirected to https://nvd.nist.gov</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🎓 Google Scholar <span class="group-count">21</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Scientific machine learning: A symbiosis">
+    <div class="card-title"><a href="https://ir.cwi.nl/pub/34679/34679.pdf" target="_blank" rel="noopener">Scientific machine learning: A symbiosis</a> <span class="src-num">[14]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Xinyue Lou, You Li, Jinan Xu, Xiangyu Shi, Chi Chen, Kaiyu Huang. Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing. 2025.">
+    <div class="card-title"><a href="https://aclanthology.org/2025.emnlp-main.261/" target="_blank" rel="noopener">Think in safety: Unveiling and mitigating safety alignment collapse in multimodal large reasoning model</a> <span class="src-num">[31]</span></div>
+    
+    <div class="card-desc">Xinyue Lou, You Li, Jinan Xu, Xiangyu Shi, Chi Chen, Kaiyu Huang. Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing. 2025.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="The field of AI safety considers whether and how AI development can be safe and beneficial for humans and other animals, and the field of AI welfare considers whether and how AI development can be safe and beneficial for AI systems. There is a prima facie tension between these projects, since some measures in AI safety, if deployed against humans and other animals, would raise questions about the ethics of constraint, deception, surveillance, alteration, suffering, death, disenfranchisement, and more. Is there in fact a tension between these projects? We argue that, considering all relevant fa">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s11098-025-02302-2" target="_blank" rel="noopener">Is there a tension between AI safety and AI welfare?</a> <span class="src-num">[30]</span></div>
+    
+    <div class="card-desc">The field of AI safety considers whether and how AI development can be safe and beneficial for humans and other animals, and the field of AI welfare considers whether and how AI…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Industrial control systems rely on long-lived cryptographic trust anchors to protect safety-critical operations, remote maintenance, and software supply chains. Quantum-capable adversaries create a time-shifted risk: encrypted traffic captured today may be decrypted later, while classical public-key signatures that authenticate devices, software updates, and forensic records may eventually become forgeable. This paper presents a secure-by-design post-quantum architecture for industrial control systems that couples cryptographic agility with the timing, availability, and safety constraints of o">
+    <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11516097/" target="_blank" rel="noopener">A Secure-by-Design Post-Quantum Architecture for Industrial Control Systems</a> <span class="src-num">[23]</span></div>
+    
+    <div class="card-desc">Industrial control systems rely on long-lived cryptographic trust anchors to protect safety-critical operations, remote maintenance, and software supply chains. Quantum-capable…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="A quantum resilient security system for smart power grid data: combining Kyber, FALCON, and zero-knowledge proofs against quantum threats">
+    <div class="card-title"><a href="https://mesopotamian.press/journals/index.php/ADSA/article/view/965" target="_blank" rel="noopener">A quantum resilient security system for smart power grid data: combining Kyber, FALCON, and zero-knowledge proofs against quantum threats</a> <span class="src-num">[25]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Explore millions of resources from scholarly journals, books, newspapers, videos and more, on the ProQuest Platform.">
+    <div class="card-title"><a href="https://search.proquest.com/openview/03145dff719040fdde9bb15f11090eed/1?pq-origsite=gscholar&amp;cbl=43394" target="_blank" rel="noopener">Large language models: a survey of their development, capabilities, and applications</a> <span class="src-num">[18]</span></div>
+    
+    <div class="card-desc">Explore millions of resources from scholarly journals, books, newspapers, videos and more, on the ProQuest Platform.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="As frontier AI systems advance toward transformative capabilities, we need a parallel transformation in how we measure and evaluate these systems to ensure safety and inform governance. While benchmarks have been the primary method for estimating model capabilities, they often fail to establish true upper bounds or predict deployment behavior. This literature review consolidates the rapidly evolving field of AI safety evaluations, proposing a systematic taxonomy around three dimensions: what properties we measure, how we measure them, and how these measurements integrate into frameworks. We sh">
+    <div class="card-title"><a href="https://arxiv.org/abs/2505.05541" target="_blank" rel="noopener">Safety by measurement: a systematic literature review of AI safety evaluation methods</a> <span class="src-num">[32]</span></div>
+    
+    <div class="card-desc">As frontier AI systems advance toward transformative capabilities, we need a parallel transformation in how we measure and evaluate these systems to ensure safety and inform…</div>
+    <div class="card-tags"><span class="tag web-tag">📊 20 cites</span><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Distributed systems are widely used in modern environments such as cloud platforms, Internet of Things (IoT) networks, smart grids, and blockchain-based systems. These platforms often require digital signatures to maintain trust between devices or users. When many signatures are shared at once, the size of the communication grows, and processing takes more time. This becomes a problem in applications where quick message verification is important. Classical digital signature schemes, such as Rivest-Shamir-Adleman (RSA) and Elliptic Curve Digital Signature Algorithm (ECDSA), are not safe against">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1186/s13635-026-00228-8" target="_blank" rel="noopener">Efficient post-quantum cryptographic signature aggregation for low-latency distributed networks</a> <span class="src-num">[20]</span></div>
+    
+    <div class="card-desc">Distributed systems are widely used in modern environments such as cloud platforms, Internet of Things (IoT) networks, smart grids, and blockchain-based systems. These platforms…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="This book compiles selected works from a workshop promoting collaboration between academia, industry, and society by engaging educators, researchers, technicians, and students. It highlights advancements in Artificial Intelligence, Additive Fabrication, Smart Manufacturing, and 3D Printing. Key topics include circular economy, bio-inspired sensory fusion systems, computer-aided design, and machine vision in manufacturing. Themes also explore industrial robotics, neuromorphic systems, product design, efficiency management, and automatic control in manufacturing. By integrating STEM, industrial">
+    <div class="card-title"><a href="https://books.google.com/books?hl=en&amp;lr=&amp;id=hNF4EQAAQBAJ&amp;oi=fnd&amp;pg=PA229&amp;dq=large+language+models+LLM&amp;ots=pUHYrkUuNY&amp;sig=-yvEoQ3E8QbEBpzlsKuIQkCQAtY" target="_blank" rel="noopener">in Large Language Models (LLM)</a> <span class="src-num">[17]</span></div>
+    
+    <div class="card-desc">This book compiles selected works from a workshop promoting collaboration between academia, industry, and society by engaging educators, researchers, technicians, and students. It…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="The integration of machine learning into traditional Chinese medicine">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2095177924002545" target="_blank" rel="noopener">The integration of machine learning into traditional Chinese medicine</a> <span class="src-num">[15]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="We really need the help of AI: a case study of AI adoption in cybersecurity">
+    <div class="card-title"><a href="https://dl.acm.org/doi/abs/10.1145/3799707" target="_blank" rel="noopener">We really need the help of AI: a case study of AI adoption in cybersecurity</a> <span class="src-num">[19]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="The Solana blockchain was created by Anatoly Yakovenko of Solana Labs and was introduced in 2017, employing a novel transaction verification method. However, at the same time, the innovation process introduced some new security issues. The frequent security incidents in smart contracts have not only caused enormous economic losses, but also undermined the credit system based on the blockchain. The security and reliability of smart contracts have become a new focus of research both domestically and abroad. This paper studies the current status of security analysis of Solana by researching Solan">
+    <div class="card-title"><a href="https://arxiv.org/abs/2504.07419" target="_blank" rel="noopener">Exploring vulnerabilities and concerns in solana smart contracts</a> <span class="src-num">[28]</span></div>
+    
+    <div class="card-desc">The Solana blockchain was created by Anatoly Yakovenko of Solana Labs and was introduced in 2017, employing a novel transaction verification method. However, at the same time, the…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="BFL-SC: A blockchain-enabled federated learning framework, with smart contracts, for securing social media-integrated internet of things systems">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1570870525000083" target="_blank" rel="noopener">BFL-SC: A blockchain-enabled federated learning framework, with smart contracts, for securing social media-integrated internet of things systems</a> <span class="src-num">[27]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Digital mentor paradox: Transforming algorithmic anxiety into professional growth through AI-scaffolded pedagogical reasoning and identity">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0742051X26001472" target="_blank" rel="noopener">Digital mentor paradox: Transforming algorithmic anxiety into professional growth through AI-scaffolded pedagogical reasoning and identity</a> <span class="src-num">[29]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Artificial intelligence agents and agentic systems in hospitality and tourism: challenges, opportunities and research agenda">
+    <div class="card-title"><a href="https://www.emerald.com/ijchm/article/doi/10.1108/IJCHM-02-2025-0287/1298962" target="_blank" rel="noopener">Artificial intelligence agents and agentic systems in hospitality and tourism: challenges, opportunities and research agenda</a> <span class="src-num">[12]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Mindfulness in the use of artificial intelligence for learning among graduate students in private universities in Bangkok, Thailand">
+    <div class="card-title"><a href="https://so07.tci-thaijo.org/index.php/AELR/article/download/6209/4289/54796" target="_blank" rel="noopener">Mindfulness in the use of artificial intelligence for learning among graduate students in private universities in Bangkok, Thailand</a> <span class="src-num">[13]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Integrating Elliptic Curve Encryption and Post‐Quantum Cryptography for Secure VANETs Using Fog Computing and SDN">
+    <div class="card-title"><a href="https://ietresearch.onlinelibrary.wiley.com/doi/abs/10.1049/itr2.70214" target="_blank" rel="noopener">Integrating Elliptic Curve Encryption and Post‐Quantum Cryptography for Secure VANETs Using Fog Computing and SDN</a> <span class="src-num">[24]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Secure electric vehicle charging infrastructure in smart cities: A blockchain-based smart contract approach">
+    <div class="card-title"><a href="https://www.mdpi.com/2624-6511/8/1/33" target="_blank" rel="noopener">Secure electric vehicle charging infrastructure in smart cities: A blockchain-based smart contract approach</a> <span class="src-num">[26]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Post-Quantum Cryptography Migration of a Physical 5G Testbed">
+    <div class="card-title"><a href="https://dl.acm.org/doi/abs/10.1145/3733820.3764679" target="_blank" rel="noopener">Post-Quantum Cryptography Migration of a Physical 5G Testbed</a> <span class="src-num">[21]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="A review of algorithms for surface defect detection in welds based on machine learning">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0957417425038035" target="_blank" rel="noopener">A review of algorithms for surface defect detection in welds based on machine learning</a> <span class="src-num">[16]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="In lattice-based post-quantum cryptographic schemes, the Number Theoretic Transform (NTT) is a core computational operation that enables efficient polynomial multiplication in algorithms such as CRYSTALS-Kyber. This work presents a Unified Parallel Pipelined NTT (UPP-NTT) accelerator optimized for CRYSTALS-Kyber. The proposed architecture integrates four parallel pipelined radix-2 butterfly functional units (BFUs) within a single reconfigurable datapath that supports both Forward NTT (FNTT) and Inverse NTT (INTT) operations. A shift-and-add-based Barrett reduction unit reduces dependence on DS">
+    <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11458596/" target="_blank" rel="noopener">UPP-NTT: A Unified Parallel Pipelined NTT Accelerator for CRYSTALS-Kyber Post-Quantum Cryptography</a> <span class="src-num">[22]</span></div>
+    
+    <div class="card-desc">In lattice-based post-quantum cryptographic schemes, the Number Theoretic Transform (NTT) is a core computational operation that enables efficient polynomial multiplication in…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📰 Hacker News <span class="group-count">3</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Advances in AI-driven research in math and computer science have caused some stir over the last year, most recently with OpenAI’s proof of…">
+    <div class="card-title"><a href="https://medium.com/@kerger.p/an-ai-assisted-breakthrough-in-convex-optimization-an-optimization-problem-dating-back-30-years-a-db5c631119de" target="_blank" rel="noopener">(https://medium.com/@kerger.p/an-ai-assisted-breakthrough-in-convex-optimization-an-optimization-problem-dating-back-30-years-a-db5c631119de)</a> <span class="src-num">[34]</span></div>
+    
+    <div class="card-desc">Advances in AI-driven research in math and computer science have caused some stir over the last year, most recently with OpenAI’s proof of…</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="Launch HN: Traceforce (YC S26) – Company-wide security monitoring for AI apps">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=48937020" target="_blank" rel="noopener">Launch HN: Traceforce (YC S26) – Company-wide security monitoring for AI apps</a> <span class="src-num">[35]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="GPT-5.6 Sol Pro solves open problem in convex optimization">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=48939768" target="_blank" rel="noopener">GPT-5.6 Sol Pro solves open problem in convex optimization</a> <span class="src-num">[33]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>👽 Reddit <span class="group-count">8</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Hi everyone, I&#x27;ve been working independently on a recurrent architecture called **DABSN (Dynamic Adaptive Bias State Network)** for the past several months, and I finally reached the point where I feel comfortable sharing the first preprint. The paper is mainly about the architecture itself and its behavior on reasoning, memory, and long-sequence benchmarks (MQAR, Copy, Key-Value retrieval, A5/60, etc.). The code is also public with PyTorch, C++, and Triton implementations so everything can be reproduced. While finishing the paper, I also trained my first language model with the same cell: - 2">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1uycffg/seeking_collaborators_for_scaling_and_independent/" target="_blank" rel="noopener">Seeking collaborators for scaling and independent evaluation of a new recurrent language model architecture (preprint + code) [R]</a> <span class="src-num">[37]</span></div>
+    
+    <div class="card-desc">Hi everyone, I&#x27;ve been working independently on a recurrent architecture called **DABSN (Dynamic Adaptive Bias State Network)** for the past several months, and I finally reached…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="While writing an essay about AI memory and persistent context, I started wondering whether current AI memory systems are optimized for the right thing. Current AI systems already maintain forms of persistent context through saved memories, conversation summaries, user preferences, project notes, and similar mechanisms. These memories are primarily descriptive. They help the system remember facts about the user and previous interactions. But suppose future systems evolved in a different direction. Instead of primarily storing facts and preferences, imagine the persistent context being continuou">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1uy6yht/are_current_ai_memory_architectures_optimizing/" target="_blank" rel="noopener">Are Current AI Memory Architectures Optimizing for the Wrong Abstraction? [D]</a> <span class="src-num">[38]</span></div>
+    
+    <div class="card-desc">While writing an essay about AI memory and persistent context, I started wondering whether current AI memory systems are optimized for the right thing. Current AI systems already…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="i&#x27;m subscribed to a ai/ml newsletter but i feel like its not enough. i need a complete and not too time consuming way to keep up with ai/ml news because i feel like im left behind. thanks in advance submitted by /u/mehmetflix_ [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1uyecez/whats_the_best_and_complete_way_to_keep_up_with/" target="_blank" rel="noopener">whats the best and complete way to keep up with ai/ml news? [D]</a> <span class="src-num">[40]</span></div>
+    
+    <div class="card-desc">i&#x27;m subscribed to a ai/ml newsletter but i feel like its not enough. i need a complete and not too time consuming way to keep up with ai/ml news because i feel like im left…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Schema, the harness we introduce today, reaches 99% on the ARC‑AGI‑3 Public set using Claude Opus 4.8 and Fable 5, and 95.35% using GPT‑5.6 Sol. It does not change the underlying model weights. Instead, it changes the process around them: how observations are turned into a working model of the game, how predictions are tested against the interaction history, and how plans are executed and revised. Both scores come from a fixed fallback rule: Opus 4.8 and Sol xhigh run first; games scoring below 80 are rerun with Fable 5 and Sol max, respectively, and the higher per-game score is retained. http">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1uyf8oo/new_fable5opus48_harness_called_schema_claims_99/" target="_blank" rel="noopener">New Fable5/Opus4.8 harness called &quot;Schema&quot; claims 99% on ARC-3 [R]</a> <span class="src-num">[43]</span></div>
+    
+    <div class="card-desc">Schema, the harness we introduce today, reaches 99% on the ARC‑AGI‑3 Public set using Claude Opus 4.8 and Fable 5, and 95.35% using GPT‑5.6 Sol. It does not change the underlying…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Call for Papers and Demos Real-Time Conversational Agents (RTCA): Toward Natural Multimodal Interaction 1st RTCA Workshop [@]() NeurIPS 2026 , Sydney, Australia 11 or 12 December 2026 Website: https://rtcaneurips26.github.io/ We are pleased to share the Call for Papers and Demos for the inaugural RTCA Workshop at NeurIPS 2026, focused on real-time multimodal conversational agents : streaming speech, video, and language generation; naturalness in interaction; and evaluation of live systems. Conversational AI has moved from text chat into the real world, voice modes that talk back, embodied avat">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1uy8e0v/cfp_rtca_neurips_2026_r/" target="_blank" rel="noopener">CfP | RTCA @ NeurIPS 2026 [R]</a> <span class="src-num">[41]</span></div>
+    
+    <div class="card-desc">Call for Papers and Demos Real-Time Conversational Agents (RTCA): Toward Natural Multimodal Interaction 1st RTCA Workshop [@]() NeurIPS 2026 , Sydney, Australia 11 or 12 December…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="What is the shared structural essence that underlies a pair of MRI contrast spaces? Explicitly modeling this contrast-invariant latent “content” unlocks a powerful multi-contrast reconstruction algorithm that is competitive with state-of-the-art unrolled networks while: PnP-CoSMo: A plug-and-play framework for multi-contrast MRI reconstruction based on content/style modeling. The first stage learns the content/style model from purely image-domain data. The second stage freezes this model and applies it as a powerful prior in iterative reconstruction. Requiring no raw k-space training data (whi">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1uy2h66/pnpcosmo_a_multicontrast_mri_reconstruction/" target="_blank" rel="noopener">PnP-CoSMo: A Multi-Contrast MRI Reconstruction Framework based on Content/Style Modeling [R]</a> <span class="src-num">[42]</span></div>
+    
+    <div class="card-desc">What is the shared structural essence that underlies a pair of MRI contrast spaces? Explicitly modeling this contrast-invariant latent “content” unlocks a powerful multi-contrast…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Every qlora tutorial on earth says start at 2e-4. Unsloth docs, hf examples, the paper itself. and for small datasets i now think that numbers is a trap. Where does 2e-4 come from? alpaca. 52k samples. cool, except most of us are fine tuning on 5-10k samples we scraped and labeled ourselves, not 52k. at that size the model overfits inside epoch one and then youre just watching training loss go down all pretty while eval lost sits there doing nothing. or climbs. I burned close to three weeks on this. recleaned the data set twice. rewrote the prompt template twice. spent on entire sunday hand re">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1uy1z8b/the_qlora_2e4_default_is_wrong_under_10k_samples/" target="_blank" rel="noopener">The qlora 2e-4 default is wrong under 10k samples and nobody talks about it [D]</a> <span class="src-num">[36]</span></div>
+    
+    <div class="card-desc">Every qlora tutorial on earth says start at 2e-4. Unsloth docs, hf examples, the paper itself. and for small datasets i now think that numbers is a trap. Where does 2e-4 come…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="https://arxiv.org/pdf/2607.13511 the core idea is, we cannot have ternary PTQ with fixed matrix size, trying to do that is dead end. so i tried decomposing the matrix to 2 ternary matrices and inner diagonal scaling matrix. now that the inner rank can be arbitrarily large the accuracy can be arbiratily small. and its not that it has to be very large too i also showed that it does take only slightly more vram then current quantisation methods. the slight more vram is worth it if we abuse the ternary math. submitted by /u/LMTLS5 [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1uy2zb3/externd_expandedrank_ternary_decomposition/" target="_blank" rel="noopener">ExTernD: Expanded-Rank Ternary Decomposition Ternary LLM PTQ with Accuracy Approaching Any Quantization Level [P]</a> <span class="src-num">[39]</span></div>
+    
+    <div class="card-desc">https://arxiv.org/pdf/2607.13511 the core idea is, we cannot have ternary PTQ with fixed matrix size, trying to do that is dead end. so i tried decomposing the matrix to 2 ternary…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://upcommons.upc.edu/server/api/core/bitstreams/1339ae43-3d65-4015-8e11-3689e5572b23/content" target="_blank" rel="noopener">A novel computer Scrabble engine based on probability that performs at championship level…</a></li><li>[2] <a href="https://eprint.iacr.org/2019/889" target="_blank" rel="noopener">Securing DNSSEC Keys via Threshold ECDSA From Generic MPC (2019)</a></li><li>[3] <a href="https://www.praetorian.com/blog/ai-vulnerability-research-freebsd-kernel/" target="_blank" rel="noopener">FreeBSoD: Leveraging Language Models to Find and Exploit Kernel Bugs (Part 1 of 2)</a></li><li>[4] <a href="https://nvd.nist.gov/vuln/detail/cve-2026-57589" target="_blank" rel="noopener">OpenBSD through 7.9 has a use-after-free allowing local privilege escalation to root…</a></li><li>[5] <a href="https://huggingface.co/papers/2607.13921" target="_blank" rel="noopener">Generative Compilation: On-the-Fly Compiler Feedback as AI Generates Code</a></li><li>[6] <a href="https://huggingface.co/papers/2607.09786" target="_blank" rel="noopener">Length Penalties Make Chain-of-Thought Less Monitorable</a></li><li>[7] <a href="https://huggingface.co/papers/2607.06701" target="_blank" rel="noopener">SPEAR: A Simulator for Photorealistic Embodied AI Research</a></li><li>[8] <a href="https://huggingface.co/papers/2607.12477" target="_blank" rel="noopener">Self in Space: Benchmarking Self-Awareness and Spatial Cognition in UAV Embodied…</a></li><li>[9] <a href="https://huggingface.co/papers/2607.13431" target="_blank" rel="noopener">Discrete Diffusion Models: A Unified Framework from Tokenization to Generation</a></li><li>[10] <a href="https://huggingface.co/papers/2607.13250" target="_blank" rel="noopener">AffectFlow-DINO: Uncertainty-Aware Multi-Task Affect Estimation via Conditional Rectified…</a></li><li>[11] <a href="https://huggingface.co/papers/2607.11079" target="_blank" rel="noopener">Are LLMs Ready for Scientific Discovery? A Capability-Oriented Benchmark for AI Scientists</a></li><li>[12] <a href="https://www.emerald.com/ijchm/article/doi/10.1108/IJCHM-02-2025-0287/1298962" target="_blank" rel="noopener">Artificial intelligence agents and agentic systems in hospitality and tourism:…</a></li><li>[13] <a href="https://so07.tci-thaijo.org/index.php/AELR/article/download/6209/4289/54796" target="_blank" rel="noopener">Mindfulness in the use of artificial intelligence for learning among graduate students in…</a></li><li>[14] <a href="https://ir.cwi.nl/pub/34679/34679.pdf" target="_blank" rel="noopener">Scientific machine learning: A symbiosis</a></li><li>[15] <a href="https://www.sciencedirect.com/science/article/pii/S2095177924002545" target="_blank" rel="noopener">The integration of machine learning into traditional Chinese medicine</a></li><li>[16] <a href="https://www.sciencedirect.com/science/article/pii/S0957417425038035" target="_blank" rel="noopener">A review of algorithms for surface defect detection in welds based on machine learning</a></li><li>[17] <a href="https://books.google.com/books?hl=en&amp;lr=&amp;id=hNF4EQAAQBAJ&amp;oi=fnd&amp;pg=PA229&amp;dq=large+language+models+LLM&amp;ots=pUHYrkUuNY&amp;sig=-yvEoQ3E8QbEBpzlsKuIQkCQAtY" target="_blank" rel="noopener">in Large Language Models (LLM)</a></li><li>[18] <a href="https://search.proquest.com/openview/03145dff719040fdde9bb15f11090eed/1?pq-origsite=gscholar&amp;cbl=43394" target="_blank" rel="noopener">Large language models: a survey of their development, capabilities, and applications</a></li><li>[19] <a href="https://dl.acm.org/doi/abs/10.1145/3799707" target="_blank" rel="noopener">We really need the help of AI: a case study of AI adoption in cybersecurity</a></li><li>[20] <a href="https://link.springer.com/article/10.1186/s13635-026-00228-8" target="_blank" rel="noopener">Efficient post-quantum cryptographic signature aggregation for low-latency distributed…</a></li><li>[21] <a href="https://dl.acm.org/doi/abs/10.1145/3733820.3764679" target="_blank" rel="noopener">Post-Quantum Cryptography Migration of a Physical 5G Testbed</a></li><li>[22] <a href="https://ieeexplore.ieee.org/abstract/document/11458596/" target="_blank" rel="noopener">UPP-NTT: A Unified Parallel Pipelined NTT Accelerator for CRYSTALS-Kyber Post-Quantum…</a></li><li>[23] <a href="https://ieeexplore.ieee.org/abstract/document/11516097/" target="_blank" rel="noopener">A Secure-by-Design Post-Quantum Architecture for Industrial Control Systems</a></li></ol>
+      <ol><li>[24] <a href="https://ietresearch.onlinelibrary.wiley.com/doi/abs/10.1049/itr2.70214" target="_blank" rel="noopener">Integrating Elliptic Curve Encryption and Post‐Quantum Cryptography for Secure VANETs…</a></li><li>[25] <a href="https://mesopotamian.press/journals/index.php/ADSA/article/view/965" target="_blank" rel="noopener">A quantum resilient security system for smart power grid data: combining Kyber, FALCON,…</a></li><li>[26] <a href="https://www.mdpi.com/2624-6511/8/1/33" target="_blank" rel="noopener">Secure electric vehicle charging infrastructure in smart cities: A blockchain-based smart…</a></li><li>[27] <a href="https://www.sciencedirect.com/science/article/pii/S1570870525000083" target="_blank" rel="noopener">BFL-SC: A blockchain-enabled federated learning framework, with smart contracts, for…</a></li><li>[28] <a href="https://arxiv.org/abs/2504.07419" target="_blank" rel="noopener">Exploring vulnerabilities and concerns in solana smart contracts</a></li><li>[29] <a href="https://www.sciencedirect.com/science/article/pii/S0742051X26001472" target="_blank" rel="noopener">Digital mentor paradox: Transforming algorithmic anxiety into professional growth through…</a></li><li>[30] <a href="https://link.springer.com/article/10.1007/s11098-025-02302-2" target="_blank" rel="noopener">Is there a tension between AI safety and AI welfare?</a></li><li>[31] <a href="https://aclanthology.org/2025.emnlp-main.261/" target="_blank" rel="noopener">Think in safety: Unveiling and mitigating safety alignment collapse in multimodal large…</a></li><li>[32] <a href="https://arxiv.org/abs/2505.05541" target="_blank" rel="noopener">Safety by measurement: a systematic literature review of AI safety evaluation methods</a></li><li>[33] <a href="https://news.ycombinator.com/item?id=48939768" target="_blank" rel="noopener">GPT-5.6 Sol Pro solves open problem in convex optimization</a></li><li>[34] <a href="https://medium.com/@kerger.p/an-ai-assisted-breakthrough-in-convex-optimization-an-optimization-problem-dating-back-30-years-a-db5c631119de" target="_blank" rel="noopener">(https://medium.com/@kerger.p/an-ai-assisted-breakthrough-in-convex-optimization-an-optimi…</a></li><li>[35] <a href="https://news.ycombinator.com/item?id=48937020" target="_blank" rel="noopener">Launch HN: Traceforce (YC S26) – Company-wide security monitoring for AI apps</a></li><li>[36] <a href="https://www.reddit.com/r/MachineLearning/comments/1uy1z8b/the_qlora_2e4_default_is_wrong_under_10k_samples/" target="_blank" rel="noopener">The qlora 2e-4 default is wrong under 10k samples and nobody talks about it [D]</a></li><li>[37] <a href="https://www.reddit.com/r/MachineLearning/comments/1uycffg/seeking_collaborators_for_scaling_and_independent/" target="_blank" rel="noopener">Seeking collaborators for scaling and independent evaluation of a new recurrent language…</a></li><li>[38] <a href="https://www.reddit.com/r/MachineLearning/comments/1uy6yht/are_current_ai_memory_architectures_optimizing/" target="_blank" rel="noopener">Are Current AI Memory Architectures Optimizing for the Wrong Abstraction? [D]</a></li><li>[39] <a href="https://www.reddit.com/r/MachineLearning/comments/1uy2zb3/externd_expandedrank_ternary_decomposition/" target="_blank" rel="noopener">ExTernD: Expanded-Rank Ternary Decomposition Ternary LLM PTQ with Accuracy Approaching…</a></li><li>[40] <a href="https://www.reddit.com/r/MachineLearning/comments/1uyecez/whats_the_best_and_complete_way_to_keep_up_with/" target="_blank" rel="noopener">whats the best and complete way to keep up with ai/ml news? [D]</a></li><li>[41] <a href="https://www.reddit.com/r/MachineLearning/comments/1uy8e0v/cfp_rtca_neurips_2026_r/" target="_blank" rel="noopener">CfP | RTCA @ NeurIPS 2026 [R]</a></li><li>[42] <a href="https://www.reddit.com/r/MachineLearning/comments/1uy2h66/pnpcosmo_a_multicontrast_mri_reconstruction/" target="_blank" rel="noopener">PnP-CoSMo: A Multi-Contrast MRI Reconstruction Framework based on Content/Style Modeling…</a></li><li>[43] <a href="https://www.reddit.com/r/MachineLearning/comments/1uyf8oo/new_fable5opus48_harness_called_schema_claims_99/" target="_blank" rel="noopener">New Fable5/Opus4.8 harness called &quot;Schema&quot; claims 99% on ARC-3 [R]</a></li><li>[44] <a href="https://openreview.net/forum?id=aYbE1z7MIt" target="_blank" rel="noopener">SVD-LLM: Truncation-aware Singular Value Decomposition for Large Language Model…</a></li><li>[45] <a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and…</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <a href="../index.html">Carlos's Debrief</a> · curated by Hermes Research Scout · <a href="../topics.html">topics</a> · <a href="../top-500.html">top 500</a> · <a href="../feed.xml">RSS</a>
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+    <div class="modal-hint">← → navigate · esc close · alt+T theme</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() { return cards.filter((c) => !c.classList.contains('hidden')); }
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open === 'true') {
+      if (e.key === 'Escape') closeModal();
+      else if (e.key === 'ArrowLeft') navigate(-1);
+      else if (e.key === 'ArrowRight') navigate(1);
+    } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      document.getElementById('search').focus();
+    }
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden'); shown++; return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) { card.classList.remove('hidden'); shown++; }
+      else { card.classList.add('hidden'); }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
