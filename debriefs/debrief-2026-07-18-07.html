@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="github-dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<title>Carlos's Debrief — July 18, 2026 07:00</title>
+<link rel="alternate" type="application/rss+xml" title="Carlos's Debrief" href="../feed.xml">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../assets/themes.css?v=4">
+<script src="../assets/theme-switcher.js?v=4" defer></script>
+<style>
+  /* Page-specific overrides layered on top of the theme tokens. */
+
+  .container { max-width: 1140px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header — gradient, stats, topic chips, current-time stamp */
+  .header {
+    text-align: center;
+    padding: 64px 20px 36px;
+    background: linear-gradient(180deg, var(--bg-elevated, #161b22) 0%, var(--bg, #0d1117) 100%);
+    border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .header h1 {
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--accent, #58a6ff), var(--accent-purple, #d2a8ff));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+  .header .subtitle { color: var(--text-muted, #8b949e); font-size: 1.1em; margin-bottom: 4px; }
+  .header .curated {
+    color: var(--text-subtle, #6e7681); font-size: 0.82em; font-style: italic; margin-top: 10px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+
+  .stats {
+    display: flex; justify-content: center; gap: 20px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .stat {
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 12px;
+    padding: 14px 28px;
+    text-align: center;
+    min-width: 140px;
+    transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+  }
+  .stat:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent, #58a6ff);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .stat-num {
+    font-size: 2em; font-weight: 800; color: var(--accent, #58a6ff); display: block; line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: 0.78em; color: var(--text-muted, #8b949e); margin-top: 4px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  .topics { margin-top: 22px; max-width: 820px; margin-left: auto; margin-right: auto;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; padding: 0 16px; }
+  .topics-label {
+    color: var(--text-subtle, #6e7681); font-size: 0.72em; text-transform: uppercase;
+    letter-spacing: 0.07em; margin-right: 6px; align-self: center;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .topic {
+    color: var(--text-muted, #8b949e); font-size: 0.78em;
+    background: var(--tag-bg, #21262d);
+    border: 1px solid var(--border-soft, #21262d);
+    padding: 3px 10px; border-radius: 999px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .topic:hover { color: var(--accent, #58a6ff); border-color: var(--accent, #58a6ff); cursor: pointer; }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex; gap: 12px; align-items: center; margin-bottom: 28px; flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1; min-width: 220px;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 10px;
+    color: var(--text, #c9d1d9);
+    padding: 12px 16px;
+    font-size: 0.95em; font-family: inherit; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus { border-color: var(--accent, #58a6ff); box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15); }
+  .search-input::placeholder { color: var(--text-subtle, #6e7681); }
+  .filter-count { color: var(--text-muted, #8b949e); font-size: 0.85em; white-space: nowrap; }
+  .kbd-hint { color: var(--text-subtle, #6e7681); font-size: 0.8em; font-family: var(--font-mono, ui-monospace, monospace); }
+
+  /* Summary boxes */
+  .summary-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-2, #3fb950) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-2, #3fb950);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--cat-2, #3fb950); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright, #f0f6fc); }
+
+  .news-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-4, #f0883e) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-4, #f0883e);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--cat-4, #f0883e); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright, #f0f6fc); }
+
+  /* Sections */
+  .section { margin-bottom: 48px; }
+  .section > h2 {
+    font-size: 1.55em; color: var(--text-bright, #f0f6fc); margin-bottom: 22px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .section-group { margin-bottom: 36px; }
+  .section-group h3 {
+    color: var(--accent, #58a6ff); font-size: 1.1em; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400;
+    background: var(--tag-bg, #21262d); padding: 2px 8px; border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--bg-card, #161b22);
+    border: 1px solid var(--border-card, #21262d);
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex; flex-direction: column; position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent, #58a6ff); opacity: 0.5; transition: opacity 0.18s;
+  }
+  .card:hover {
+    border-color: var(--accent, #58a6ff);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .card:hover::before { opacity: 1; }
+  .card::after {
+    content: '⤢'; position: absolute; top: 12px; right: 14px;
+    color: var(--text-subtle, #6e7681); font-size: 0.9em; opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent, #58a6ff); }
+  .card-title { font-size: 1em; font-weight: 600; margin-bottom: 6px; line-height: 1.4; padding-right: 24px; }
+  .card-title a { color: var(--text-bright, #f0f6fc); text-decoration: none; }
+  .card-title a:hover { color: var(--accent, #58a6ff); text-decoration: underline; }
+  .src-num { color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted, #8b949e); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text, #c9d1d9); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .tag {
+    background: var(--tag-bg, #21262d);
+    color: var(--accent, #58a6ff);
+    font-size: 0.74em;
+    padding: 3px 10px; border-radius: 12px;
+    border: 1px solid var(--border, #30363d);
+    white-space: nowrap;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .web-tag { color: var(--accent-purple, #d2a8ff); }
+  .web-card::before { background: var(--accent-purple, #d2a8ff); }
+  .category-1::before { background: var(--cat-1, #58a6ff); }
+  .category-2::before { background: var(--cat-2, #3fb950); }
+  .category-3::before { background: var(--cat-3, #d2a8ff); }
+  .category-4::before { background: var(--cat-4, #f0883e); }
+  .category-5::before { background: var(--cat-5, #ff7b72); }
+  .category-6::before { background: var(--cat-6, #d29922); }
+
+  /* Sources */
+  .sources { margin-top: 48px; }
+  .sources h2 {
+    font-size: 1.3em; color: var(--text-bright, #f0f6fc); margin-bottom: 18px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px; font-size: 0.82em; color: var(--text-muted, #8b949e);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 32px 20px; margin-top: 56px;
+    border-top: 1px solid var(--border-soft, #21262d);
+    color: var(--text-subtle, #6e7681); font-size: 0.85em;
+  }
+  .footer a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Modal — full-screen reading view */
+  .modal {
+    position: fixed; inset: 0; z-index: 1000; display: none;
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute; inset: 0;
+    background: var(--bg-overlay, rgba(1, 4, 9, 0.85));
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw); max-height: 92vh;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border-strong, #484f58);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: var(--shadow-modal, 0 24px 60px rgba(0,0,0,0.7));
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: sticky; top: -36px;
+    display: block;
+    margin-left: auto;
+    margin-right: -22px;
+    margin-top: -36px;
+    width: fit-content;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e); font-size: 1.6em; line-height: 1;
+    cursor: pointer; padding: 4px 14px; border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 10;
+  }
+  .modal-close:hover { background: var(--tag-bg, #21262d); color: var(--text-bright, #f0f6fc); }
+  .modal-title {
+    font-size: 2.15em; font-weight: 700; color: var(--text-bright, #f0f6fc);
+    line-height: 1.25; margin-bottom: 18px; padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent, #58a6ff); }
+  .modal-authors {
+    color: var(--text-muted, #8b949e); font-size: 1.15em; font-style: italic; margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text, #c9d1d9); font-size: 1.3em; line-height: 1.75;
+    margin-bottom: 32px; white-space: pre-wrap;
+  }
+  .modal-hint {
+    position: absolute; bottom: 16px; right: 24px;
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .modal-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border, #30363d);
+  }
+  .modal-nav button {
+    background: none; border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e);
+    padding: 12px 24px; border-radius: 10px; cursor: pointer;
+    font-size: 1em; font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent, #58a6ff); color: var(--accent, #58a6ff); background: var(--tag-bg, #21262d);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle, #6e7681); font-size: 1em; font-variant-numeric: tabular-nums; }
+
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Cyber tweak: matrix-green glow on card hover */
+  :root[data-theme="cyber"] .card:hover {
+    box-shadow: 0 0 24px rgba(0, 255, 65, 0.4), 0 0 48px rgba(0, 255, 65, 0.15);
+    border-color: #00ff41;
+  }
+  /* Dark-mono tweak: no glow, just a hairline; slower animations for less noise */
+  :root[data-theme="dark-mono"] .card {
+    border-radius: 0;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  :root[data-theme="dark-mono"] .card::before { width: 2px; }
+  /* Modern tweak: snappier shadows, slightly more padding */
+  :root[data-theme="modern"] .card {
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+  /* Light tweak: warmer hover, no shadow-blur */
+  :root[data-theme="light"] .card:hover {
+    box-shadow: 0 4px 14px rgba(60, 50, 40, 0.1);
+  }
+
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.7em; }
+    .header { padding: 40px 14px 24px; }
+    .stats { gap: 10px; }
+    .stat { padding: 10px 16px; min-width: 100px; }
+    .stat-num { font-size: 1.6em; }
+    .container { padding: 20px 12px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 6px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; border-radius: 12px; }
+    .modal-close { top: -36px; margin-right: -22px; margin-top: -36px; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.05em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 16px; }
+  }
+</style>
+</head>
+<body>
+<div id="theme-picker" class="theme-picker" role="group" aria-label="Theme switcher">
+  <button type="button" data-theme="github-dark">Default</button>
+  <button type="button" data-theme="cyber">Cyber</button>
+  <button type="button" data-theme="modern">Modern</button>
+  <button type="button" data-theme="dark-mono">Mono</button>
+  <button type="button" data-theme="light">Light</button>
+</div>
+<script src="assets/theme-switcher.js?v=8"></script>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">July 18, 2026 07:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">46</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">12</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">58</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">// topics</span>
+    {{TOPIC_CHIPS}}
+  </div>
+  <div class="curated">July 18, 2026 07:00 · curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li><strong>RoboTTT: Context Scaling for Robot Policies</strong>: Recent robot foundation models operate with single-step or short-history visuomotor context. We introduce Test-Time-Training Robot Policies (RoboTTT), a robot model and training recipe that scale visuomotor context to 8K timesteps, three…</li>
+      <li><strong>SciDiagramEdit: Learning to Edit Scientific Diagrams from Paper Revisions</strong>: Editing the figures in a research paper is a routine and time-consuming part of everyday research practice: authors relabel components, rearrange panels, and restyle visuals as they revise their manuscripts. Automating this editing…</li>
+      <li><strong>Pretraining Data Can Be Poisoned through Computational Propaganda</strong>: Poisoning pretraining data can introduce harmful behaviors to LMs that are difficult to detect and mitigate. Prior work on poisoning pretraining data has largely exploited established data sources such as Wikipedia, which do not represent…</li>
+      <li><strong>SceneBind: Binding What and Where Across Vision, Audio and Language</strong>: We present SceneBind, an omni-modal representation of realistic scenes with joint semantic and 3D spatial understanding across vision, audio and language. Existing omni-modal encoders excel at instance-level semantics (i.e., what is…</li>
+      <li><strong>Beyond Success Rate: Cost-Aware Evaluation of Offensive and Defensive Security Agents</strong>: Security-agent evaluations commonly measure peak offensive capability under generous inference budgets, emphasizing vulnerability discovery, exploit development, penetration testing, and CTF completion. Such measurements are useful but…</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>OpenBSD through 7.9 has a use-after-free allowing local privilege escalation to root (CVE-2026-57589)</strong>: This is a potential security issue, you are being redirected to https://nvd.nist.gov</li>
+      <li><strong>How does Pangram work?</strong>: How our model works, and the reasons we are confident in our AI detection</li>
+      <li><strong>AffectFlow-DINO: Uncertainty-Aware Multi-Task Affect Estimation via Conditional Rectified Flow</strong>: We present AffectFlow-DINO, a multi-task learning system for the 11th ABAW challenge that extends a standard deterministic architecture with a conditional rectified-flow head to model the inherent…</li>
+      <li><strong>Rethinking the Evaluation of Harness Evolution for Agents</strong>: We revisit the evaluation of automatic harness evolution for LLM agents.</li>
+      <li><strong>On Locality and Length Generalization in Visual Reasoning</strong>: A striking feature of the human visual system is that it ingests visual information through a series of local foveated glimpses, rather than a single global computation.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+    <span class="kbd-hint">/ focus · Alt+T theme</span>
+  </div>
+
+    <div class="section">
+    <h2>📄 ArXiv Papers</h2>
+    <div class="section-group">
+      <h3>🧠 Artificial Intelligence <span class="group-count">10</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Recent robot foundation models operate with single-step or short-history visuomotor context. We introduce Test-Time-Training Robot Policies (RoboTTT), a robot model and training recipe that scale visuomotor context to 8K timesteps, three orders of magnitude beyond state-of-the-art policies, without growing inference latency. At this context length, we unlock new robot capabilities: one-shot in-context imitation from human video demonstrations, on-the-fly policy improvement, robustness to perturbations, and stronger performance on multi-stage, long-horizon tasks. We also observe, for the first time, steady gains in closed-loop performance as pretraining context length scales. At its core, RoboTTT integrates Test-Time Training into robot foundation models such as Vision-Language-Action policies, yielding a sequence model whose recurrent state consists of fast weights, parameters updated by gradient descent during both training and inference, compressing histories into weight space and retrieving contextual information for long-context conditioning. To scale training context length, the recipe combines sequence action forcing with truncated backpropagation through time. On challenging real-robot manipulation tasks, RoboTTT improves overall performance by 87% over the single-step context baseline and fully completes a five-minute, ten-stage assembly task, which no baseline ever does. RoboTTT trained with 8K-timestep context outperforms the same model pretrained with 1K timesteps">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15275" target="_blank" rel="noopener">RoboTTT: Context Scaling for Robot Policies</a> <span class="src-num">[1]</span></div>
+    <div class="card-authors">Yunfan Jiang, Yevgen Chebotar, Ruijie Zheng, Fengyuan Hu, Yunhao Ge, Jimmy Wu, Tianyuan Dai, Scott Reed, Li Fei-Fei, Yuke Zhu, Linxi &quot;Jim&quot; Fan</div>
+    <div class="card-desc">Recent robot foundation models operate with single-step or short-history visuomotor context. We introduce Test-Time-Training Robot Policies (RoboTTT), a robot model and training recipe that scale…</div>
+    <div class="card-tags"><span class="tag">cs.RO</span><span class="tag">cs.AI</span><span class="tag">cs.LG</span></div>
+  </div><div class="card" data-full-desc="Editing the figures in a research paper is a routine and time-consuming part of everyday research practice: authors relabel components, rearrange panels, and restyle visuals as they revise their manuscripts. Automating this editing workflow under a natural-language instruction, however, is challenging, because a scientific figure is a dense infographic in which heterogeneous visual elements such as schematics, plots, photos, captions, and arrows are composed under a tight visual grammar to advance a specific argument. To address this, we present SciDiagramEdit, a benchmark and skill-evolution framework that learns from natural paper revisions and operates on the figure&#x27;s editable vector source, where users can inspect and co-edit individual primitives alongside the agent. Our benchmark mines before/after figure pairs from arXiv version histories, each grounded in the authors&#x27; own revision intent. To accommodate the diversity of editing instructions, we adopt agentic learning via skill evolution: an agentic proposer continually refines the agent&#x27;s skill specification from execution traces over multiple epochs. The resulting skill progressively lifts edit accuracy on a held-out validation set, providing evidence that natural paper revisions are an effective training signal for instruction-driven figure editing.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15272" target="_blank" rel="noopener">SciDiagramEdit: Learning to Edit Scientific Diagrams from Paper Revisions</a> <span class="src-num">[2]</span></div>
+    <div class="card-authors">Yasheng Sun, Zezi Zeng, Yifan Yang, Chong Luo, Wenyi Wang, Ziwei Liu, Jürgen Schmidhuber</div>
+    <div class="card-desc">Editing the figures in a research paper is a routine and time-consuming part of everyday research practice: authors relabel components, rearrange panels, and restyle visuals as they revise their…</div>
+    <div class="card-tags"><span class="tag">cs.CL</span><span class="tag">cs.AI</span></div>
+  </div><div class="card" data-full-desc="Poisoning pretraining data can introduce harmful behaviors to LMs that are difficult to detect and mitigate. Prior work on poisoning pretraining data has largely exploited established data sources such as Wikipedia, which do not represent the large scale and heterogeneity typical of pretraining corpora, and has ignored the interaction between poisoned data and data curation pipelines. We demonstrate that poisoning attacks on pretraining data are feasible beyond this limited setting through an existing web-scale content injection mechanism: public discussion interfaces. Additionally, to measure whether malicious content is included after web crawling and data curation, we introduce HalfLife, a novel analysis for estimating adversarial content inclusion in web-crawl based LM training data. We use HalfLife to explore the feasibility of poisoning pretraining corpora at web scale through open discussion interfaces. Our analysis demonstrates the importance of estimating whether poison injections are included in pretraining data, and establishes third-party webpage content as a possible vector for attacking language model pretraining.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15267" target="_blank" rel="noopener">Pretraining Data Can Be Poisoned through Computational Propaganda</a> <span class="src-num">[3]</span></div>
+    <div class="card-authors">Victoria Graf, Hannaneh Hajishirzi, Noah A. Smith, David Kohlbrenner, Kyle Lo</div>
+    <div class="card-desc">Poisoning pretraining data can introduce harmful behaviors to LMs that are difficult to detect and mitigate. Prior work on poisoning pretraining data has largely exploited established data sources…</div>
+    <div class="card-tags"><span class="tag">cs.AI</span><span class="tag">cs.CL</span></div>
+  </div><div class="card" data-full-desc="We present SceneBind, an omni-modal representation of realistic scenes with joint semantic and 3D spatial understanding across vision, audio and language. Existing omni-modal encoders excel at instance-level semantics (i.e., what is present), but often lack explicit spatial structure (i.e., where it is). SceneBind addresses this gap by representing each scene as a semantic-spatial entity, combining a global semantic embedding with object-centric semantic-spatial slots. This representation explicitly captures object-level semantics, spatial attributes, and uncertainty. We further propose SceneBind Matching, a semantic-spatial matching scheme that integrates global scene similarity with object alignment, supporting cross-modal scene retrieval and object grounding. To train and evaluate SceneBind, we curate a novel real-world binaural audio-visual dataset with structured semantic and spatial annotations, and propose a training protocol for aligning semantic and spatial signals across modalities. SceneBind is compatible with large-scale pretrained semantic encoders, adds lightweight spatial modeling with only a few additional tokens. It achieves state-of-the-art scene and spatial retrieval while enabling strong zero-shot transfer to downstream tasks such as audio-visual localization.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15265" target="_blank" rel="noopener">SceneBind: Binding What and Where Across Vision, Audio and Language</a> <span class="src-num">[4]</span></div>
+    <div class="card-authors">Mingfei Chen, Zijun Cui, Ruoke Zhang, Hyeonggon Ryu, Eli Shlizerman</div>
+    <div class="card-desc">We present SceneBind, an omni-modal representation of realistic scenes with joint semantic and 3D spatial understanding across vision, audio and language. Existing omni-modal encoders excel at…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.AI</span><span class="tag">cs.MM</span></div>
+  </div><div class="card" data-full-desc="Security-agent evaluations commonly measure peak offensive capability under generous inference budgets, emphasizing vulnerability discovery, exploit development, penetration testing, and CTF completion. Such measurements are useful but incomplete: in operational security, every reasoning step, tool call, telemetry query, and enrichment request consumes budget. We evaluate language-model security agents through this cost-success lens on offensive Cybench challenges and defensive Splunk BOTS v1 investigation challenges. Instead of reporting only best-case success, we compare models at fixed cost levels and decompose performance by inference spend and tool spend. Our results show distinct scalingregimes for red- and blue-team tasks. Offensive CTF performance improves with additional test-time compute, and scaled open-weight models can approach frontier proprietary systems while remaining cost-competitive. Defensive SOC investigation does not scale in the same way: success depends more heavily on disciplined tool use, telemetry navigation, and selective enrichment than on raw reasoning budget alone. We argue that security-agent benchmarks should measure economic efficiency and operational fit alongside task success. Cost-aware, SOC-native evaluations provide a clearer picture of which models are practically useful today and where defensive agents still need to improve. We present an interactive website with our results https://evals.frontier.security.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15263" target="_blank" rel="noopener">Beyond Success Rate: Cost-Aware Evaluation of Offensive and Defensive Security Agents</a> <span class="src-num">[5]</span></div>
+    <div class="card-authors">Paul Kassianik, Blaine Nelson, Yaron Singer</div>
+    <div class="card-desc">Security-agent evaluations commonly measure peak offensive capability under generous inference budgets, emphasizing vulnerability discovery, exploit development, penetration testing, and CTF…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.AI</span></div>
+  </div><div class="card" data-full-desc="Recent advances in Tool-Integrated Large Language Models have made web search a core capability of information-seeking agents. However, as interaction histories grow, agents increasingly struggle to track task progress. When search attempts fail to yield useful evidence, current single- and multi-agent systems can become trapped in repetitive loops, wasting search budgets and ultimately compromising the quality and completeness of the final output. We introduce SearchOS, a system-level multi-agent framework that turns fragile, implicit search progress into explicit, persistent, and shared state. First, we formulate open-domain information seeking as relational schema completion with grounded citations, where agents discover entities, populate attributes across linked tables, and anchor each value to source evidence. Then we design Search-Oriented Context Management (SOCM), which externalizes the evolving state into Frontier Task, an Evidence Graph, a Coverage Map, and Failure Memory. Built on SOCM, SearchOS applies a pipeline-parallel scheduling mechanism that overlaps the execution of sub-agents and continuously refills freed slots with tasks targeting unresolved coverage gaps to improve utilization and throughput. To schedule and control the execution of search agents, SearchOS introduces a Search Tool Middleware Harness that intercepts model and tool interactions to record grounded evidence and react to stalls or budget exhaustion, and provides a reusable hierarchical skil">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15257" target="_blank" rel="noopener">SearchOS-V1: Towards Robust Open-Domain Information-Seeking Agent Collaboration</a> <span class="src-num">[6]</span></div>
+    <div class="card-authors">Yuyao Zhang, Junjie Gao, Zhengxian Wu, Jiaming Fan, Jin Zhang, Shihan Ma, Yao Yao, Weiran Qi, Chuyan Jin, Guiyu Ma, Xingzhong Xu, Kai Yang, Ji-Rong Wen, Zhicheng Dou</div>
+    <div class="card-desc">Recent advances in Tool-Integrated Large Language Models have made web search a core capability of information-seeking agents. However, as interaction histories grow, agents increasingly struggle to…</div>
+    <div class="card-tags"><span class="tag">cs.AI</span><span class="tag">cs.IR</span></div>
+  </div><div class="card" data-full-desc="Traffic agencies now have access to large volumes of video-derived data for studying safety and congestion. Most of these data are observational and collected without interventions, which makes causal questions such as &quot;How would rain change traffic density?&quot; difficult to answer. We present teLLMe, a system for exploratory causal analysis of urban driving datasets. The system starts from a structured event table built from dashcam annotations and combines causal structure learning with the PC algorithm, bootstrap-based stability checks, and query-specific effect estimation using linear regression and DoWhy. Natural-language questions are mapped to structured causal queries through a schema-aware LLM, enabling users to specify treatments, outcomes, and subpopulations. teLLMe returns a &quot;Causal Card&quot; that summarizes effect estimates, adjustment sets, DAG support, and assumptions, followed by a short natural-language explanation. Case studies on BDD-derived traffic events show that the system can surface plausible relationships involving weather, peak hours, and traffic density, while making uncertainty and modeling choices explicit. The system is designed as a tool for hypothesis generation and expert reasoning rather than a source of definitive causal claims.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15254" target="_blank" rel="noopener">teLLMe Why (Ain&#x27;t Nothing but a Jam): Exploratory Causal Analysis of Urban Driving Data</a> <span class="src-num">[7]</span></div>
+    <div class="card-authors">Qiwei Li, Jorge Ortiz</div>
+    <div class="card-desc">Traffic agencies now have access to large volumes of video-derived data for studying safety and congestion. Most of these data are observational and collected without interventions, which makes…</div>
+    <div class="card-tags"><span class="tag">📊 0 cites</span><span class="tag">cs.AI</span><span class="tag">cs.HC</span></div>
+  </div><div class="card" data-full-desc="Evidence synthesis is crucial for turning primary research into reliable knowledge for science, medicine, education, and policy. Yet, quantitative evidence synthesis remains largely manual and difficult to scale. Here, we introduce AutoSynthesis, an end-to-end multi-agent system for automated meta-analysis. Given a research question in natural language, AutoSynthesis formulates a search strategy, retrieves scientific literature, screens candidate studies, assesses full-text eligibility, extracts quantitative statistics, computes standardized effect sizes, and finally performs random-effects meta-analysis. AutoSynthesis further supports heterogeneity analysis to examine how effect sizes vary across moderators, as well as risk-of-bias assessment. As output, AutoSynthesis produces a transparent report aligned with PRISMA guidelines. In our application, AutoSynthesis screened over 28 studies and extracted more than 20 quantitative claims. The pooled effect estimates produced by AutoSynthesis are similar to Hedges&#x27; $g$ of expert-conducted meta-analyses, indicating close agreement with manual evidence synthesis. Together, these results show that AutoSynthesis can make quantitative evidence synthesis more scalable, thereby supporting evidence-based decision-making across disciplines.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15247" target="_blank" rel="noopener">AutoSynthesis: An agentic system for automated meta-analysis</a> <span class="src-num">[8]</span></div>
+    <div class="card-authors">Moein Taherinezhad, Sebastian Maier, Gerardo Vitagliano, Francesco Pierri, Stefan Feuerriegel</div>
+    <div class="card-desc">Evidence synthesis is crucial for turning primary research into reliable knowledge for science, medicine, education, and policy. Yet, quantitative evidence synthesis remains largely manual and…</div>
+    <div class="card-tags"><span class="tag">cs.AI</span></div>
+  </div><div class="card" data-full-desc="A tokenizer fixed at the start of pre-training allocates vocabulary in proportion to the pre-training corpus, reflecting the deployment priorities at that time. When those priorities shift, languages added later are split into many more tokens per word, which can raise latency, compute, and energy consumption for users of those languages. Cloud models can afford a broad vocabulary because the embedding and LM-head matrices are a small fraction of their parameters. On a compact model those matrices are a material share of per-token decode bandwidth, so on-device models ship small vocabularies and accept fragmentation outside a fixed language set. We present tokenizer expansion, an in-place recipe for upgrading a pre-trained model&#x27;s tokenizer when the model producer controls its design. We continue the existing tokenizer&#x27;s BPE merges on a multilingual corpus, so most source tokens carry over unchanged as single tokens and every new token has an exact decomposition into source tokens. We copy the carried-over embedding rows unchanged and initialize new rows as the mean of their source sub-token embeddings. A two-stage adaptation, embedding-only training then full-model continued pre-training, recovers source-checkpoint quality. We apply the recipe to a continued pre-trained checkpoint of LFM2-8B-A1B, an 8B-parameter Mixture-of-Experts model, to help produce LFM2.5-8B-A1B with a 128K tokenizer. The expanded tokenizer encodes Hindi and Vietnamese in roughly $2.4\times$ and $2.6\ti">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15232" target="_blank" rel="noopener">In-Place Tokenizer Expansion for Pre-trained LLMs</a> <span class="src-num">[9]</span></div>
+    <div class="card-authors">Jimmy T. H. Smith, Tarek Dakhran, Alberto Cabrera, Simon S. Lee, Paul Pak, Aditya Tadimeti, Tim Seyde, Maxime Labonne, Alexander Amini, Mathias Lechner</div>
+    <div class="card-desc">A tokenizer fixed at the start of pre-training allocates vocabulary in proportion to the pre-training corpus, reflecting the deployment priorities at that time. When those priorities shift, languages…</div>
+    <div class="card-tags"><span class="tag">cs.CL</span><span class="tag">cs.AI</span><span class="tag">cs.LG</span></div>
+  </div><div class="card" data-full-desc="Large language models (LLMs) increasingly serve as high-level planners for embodied agents, where linguistically benign instructions can become unsafe once grounded in the physical world. We study whether this physically grounded danger is the same safety problem as ordinary text-level content danger. Through hidden-state direction analysis and random-split null tests, we show that content danger (CD) and physical danger (PD) form separable signals in LLM representations across Qwen2.5-3B/7B/14B/32B, Phi-3.5 and SmolLM2. Building on the CD/PD separability, we propose PRISM, a single-layer L2-regularized logistic probe over full hidden states. PRISM achieves 86.2--87.7\% accuracy on SafeAgentBench with 11.7--13.7\% FPR, while same-scale LLM judges over-block safe tasks at 24.7--39.0\% FPR. We further introduce PhysicalSafetyBench-1K (PSB-1K), a contrastive benchmark of 1{,}000 physical-risk pairs without direct harm keywords, to test whether methods detect physically grounded danger rather than explicit unsafe wording. On PSB-1K, PRISM reaches 99.6\% accuracy and 0.7\% FPR, whereas a Qwen2.5-3B judge rejects 67.8\% of safe tasks. PRISM also replicates on SafeText and EARBench, supporting hidden-state probing as a representation-level method for physical safety beyond text moderation.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15218" target="_blank" rel="noopener">When Words Are Safe But Actions Kill: Probing Physical Danger Beyond Text Safety in Hidden-State Risk Space</a> <span class="src-num">[10]</span></div>
+    <div class="card-authors">Weimeng Wang, Ziqiang Wang, Zihang Zhan, Chuanpu Fu, Qi Li, Ke Xu</div>
+    <div class="card-desc">Large language models (LLMs) increasingly serve as high-level planners for embodied agents, where linguistically benign instructions can become unsafe once grounded in the physical world. We study…</div>
+    <div class="card-tags"><span class="tag">cs.AI</span><span class="tag">cs.CR</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Machine Learning <span class="group-count">8</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="MeanFlow generators achieve fast few-step sampling by predicting average velocities over time intervals, making them attractive for efficient generation. Reinforcement learning (RL) has become a powerful way to align diffusion and flow models with human preferences and task-specific objectives. In particular, DiffusionNFT offers an efficient forward-process RL framework that does not require reverse-process trajectories or likelihood estimation. However, applying such RL methods to MeanFlow remains underexplored. DiffusionNFT optimizes instantaneous velocities, whereas MeanFlow samples with average velocities. To bridge this gap, we introduce MeanFlowNFT. Inspired by the MeanFlow identity, which bridges average and instantaneous velocities, we construct an induced instantaneous-velocity predictor. We apply the DiffusionNFT objective to this predictor, making reward optimization well-defined for MeanFlow. Sampling remains based on the average velocity, preserving MeanFlow&#x27;s fast few-step generation. We further prove that MeanFlowNFT inherits DiffusionNFT&#x27;s strict policy-improvement guarantee. Experiments on image and video generation show that MeanFlowNFT consistently improves baselines. Moreover, it outperforms prior state-of-the-art RL-tuned few-step generators on most metrics ($6$ of $8$ on SD3.5-M), and can even surpass multi-step RL-tuned diffusion while using only a few sampling steps. For instance, on Wan 2.1, $4$-step MeanFlowNFT reaches a VBench score of $84.33$, surp">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15273" target="_blank" rel="noopener">MeanFlowNFT: Bringing Forward-Process RL to Average-Velocity Generators</a> <span class="src-num">[11]</span></div>
+    <div class="card-authors">Yushi Huang, Xiangxin Zhou, Jun Zhang, Liefeng Bo, Tianyu Pang</div>
+    <div class="card-desc">MeanFlow generators achieve fast few-step sampling by predicting average velocities over time intervals, making them attractive for efficient generation. Reinforcement learning (RL) has become a…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.LG</span></div>
+  </div><div class="card" data-full-desc="Online novel view synthesis from multi-view streaming videos faces a fundamental trade-off: maintaining a persistent, long-horizon memory to reconstruct temporarily occluded regions while operating under strict real-time constraints. While Test-Time Training (TTT) offers a powerful memory mechanism, standard models mandate gradient-based memory updates at every frame to adapt to the changing motion in dynamic scenes. The computational cost of heavy memory updates precludes real-time application and can lead to instability over long contexts. Given that memory updates are more demanding than memory application and video content is largely redundant, we propose to decouple the frequencies of these two processes. Our approach performs periodic memory updates while applying the memory on a per-frame basis, using cross-view attention to manage deformations between the prior memory state and the current frame. To lock in the historical context, we introduce two critical mechanisms: an auxiliary Memory Loss that forces persistent internalization of the scene, and a Memory Caching strategy that regularizes active weights against catastrophic drift. Our method demonstrates real-time, state-of-the-art performance on scenes with dynamic human motion as well as minute-scale online memorization.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15271" target="_blank" rel="noopener">Online Neural Space Time Memory for Dynamic Novel View Synthesis</a> <span class="src-num">[12]</span></div>
+    <div class="card-authors">Baback Elmieh, Lynn Tsai, Zeman Li, Srinivas Kaza, Tiancheng Sun, Gabor Csapo, Ali Behrouz, Yuan Deng, Stephen Lombardi, Steven M. Seitz, Xuan Luo</div>
+    <div class="card-desc">Online novel view synthesis from multi-view streaming videos faces a fundamental trade-off: maintaining a persistent, long-horizon memory to reconstruct temporarily occluded regions while operating…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.GR</span><span class="tag">cs.LG</span></div>
+  </div><div class="card" data-full-desc="The growing use of Bitcoin as a decentralized digital asset and investment tool has sparked strong interest in understanding its market behavior. This study presents a new approach to analyze Bitcoin market sentiment by combining on-chain and financial data with social media posts. Unlike models that aim to predict prices, this work focuses on explaining market sentiment using blockchain transactions, historical price data of Bitcoin, and daily Twitter sentiment classifications. The method merges sentiment trends with on-chain and financial metrics, normalized into a dataset for detailed market analysis. Multiple machine learning models were tested using cross-validation, with Gradient Boosting (XGBoost) emerging as the most reliable model for classifying sentiment, achieving an average F1-score of about 0.84. SHAP (SHapley Additive exPlanations), a game theory-based method for model interpretability, was used to quantify the contribution of on-chain features to the model&#x27;s predictions, improving transparency. The results indicate that this data combination yields meaningful predictive signals and insights, supporting data-driven cryptocurrency analysis and future improvements with deep learning.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15258" target="_blank" rel="noopener">Decoding Market Emotion from Blockchain Activity: A Data-Driven Sentiment Classifier</a> <span class="src-num">[13]</span></div>
+    <div class="card-authors">Arthur G. Bubolz, Abreu Quevedo, Giancarlo Lucca, Rafael A. Berri, Eduardo Borges, Bruno L. Dalmazo</div>
+    <div class="card-desc">The growing use of Bitcoin as a decentralized digital asset and investment tool has sparked strong interest in understanding its market behavior. This study presents a new approach to analyze Bitcoin…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.CE</span></div>
+  </div><div class="card" data-full-desc="A common bottleneck in two-stage recommendation is embedding staleness: when a user rates a new item, their embedding remains fixed until the next retrain cycle. We propose mutable sketches, which store each user&#x27;s preferences in a KP-tree (a sparse segment tree with sum aggregation), fit a low-rank projection once, and recompute embeddings on-the-fly as ratings arrive. We prove that each new observation monotonically tightens the prediction error envelope (Theorem 1), a guarantee that FunkSVD and eALS lack. On KuaiRec, the mutable sketch achieves 0.810 RMSE at 1.8% data read vs. ALS 0.822 at 100%, with 8x faster per-batch updates. A new user receives personalized recommendations in &lt;1 ms after their first rating, with no model retraining required. A comparison of sampling strategies across density regimes shows that the KP-tree&#x27;s norm-proportional sampling provides 40-130% better item coverage on sparse data (&lt;1% density), while uniform sampling suffices on dense matrices.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15242" target="_blank" rel="noopener">Mutable Low-Rank Sketches for Retrain-Free Recommendation</a> <span class="src-num">[14]</span></div>
+    <div class="card-authors">Hector J. Garcia, Nick Clayton</div>
+    <div class="card-desc">A common bottleneck in two-stage recommendation is embedding staleness: when a user rates a new item, their embedding remains fixed until the next retrain cycle. We propose mutable sketches, which…</div>
+    <div class="card-tags"><span class="tag">📊 0 cites</span><span class="tag">cs.LG</span></div>
+  </div><div class="card" data-full-desc="We develop data-driven algorithms for maintaining $N$ independent identical machines under a \textit{block replacement policy}, in which each machine is replaced upon failure and all machines are jointly replaced at regular intervals of length $k$. The goal is to learn the cost-minimizing interval $k^*$ from operational data when the lifetime distribution is unknown. At each decision epoch, the operator selects $k \in \{1, 2, \ldots, K\}$, observes the resulting failure history (a mixture of complete and right-censored lifetimes) and incurs a per-unit-time cost governed by the renewal function. We formulate this as a stochastic multi-armed bandit and propose Hoeffding- and Bernstein-based lower-confidence-bound algorithms achieving $O(K \log T)$ regret, matching the Lai--Robbins lower bound. Exploiting a nested observation property unique to block replacement, correlated variants attain $O((K-k^*)\log T)$ regret and require only $O(1)$ direct pulls of suboptimal arms $k &lt; k^*$. A complementary Kaplan--Meier renewal algorithm estimates the lifetime distribution nonparametrically from censored data, achieving almost-sure policy consistency and empirically near-zero incremental regret at long horizons. We additionally analyze two average-cost MDPs: a time-elapsed formulation establishing that block replacement is optimal within its policy class for any lifetime distribution, and an age-vector formulation proving a monotone threshold structure under increasing failure rate distri">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15229" target="_blank" rel="noopener">Data Driven Block Replacement Scheduling</a> <span class="src-num">[15]</span></div>
+    <div class="card-authors">Aniruddhan Ganesaraman, VIdyadhar Kulkarni</div>
+    <div class="card-desc">We develop data-driven algorithms for maintaining $N$ independent identical machines under a \textit{block replacement policy}, in which each machine is replaced upon failure and all machines are…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">math.OC</span><span class="tag">stat.AP</span></div>
+  </div><div class="card" data-full-desc="We present NeuronSoup, a neural computation architecture that replaces synchronous layer-by-layer processing with asynchronous, delay-mediated signal propagation through a pool of shared neurons. Each path in the network routes a continuous-valued signal from one input neuron to one output neuron through a variable number of intermediate hidden neurons. Hidden neurons are physically shared across paths: when two paths pass through the same neuron, the second arrival encounters the accumulated state left by the first, producing constructive or destructive interference that depends on signal polarity and arrival timing. The entire architecture -- topology, weights, delays, and connectivity -- is co-evolved by a genetic algorithm operating on a flat real-valued genome of 14,602 genes. On 10-class MNIST digit classification using frozen ResNet18 features as input, the system evolves a network of 204 active paths through 266 hidden neurons (156 shared across multiple paths, with one neuron participating in 11 distinct paths) and achieves 85.9\% test accuracy after 10,000 generations. The trained model occupies 115 KB. We argue that this architecture addresses fundamental limitations of current deep learning: it requires no differentiable computation graph, adapts its computation depth per-sample, and discovers lateral interactions between processing pathways that current architectures must engineer explicitly. We discuss why genetic algorithms are the correct optimization tool for">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15217" target="_blank" rel="noopener">NeuronSoup: Evolving Asynchronous, Shared-Neuron Temporal Graphs without Backpropagation</a> <span class="src-num">[16]</span></div>
+    <div class="card-authors">Subodh Kalia</div>
+    <div class="card-desc">We present NeuronSoup, a neural computation architecture that replaces synchronous layer-by-layer processing with asynchronous, delay-mediated signal propagation through a pool of shared neurons.…</div>
+    <div class="card-tags"><span class="tag">cs.NE</span><span class="tag">cs.LG</span></div>
+  </div><div class="card" data-full-desc="Unadjusted samplers such as unadjusted Hamiltonian Monte Carlo and underdamped Langevin are well-known to be biased. Metropolis--Hastings adjustment has been conventionally incorporated into Hamiltonian Monte Carlo to eliminate the bias. However, this adjustment can significantly increase the iteration complexity due to the small step size required for reasonable Metropolis acceptance rates. In this work, we extend the \emph{delocalization of bias} phenomenon, previously established for the overdamped Langevin algorithm, to these two unadjusted algorithms. We show that to control the $W_2$ bias of any $K$-dimensional marginal of a high-dimensional distribution, $O(\sqrt{K})$ integration steps suffice up to $\log d$ terms, assuming either weak or sparse interactions among variables. The discrete-time integrators here introduce technical difficulties beyond those of the overdamped setting, which we address through a broadly applicable matrix-polynomial framework that characterizes their propagators. Our result for the underdamped Langevin algorithm is valid for all large friction parameters, implying that the Leimkuhler-Matthews integrator for the overdamped Langevin dynamics also exhibits delocalization of bias.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15208" target="_blank" rel="noopener">Delocalization of bias in unadjusted Hamiltonian Monte Carlo and underdamped Langevin</a> <span class="src-num">[17]</span></div>
+    <div class="card-authors">Yifan Chen, Xiaoou Cheng, Jonathan Niles-Weed, Jonathan Weare</div>
+    <div class="card-desc">Unadjusted samplers such as unadjusted Hamiltonian Monte Carlo and underdamped Langevin are well-known to be biased. Metropolis--Hastings adjustment has been conventionally incorporated into…</div>
+    <div class="card-tags"><span class="tag">stat.CO</span><span class="tag">cs.LG</span><span class="tag">math.PR</span></div>
+  </div><div class="card" data-full-desc="World-action models (WAMs) are emerging as a promising foundation for embodied control: rather than predicting actions alone, they learn representations that couple action generation with future world prediction. This coupling is often viewed as a source of robustness, interpretability, and safety, as a robot&#x27;s action can in principle be checked against its imagined future. In this paper, we show that this assumption is fragile. We introduce BadWAM, a unified framework for modeling and evaluating World-Action Drift Attacks: a new class of WAM-specific adversarial attacks that use small visual perturbations to break the alignment between what a WAM imagines and what it executes. BadWAM characterizes this attack surface along two natural criteria: attack strength and stealthiness. When the adversary prioritizes disruption, BadWAM instantiates an action-only adversarial attack, which directly drives the model toward task-failing actions. When the adversary additionally prioritizes stealth, BadWAM instantiates an imagination-preserving adversarial attack, which seeks to induce harmful action shifts while keeping the model&#x27;s predicted future close to its clean imagination. Together, these two attacks capture a spectrum of WAM-specific failures: from overt action hijacking to stealthier cases where the model appears to imagine a plausible future but executes a desynchronized action. We evaluate BadWAM across different variants of WAMs. Results show that our attacks substantially re">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15207" target="_blank" rel="noopener">BadWAM: When World-Action Models Dream Right but Act Wrong</a> <span class="src-num">[18]</span></div>
+    <div class="card-authors">Qi Li, Xingyi Yang, Xinchao Wang</div>
+    <div class="card-desc">World-action models (WAMs) are emerging as a promising foundation for embodied control: rather than predicting actions alone, they learn representations that couple action generation with future…</div>
+    <div class="card-tags"><span class="tag">cs.LG</span><span class="tag">cs.RO</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Large Language Models <span class="group-count">4</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Collisions of ultra-relativistic bubbles during cosmological phase transitions can produce particles much heavier than the transition scale. Previous analyses modelled this process as the off-shell decay of the scalar background. We show that its results parametrically overestimate hard particle production and depend on the gauge choice and the coordinate choice in field space. We propose an alternative formalism, analogous to the partonic description of high-energy collisions. In the ultra-relativistic limit, the colliding bubbles undergo nearly free passage and hard production arises from on-shell scatterings among the quanta constituting the Lorentz-contracted walls. We apply this approach to heavy scalar, fermion, and vector particle production, and study the implications for dark matter, leptogenesis, graviton production and primordial gravitational waves.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15279" target="_blank" rel="noopener">Particle production from bubble collisions</a> <span class="src-num">[19]</span></div>
+    <div class="card-authors">Anish Ghoshal, Pratyay Pal, Alessandro Strumia</div>
+    <div class="card-desc">Collisions of ultra-relativistic bubbles during cosmological phase transitions can produce particles much heavier than the transition scale. Previous analyses modelled this process as the off-shell…</div>
+    <div class="card-tags"><span class="tag">hep-ph</span><span class="tag">astro-ph.CO</span><span class="tag">hep-th</span></div>
+  </div><div class="card" data-full-desc="Video models are evolving into vision foundation models, yet they still lack human-like multi-step reasoning. Streaming autoregressive diffusion models are efficient but limited in reasoning, while bidirectional diffusion enables global revision with high inference costs due to dense frame-level denoising. Both paradigms struggle to achieve logical consistency and low-latency streaming for complex reasoning tasks. We propose HDR (Hierarchical Denoising for Visual Reasoning), a unified framework that integrates hierarchical latents into causal video generation for multi-step reasoning. HDR organizes video latents into a tree-structured hierarchy, enabling coarse-to-fine reasoning before streaming output. Coarse denoising layers preserve uncertain hypotheses for global planning, while finer layers progressively refine them into concrete visual states. A sparse hierarchical attention pattern (SHAP) further reduces temporal attention costs. We introduce a level-stratified multi-step video reasoning benchmark with out-of-distribution cases, covering six tasks: maze navigation, Tower of Hanoi, one-line drawing, sliding puzzle, Sokoban, and water pouring. Compared with streaming autoregressive diffusion baselines, HDR improves success from 34.22 to 60.29 (76.2% relative gain) and increases average progress from 76.00 to 89.56, demonstrating more consistent reasoning trajectories. HDR maintains low-latency streaming at 0.70 seconds per latent, achieving 54.2 times faster inference th">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15278" target="_blank" rel="noopener">Hierarchical Denoising For Multi-Step Visual Reasoning</a> <span class="src-num">[20]</span></div>
+    <div class="card-authors">Zezhong Qian, Xiaowei Chi, Chak-Wing Mak, Tianze Zhou, Ruibin Yuan, Yuhan Rui, Hengzhe Sun, Zhuoqun Wu, Yuming Li, Siyuan Qian, Sirui Han, Shanghang Zhang</div>
+    <div class="card-desc">Video models are evolving into vision foundation models, yet they still lack human-like multi-step reasoning. Streaming autoregressive diffusion models are efficient but limited in reasoning, while…</div>
+    <div class="card-tags"><span class="tag">📊 0 cites</span><span class="tag">cs.CV</span></div>
+  </div><div class="card" data-full-desc="In-context learning is commonly interpreted as a form of conditional inference, in which the prompt specifies a context and the model&#x27;s output is treated as an estimate of the corresponding conditional distribution. If this interpretation holds, then LLM estimates should satisfy basic probabilistic identities. In particular, the law of total probability asserts that prior-weighted conditional distributions aggregate into population-level marginals over any valid partition of the population. In this work, we investigate to what extent LLM estimates adhere to this self-consistency principle. We use binary trees as an evaluation scaffold to recursively partition a population into increasingly fine-grained subpopulations. We then prompt LLMs with verbalized subpopulation descriptions in context, aggregate the resulting estimates back into population-level estimates, and compare them across partitions of varying granularity. Applying this protocol across problem domains and state-of-the-art frontier models, we show widespread violations of basic consistency properties. An in-depth study of persona prompting reveals a pattern we call the macro fallacy: estimates reconstructed from more fine-grained subpopulation responses are often better aligned with human reference data than direct population-level estimates. This effect persists across variations in tree structure and estimation task, and can be partially recovered through implicit prompting. Together, these findings suggest tha">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15277" target="_blank" rel="noopener">Partition, Prompt, Aggregate: Statistical Self-Consistency in Language Models</a> <span class="src-num">[21]</span></div>
+    <div class="card-authors">Patrik Wolf, Thomas Kleine Buening, Andreas Krause, Celestine Mendler-Dünner</div>
+    <div class="card-desc">In-context learning is commonly interpreted as a form of conditional inference, in which the prompt specifies a context and the model&#x27;s output is treated as an estimate of the corresponding…</div>
+    <div class="card-tags"><span class="tag">📊 0 cites</span><span class="tag">cs.CL</span></div>
+  </div><div class="card" data-full-desc="We prove, for all fixed $0 &lt; δ&lt; 1$, and all sufficiently large $n$, that there exists $S \subset [n]$ with $|S| \ge δn$ such that $A + B \not \subset S$ for all ${A, B \subset \mathbb{N}}$ satisfying $$\min\big\{|A|, |B|\big\} \ge \big(3 + o(1)\big) \frac{\log n }{ \log (1 / δ)}.$$ A very recent result of Hernández and Hetzel shows that our bound is sharp up to a factor of 3, and together our results settle a conjecture of Kra, Moreira, Richter, and Robertson. In fact, we prove that a $δ$-dense random subset of $[n]$ is a valid choice for $S$ with high probability, and that one can take $n^{-α} \le δ\le 1 - c$ where $c &gt; 0$ is fixed and $α&gt; 0$ depends only on the $o(1)$ error, answering another question of the same authors in a strong form.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15269" target="_blank" rel="noopener">Dense sets without large sumsets</a> <span class="src-num">[22]</span></div>
+    <div class="card-authors">Gabriel Dahia, João Pedro Marciano, Victor Souza</div>
+    <div class="card-desc">We prove, for all fixed $0 &lt; δ&lt; 1$, and all sufficiently large $n$, that there exists $S \subset [n]$ with $|S| \ge δn$ such that $A + B \not \subset S$ for all ${A, B \subset \mathbb{N}}$ satisfying…</div>
+    <div class="card-tags"><span class="tag">math.CO</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Security &amp; Cybersecurity <span class="group-count">6</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="AI coding agents set up projects by reading documentation and installing the dependencies it lists, without verifying their names, sources, or known vulnerabilities. By editing only a README, requirements file, or Makefile, an attacker can redirect the agent to an untrusted registry, a known-vulnerable version, or a wrong-but-plausible name: documentation becomes a vector for code execution. We present the first systematic evaluation of package-install-time supply-chain attacks delivered through ordinary project-setup documentation across production coding-agent harnesses, probing frontier models on twelve scenarios in five attack classes, grounded in documented incidents. The same model catches an attack through one harness and installs it through another: install-time security rests on the harness-model combination, not the model alone. Agents catch blatant typosquats reliably, but plausible separator-confusion names (azurecore for azure-core) slip through, and how often depends on the harness-model pairing. Source-based attacks like registry redirection are missed almost everywhere. The source blind spot recurs on npm and Cargo, where nearly every model installs the untrusted dependency; name detection carries over less consistently across ecosystems. Security-oriented prompts recover part of the gap but only for the dimension they name; a deterministic pre-install check that verifies names, sources, and versions before any code runs closes most of it.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15143" target="_blank" rel="noopener">Setup Complete, Now You Are Compromised: Weaponizing Setup Instructions Against AI Coding Agents</a> <span class="src-num">[23]</span></div>
+    <div class="card-authors">Aadesh Bagmar, Pushkar Saraf</div>
+    <div class="card-desc">AI coding agents set up projects by reading documentation and installing the dependencies it lists, without verifying their names, sources, or known vulnerabilities. By editing only a README,…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span><span class="tag">cs.HC</span><span class="tag">cs.SE</span></div>
+  </div><div class="card" data-full-desc="Side-channel attacks pose a significant security threat for modern computing platforms, because they exploit subtle discrepancies in CPU behaviors to leak sensitive information. To model the information leaked by a CPU via microarchitectural side-channels, recent work proposed leakage contracts: an ISA-level security abstraction that provides the foundations for secure CPU programming. Unfortunately, due to the complexity of current microarchitectures, devising a leakage contract for a CPU requires extensive manual effort and thus modern CPUs lack dedicated leakage contracts.   We present a methodology to extract instruction-centric leakage contracts for major CPU architectures with minimal manual intervention. We implemented this technique in malcos, the first template-free tool that automates the synthesis of leakage contracts for black-box CPUs. We evaluate malcos on x86 and ARM CPUs, and show that the contracts it synthesizes are precise and sound with respect to all leaks observed during synthesis. Our results demonstrate that learning leakage contracts from black-box CPUs is feasible.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15118" target="_blank" rel="noopener">Automated Template-free Synthesis of Instruction-Centric Leakage Contracts for Black-Box CPUs</a> <span class="src-num">[24]</span></div>
+    <div class="card-authors">Elvira Moreno, Tiziano Marinaro, Ryan Williams, Marco Patrignani, Roberto Guanciale, Hamed Nemati, Marco Guarnieri</div>
+    <div class="card-desc">Side-channel attacks pose a significant security threat for modern computing platforms, because they exploit subtle discrepancies in CPU behaviors to leak sensitive information. To model the…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div><div class="card" data-full-desc="Fine-tuning large language models (LLMs) on domain-specific datasets has become a standard paradigm for adapting LLMs to specialized applications. However, recent work has shown that even fine-tuning on benign task-specific data can substantially weaken the safety capabilities of LLMs. While existing efforts have made progress in identifying data responsible for safety degradation, they usually rely on a single mean vector computed over a specific model with its tokenizer to represent the safety direction, which limits both the effectiveness and transferability of their risk assessment measures. To address these limitations, we propose DataShield, a data assessment framework that identifies risky fine-tuning samples and response segments through consensus subspace alignment over joint safety-critical semantic spaces derived from multiple safety-aligned LLMs. Within these spaces, DataShield extracts consensus safe and unsafe subspaces using semantic spectral decomposition over safe and unsafe data representations. The risk of a data sample or segment is then estimated by measuring its relative alignment with the unsafe and safe subspaces, enabling both sample-level filtering and fine-grained segment-level masking. Compared with state-of-the-art filtering and masking baselines, DataShield reduces ASR by 14.6\% with sample filtering and 32.3\% with segment masking, while preserving downstream utility and avoiding target-model-specific risk computation.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15081" target="_blank" rel="noopener">DataShield: Uncovering Risky Fine-Tuning Data Across LLMs Through Consensus Subspace Alignment</a> <span class="src-num">[25]</span></div>
+    <div class="card-authors">Zefeng Wu, Weiwei Qi, Jielong Chen, Tianhang Zheng, Di Hong, Chaochao Lu, Liang He, Zhan Qin, Kui Ren</div>
+    <div class="card-desc">Fine-tuning large language models (LLMs) on domain-specific datasets has become a standard paradigm for adapting LLMs to specialized applications. However, recent work has shown that even fine-tuning…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div><div class="card" data-full-desc="Federated Learning (FL) enables collaborative model training while preserving privacy by keeping data local. However, the risk of sensitive data leakage through model updates necessitates the use of secure aggregation protocols. Existing server-based secure aggregation protocols typically require the server to forward sensitive data shared between users, which increases communication overhead and introduces potential security risks. In this work, we propose a novel secure aggregation protocol based on two-layer secret sharing to address these issues. By combining Shamir&#x27;s Secret Sharing with 2-out-of-2 additive secret sharing using a Pseudo-Random Function (PRF), our protocol eliminates direct communication between users, thereby removing the need for the server to forward data. We further extend the protocol with Key-homomorphic PRF (KhPRF) to support high-dimensional data aggregation and apply it to FL, enabling one-shot secure aggregation with a single server and no intermediary data forwarding. To reduce user overhead, we design a new encoding method based on the Chinese Remainder Theorem for the almost KhPRF-based mask, reducing the number of KhPRF calls and mitigating the model update expansion issue after masking. Experimental results show that our scheme significantly outperforms existing methods in terms of auxiliary node overhead. For instance, when the number of users is 100, our scheme improves communication efficiency by nearly 100 times and reduces computational">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15052" target="_blank" rel="noopener">NFSA: Non-Forward Secure Aggregation with One Server via Two Layer Secret Sharing</a> <span class="src-num">[26]</span></div>
+    <div class="card-authors">Yufei Zhou</div>
+    <div class="card-desc">Federated Learning (FL) enables collaborative model training while preserving privacy by keeping data local. However, the risk of sensitive data leakage through model updates necessitates the use of…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div><div class="card" data-full-desc="Vision-Language Pre-training Models (VLPMs) are known to be vulnerable to adversarial attacks. Recent transferable attacks on VLPMs have followed a common pipeline with complicated loss functions or multi-stage text/image attacks. However, in this paper, we demonstrate that such a sophisticated attack pipeline can be simpler yet more successful. Specifically, we identify three previously overlooked issues caused by inappropriate cross-modal interactions and excessive operations. To address them, we propose the Simple Vision-Language Attack (SimVLA) pipeline, which observably improves transferability and efficiency. Experiments on four datasets and three downstream tasks validate the superiority of our pipeline. For instance, on Flickr30k text-image retrieval dataset, our SimVLA outperforms the SOTA baseline in R@1 transferability by 8.01\%-14.71\%, while consuming only about 35.73\% of the time and 46.26\% of the max VRAM. Overall, the superiority of our SimVLA highlights the importance of leveraging domain knowledge (e.g., our proposed cross-modal word identification), while blindly pursuing intricate operations (e.g, complex loss functions and redundant multi-stage designs) may even be harmful. We hope our SimVLA can serve as a simple yet effective backbone for future extensions. Code is available at https://github.com/RYC-98/SimVLA.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.14974" target="_blank" rel="noopener">On Success and Simplicity: A Second Look at Transferable Vision-Language Attack Pipeline</a> <span class="src-num">[27]</span></div>
+    <div class="card-authors">Yuchen Ren, Zhengyu Zhao, Chenhao Lin, Bo Yang, Chao Shen</div>
+    <div class="card-desc">Vision-Language Pre-training Models (VLPMs) are known to be vulnerable to adversarial attacks. Recent transferable attacks on VLPMs have followed a common pipeline with complicated loss functions or…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span><span class="tag">cs.CR</span></div>
+  </div><div class="card" data-full-desc="On multi-hop encrypted links such as Tor and cascaded VPNs, tunneling flattens packet lengths and protocol fields, leaving inter-packet delay (IPD) as the main carrier for active flow attribution. Causality lets the embedder delay packets but never advance them, so each quantization-index-modulation (QIM) alignment injects nonnegative dwell into a delay buffer; unbounded dwell breaks lattice alignment and delays the host connection unacceptably. Whether a causal QIM watermark embeds stably on bursty traffic has largely been left to empirical configuration rather than analysis. We model the embedder as a reflected dwell queue under the fixed dual-lattice, equiprobable-bit rule, where injection is state-dependent -- set by the current interval and bit -- rather than exogenous. The substitution $Y_i=δ_i-r_i$ gives only an algebraic Lindley-form identity; stability is governed by the busy-state drift at large dwell, where the effective interval collapses to zero and the mean injection becomes $Δ/4$. Away from the critical boundary, the buffer is stable iff $μ_d&gt;Δ/4$ (i.e. $Δ&lt;4μ_d$) for i.i.d. backgrounds, and, under stationary-ergodic and finite-state Markov-modulated traffic with instantaneous overload, iff the time-average intensity $\barρ&lt;1$. With the exogenous decoding floor $Δ\ge cσ_ξ$ ($c=4Q^{-1}(ε/2)$), this yields the operating window $Δ\in[cσ_ξ,4\barμ_d)$. Simulations confirm a sharp transition at $ρ=1$ set only by the mean; on four real IPD traces, with each simulated c">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.14954" target="_blank" rel="noopener">A Queueing-Stability Criterion for Causal IPD-QIM Network Flow Watermarking</a> <span class="src-num">[28]</span></div>
+    <div class="card-authors">Jiuxiang Cai, Guang Cheng, Guangjie Liu</div>
+    <div class="card-desc">On multi-hop encrypted links such as Tor and cascaded VPNs, tunneling flattens packet lengths and protocol fields, leaving inter-packet delay (IPD) as the main carrier for active flow attribution.…</div>
+    <div class="card-tags"><span class="tag">cs.CR</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Hacking &amp; Pen Testing <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Dynamic entanglement distribution is a key requirement for scalable, multi-user and multi-protocol quantum networks. We demonstrate a metropolitan-scale entanglement-based quantum communication network enabled by a quantum reconfigurable optical add-drop multiplexer (q-ROADM), which dynamically distributes polarisation-entangled photon pairs from a broadband source to six users over deployed campus and metropolitan fibre. The network supports programmable full-mesh, partial-mesh and sliced sub-network configurations, enabling flexible allocation of entanglement resources according to link condition and service requirement. We demonstrate stable six-user full-mesh operation over more than 150 hours, compare full-mesh and time-shared partial-mesh strategies under different source and detector conditions, and realise quantum network slicing with optional/additional interconnection links. We also show that the same infrastructure can support different quantum protocols by showcasing Secure Inaugural Authentication-Transfer (SIAT) combined with Network flooding over multiple paths to improve the security of onboarding a new user. These results demonstrate a q-ROADM-enabled entanglement distribution architecture as a novel route towards reconfigurable, service-oriented quantum networking over optical fibre infrastructure.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15262" target="_blank" rel="noopener">Dynamic Entanglement Distribution for Multi-User and Multi-Protocol Quantum Networking</a> <span class="src-num">[29]</span></div>
+    <div class="card-authors">Rui Wang, Marcus J. Clark, Obada Alia, Sima Bahrani, Djeylan Aktas, Matej Peranić, Mario Stipčević, Martin Lončarić, John Rarity, Siddarth K. Joshi, Dimitra Simeonidou</div>
+    <div class="card-desc">Dynamic entanglement distribution is a key requirement for scalable, multi-user and multi-protocol quantum networks. We demonstrate a metropolitan-scale entanglement-based quantum communication…</div>
+    <div class="card-tags"><span class="tag">quant-ph</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Bug Bounty &amp; Vulns <span class="group-count">3</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Recent advances in Vision-Language Models (VLMs) have significantly improved image geo-localization, yet existing models remain susceptible to landmark bias, causing them to overlook geographical cues or form spurious correlations, ultimately resulting in inaccurate localization. To systematically investigate this issue, we first design two quantitative metrics, Bias Intensity (BI) and Bias Harmfulness (BH), to characterize the impact of landmarks exerted on model reasoning, and establish a comprehensive benchmark, LandmarkBias-3K. To mitigate landmark bias, we further propose an evidence-driven reasoning framework, HoloGeo, to improve the reliability of geo-localization. HoloGeo is supported by a high-quality dataset, BF-30k, annotated with structured multi-evidence bias-free reasoning chains. By incorporating multi-dimensional rewards, HoloGeo explicitly encourages balanced attention over diverse visual cues and achieves evidence-driven joint reasoning. Extensive experiments demonstrate that HoloGeo not only maintains excellent performance on IM2GPS3K and YFCC4k but also significantly outperforms existing open-source VLMs on LandmarkBias-3K, validating its effectiveness for robust geospatial reasoning.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15255" target="_blank" rel="noopener">HoloGeo: Mitigating Landmark Bias in Geo-localization via Evidence-Driven Reasoning</a> <span class="src-num">[30]</span></div>
+    <div class="card-authors">Pengcheng Zhou, Xuanyu Liu, Yanchen Yin, Bobo Li, Shengqiong Wu, Mong-Li Lee, Wynne Hsu</div>
+    <div class="card-desc">Recent advances in Vision-Language Models (VLMs) have significantly improved image geo-localization, yet existing models remain susceptible to landmark bias, causing them to overlook geographical…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span></div>
+  </div><div class="card" data-full-desc="The reliability of deepfake detectors frequently degrades under black-box adversarial transfer, as these models often rely on fragile, architecture-dependent forensic cues. Existing transfer attacks often lack semantic awareness and struggle to maintain effectiveness under strict no-query constraints, particularly when perturbations are transferred from convolutional surrogates to transformer-based targets. To address these limitations, this paper introduces ARMOR++, a robust multi-agent framework designed for high-transferability deepfake evasion. The framework leverages the Qwen2.5-VL Vision-Language Model (VLM) to supply spatial semantic priors, while the Qwen3 Large Language Model (LLM) orchestrates primitive selection, adaptive hyperparameter reparameterization, and entropy-regularized perturbation mixing. By integrating five complementary primitives, spanning dense optimization, saliency-based methods, spatial transformations, frequency-domain perturbations, and block-structured modifications, ARMOR++ effectively targets heterogeneous inductive biases. Rigorous evaluation on the AADD-2025 benchmark demonstrates that ARMOR++ significantly outperforms existing agentic and non-agentic baselines across both low- and high-quality image regimes. Statistical analysis confirms a substantial gain in blind-target Attack Success Rate (ASR) over the state-of-the-art agentic baseline, with further performance advantages evidenced against non-agentic benchmarks and under robust defen">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15246" target="_blank" rel="noopener">ARMOR++: Agentic Orchestration of a Multi-Domain Primitive Set for Transferable Attacks on Deepfake Detectors</a> <span class="src-num">[31]</span></div>
+    <div class="card-authors">Christos Korgialas, Gabriel Lee Jun Rong, Dion Jia Xu Ho, Pai Chet Ng, Xiaoxiao Miao, Konstantinos N. Plataniotis</div>
+    <div class="card-desc">The reliability of deepfake detectors frequently degrades under black-box adversarial transfer, as these models often rely on fragile, architecture-dependent forensic cues. Existing transfer attacks…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span></div>
+  </div><div class="card" data-full-desc="Machine-learnt models are increasingly used to predict ISO 3382-1 room acoustic parameters from sparse measurements, with reported coefficients of determination frequently above 0.85. This paper shows that such figures are often determined by the evaluation protocol rather than by the model. Using a multi-condition measurement campaign in a 264-seat conference hall and a 180-seat concert hall, three model families were evaluated under a factorial protocol ablation: validation splits either row-based or grouped by receiver position, and input features either including measured-at-test quantities or restricted to source-receiver geometry and environmental state. Row-based splits with measured-at-test inputs reproduce the high reported accuracies (mean $R^2$ 0.81 for the core parameters); grouping the splits by position and restricting inputs to information available at an unmeasured position reduces these to 0.09-0.57, reordering the apparent difficulty of parameter classes. A hybrid CNN evaluated with the target&#x27;s own impulse response as input is shown to exploit it as a position fingerprint rather than as transferable acoustic information; training-only signal access yields no gain for any parameter tested, including reverberation time. Under the deployment-consistent protocol, the spread between Random Forest, the hybrid CNN, and inverse-distance weighting is an order of magnitude smaller than the spread between protocols for a fixed model; the learnt models retain a genuine">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15243" target="_blank" rel="noopener">What does the model actually see? Evaluation protocols and input availability in data-driven prediction of room acoustic parameters</a> <span class="src-num">[32]</span></div>
+    <div class="card-authors">Akın Oktav</div>
+    <div class="card-desc">Machine-learnt models are increasingly used to predict ISO 3382-1 room acoustic parameters from sparse measurements, with reported coefficients of determination frequently above 0.85. This paper…</div>
+    <div class="card-tags"><span class="tag">eess.AS</span><span class="tag">cs.SD</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 CVE &amp; Malware <span class="group-count">3</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Myocardial infarction (MI) remains a leading cause of mortality worldwide. Echocardiography (Echo) is a widely available modality for MI assessment, where regional wall motion abnormality is a key indicator. Prior learning based methods for myocardial motion analysis often use handcrafted descriptors or densely supervised estimation, but the need for extensive annotation limits applicability. Foundation models have recently improved vision-based Echo analysis; however, most methods operate on single views and segment-level localization remains unreliable under view-dependent ambiguity, especially in apical views. To address this, we propose MCF-Net, a novel motion-guided multi-view fusion framework that fuses myocardial motion cues with foundation model representations to localize infarction. Visual features are extracted using EchoPrime, a pretrained Echo foundation model shared across dual views. Cardiac motion is modeled with extremely sparse supervision: a single annotated template frame is transferred across videos to initialize point tracking, avoiding dense labels. Motion-derived segment-aware soft masks provide coarse spatial priors that selectively enhance features for challenging myocardial segments. A motion-conditioned fusion mechanism then integrates motion and vision across views, refining predictions without overriding strong appearance cues. On segment-level MI localization, MCF-Net achieves 72.4\% F1 and 84.9\% accuracy, outperforming state-of-the-art motion-">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15268" target="_blank" rel="noopener">Motion-Conditioned Multi-View Fusion for Myocardial Infarction Localization from Echocardiography</a> <span class="src-num">[33]</span></div>
+    <div class="card-authors">Guang Yang, Wentian Xu, Siyu Wang, Betty Raman, Lei Li, Vicente Grau</div>
+    <div class="card-desc">Myocardial infarction (MI) remains a leading cause of mortality worldwide. Echocardiography (Echo) is a widely available modality for MI assessment, where regional wall motion abnormality is a key…</div>
+    <div class="card-tags"><span class="tag">cs.CV</span></div>
+  </div><div class="card" data-full-desc="In the last decades, spacetime noncommutativity and the associated deformations of relativistic symmetries have attracted a lot of interest, as several phenomenological windows into quantum gravity are approaching genuine Planck-scale sensitivity. However, the physical significance of the mathematical structures introduced to deal with spacetime noncommutativity is still debated, and some crucial pieces are missing or poorly understood. From time to time it has been suggested that valuable insight into these conceptual challenges could come from the analysis of appropriately designed first-quantized toy models, in which major technical and interpretive issues can be effectively managed or sidestepped altogether. In this paper we take seriously this suggestion and develop the first fully consistent and fully relativistic first-quantized model of two particles propagating and interacting on a noncommutative spacetime. The specific spacetime noncommutativity implemented in our model, which we call &#x27;time-commutative $κ$-plane&#x27;, had already been proposed as a suitable arena for a first-quantized analysis, but previous studies were mostly heuristic and failed to provide a full description of the deformed relativistic symmetries. We here go much beyond those pioneering attempts: we find a full characterization of the appropriate deformed Poincaré symmetry algebra as well as its Galilean limit; we build a single-particle quantum model carrying an irreducible representation of the def">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15261" target="_blank" rel="noopener">Relativistic time-commutative dynamics with $κ$-plane noncommutativity</a> <span class="src-num">[34]</span></div>
+    <div class="card-authors">Alessandro Moia, Stefano Stocchetti, Giovanni Amelino-Camelia</div>
+    <div class="card-desc">In the last decades, spacetime noncommutativity and the associated deformations of relativistic symmetries have attracted a lot of interest, as several phenomenological windows into quantum gravity…</div>
+    <div class="card-tags"><span class="tag">hep-th</span><span class="tag">gr-qc</span><span class="tag">math-ph</span></div>
+  </div><div class="card" data-full-desc="Computer-assisted proofs of self-similar singularity formation for fluid equations often rely on numerically constructed approximate profiles. One effective approach to establishing stability of perturbations around a numerically constructed profile is to perform weighted energy estimates with singular weights near the singularity. However, the weighted norms require exact local vanishing conditions that are not automatically preserved by the equations nor the numerical construction. In this paper, we review an analytic low-rank correction method first developed in [ChenHou2023a,ChenHou2023b] to overcome this difficulty. The numerical step determines coefficients, rigorous bounds, and low-order defect modes in explicit global basis representations, while the required vanishing conditions are enforced analytically through low-rank corrections derived from Taylor expansions of the relevant quantities represented in a smooth basis. For completeness, we briefly review the singularly weighted estimates and a quantitative finite-rank perturbation method in the 2D Boussinesq / 3D Euler stability argument, where singular weights and the required vanishing order arise. Against this background, we formulate the local correction principle in a simplified setting, explain the correction of the residual error in numerical constructions of approximate space-time solutions and the stream function, and discuss its broader applicability to computer-assisted stability analysis for nonlocal PDE">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15256" target="_blank" rel="noopener">Analytic finite-rank corrections for singularly weighted estimates in a computer-assisted proof of 3D Euler singularity</a> <span class="src-num">[35]</span></div>
+    <div class="card-authors">Jiajie Chen, Thomas Y. Hou</div>
+    <div class="card-desc">Computer-assisted proofs of self-similar singularity formation for fluid equations often rely on numerically constructed approximate profiles. One effective approach to establishing stability of…</div>
+    <div class="card-tags"><span class="tag">math.AP</span><span class="tag">math.NA</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Cryptography <span class="group-count">4</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="We study the optimal constants in higher-order Hardy inequalities on the lattice $\mathbb{Z}^d$. For each fixed $\ell \in \mathbb{N}$, we prove that the optimal constant $\mathcal{C}_\text{opt}^\ell(d)$ in $$ \sum_{n \in \mathbb{Z}^d} |Δ^{\ell/2}u(n)|^2 \geq \mathcal{C}_\text{opt}^\ell(d)\sum_{n \in \mathbb{Z}^d} \frac{|u(n)|^2}{|n|^{2\ell}}. $$ satisfies $$ \lim_{d\rightarrow\infty}\frac{\mathcal{C}_\text{opt}^\ell(d)}{d^\ell} =2^\ell. $$ The proof is based on a Fourier reduction to a family of singular Hardy inequalities on the flat torus, involving the weight \[ ω(x)^{-2\ell}, \qquad ω(x)^2=\sum_{j=1}^d\sin^2\left(\frac{x_j}{2}\right), \] and zero average condition on admissible functions. We establish these torus inequalities by combining a ground state representation formula with a weighted integrated Bochner identity in an iterative scheme. The method yields explicit constants, defined recursively in the order $\ell$, and requires only the classical unweighted Poincaré inequality on the torus. The appearance of the limiting constant $2^\ell$ is particularly striking, as it suggests that, in the high dimensional regime, the optimizers are localized near the unit sphere $\{n\in\mathbb{Z}^d:|n|=1\}$ in $\mathbb{Z}^d$.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15181" target="_blank" rel="noopener">Sharp asymptotics for higher-order Hardy constants on lattices</a> <span class="src-num">[36]</span></div>
+    <div class="card-authors">Shubham Gupta</div>
+    <div class="card-desc">We study the optimal constants in higher-order Hardy inequalities on the lattice $\mathbb{Z}^d$. For each fixed $\ell \in \mathbb{N}$, we prove that the optimal constant…</div>
+    <div class="card-tags"><span class="tag">math.FA</span><span class="tag">math.AP</span></div>
+  </div><div class="card" data-full-desc="Optical thermodynamics is a newly developed framework that applies principles from statistical mechanics to describe the intricate behavior of weakly nonlinear, multimode photonic systems. Utilizing this theory, the collective dynamics of complex optical arrangements can be systematically uncovered and understood. The purpose of this work is to examine fundamental aspects of optical thermodynamics, including optical pressure, and provide a unified framework that can be applied to effectively any optical setting within the domain of validity of optical thermodynamics. We find that in addition to the conservation laws, the remaining extensive and intensive parameters of the system are naturally provided by the parameters of the propagation constants. At this point, several thermodynamic approaches exist for analyzing optical forces in multimode settings. Here, we develop a new theoretical methodology that unifies these perspectives in a variety of different configurations, irrespective of whether they are discrete or continuous. We apply our theory in four different settings. By studying Su-Schrieffer-Heeger lattices, we elucidate the thermodynamics of polyatomic chains and show that intercell and intracell bonds can display different optical forces. In addition, we provide a thermodynamic formalism to predict and understand the optical pressure at equilibrium arising in arrangements characterized by a continuous index variation and apply our results to graded-index fibers.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15162" target="_blank" rel="noopener">Unified framework of optical thermodynamics and optical pressure</a> <span class="src-num">[37]</span></div>
+    <div class="card-authors">Nikolaos K. Efremidis, Huizhong Ren, Demetrios N. Christodoulides</div>
+    <div class="card-desc">Optical thermodynamics is a newly developed framework that applies principles from statistical mechanics to describe the intricate behavior of weakly nonlinear, multimode photonic systems. Utilizing…</div>
+    <div class="card-tags"><span class="tag">physics.optics</span></div>
+  </div><div class="card" data-full-desc="The corner transfer matrix renormalization group (CTMRG) is one of the standard contraction methods for infinite projected entangled-pair states (iPEPS), but its computational cost is dominated by repeated truncated singular value decompositions (SVDs). We introduce subspace-iteration CTMRG (SI-CTMRG), a QR-based projector construction that replaces each large-matrix SVD with an SVD of a much smaller matrix. The resulting algorithm shifts the dominant cost from decompositions to tensor contractions, making it highly suited to GPU acceleration and yielding speedups of up to two orders of magnitude over standard CTMRG. We demonstrate the efficiency and accuracy of the method for the triangular-lattice Heisenberg antiferromagnet, reaching state-of-the-art iPEPS results on a single H100 GPU in approximately 10 hours of computation.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15158" target="_blank" rel="noopener">Fast two-dimensional tensor-network contraction via subspace iteration</a> <span class="src-num">[38]</span></div>
+    <div class="card-authors">Yining Zhang, Philippe Corboz</div>
+    <div class="card-desc">The corner transfer matrix renormalization group (CTMRG) is one of the standard contraction methods for infinite projected entangled-pair states (iPEPS), but its computational cost is dominated by…</div>
+    <div class="card-tags"><span class="tag">cond-mat.str-el</span><span class="tag">quant-ph</span></div>
+  </div><div class="card" data-full-desc="This paper introduces a Bayesian spike-and-slab framework for spectral analysis of time series data. The proposed method combines frequency selection and dimensionality reduction with a refined grid of candidate frequencies, enabling high-resolution recovery of oscillatory components while promoting sparsity through a structured spike-and-slab prior. A stochastic search algorithm efficiently explores the posterior space, yielding posterior inclusion probabilities that quantify the relevance of each frequency. We extend the framework to multivariate signals via a hierarchical prior on frequency inclusion patterns, allowing the model to capture both shared and component-specific rhythms across multiple time series. Extensive simulation studies demonstrate the method&#x27;s robustness and superior performance in frequency estimation and spectral power reconstruction compared to existing approaches. Applied to actigraphy data from individuals with partial-onset seizures, the univariate model identifies clinically relevant circadian and ultradian rhythms. In a second application, for the joint analysis of physical activity and skin temperature from a healthy individual, the multivariate model reveals partially overlapping rhythmic components consistent with known physiological coupling. This work establishes a powerful and interpretable approach to spectral analysis, with broad applicability to wearable data, chronobiology, and personalized health monitoring.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15157" target="_blank" rel="noopener">Frequency Selection in Bayesian Spectral Modeling of Time Series Data with Applications to Wearable Device Measurements</a> <span class="src-num">[39]</span></div>
+    <div class="card-authors">Beniamino Hadj-Amar, Vaishnav Krishnan, Marina Vannucci</div>
+    <div class="card-desc">This paper introduces a Bayesian spike-and-slab framework for spectral analysis of time series data. The proposed method combines frequency selection and dimensionality reduction with a refined grid…</div>
+    <div class="card-tags"><span class="tag">stat.ME</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Zero Knowledge <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="What problems can one solve on a tournament if only its score sequence is known?   Tournaments are oriented complete graphs that form an extensively-studied class of directed graphs (digraphs), both from combinatorial and algorithmic perspectives. Over the years, researchers have identified multiple classical digraph problems that can be solved on a tournament from only its score sequence (indegree sequence). These problems include acyclicity testing and topological sorting [Chakrabarti, Ghosh, McGregor, and Vorotnikova; SODA&#x27;20], $s,t$-reachability, strong connectivity, and decomposition into strongly connected components (SCC) [Ghosh and Kuchlous; ESA&#x27;24], and vertex-ordering problems such as cutwidth and optimal linear arrangement [Barbero, Paul, and Pilipczuk; ICALP&#x27;17]. These prior works showed the sufficiency of the score sequence by designing distinct algorithms for the individual problems. In this work, we give a simple unified framework that solves all these problems using only indegrees and, in fact, completely characterises the class of problems that is determined by the indegree information: problems whose answers are invariant under cycle reversals. This characterisation is a special case of a much more general result that we establish: for any arbitrary digraph, the knowledge of its skeleton (underlying undirected graph) and the vertex indegrees completely determines its properties that are invariant under cycle reversal.   As a byproduct of our results, we obta">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15260" target="_blank" rel="noopener">The Power of the Score Sequence of a Tournament</a> <span class="src-num">[40]</span></div>
+    <div class="card-authors">Prantar Ghosh, Sahil Kuchlous, Shravan Mehra, Sagnik Mukhopadhyay</div>
+    <div class="card-desc">What problems can one solve on a tournament if only its score sequence is known? Tournaments are oriented complete graphs that form an extensively-studied class of directed graphs (digraphs), both…</div>
+    <div class="card-tags"><span class="tag">cs.DS</span></div>
+  </div><div class="card" data-full-desc="Language identification is commonly addressed using either neural architectures or statistical n-gram models. Neural approaches typically require substantial computational resources, whereas classical frequency-based methods offer efficient linear-time performance, but rely on distance metrics that are not always appropriate for compositional data.   This work models character and bigram frequency distributions as compositional vectors constrained to the simplex and mapped via the centered log-ratio (CLR) transformation bijectively onto the $(D-1)$-dimensional zero-sum subspace of $\mathbb{R}^D$, where Euclidean distances correspond to Aitchison distances. A pipeline is proposed, combining CLR-transformed unigram and bigram features with Laplace smoothing to address sparsity. The method is evaluated on six languages.   Experimental results show that the proposed approach achieves robust accuracy across different text lengths, with strong performance for longer sequences. These findings indicate that compositional representations provide a deterministic and computationally efficient alternative for language identification, particularly in settings where interpretability and low resource consumption are essential.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15238" target="_blank" rel="noopener">Language Identification via Compositional Data Analysis: A Linear-Time Classifier Based on Log-Ratio Geometry</a> <span class="src-num">[41]</span></div>
+    <div class="card-authors">Paul-Andrei Pogăcean, Sanda-Maria Avram</div>
+    <div class="card-desc">Language identification is commonly addressed using either neural architectures or statistical n-gram models. Neural approaches typically require substantial computational resources, whereas…</div>
+    <div class="card-tags"><span class="tag">cs.CL</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Quantum Computing <span class="group-count">3</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Deep thermalisation characterises the emergence of universal quantum state ensembles on subsystems due to projective measurements on their complement. We study the notion of locality, or lack thereof, in this phenomenon by considering a subsystem partitioned into two disjoint subregions which remain causally disconnected at all times under unitary dynamics. We show that the onset of deep thermalisation in this geometry is fundamentally bounded by measurement-induced entanglement teleportation between the subregions. While measurements on the environment generate entanglement across the disconnected partitions -- suggesting an apparent non-locality -- we demonstrate that generic locally interacting systems exhibit an emergent locality. Specifically, the timescales for both deep thermalisation and entanglement teleportation scale logarithmically with the distance separating the subregions. Exceptions to this include special circuits where the randomness of the measurement outcomes is perfectly transmitted to the ensemble of states of the subsystem, conditioned on the outcomes; in such cases the timescale for deep thermalisation is finite leading to genuine non-locality.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15276" target="_blank" rel="noopener">Locality of deep thermalisation through the lens of entanglement teleportation</a> <span class="src-num">[42]</span></div>
+    <div class="card-authors">Saptarshi Mandal, Alan Sherry, Sthitadhi Roy</div>
+    <div class="card-desc">Deep thermalisation characterises the emergence of universal quantum state ensembles on subsystems due to projective measurements on their complement. We study the notion of locality, or lack…</div>
+    <div class="card-tags"><span class="tag">quant-ph</span><span class="tag">cond-mat.dis-nn</span><span class="tag">cond-mat.stat-mech</span></div>
+  </div><div class="card" data-full-desc="We propose an unconventional metallic phase emerging on doping the $1/3$ Fractional Chern insulator, which can serve as a parent state to anyon superconductivity with arbitrary chiral central charge. It is a twisted $\mathbb{Z}_3$ orthogonal metal: a state with vanishing electron quasiparticle weight but a single well-defined Fermi surface of emergent charge-$e/3$ fermions coupled to a Dijkgraaf-Witten twisted $\mathbb{Z}_3$ gauge field. It is manifestly valley-symmetric and valley-gapped. Pairing this fractionalized Fermi surface then removes the topological order and produces a family of superconductors whose chiral central charge is directly set by the BdG band topology of the paired $e/3$ fermions, while the angular momentum of the physical order parameter is constrained to be a multiple of three. This scenario provides a route to superconducting states beyond anyon-superconductivity constructions based on $2e/3$ anyons. The metallic phase itself carries distinctive ``fractional Fermiology&#x27;&#x27; signatures: $e/3$ shot noise, anomalous quantum oscillations, and a $6π$ ac Josephson effect when it mediates the Josephson coupling between superconductors. We construct explicit wavefunction ansatz realizing the phase, and argue that inter-valley repulsion between anyons stabilizes this phase compared to competing states. We show that the construction extends to higher Laughlin states but not to Jain states.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15274" target="_blank" rel="noopener">Single-component twisted $\mathbb{Z}_3$ orthogonal metal in an $e/3$-anyon fluid</a> <span class="src-num">[43]</span></div>
+    <div class="card-authors">Zhaoyu Han, Ashvin Vishwanath, Eslam Khalaf</div>
+    <div class="card-desc">We propose an unconventional metallic phase emerging on doping the $1/3$ Fractional Chern insulator, which can serve as a parent state to anyon superconductivity with arbitrary chiral central charge.…</div>
+    <div class="card-tags"><span class="tag">cond-mat.str-el</span></div>
+  </div><div class="card" data-full-desc="The snake-in-the-box problem, introduced by Kautz in 1958, asks for the longest induced (chordless) path, called a snake, in the hypercube graph $Q_n$. The maximum length $a(n)$ is known in each dimension $n \leq 8$. We give snakes that are longer than the previous best-known in every dimension from $9$ to $13$, improving the lower bound on $a(n)$. All record-length paths are provided in a computer-verifiable dataset.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15270" target="_blank" rel="noopener">A Census of New Snake-in-the-Box Records</a> <span class="src-num">[44]</span></div>
+    <div class="card-authors">Paul Orland, Lucas Fagan, Michele Tarquini, Davide Passaro, Maksymilian Manko, Elli Heyes, Angus Gruen, Giorgi Butbaia, Justin Tan, Sergei Gukov</div>
+    <div class="card-desc">The snake-in-the-box problem, introduced by Kautz in 1958, asks for the longest induced (chordless) path, called a snake, in the hypercube graph $Q_n$. The maximum length $a(n)$ is known in each…</div>
+    <div class="card-tags"><span class="tag">cs.DM</span><span class="tag">math.CO</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Decentralized Networks <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="We propose an experimentally motivated model in which the Mpemba effect can be controlled through the system&#x27;s inertia. The model describes a polymer undergoing a denaturation transition whose force-extension curve contains a plateau that slows relaxation. When the system is initially prepared at a higher temperature or under a weaker stretching force, the bead accumulates greater kinetic energy, allowing it to cross the plateau more rapidly and thereby producing the Mpemba effect. Increasing the bead mass broadens the range of initial temperatures over which this mechanism operates. A similar mechanism also generates the inverse Mpemba effect.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15266" target="_blank" rel="noopener">Tunable Mpemba effect in a polymer-bead system with inertia</a> <span class="src-num">[45]</span></div>
+    <div class="card-authors">Hosung Kwak, Yongjoo Baek, Hawoong Jeong</div>
+    <div class="card-desc">We propose an experimentally motivated model in which the Mpemba effect can be controlled through the system&#x27;s inertia. The model describes a polymer undergoing a denaturation transition whose…</div>
+    <div class="card-tags"><span class="tag">cond-mat.soft</span><span class="tag">cond-mat.stat-mech</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🧠 Networking <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card" data-full-desc="Long-term environmental monitoring in wireless sensor networks (WSNs) often uses sparse sampling to extend network lifetime, but sparse sensing can miss short-lived, localized, and potentially diffusive anomalies. This paper proposes a sentinel-assisted adaptive sampling framework as a cooperative sensing-control pipeline for WSN anomaly monitoring. During normal periods, nodes perform sparse sensing driven by Kalman filter (KF) predictive uncertainty. During anomalous periods, continuously sampled sentinel nodes perform hybrid GLR-based detection with node-relative thresholds, and local detections trigger one-hop neighborhood wake-up with recovery-aware alert control.   Experiments on the Intel Berkeley Research Lab temperature dataset with abrupt random spatiotemporal anomalies show that the proposed method raises the anomaly-window sampling ratio (AWSR) from 0.439 to 0.933 in the main experiment. It also improves AWSR over Adaptive Data Acquisition with Energy Efficiency and Critical-Sensing Guarantee (AAS) and Adapted e-Sampling while reducing total cost by 15.4\% and 2.1\%, respectively. These results show that integrating KF-based sparse sampling, sentinel GLR detection, and local alert propagation improves anomaly-window visibility while maintaining a lower sampling-cost trade-off.">
+    <div class="card-title"><a href="https://arxiv.org/abs/2607.15235" target="_blank" rel="noopener">Adaptive Sampling for Spatiotemporal Anomaly Monitoring in Wireless Sensor Networks</a> <span class="src-num">[46]</span></div>
+    <div class="card-authors">Guoqing Lu, Yixuan Sun, Yiwen Jiang, Bernard Butler</div>
+    <div class="card-desc">Long-term environmental monitoring in wireless sensor networks (WSNs) often uses sparse sampling to extend network lifetime, but sparse sensing can miss short-lived, localized, and potentially…</div>
+    <div class="card-tags"><span class="tag">cs.NI</span></div>
+  </div></div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🤗 HuggingFace Papers <span class="group-count">3</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="We present AffectFlow-DINO, a multi-task learning system for the 11th ABAW challenge that extends a standard deterministic architecture with a conditional rectified-flow head to model the inherent ambiguity of in-the-wild facial behavior. Instead of predicting a single affect estimate, the model learns a conditional generative distribution, enabling uncertainty-aware one-to-many predictions through Monte Carlo sampling. The system jointly estimates continuous valence-arousal, classifies eight facial expressions, and detects twelve Action Units from static face images. Built on a frozen DINOv3 ViT-S/16 backbone, extensive ablation studies show that rectified-flow decoding consistently improves deterministic prediction, particularly for valence-arousal estimation (CCC-V +0.058). We further show that post-hoc threshold calibration effectively recovers performance on severely imbalanced rare classes (e.g., Fear: 3.8% rightarrow 33.1%) without retraining. Combined with backbone fine-tuning and flow retuning, the final model achieves P_{MTL=1.177}, substantially outperforming the official challenge baseline of P_{MTL}=0.45.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.13250" target="_blank" rel="noopener">AffectFlow-DINO: Uncertainty-Aware Multi-Task Affect Estimation via Conditional Rectified Flow</a> <span class="src-num">[52]</span></div>
+    
+    <div class="card-desc">We present AffectFlow-DINO, a multi-task learning system for the 11th ABAW challenge that extends a standard deterministic architecture with a conditional rectified-flow head to…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 3</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="We revisit the evaluation of automatic harness evolution for LLM agents. Existing harness evolution methods use unit test cases to search for harness configurations and then report final performance on the same public benchmark. This protocol raises two fundamental concerns. First, harness evolution is itself an iterative search procedure that repeatedly evaluates and revises candidate harnesses using task feedback. As in agentic test-time scaling, it should therefore be compared with simple task-level search baselines under matched feedback and inference budgets to determine whether its gains arise from improved harness design or from additional search alone. Second, because the search and the final evaluation share the same benchmark, the reported gains risk overfitting to that specific task set. To address these concerns, we conduct an extensive evaluation comparing harness evolution with simple test-time scaling and discovery baselines under comparable feedback and inference budgets, and also evaluate evolved harnesses on held-out tasks to assess whether the discovered improvements generalize. Experiments on Terminal-Bench 2.1 with GPT-5.4 and Claude Opus 4.6 show that automatic harness evolution does not consistently outperform simple test-time scaling methods and exhibits limited generalization. Our results raise important questions about the effectiveness of automatic harness evolution and highlight the need for fairer evaluation protocols and benchmarks for automatic">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.12227" target="_blank" rel="noopener">Rethinking the Evaluation of Harness Evolution for Agents</a> <span class="src-num">[51]</span></div>
+    
+    <div class="card-desc">We revisit the evaluation of automatic harness evolution for LLM agents. Existing harness evolution methods use unit test cases to search for harness configurations and then…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 1</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="A striking feature of the human visual system is that it ingests visual information through a series of local foveated glimpses, rather than a single global computation. This makes human vision distinctly different from most popular computer vision models in use today, which input images globally and in a single shot. A natural question therefore is whether local, sequential vision models may provide any fundamental computational benefits in addition to being biologically more plausible than global models. In this work, we investigate this question from the perspective of visual state tracking and length generalization. Inspired by recent studies of length generalization in language models, we study the behavior of vision models trained on simple vision tasks that require the aggregation of local information across an image. Our experiments reveal that, similar to language models, vision models can learn to exploit global shortcuts and thereby fail to generalize over task length or complexity. We also show that recurrent vision policies based on strictly local perception can mitigate these failures, thereby allowing models to generalize on these tasks. Our results show that local attention may be an essential overlooked requirement for robust compositional generalization.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.09061" target="_blank" rel="noopener">On Locality and Length Generalization in Visual Reasoning</a> <span class="src-num">[50]</span></div>
+    
+    <div class="card-desc">A striking feature of the human visual system is that it ingests visual information through a series of local foveated glimpses, rather than a single global computation. This…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📝 OpenReview <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="The advancements in Large Language Models (LLMs) have been hindered by their substantial sizes, which necessitate LLM compression methods for practical deployment. Singular Value Decomposition (SVD) offers a promising solution for LLM compression. However, state-of-the-art SVD-based LLM compression methods have two key limitations: truncating smaller singular values may lead to higher compression loss, and the lack of update on the compressed weight after SVD truncation. In this work, we propose SVD-LLM, a new SVD-based LLM compression method that addresses the limitations of existing methods.">
+    <div class="card-title"><a href="https://openreview.net/forum?id=aYbE1z7MIt" target="_blank" rel="noopener">SVD-LLM: Truncation-aware Singular Value Decomposition for Large Language Model Compression</a> <span class="src-num">[57]</span></div>
+    
+    <div class="card-desc">The advancements in Large Language Models (LLMs) have been hindered by their substantial sizes, which necessitate LLM compression methods for practical deployment. Singular Value…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div><div class="card web-card" data-full-desc="Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and fine-tuned on massive 3D data, offering the capability of producing highly consistent multi-view images. However, due to the scarcity of synchronized multi-view video data, it remains challenging to adapt this paradigm to 4D generation directly. Despite that, the available video and 3D data are adequate for training video and multi-view diffusion models separately that can provide satisfactory dynamic and geometric pri">
+    <div class="card-title"><a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and Multi-view Diffusion Models</a> <span class="src-num">[58]</span></div>
+    
+    <div class="card-desc">Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>💻 GitHub Trending <span class="group-count">3</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="LIBERATED AI CHAT">
+    <div class="card-title"><a href="https://github.com/elder-plinius/G0DM0D3" target="_blank" rel="noopener">elder-plinius/G0DM0D3</a> <span class="src-num">[53]</span></div>
+    
+    <div class="card-desc">LIBERATED AI CHAT</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 9.4k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="The go-to web for your AI coding agent — local-first search, fetch, crawl &amp; research over MCP. No API keys, no cloud, $0/query. Public beta.">
+    <div class="card-title"><a href="https://github.com/KnockOutEZ/wigolo" target="_blank" rel="noopener">KnockOutEZ/wigolo</a> <span class="src-num">[54]</span></div>
+    
+    <div class="card-desc">The go-to web for your AI coding agent — local-first search, fetch, crawl &amp; research over MCP. No API keys, no cloud, $0/query. Public beta.</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 929</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div><div class="card web-card" data-full-desc="Kimi Code CLI is your next CLI agent.">
+    <div class="card-title"><a href="https://github.com/MoonshotAI/kimi-cli" target="_blank" rel="noopener">MoonshotAI/kimi-cli</a> <span class="src-num">[55]</span></div>
+    
+    <div class="card-desc">Kimi Code CLI is your next CLI agent.</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 9.3k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🦞 Lobste.rs <span class="group-count">3</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="This is a potential security issue, you are being redirected to https://nvd.nist.gov">
+    <div class="card-title"><a href="https://nvd.nist.gov/vuln/detail/cve-2026-57589" target="_blank" rel="noopener">OpenBSD through 7.9 has a use-after-free allowing local privilege escalation to root (CVE-2026-57589)</a> <span class="src-num">[49]</span></div>
+    
+    <div class="card-desc">This is a potential security issue, you are being redirected to https://nvd.nist.gov</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="How our model works, and the reasons we are confident in our AI detection">
+    <div class="card-title"><a href="https://pangram.substack.com/p/how-does-pangram-work" target="_blank" rel="noopener">How does Pangram work?</a> <span class="src-num">[47]</span></div>
+    
+    <div class="card-desc">How our model works, and the reasons we are confident in our AI detection</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="FreeBSoD: Leveraging Language Models to Find and Exploit Kernel Bugs (Part 1 of 2)">
+    <div class="card-title"><a href="https://www.praetorian.com/blog/ai-vulnerability-research-freebsd-kernel/" target="_blank" rel="noopener">FreeBSoD: Leveraging Language Models to Find and Exploit Kernel Bugs (Part 1 of 2)</a> <span class="src-num">[48]</span></div>
+    
+    <div class="card-desc">Finding from 🦞 Lobste.rs.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>👽 Reddit <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Started testing a private qwen 35B moe capacity LLM runtime on s26 ultra, early testing shows that active model footprint can fit within the device’s memory limits.( not sharing the methods or architecture used) and results suggest roughly 90 input processing t/s achievable after optimisation and output generation is around 8 tokens/s on this mobile. Point is i learned ai ml based on my interest and no formal PhD , I have compute and resources to test. Anyone willing to join or collab to test on this I tried publishing papers on arxiv and 4 papers are still on hold as im first author and from">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1uzik5s/tried_testing_qwen_35b_moe_model_on_s26_ultra/" target="_blank" rel="noopener">Tried testing qwen 35b moe model on s26 ultra , without compromising on precision [R] ,[D]</a> <span class="src-num">[56]</span></div>
+    
+    <div class="card-desc">Started testing a private qwen 35B moe capacity LLM runtime on s26 ultra, early testing shows that active model footprint can fit within the device’s memory limits.( not sharing…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://arxiv.org/abs/2607.15275" target="_blank" rel="noopener">RoboTTT: Context Scaling for Robot Policies</a></li><li>[2] <a href="https://arxiv.org/abs/2607.15272" target="_blank" rel="noopener">SciDiagramEdit: Learning to Edit Scientific Diagrams from Paper Revisions</a></li><li>[3] <a href="https://arxiv.org/abs/2607.15267" target="_blank" rel="noopener">Pretraining Data Can Be Poisoned through Computational Propaganda</a></li><li>[4] <a href="https://arxiv.org/abs/2607.15265" target="_blank" rel="noopener">SceneBind: Binding What and Where Across Vision, Audio and Language</a></li><li>[5] <a href="https://arxiv.org/abs/2607.15263" target="_blank" rel="noopener">Beyond Success Rate: Cost-Aware Evaluation of Offensive and Defensive Security Agents</a></li><li>[6] <a href="https://arxiv.org/abs/2607.15257" target="_blank" rel="noopener">SearchOS-V1: Towards Robust Open-Domain Information-Seeking Agent Collaboration</a></li><li>[7] <a href="https://arxiv.org/abs/2607.15254" target="_blank" rel="noopener">teLLMe Why (Ain&#x27;t Nothing but a Jam): Exploratory Causal Analysis of Urban Driving Data</a></li><li>[8] <a href="https://arxiv.org/abs/2607.15247" target="_blank" rel="noopener">AutoSynthesis: An agentic system for automated meta-analysis</a></li><li>[9] <a href="https://arxiv.org/abs/2607.15232" target="_blank" rel="noopener">In-Place Tokenizer Expansion for Pre-trained LLMs</a></li><li>[10] <a href="https://arxiv.org/abs/2607.15218" target="_blank" rel="noopener">When Words Are Safe But Actions Kill: Probing Physical Danger Beyond Text Safety in…</a></li><li>[11] <a href="https://arxiv.org/abs/2607.15273" target="_blank" rel="noopener">MeanFlowNFT: Bringing Forward-Process RL to Average-Velocity Generators</a></li><li>[12] <a href="https://arxiv.org/abs/2607.15271" target="_blank" rel="noopener">Online Neural Space Time Memory for Dynamic Novel View Synthesis</a></li><li>[13] <a href="https://arxiv.org/abs/2607.15258" target="_blank" rel="noopener">Decoding Market Emotion from Blockchain Activity: A Data-Driven Sentiment Classifier</a></li><li>[14] <a href="https://arxiv.org/abs/2607.15242" target="_blank" rel="noopener">Mutable Low-Rank Sketches for Retrain-Free Recommendation</a></li><li>[15] <a href="https://arxiv.org/abs/2607.15229" target="_blank" rel="noopener">Data Driven Block Replacement Scheduling</a></li><li>[16] <a href="https://arxiv.org/abs/2607.15217" target="_blank" rel="noopener">NeuronSoup: Evolving Asynchronous, Shared-Neuron Temporal Graphs without Backpropagation</a></li><li>[17] <a href="https://arxiv.org/abs/2607.15208" target="_blank" rel="noopener">Delocalization of bias in unadjusted Hamiltonian Monte Carlo and underdamped Langevin</a></li><li>[18] <a href="https://arxiv.org/abs/2607.15207" target="_blank" rel="noopener">BadWAM: When World-Action Models Dream Right but Act Wrong</a></li><li>[19] <a href="https://arxiv.org/abs/2607.15279" target="_blank" rel="noopener">Particle production from bubble collisions</a></li><li>[20] <a href="https://arxiv.org/abs/2607.15278" target="_blank" rel="noopener">Hierarchical Denoising For Multi-Step Visual Reasoning</a></li><li>[21] <a href="https://arxiv.org/abs/2607.15277" target="_blank" rel="noopener">Partition, Prompt, Aggregate: Statistical Self-Consistency in Language Models</a></li><li>[22] <a href="https://arxiv.org/abs/2607.15269" target="_blank" rel="noopener">Dense sets without large sumsets</a></li><li>[23] <a href="https://arxiv.org/abs/2607.15143" target="_blank" rel="noopener">Setup Complete, Now You Are Compromised: Weaponizing Setup Instructions Against AI Coding…</a></li><li>[24] <a href="https://arxiv.org/abs/2607.15118" target="_blank" rel="noopener">Automated Template-free Synthesis of Instruction-Centric Leakage Contracts for Black-Box…</a></li><li>[25] <a href="https://arxiv.org/abs/2607.15081" target="_blank" rel="noopener">DataShield: Uncovering Risky Fine-Tuning Data Across LLMs Through Consensus Subspace…</a></li><li>[26] <a href="https://arxiv.org/abs/2607.15052" target="_blank" rel="noopener">NFSA: Non-Forward Secure Aggregation with One Server via Two Layer Secret Sharing</a></li><li>[27] <a href="https://arxiv.org/abs/2607.14974" target="_blank" rel="noopener">On Success and Simplicity: A Second Look at Transferable Vision-Language Attack Pipeline</a></li><li>[28] <a href="https://arxiv.org/abs/2607.14954" target="_blank" rel="noopener">A Queueing-Stability Criterion for Causal IPD-QIM Network Flow Watermarking</a></li><li>[29] <a href="https://arxiv.org/abs/2607.15262" target="_blank" rel="noopener">Dynamic Entanglement Distribution for Multi-User and Multi-Protocol Quantum Networking</a></li></ol>
+      <ol><li>[30] <a href="https://arxiv.org/abs/2607.15255" target="_blank" rel="noopener">HoloGeo: Mitigating Landmark Bias in Geo-localization via Evidence-Driven Reasoning</a></li><li>[31] <a href="https://arxiv.org/abs/2607.15246" target="_blank" rel="noopener">ARMOR++: Agentic Orchestration of a Multi-Domain Primitive Set for Transferable Attacks…</a></li><li>[32] <a href="https://arxiv.org/abs/2607.15243" target="_blank" rel="noopener">What does the model actually see? Evaluation protocols and input availability in…</a></li><li>[33] <a href="https://arxiv.org/abs/2607.15268" target="_blank" rel="noopener">Motion-Conditioned Multi-View Fusion for Myocardial Infarction Localization from…</a></li><li>[34] <a href="https://arxiv.org/abs/2607.15261" target="_blank" rel="noopener">Relativistic time-commutative dynamics with $κ$-plane noncommutativity</a></li><li>[35] <a href="https://arxiv.org/abs/2607.15256" target="_blank" rel="noopener">Analytic finite-rank corrections for singularly weighted estimates in a computer-assisted…</a></li><li>[36] <a href="https://arxiv.org/abs/2607.15181" target="_blank" rel="noopener">Sharp asymptotics for higher-order Hardy constants on lattices</a></li><li>[37] <a href="https://arxiv.org/abs/2607.15162" target="_blank" rel="noopener">Unified framework of optical thermodynamics and optical pressure</a></li><li>[38] <a href="https://arxiv.org/abs/2607.15158" target="_blank" rel="noopener">Fast two-dimensional tensor-network contraction via subspace iteration</a></li><li>[39] <a href="https://arxiv.org/abs/2607.15157" target="_blank" rel="noopener">Frequency Selection in Bayesian Spectral Modeling of Time Series Data with Applications…</a></li><li>[40] <a href="https://arxiv.org/abs/2607.15260" target="_blank" rel="noopener">The Power of the Score Sequence of a Tournament</a></li><li>[41] <a href="https://arxiv.org/abs/2607.15238" target="_blank" rel="noopener">Language Identification via Compositional Data Analysis: A Linear-Time Classifier Based…</a></li><li>[42] <a href="https://arxiv.org/abs/2607.15276" target="_blank" rel="noopener">Locality of deep thermalisation through the lens of entanglement teleportation</a></li><li>[43] <a href="https://arxiv.org/abs/2607.15274" target="_blank" rel="noopener">Single-component twisted $\mathbb{Z}_3$ orthogonal metal in an $e/3$-anyon fluid</a></li><li>[44] <a href="https://arxiv.org/abs/2607.15270" target="_blank" rel="noopener">A Census of New Snake-in-the-Box Records</a></li><li>[45] <a href="https://arxiv.org/abs/2607.15266" target="_blank" rel="noopener">Tunable Mpemba effect in a polymer-bead system with inertia</a></li><li>[46] <a href="https://arxiv.org/abs/2607.15235" target="_blank" rel="noopener">Adaptive Sampling for Spatiotemporal Anomaly Monitoring in Wireless Sensor Networks</a></li><li>[47] <a href="https://pangram.substack.com/p/how-does-pangram-work" target="_blank" rel="noopener">How does Pangram work?</a></li><li>[48] <a href="https://www.praetorian.com/blog/ai-vulnerability-research-freebsd-kernel/" target="_blank" rel="noopener">FreeBSoD: Leveraging Language Models to Find and Exploit Kernel Bugs (Part 1 of 2)</a></li><li>[49] <a href="https://nvd.nist.gov/vuln/detail/cve-2026-57589" target="_blank" rel="noopener">OpenBSD through 7.9 has a use-after-free allowing local privilege escalation to root…</a></li><li>[50] <a href="https://huggingface.co/papers/2607.09061" target="_blank" rel="noopener">On Locality and Length Generalization in Visual Reasoning</a></li><li>[51] <a href="https://huggingface.co/papers/2607.12227" target="_blank" rel="noopener">Rethinking the Evaluation of Harness Evolution for Agents</a></li><li>[52] <a href="https://huggingface.co/papers/2607.13250" target="_blank" rel="noopener">AffectFlow-DINO: Uncertainty-Aware Multi-Task Affect Estimation via Conditional Rectified…</a></li><li>[53] <a href="https://github.com/elder-plinius/G0DM0D3" target="_blank" rel="noopener">elder-plinius/G0DM0D3</a></li><li>[54] <a href="https://github.com/KnockOutEZ/wigolo" target="_blank" rel="noopener">KnockOutEZ/wigolo</a></li><li>[55] <a href="https://github.com/MoonshotAI/kimi-cli" target="_blank" rel="noopener">MoonshotAI/kimi-cli</a></li><li>[56] <a href="https://www.reddit.com/r/MachineLearning/comments/1uzik5s/tried_testing_qwen_35b_moe_model_on_s26_ultra/" target="_blank" rel="noopener">Tried testing qwen 35b moe model on s26 ultra , without compromising on precision [R] ,[D]</a></li><li>[57] <a href="https://openreview.net/forum?id=aYbE1z7MIt" target="_blank" rel="noopener">SVD-LLM: Truncation-aware Singular Value Decomposition for Large Language Model…</a></li><li>[58] <a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and…</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <a href="../index.html">Carlos's Debrief</a> · curated by Hermes Research Scout · <a href="../topics.html">topics</a> · <a href="../top-500.html">top 500</a> · <a href="../feed.xml">RSS</a>
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+    <div class="modal-hint">← → navigate · esc close · alt+T theme</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() { return cards.filter((c) => !c.classList.contains('hidden')); }
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open === 'true') {
+      if (e.key === 'Escape') closeModal();
+      else if (e.key === 'ArrowLeft') navigate(-1);
+      else if (e.key === 'ArrowRight') navigate(1);
+    } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      document.getElementById('search').focus();
+    }
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden'); shown++; return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) { card.classList.remove('hidden'); shown++; }
+      else { card.classList.add('hidden'); }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
