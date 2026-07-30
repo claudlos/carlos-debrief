@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="github-dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<title>Carlos's Debrief — July 29, 2026 19:00</title>
+<link rel="alternate" type="application/rss+xml" title="Carlos's Debrief" href="../feed.xml">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../assets/themes.css?v=4">
+<script src="../assets/theme-switcher.js?v=4" defer></script>
+<style>
+  /* Page-specific overrides layered on top of the theme tokens. */
+
+  .container { max-width: 1140px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header — gradient, stats, topic chips, current-time stamp */
+  .header {
+    text-align: center;
+    padding: 64px 20px 36px;
+    background: linear-gradient(180deg, var(--bg-elevated, #161b22) 0%, var(--bg, #0d1117) 100%);
+    border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .header h1 {
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--accent, #58a6ff), var(--accent-purple, #d2a8ff));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+  .header .subtitle { color: var(--text-muted, #8b949e); font-size: 1.1em; margin-bottom: 4px; }
+  .header .curated {
+    color: var(--text-subtle, #6e7681); font-size: 0.82em; font-style: italic; margin-top: 10px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+
+  .stats {
+    display: flex; justify-content: center; gap: 20px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .stat {
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 12px;
+    padding: 14px 28px;
+    text-align: center;
+    min-width: 140px;
+    transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+  }
+  .stat:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent, #58a6ff);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .stat-num {
+    font-size: 2em; font-weight: 800; color: var(--accent, #58a6ff); display: block; line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: 0.78em; color: var(--text-muted, #8b949e); margin-top: 4px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  .topics { margin-top: 22px; max-width: 820px; margin-left: auto; margin-right: auto;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; padding: 0 16px; }
+  .topics-label {
+    color: var(--text-subtle, #6e7681); font-size: 0.72em; text-transform: uppercase;
+    letter-spacing: 0.07em; margin-right: 6px; align-self: center;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .topic {
+    color: var(--text-muted, #8b949e); font-size: 0.78em;
+    background: var(--tag-bg, #21262d);
+    border: 1px solid var(--border-soft, #21262d);
+    padding: 3px 10px; border-radius: 999px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .topic:hover { color: var(--accent, #58a6ff); border-color: var(--accent, #58a6ff); cursor: pointer; }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex; gap: 12px; align-items: center; margin-bottom: 28px; flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1; min-width: 220px;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 10px;
+    color: var(--text, #c9d1d9);
+    padding: 12px 16px;
+    font-size: 0.95em; font-family: inherit; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus { border-color: var(--accent, #58a6ff); box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15); }
+  .search-input::placeholder { color: var(--text-subtle, #6e7681); }
+  .filter-count { color: var(--text-muted, #8b949e); font-size: 0.85em; white-space: nowrap; }
+  .kbd-hint { color: var(--text-subtle, #6e7681); font-size: 0.8em; font-family: var(--font-mono, ui-monospace, monospace); }
+
+  /* Summary boxes */
+  .summary-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-2, #3fb950) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-2, #3fb950);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--cat-2, #3fb950); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright, #f0f6fc); }
+
+  .news-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-4, #f0883e) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-4, #f0883e);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--cat-4, #f0883e); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright, #f0f6fc); }
+
+  /* Sections */
+  .section { margin-bottom: 48px; }
+  .section > h2 {
+    font-size: 1.55em; color: var(--text-bright, #f0f6fc); margin-bottom: 22px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .section-group { margin-bottom: 36px; }
+  .section-group h3 {
+    color: var(--accent, #58a6ff); font-size: 1.1em; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400;
+    background: var(--tag-bg, #21262d); padding: 2px 8px; border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--bg-card, #161b22);
+    border: 1px solid var(--border-card, #21262d);
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex; flex-direction: column; position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent, #58a6ff); opacity: 0.5; transition: opacity 0.18s;
+  }
+  .card:hover {
+    border-color: var(--accent, #58a6ff);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .card:hover::before { opacity: 1; }
+  .card::after {
+    content: '⤢'; position: absolute; top: 12px; right: 14px;
+    color: var(--text-subtle, #6e7681); font-size: 0.9em; opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent, #58a6ff); }
+  .card-title { font-size: 1em; font-weight: 600; margin-bottom: 6px; line-height: 1.4; padding-right: 24px; }
+  .card-title a { color: var(--text-bright, #f0f6fc); text-decoration: none; }
+  .card-title a:hover { color: var(--accent, #58a6ff); text-decoration: underline; }
+  .src-num { color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted, #8b949e); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text, #c9d1d9); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .tag {
+    background: var(--tag-bg, #21262d);
+    color: var(--accent, #58a6ff);
+    font-size: 0.74em;
+    padding: 3px 10px; border-radius: 12px;
+    border: 1px solid var(--border, #30363d);
+    white-space: nowrap;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .web-tag { color: var(--accent-purple, #d2a8ff); }
+  .web-card::before { background: var(--accent-purple, #d2a8ff); }
+  .category-1::before { background: var(--cat-1, #58a6ff); }
+  .category-2::before { background: var(--cat-2, #3fb950); }
+  .category-3::before { background: var(--cat-3, #d2a8ff); }
+  .category-4::before { background: var(--cat-4, #f0883e); }
+  .category-5::before { background: var(--cat-5, #ff7b72); }
+  .category-6::before { background: var(--cat-6, #d29922); }
+
+  /* Sources */
+  .sources { margin-top: 48px; }
+  .sources h2 {
+    font-size: 1.3em; color: var(--text-bright, #f0f6fc); margin-bottom: 18px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px; font-size: 0.82em; color: var(--text-muted, #8b949e);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 32px 20px; margin-top: 56px;
+    border-top: 1px solid var(--border-soft, #21262d);
+    color: var(--text-subtle, #6e7681); font-size: 0.85em;
+  }
+  .footer a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Modal — full-screen reading view */
+  .modal {
+    position: fixed; inset: 0; z-index: 1000; display: none;
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute; inset: 0;
+    background: var(--bg-overlay, rgba(1, 4, 9, 0.85));
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw); max-height: 92vh;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border-strong, #484f58);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: var(--shadow-modal, 0 24px 60px rgba(0,0,0,0.7));
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: sticky; top: -36px;
+    display: block;
+    margin-left: auto;
+    margin-right: -22px;
+    margin-top: -36px;
+    width: fit-content;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e); font-size: 1.6em; line-height: 1;
+    cursor: pointer; padding: 4px 14px; border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 10;
+  }
+  .modal-close:hover { background: var(--tag-bg, #21262d); color: var(--text-bright, #f0f6fc); }
+  .modal-title {
+    font-size: 2.15em; font-weight: 700; color: var(--text-bright, #f0f6fc);
+    line-height: 1.25; margin-bottom: 18px; padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent, #58a6ff); }
+  .modal-authors {
+    color: var(--text-muted, #8b949e); font-size: 1.15em; font-style: italic; margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text, #c9d1d9); font-size: 1.3em; line-height: 1.75;
+    margin-bottom: 32px; white-space: pre-wrap;
+  }
+  .modal-hint {
+    position: absolute; bottom: 16px; right: 24px;
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .modal-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border, #30363d);
+  }
+  .modal-nav button {
+    background: none; border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e);
+    padding: 12px 24px; border-radius: 10px; cursor: pointer;
+    font-size: 1em; font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent, #58a6ff); color: var(--accent, #58a6ff); background: var(--tag-bg, #21262d);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle, #6e7681); font-size: 1em; font-variant-numeric: tabular-nums; }
+
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Cyber tweak: matrix-green glow on card hover */
+  :root[data-theme="cyber"] .card:hover {
+    box-shadow: 0 0 24px rgba(0, 255, 65, 0.4), 0 0 48px rgba(0, 255, 65, 0.15);
+    border-color: #00ff41;
+  }
+  /* Dark-mono tweak: no glow, just a hairline; slower animations for less noise */
+  :root[data-theme="dark-mono"] .card {
+    border-radius: 0;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  :root[data-theme="dark-mono"] .card::before { width: 2px; }
+  /* Modern tweak: snappier shadows, slightly more padding */
+  :root[data-theme="modern"] .card {
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+  /* Light tweak: warmer hover, no shadow-blur */
+  :root[data-theme="light"] .card:hover {
+    box-shadow: 0 4px 14px rgba(60, 50, 40, 0.1);
+  }
+
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.7em; }
+    .header { padding: 40px 14px 24px; }
+    .stats { gap: 10px; }
+    .stat { padding: 10px 16px; min-width: 100px; }
+    .stat-num { font-size: 1.6em; }
+    .container { padding: 20px 12px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 6px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; border-radius: 12px; }
+    .modal-close { top: -36px; margin-right: -22px; margin-top: -36px; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.05em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 16px; }
+  }
+</style>
+</head>
+<body>
+<div id="theme-picker" class="theme-picker" role="group" aria-label="Theme switcher">
+  <button type="button" data-theme="github-dark">Default</button>
+  <button type="button" data-theme="cyber">Cyber</button>
+  <button type="button" data-theme="modern">Modern</button>
+  <button type="button" data-theme="dark-mono">Mono</button>
+  <button type="button" data-theme="light">Light</button>
+</div>
+<script src="assets/theme-switcher.js?v=8"></script>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">July 29, 2026 19:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">14</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">14</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">// topics</span>
+    {{TOPIC_CHIPS}}
+  </div>
+  <div class="curated">July 29, 2026 19:00 · curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li><strong>HiFi-UMI: Learning Deployable Manipulation Policies from High-Fidelity UMI Data Alone</strong>: Learning deployable manipulation policies is bottlenecked by the scarcity of data that is both high-fidelity and scalable. Real-robot teleoperation is accurate but costly to scale; robot-free UMI capture scales readily, and current…</li>
+      <li><strong>Novel Claim or Déjà Vu? Rethinking &quot;Contamination-Free&#x27;&#x27; Dynamic Evaluation for Multimodal Automated Fact-Checking</strong>: Multimodal automated fact-checking (MAFC) verifies claims by retrieving and reasoning over external evidence. However, most existing static benchmarks risk contamination: they primarily consist of outdated claims verifiable using an LLM&#x27;s…</li>
+      <li><strong>Reinforcement Learning for Code Optimization</strong>: RL for code correctness is now established: have the model generate a program, run it against hidden test cases, and reward solutions that pass. Extending this to code optimization seems straightforward: just add execution time to the…</li>
+      <li><strong>How Fast Can Reward Models Score? A Systems Study of C++ and PyTorch Inference Runtimes for RLHF</strong>: In RLHF pipelines, reward scoring blocks policy updates. Slow scoring bottlenecks the entire loop, since no update runs until every rollout gets a score.</li>
+      <li><strong>Agent Retrieval Bench: Evaluating Repository Context Retrieval for Coding Agents</strong>: Modern coding agents are usually evaluated by whether they eventually produce a correct patch, but patch generation depends on an earlier context-acquisition stage: finding the repository files needed for the task. We introduce Agent…</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>HiFi-UMI: Learning Deployable Manipulation Policies from High-Fidelity UMI Data Alone</strong>: Learning deployable manipulation policies is bottlenecked by the scarcity of data that is both high-fidelity and scalable.</li>
+      <li><strong>Novel Claim or Déjà Vu? Rethinking &quot;Contamination-Free&#x27;&#x27; Dynamic Evaluation for Multimodal Automated Fact-Checking</strong>: Multimodal automated fact-checking (MAFC) verifies claims by retrieving and reasoning over external evidence.</li>
+      <li><strong>Reinforcement Learning for Code Optimization</strong>: RL for code correctness is now established: have the model generate a program, run it against hidden test cases, and reward solutions that pass.</li>
+      <li><strong>How Fast Can Reward Models Score? A Systems Study of C++ and PyTorch Inference Runtimes for RLHF</strong>: In RLHF pipelines, reward scoring blocks policy updates.</li>
+      <li><strong>Agent Retrieval Bench: Evaluating Repository Context Retrieval for Coding Agents</strong>: Modern coding agents are usually evaluated by whether they eventually produce a correct patch, but patch generation depends on an earlier context-acquisition stage: finding the repository files…</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+    <span class="kbd-hint">/ focus · Alt+T theme</span>
+  </div>
+
+    <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🤗 HuggingFace Papers <span class="group-count">8</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Learning deployable manipulation policies is bottlenecked by the scarcity of data that is both high-fidelity and scalable. Real-robot teleoperation is accurate but costly to scale; robot-free UMI capture scales readily, and current practice uses the resulting data mainly for pre-training, adding a small real-robot &quot;anchor&quot; at post-training. We ask whether raising the fidelity of robot-free UMI data, rather than shrinking the real-robot fraction, can remove that anchor. We present HiFi-UMI, a portable UMI data-production system co-designed for trajectory accuracy, inter-gripper relative pose, synchronization, and field of view: head-mounted offline stereo-inertial SLAM, native rather than reconstructed relative pose, a shared microsecond GPIO trigger, and two wide-angle cameras per hand covering ~200 degrees. It reaches 3 mm workspace-local end-effector accuracy without external tracking infrastructure. Using this corpus, we demonstrate zero-robot post-training: a policy post-trained solely on HiFi-UMI demonstrations deploys directly on a real robot and matches in-domain teleoperation across three backbones spanning the vision-language-action and world-action-model families, with success-rate differences of -2.5, +3.1, and -0.6 percentage points on StarVLA-QwenPI, OpenPI-pi_0.5, and LingBot-VA; the strongest policy reaches 85% on a precision insertion task, even though the teleoperation baseline is collected in the evaluation scene and no HiFi-UMI trajectory is. Pre-training o">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.25895" target="_blank" rel="noopener">HiFi-UMI: Learning Deployable Manipulation Policies from High-Fidelity UMI Data Alone</a> <span class="src-num">[9]</span></div>
+    
+    <div class="card-desc">Learning deployable manipulation policies is bottlenecked by the scarcity of data that is both high-fidelity and scalable. Real-robot teleoperation is accurate but costly to…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 134</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Multimodal automated fact-checking (MAFC) verifies claims by retrieving and reasoning over external evidence. However, most existing static benchmarks risk contamination: they primarily consist of outdated claims verifiable using an LLM&#x27;s internal knowledge without external evidence. This can inflate performance estimates and fail to reflect true capability on novel claims that require up-to-date information. To address this, emerging dynamic benchmarks collect claims published after LLMs&#x27; knowledge cut-off dates, assuming they are uncontaminated. This work revisits this assumption by empirically studying contamination risks in both the state-of-the-art (SOTA) static AVeriTeC benchmark and our newly constructed dynamic ClaimReview2025Q4 benchmark, as well as their impact on MAFC evaluation. Our experiments yield 16 findings, highlighting three key results: (1) Dynamic evaluation reduces but does not eliminate contamination risks, as 17.09\%--29.30\% of post-cut-off claims remain potentially contaminated; (2) Many newly published claims can be verified either directly or by synthesizing multiple pieces of public knowledge available before the cut-off; and (3) Contamination can induce statistically significant inflation in MAFC performance, increasing Macro-F1 by up to 11.34 points and distorting system rankings. In light of these findings, we re-evaluate SOTA LLMs under a strictly contamination-controlled setting. Our study provides practical guidelines for trustworthy MAFC ev">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.23514" target="_blank" rel="noopener">Novel Claim or Déjà Vu? Rethinking &quot;Contamination-Free&#x27;&#x27; Dynamic Evaluation for Multimodal Automated Fact-Checking</a> <span class="src-num">[8]</span></div>
+    
+    <div class="card-desc">Multimodal automated fact-checking (MAFC) verifies claims by retrieving and reasoning over external evidence. However, most existing static benchmarks risk contamination: they…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 12</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="RL for code correctness is now established: have the model generate a program, run it against hidden test cases, and reward solutions that pass. Extending this to code optimization seems straightforward: just add execution time to the reward. But in practice, once timing drives the reward, small problems in measurement noise, reward sparsity, or GRPO instability overwhelm the signal and make RL fail: generated solutions are barely faster, and more of them can fail. We make execution time learnable through three stages: (1) how code is tested, by building DMC-Optim with large optimization tests and a calibrated sandbox; (2) how speed is turned into reward, by composing correctness and speed in the RL environment and using an offline simulator to predict the most promising configurations; and (3) how the model learns from that reward, by adapting GRPO and evaluation to the sparser, noisier timed-execution setting. On DMC-Optim, the strongest optimization-aware configurations improve strict top-50% pass@1 from 18.0% to 31.3% on Qwen 2.5 7B and from 30.7% to 50.4% on CWM 32B. These gains further increase at stricter percentiles such as top-30%, with 125% relative improvement for CWM 32B, while preserving pure-correctness scores. When the timing sandbox is degraded, robust optimization RL reaches 100% to 200% improvement over standard RLVR, depending on the evaluation criterion. On LCB, CWM 32B wins up to 83% of median-sample speed comparisons against standard RLVR. Relative to th">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.25970" target="_blank" rel="noopener">Reinforcement Learning for Code Optimization</a> <span class="src-num">[5]</span></div>
+    
+    <div class="card-desc">RL for code correctness is now established: have the model generate a program, run it against hidden test cases, and reward solutions that pass. Extending this to code…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 5</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="In RLHF pipelines, reward scoring blocks policy updates. Slow scoring bottlenecks the entire loop, since no update runs until every rollout gets a score. And yet most setups just default to PyTorch eager mode or torch.compile, no one checks if that&#x27;s actually fastest. Scoring itself is small. Rollout generation eats far more of a typical RLHF step. But scoring and generation fight over the same CPU and GPU resources, so a faster scoring engine doesn&#x27;t shrink step time on its own. It mainly frees up capacity generation can use instead. We built a native C++ inference engine on ONNX Runtime. First step: confirm correctness. Output matched the PyTorch reference to 5.7 x 10^-6 on CPU and 4.2 x 10^-3 on GPU, close enough to trust. Then we tested it against PyTorch eager mode, torch.compile, and FastAPI, on both CPU and GPU. CPU was decisive. Our engine beat every baseline, confidence intervals didn&#x27;t even overlap. GPU gave a different view: we beat PyTorch and FastAPI, but torch.compile came out ahead. Further testing traced the speedup to ONNX Runtime itself, not C++ as a language. And batching strategy mattered more than either the language or the runtime choice, more than we expected. The results are from repeated, independent runs, since single runs just aren&#x27;t reliable enough to trust.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.19712" target="_blank" rel="noopener">How Fast Can Reward Models Score? A Systems Study of C++ and PyTorch Inference Runtimes for RLHF</a> <span class="src-num">[3]</span></div>
+    
+    <div class="card-desc">In RLHF pipelines, reward scoring blocks policy updates. Slow scoring bottlenecks the entire loop, since no update runs until every rollout gets a score. And yet most setups just…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 2</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Modern coding agents are usually evaluated by whether they eventually produce a correct patch, but patch generation depends on an earlier context-acquisition stage: finding the repository files needed for the task. We introduce Agent Retrieval Bench, a file-level benchmark for this upstream retrieval problem. Samples are built from real coding-workflow signals and evaluated against frozen base-commit repositories, with relevance defined by what an agent needs next rather than direct query-file semantic similarity. The benchmark covers four positive-retrieval tasks: code2test, comment2context, trace2code, and edit2ripple; a fifth subset evaluates selective retrieval using natural evidence-backed no-gold cases and counterfactual wrong-repository controls. Agent Retrieval Bench contains 427 samples across 25 repositories: 345 positive examples, 50 natural no-gold examples, and 32 counterfactual controls. The corpus includes 308 base-commit snapshots, 392,000 files, and 7.9 million chunks. We evaluate lexical retrieval, RepoMap, open-source embeddings, selective abstention, and logged agent context selection. No single retrieval family dominates: Qwen3-Embedding-4B has the best sample-weighted MRR on positive samples, Qwen3-Embedding-8B the best Recall@20, and RepoMap the best budgeted context yield at 8K tokens, with task-level winners differing substantially. Selective thresholds calibrated with counterfactual controls do not improve selective success on natural no-gold cases,">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.24882" target="_blank" rel="noopener">Agent Retrieval Bench: Evaluating Repository Context Retrieval for Coding Agents</a> <span class="src-num">[7]</span></div>
+    
+    <div class="card-desc">Modern coding agents are usually evaluated by whether they eventually produce a correct patch, but patch generation depends on an earlier context-acquisition stage: finding the…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 2</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Hyperspectral imaging (HSI) is useful for material discrimination, but operational mine screening also depends on how many false alarms must be inspected before targets are found. This paper studies PFM-1 landmine detection in unmanned aerial vehicle (UAV) visible and near-infrared (VNIR) HSI using spectral angle mapper (SAM), matched filter (MF), adaptive coherence estimator (ACE), and constrained energy minimization (CEM). We compare a ground-measured SVC signature, a fully informed in-scene core-pixel signature, and a simulated human-in-the-loop signature bootstrap. Besides receiver operating characteristic area under the curve and average precision, we report target-discovery curves and spatial candidate-review counts. Full-review bootstrapping reaches the fully informed in-scene signature case after all seven target regions are verified, but the required inspection effort varies strongly: ACE confirms all regions in two rounds and nine candidate inspections, whereas the SAM variants need thousands of candidate reviews for their final target locations. Code is available at https://github.com/SagarLekhak/IEEE_WHISPERS_2026_UAV_HSI_PFM1.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.25310" target="_blank" rel="noopener">Human-in-the-Loop Signature Bootstrapping for UAV Hyperspectral PFM-1 Mine Detection</a> <span class="src-num">[2]</span></div>
+    
+    <div class="card-desc">Hyperspectral imaging (HSI) is useful for material discrimination, but operational mine screening also depends on how many false alarms must be inspected before targets are found.…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 1</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="A language model p_θ(y mid x) trained on reasoning tasks learns to solve problems via multiple distinct strategies, yet these strategies are implicit and entangled within the model&#x27;s response distribution. We study the problem of decomposing the response distribution of a given pretrained language model into a structured, strategy-conditioned representation. Specifically, we learn a latent-variable factorization p_θ(y mid x) leadsto (r_ϕ(z mid x), g_ϕ(y mid x,z)), where a router r maps each input to a distribution over latent strategies z and a generator g produces the response conditioned on that strategy. A key challenge is that the generator, initialized from the base model, already represents p_θ(y mid x) without using z. Standard variational inference therefore gives the model no incentive to route information through z and can yield a severe form of posterior collapse. To address this, we propose a variational objective that measures fractional information gain relative to the base model&#x27;s response loss and concentrates reconstruction pressure on tokens with high base model surprisal, encouraging z to encode strategy-relevant response variation. We introduce a benchmark of multi-strategy algorithmic tasks and show that this objective recovers latent codes aligned with distinct reference strategies while preserving the base model&#x27;s response distribution.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.17674" target="_blank" rel="noopener">Uncovering Latent Reasoning Strategies in Language Models</a> <span class="src-num">[4]</span></div>
+    
+    <div class="card-desc">A language model p_θ(y mid x) trained on reasoning tasks learns to solve problems via multiple distinct strategies, yet these strategies are implicit and entangled within the…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 1</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Biomedical image analysis spans diverse modalities and tasks, yet real-world deployment is hindered by severe distribution shifts across scanners, protocols, and patient populations. High-performing models consequently require repeated domain-specific fine-tuning, which is a costly cycle that becomes impractical when labels are scarce or privacy constraints limit data sharing. We propose OPERA (Offline Policy-guided Expert Routing and Adaptation), a multi-agent ensemble framework that addresses this deployment bottleneck by treating expert weight assignment as an offline policy learning problem: a routing policy is learned from a small validation set without gradient updates to any expert agent, then deployed with test-time adaptation to handle distribution shift. OPERA coordinates heterogeneous specialist agents through complementary mechanisms. The expert profiling module learns selection policies offline, enabling informed allocation of expertise. Each agent undergoes confidence calibration through temperature adjustment, ensuring more reliable probabilistic outputs. OPERA also incorporates distribution aware adaptation, where class weights are dynamically adjusted at the batch level using statistics derived from unlabeled test data. Instance level routing assigns each sample to the most suitable expert by leveraging inter model agreement and predictive entropy. We evaluate OPERA on 9 datasets covering fundus photography, chest X-ray, CT, MRI, and multimodal diagnostic ben">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.25108" target="_blank" rel="noopener">OPERA: Offline Policy-guided Expert Routing and Adaptation for Universal Biomedical Image Analysis</a> <span class="src-num">[6]</span></div>
+    
+    <div class="card-desc">Biomedical image analysis spans diverse modalities and tasks, yet real-world deployment is hindered by severe distribution shifts across scanners, protocols, and patient…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📝 OpenReview <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Pluralistic-alignment work increasingly turns from model-output diversity to institutions. National-security AI is a stress case for that turn. Classification, operational urgency, and security-dilemma pressure structurally constrain public participation, transparency, and ordinary review. The result is what I call frictionless security: the public-private extension of Deeks and Eichensehr&#x27;s frictionless government, in which state and private actors converge around capability, speed, secrecy, and lawful-use compliance while the architecture that would weigh those choices against civil libertie">
+    <div class="card-title"><a href="https://openreview.net/forum?id=s4EEngPrLS" target="_blank" rel="noopener">When Disagreement Matters: Friction, Pluralistic Alignment, and National-Security AI</a> <span class="src-num">[13]</span></div>
+    
+    <div class="card-desc">Pluralistic-alignment work increasingly turns from model-output diversity to institutions. National-security AI is a stress case for that turn. Classification, operational…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div><div class="card web-card" data-full-desc="Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and fine-tuned on massive 3D data, offering the capability of producing highly consistent multi-view images. However, due to the scarcity of synchronized multi-view video data, it remains challenging to adapt this paradigm to 4D generation directly. Despite that, the available video and 3D data are adequate for training video and multi-view diffusion models separately that can provide satisfactory dynamic and geometric pri">
+    <div class="card-title"><a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and Multi-view Diffusion Models</a> <span class="src-num">[14]</span></div>
+    
+    <div class="card-desc">Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🦞 Lobste.rs <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="A few years ago, if someone had told me to rewrite the PHP engine in Rust, I would probably have laughed 😆. Not because it is technically impossible, but because such a project traditionally requires years of reading">
+    <div class="card-title"><a href="https://jolicode.com/blog/writing-the-php-virtual-machine-in-rust-with-a-lot-of-help-from-ai" target="_blank" rel="noopener">Writing the PHP Virtual Machine in Rust (with a lot of help from AI)</a> <span class="src-num">[1]</span></div>
+    
+    <div class="card-desc">A few years ago, if someone had told me to rewrite the PHP engine in Rust, I would probably have laughed 😆. Not because it is technically impossible, but because such a project…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>👽 Reddit <span class="group-count">3</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Title says it all really... ICLR 2027 decided to have the full paper deadline on Sep 16, 8 days before the NeurIPS decisions come out. Don&#x27;t know if the reason is to have a reduced load but this will really hurt papers which have actually improved since the NeurIPS submission or have been unfairly rejected. submitted by /u/1414vo [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1v9v4e7/iclr_2027_deadline_is_before_neurips_2026/" target="_blank" rel="noopener">ICLR 2027 Deadline is before NeurIPS 2026 Decisions [D]</a> <span class="src-num">[10]</span></div>
+    
+    <div class="card-desc">Title says it all really... ICLR 2027 decided to have the full paper deadline on Sep 16, 8 days before the NeurIPS decisions come out. Don&#x27;t know if the reason is to have a…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="We’re developing TanML, an MIT-licensed automated model-validation toolkit for tabular machine-learning models. TanML runs locally and provides an end-to-end workflow covering data profiling, preprocessing, feature-power ranking, model development, evaluation, drift analysis, stress testing, SHAP explainability, and audit-ready Word reports. It is designed particularly for model-risk workflows in banking, credit risk, insurance, and other regulated environments. We would appreciate critical feedback from model developers and validators: Which capabilities would be useful in your existing workf">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1va7w4p/opensource_tabular_model_validation_toolkit_tanml/" target="_blank" rel="noopener">Open-source tabular model validation toolkit TanML needs feedback [D]</a> <span class="src-num">[11]</span></div>
+    
+    <div class="card-desc">We’re developing TanML, an MIT-licensed automated model-validation toolkit for tabular machine-learning models. TanML runs locally and provides an end-to-end workflow covering…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="So I know this is an ongoing issue at ML conferences, reviewers just tend to ghost. Do people have any strategies or recommendations on how to nudge them to engage with the rebuttals? Is it recommended to post a comment saying something like hey we want to engage with you? This might be a hot take, but maybe NeurIPS should penalize the reviewers&#x27; papers if they don&#x27;t engage (I believe this year they withheld scores for ACs who didn&#x27;t post meta reviews on time if they had papers submitted). submitted by /u/grumpket [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1va5io6/neurips_reviewers_not_engaging_d/" target="_blank" rel="noopener">NeurIPS reviewers not engaging [D]</a> <span class="src-num">[12]</span></div>
+    
+    <div class="card-desc">So I know this is an ongoing issue at ML conferences, reviewers just tend to ghost. Do people have any strategies or recommendations on how to nudge them to engage with the…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://jolicode.com/blog/writing-the-php-virtual-machine-in-rust-with-a-lot-of-help-from-ai" target="_blank" rel="noopener">Writing the PHP Virtual Machine in Rust (with a lot of help from AI)</a></li><li>[2] <a href="https://huggingface.co/papers/2607.25310" target="_blank" rel="noopener">Human-in-the-Loop Signature Bootstrapping for UAV Hyperspectral PFM-1 Mine Detection</a></li><li>[3] <a href="https://huggingface.co/papers/2607.19712" target="_blank" rel="noopener">How Fast Can Reward Models Score? A Systems Study of C++ and PyTorch Inference Runtimes…</a></li><li>[4] <a href="https://huggingface.co/papers/2607.17674" target="_blank" rel="noopener">Uncovering Latent Reasoning Strategies in Language Models</a></li><li>[5] <a href="https://huggingface.co/papers/2607.25970" target="_blank" rel="noopener">Reinforcement Learning for Code Optimization</a></li><li>[6] <a href="https://huggingface.co/papers/2607.25108" target="_blank" rel="noopener">OPERA: Offline Policy-guided Expert Routing and Adaptation for Universal Biomedical Image…</a></li><li>[7] <a href="https://huggingface.co/papers/2607.24882" target="_blank" rel="noopener">Agent Retrieval Bench: Evaluating Repository Context Retrieval for Coding Agents</a></li></ol>
+      <ol><li>[8] <a href="https://huggingface.co/papers/2607.23514" target="_blank" rel="noopener">Novel Claim or Déjà Vu? Rethinking &quot;Contamination-Free&#x27;&#x27; Dynamic Evaluation for…</a></li><li>[9] <a href="https://huggingface.co/papers/2607.25895" target="_blank" rel="noopener">HiFi-UMI: Learning Deployable Manipulation Policies from High-Fidelity UMI Data Alone</a></li><li>[10] <a href="https://www.reddit.com/r/MachineLearning/comments/1v9v4e7/iclr_2027_deadline_is_before_neurips_2026/" target="_blank" rel="noopener">ICLR 2027 Deadline is before NeurIPS 2026 Decisions [D]</a></li><li>[11] <a href="https://www.reddit.com/r/MachineLearning/comments/1va7w4p/opensource_tabular_model_validation_toolkit_tanml/" target="_blank" rel="noopener">Open-source tabular model validation toolkit TanML needs feedback [D]</a></li><li>[12] <a href="https://www.reddit.com/r/MachineLearning/comments/1va5io6/neurips_reviewers_not_engaging_d/" target="_blank" rel="noopener">NeurIPS reviewers not engaging [D]</a></li><li>[13] <a href="https://openreview.net/forum?id=s4EEngPrLS" target="_blank" rel="noopener">When Disagreement Matters: Friction, Pluralistic Alignment, and National-Security AI</a></li><li>[14] <a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and…</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <a href="../index.html">Carlos's Debrief</a> · curated by Hermes Research Scout · <a href="../topics.html">topics</a> · <a href="../top-500.html">top 500</a> · <a href="../feed.xml">RSS</a>
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+    <div class="modal-hint">← → navigate · esc close · alt+T theme</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() { return cards.filter((c) => !c.classList.contains('hidden')); }
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open === 'true') {
+      if (e.key === 'Escape') closeModal();
+      else if (e.key === 'ArrowLeft') navigate(-1);
+      else if (e.key === 'ArrowRight') navigate(1);
+    } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      document.getElementById('search').focus();
+    }
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden'); shown++; return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) { card.classList.remove('hidden'); shown++; }
+      else { card.classList.add('hidden'); }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
