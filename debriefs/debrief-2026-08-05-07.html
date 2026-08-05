@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="github-dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<title>Carlos's Debrief — August 05, 2026 07:00</title>
+<link rel="alternate" type="application/rss+xml" title="Carlos's Debrief" href="../feed.xml">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../assets/themes.css?v=4">
+<script src="../assets/theme-switcher.js?v=4" defer></script>
+<style>
+  /* Page-specific overrides layered on top of the theme tokens. */
+
+  .container { max-width: 1140px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header — gradient, stats, topic chips, current-time stamp */
+  .header {
+    text-align: center;
+    padding: 64px 20px 36px;
+    background: linear-gradient(180deg, var(--bg-elevated, #161b22) 0%, var(--bg, #0d1117) 100%);
+    border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .header h1 {
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--accent, #58a6ff), var(--accent-purple, #d2a8ff));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+  .header .subtitle { color: var(--text-muted, #8b949e); font-size: 1.1em; margin-bottom: 4px; }
+  .header .curated {
+    color: var(--text-subtle, #6e7681); font-size: 0.82em; font-style: italic; margin-top: 10px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+
+  .stats {
+    display: flex; justify-content: center; gap: 20px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .stat {
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 12px;
+    padding: 14px 28px;
+    text-align: center;
+    min-width: 140px;
+    transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+  }
+  .stat:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent, #58a6ff);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .stat-num {
+    font-size: 2em; font-weight: 800; color: var(--accent, #58a6ff); display: block; line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: 0.78em; color: var(--text-muted, #8b949e); margin-top: 4px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  .topics { margin-top: 22px; max-width: 820px; margin-left: auto; margin-right: auto;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; padding: 0 16px; }
+  .topics-label {
+    color: var(--text-subtle, #6e7681); font-size: 0.72em; text-transform: uppercase;
+    letter-spacing: 0.07em; margin-right: 6px; align-self: center;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .topic {
+    color: var(--text-muted, #8b949e); font-size: 0.78em;
+    background: var(--tag-bg, #21262d);
+    border: 1px solid var(--border-soft, #21262d);
+    padding: 3px 10px; border-radius: 999px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .topic:hover { color: var(--accent, #58a6ff); border-color: var(--accent, #58a6ff); cursor: pointer; }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex; gap: 12px; align-items: center; margin-bottom: 28px; flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1; min-width: 220px;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 10px;
+    color: var(--text, #c9d1d9);
+    padding: 12px 16px;
+    font-size: 0.95em; font-family: inherit; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus { border-color: var(--accent, #58a6ff); box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15); }
+  .search-input::placeholder { color: var(--text-subtle, #6e7681); }
+  .filter-count { color: var(--text-muted, #8b949e); font-size: 0.85em; white-space: nowrap; }
+  .kbd-hint { color: var(--text-subtle, #6e7681); font-size: 0.8em; font-family: var(--font-mono, ui-monospace, monospace); }
+
+  /* Summary boxes */
+  .summary-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-2, #3fb950) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-2, #3fb950);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--cat-2, #3fb950); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright, #f0f6fc); }
+
+  .news-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-4, #f0883e) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-4, #f0883e);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--cat-4, #f0883e); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright, #f0f6fc); }
+
+  /* Sections */
+  .section { margin-bottom: 48px; }
+  .section > h2 {
+    font-size: 1.55em; color: var(--text-bright, #f0f6fc); margin-bottom: 22px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .section-group { margin-bottom: 36px; }
+  .section-group h3 {
+    color: var(--accent, #58a6ff); font-size: 1.1em; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400;
+    background: var(--tag-bg, #21262d); padding: 2px 8px; border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--bg-card, #161b22);
+    border: 1px solid var(--border-card, #21262d);
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex; flex-direction: column; position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent, #58a6ff); opacity: 0.5; transition: opacity 0.18s;
+  }
+  .card:hover {
+    border-color: var(--accent, #58a6ff);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .card:hover::before { opacity: 1; }
+  .card::after {
+    content: '⤢'; position: absolute; top: 12px; right: 14px;
+    color: var(--text-subtle, #6e7681); font-size: 0.9em; opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent, #58a6ff); }
+  .card-title { font-size: 1em; font-weight: 600; margin-bottom: 6px; line-height: 1.4; padding-right: 24px; }
+  .card-title a { color: var(--text-bright, #f0f6fc); text-decoration: none; }
+  .card-title a:hover { color: var(--accent, #58a6ff); text-decoration: underline; }
+  .src-num { color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted, #8b949e); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text, #c9d1d9); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .tag {
+    background: var(--tag-bg, #21262d);
+    color: var(--accent, #58a6ff);
+    font-size: 0.74em;
+    padding: 3px 10px; border-radius: 12px;
+    border: 1px solid var(--border, #30363d);
+    white-space: nowrap;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .web-tag { color: var(--accent-purple, #d2a8ff); }
+  .web-card::before { background: var(--accent-purple, #d2a8ff); }
+  .category-1::before { background: var(--cat-1, #58a6ff); }
+  .category-2::before { background: var(--cat-2, #3fb950); }
+  .category-3::before { background: var(--cat-3, #d2a8ff); }
+  .category-4::before { background: var(--cat-4, #f0883e); }
+  .category-5::before { background: var(--cat-5, #ff7b72); }
+  .category-6::before { background: var(--cat-6, #d29922); }
+
+  /* Sources */
+  .sources { margin-top: 48px; }
+  .sources h2 {
+    font-size: 1.3em; color: var(--text-bright, #f0f6fc); margin-bottom: 18px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px; font-size: 0.82em; color: var(--text-muted, #8b949e);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 32px 20px; margin-top: 56px;
+    border-top: 1px solid var(--border-soft, #21262d);
+    color: var(--text-subtle, #6e7681); font-size: 0.85em;
+  }
+  .footer a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Modal — full-screen reading view */
+  .modal {
+    position: fixed; inset: 0; z-index: 1000; display: none;
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute; inset: 0;
+    background: var(--bg-overlay, rgba(1, 4, 9, 0.85));
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw); max-height: 92vh;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border-strong, #484f58);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: var(--shadow-modal, 0 24px 60px rgba(0,0,0,0.7));
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: sticky; top: -36px;
+    display: block;
+    margin-left: auto;
+    margin-right: -22px;
+    margin-top: -36px;
+    width: fit-content;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e); font-size: 1.6em; line-height: 1;
+    cursor: pointer; padding: 4px 14px; border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 10;
+  }
+  .modal-close:hover { background: var(--tag-bg, #21262d); color: var(--text-bright, #f0f6fc); }
+  .modal-title {
+    font-size: 2.15em; font-weight: 700; color: var(--text-bright, #f0f6fc);
+    line-height: 1.25; margin-bottom: 18px; padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent, #58a6ff); }
+  .modal-authors {
+    color: var(--text-muted, #8b949e); font-size: 1.15em; font-style: italic; margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text, #c9d1d9); font-size: 1.3em; line-height: 1.75;
+    margin-bottom: 32px; white-space: pre-wrap;
+  }
+  .modal-hint {
+    position: absolute; bottom: 16px; right: 24px;
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .modal-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border, #30363d);
+  }
+  .modal-nav button {
+    background: none; border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e);
+    padding: 12px 24px; border-radius: 10px; cursor: pointer;
+    font-size: 1em; font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent, #58a6ff); color: var(--accent, #58a6ff); background: var(--tag-bg, #21262d);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle, #6e7681); font-size: 1em; font-variant-numeric: tabular-nums; }
+
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Cyber tweak: matrix-green glow on card hover */
+  :root[data-theme="cyber"] .card:hover {
+    box-shadow: 0 0 24px rgba(0, 255, 65, 0.4), 0 0 48px rgba(0, 255, 65, 0.15);
+    border-color: #00ff41;
+  }
+  /* Dark-mono tweak: no glow, just a hairline; slower animations for less noise */
+  :root[data-theme="dark-mono"] .card {
+    border-radius: 0;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  :root[data-theme="dark-mono"] .card::before { width: 2px; }
+  /* Modern tweak: snappier shadows, slightly more padding */
+  :root[data-theme="modern"] .card {
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+  /* Light tweak: warmer hover, no shadow-blur */
+  :root[data-theme="light"] .card:hover {
+    box-shadow: 0 4px 14px rgba(60, 50, 40, 0.1);
+  }
+
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.7em; }
+    .header { padding: 40px 14px 24px; }
+    .stats { gap: 10px; }
+    .stat { padding: 10px 16px; min-width: 100px; }
+    .stat-num { font-size: 1.6em; }
+    .container { padding: 20px 12px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 6px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; border-radius: 12px; }
+    .modal-close { top: -36px; margin-right: -22px; margin-top: -36px; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.05em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 16px; }
+  }
+</style>
+</head>
+<body>
+<div id="theme-picker" class="theme-picker" role="group" aria-label="Theme switcher">
+  <button type="button" data-theme="github-dark">Default</button>
+  <button type="button" data-theme="cyber">Cyber</button>
+  <button type="button" data-theme="modern">Modern</button>
+  <button type="button" data-theme="dark-mono">Mono</button>
+  <button type="button" data-theme="light">Light</button>
+</div>
+<script src="assets/theme-switcher.js?v=8"></script>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">August 05, 2026 07:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">73</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">73</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">// topics</span>
+    {{TOPIC_CHIPS}}
+  </div>
+  <div class="curated">August 05, 2026 07:00 · curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li><strong>Are the Financial Reasoning from LLMs Credible? A Real World Test over Long-Horizon Statements</strong>: Do Large Language Models (LLMs) possess genuine structural reasoning, or merely rely on surface-level pattern matching? The financial domain, demanding numerical precision and multi-step logic over long contexts, is an ideal testbed.</li>
+      <li><strong>MerchantBench: Benchmarking LLM Agents for Long-Term Coherence in E-Commerce Operations</strong>: Large language model agents are increasingly evaluated as autonomous tool users, yet most benchmarks focus on bounded tasks with immediate success criteria. Real-world deployments often require Long-Term Coherence, the capacity to preserve…</li>
+      <li><strong>The White House Is Keeping Its AI Cybersecurity Framework Secret</strong></li>
+      <li><strong>Large language models (LLM) in computational social science: prospects, current state, and challenges</strong></li>
+      <li><strong>White House AI Guidelines Exempt U.S. Open Models From Government Review</strong>: submitted by /u/realmvp77 [link] [comments]</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>MerchantBench: Benchmarking LLM Agents for Long-Term Coherence in E-Commerce Operations</strong>: Large language model agents are increasingly evaluated as autonomous tool users, yet most benchmarks focus on bounded tasks with immediate success criteria.</li>
+      <li><strong>JoyAI-Video-Edit: Real-Time Open-Ended Video Editing with Autoregressive Diffusion</strong>: Real-time video editing requires low-latency causal generation with bounded computational resources while preserving source fidelity and long-term temporal consistency.</li>
+      <li><strong>Hunyuan3D-Buffalo 1.0: A Unified Multimodal Model for Scalable 3D Generation, Understanding, and Editing</strong>: Recent advances in image generation have demonstrated the potential of unified multimodal models that integrate understanding, generation, and editing.</li>
+      <li><strong>AURORA-LM: Autoencoding Unified Representation for Continuous-Latent Diffusion Language Modeling</strong>: Language remains an outlier in generative modeling: while images, video, and audio are increasingly modeled in continuous latent spaces, text generation still relies predominantly on discrete tokens.</li>
+      <li><strong>InfiniSplat: Implicit Gaussian Decoding for Large-Baseline Monocular View Synthesis</strong>: Single-image feed-forward 3D Gaussian Splatting (3DGS) aims to directly generate a renderable 3D scene representation from one input image, avoiding the cost of multi-view capture and per-scene…</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+    <span class="kbd-hint">/ focus · Alt+T theme</span>
+  </div>
+
+    <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🤗 HuggingFace Papers <span class="group-count">32</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Do Large Language Models (LLMs) possess genuine structural reasoning, or merely rely on surface-level pattern matching? The financial domain, demanding numerical precision and multi-step logic over long contexts, is an ideal testbed. Existing benchmarks fail to capture real-world industrial complexity, predominantly relying on multiple-choice questions or single-hop QA over cropped tables while ignoring intricate cross-statement dynamics and temporal de-cumulation.
+  To bridge this gap, we introduce FinIndices, a large-scale benchmark evaluating data-processing fidelity over uncropped financial statements (up to 32K tokens). Utilizing an automated synthesis pipeline with adversarial traps, FinIndices encompasses Single-Index computation and Table-Index tabulation to test complex domain, temporal, and caliber reasoning.
+  Our evaluation reveals two severe LLM vulnerabilities. First, a &quot;Knowledge Bottleneck&quot;: despite memorizing formulas during pre-training, models demonstrate fragile pattern matching. Removing explicit formula hints causes performance to collapse (e.g., Gemini-3.1-Pro drops from 70.70% to 38.22% on table tasks), exposing fatal flaws in temporal de-cumulation and stock-flow caliber mismatch. Second, a &quot;Structural Bottleneck&quot;: the intense cognitive load of generating multi-metric, multi-period tables actively drains reasoning capacity. Under structural pressure, LLMs that flawlessly execute isolated derivations regress to shallow heuristics, such as fetching inco">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.28661" target="_blank" rel="noopener">Are the Financial Reasoning from LLMs Credible? A Real World Test over Long-Horizon Statements</a> <span class="src-num">[3]</span></div>
+    
+    <div class="card-desc">Do Large Language Models (LLMs) possess genuine structural reasoning, or merely rely on surface-level pattern matching? The financial domain, demanding numerical precision and…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 3</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Large language model agents are increasingly evaluated as autonomous tool users, yet most benchmarks focus on bounded tasks with immediate success criteria. Real-world deployments often require Long-Term Coherence, the capacity to preserve purposeful behavior across extended horizons while adapting decisions to accumulated evidence. Evaluating this capacity requires a persistent environment in which actions constrain future choices, feedback arrives at heterogeneous delays, and incoherent behavior produces measurable cumulative effects. Seller-side e-commerce provides a suitable setting for this evaluation through recurrent and interdependent decisions over Product Sourcing, Listing and Pricing Control, Cash-Flow Management, and Mixed-Latency Feedback Adaptation. We introduce MerchantBench, a 365-day order-level simulation grounded in 98,843 real e-commerce product records and equipped with 26 tools for agent interaction. MerchantBench couples promptly observable Upstream Supplier Events with delayed Downstream Order Outcomes, requiring agents to follow individual order lifecycles and revisit earlier decisions. We evaluate eight LLMs under two agent frameworks in 48 runs, each spanning 365 simulated days. Our results reveal a substantial gap between even the latest LLMs and human participants, with the best LLM configuration attaining only 27.3\% of the mean final net assets achieved by human participants.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.28956" target="_blank" rel="noopener">MerchantBench: Benchmarking LLM Agents for Long-Term Coherence in E-Commerce Operations</a> <span class="src-num">[26]</span></div>
+    
+    <div class="card-desc">Large language model agents are increasingly evaluated as autonomous tool users, yet most benchmarks focus on bounded tasks with immediate success criteria. Real-world deployments…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 74</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Diffusion language models (dLLMs) offer an alternative to autoregressive (AR) language modeling, yet the scaling behavior of Mixture-of-Experts (MoE) dLLMs remains poorly understood. We systematically characterize how optimization hyperparameters, compute allocation, and architecture scale for MoE dLLMs, identifying quantitative differences from scaling trends previously reported for AR models. Specifically, for optimization, the optimal nominal batch size grows faster, while the optimal learning rate decays more rapidly with compute. For model--data allocation, IsoFLOP analysis reveals a slight data-side tilt: the optimal token budget grows faster than activated model-side computation. For MoE architecture, larger scales increasingly favor larger expert pools at fixed activated capacity, while moderate expert granularity remains consistently effective and the preferred fraction of activated capacity assigned to shared experts remains stable across scales. Guided by these findings, we train LLaDA MoE v2, a 30B-A3B dLLM, from scratch on 23.5T tokens. With approximately 65\% as many pretraining tokens as Qwen3, LLaDA MoE v2 approaches Qwen3 on several knowledge, reasoning, and coding benchmarks. After supervised fine-tuning alone, it outperforms SDAR Chat on seven of eight reasoning and coding benchmarks and remains close to Qwen3 on several tasks. These results establish practical scaling laws and design principles for MoE dLLMs.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.03457" target="_blank" rel="noopener">LLaDA MoE v2: Scaling Mixture-of-Experts Diffusion Language Models</a> <span class="src-num">[8]</span></div>
+    
+    <div class="card-desc">Diffusion language models (dLLMs) offer an alternative to autoregressive (AR) language modeling, yet the scaling behavior of Mixture-of-Experts (MoE) dLLMs remains poorly…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 20</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Modern agent frameworks equip large language models with external skill libraries to solve complex tasks. However, it remains unclear whether these systems can effectively evolve their skills and whether the resulting skills improve task-solving capabilities. To bridge this gap, we introduce ContinualSkillBench, a dynamic evaluation framework for in-context continual skill learning. It covers five representative domains, each containing 100 interconnected subtasks ordered by increasing difficulty and opportunities for cross-task skill reuse. Our experiments show that sequential execution generally improves performance, but the gains vary substantially across models and domains. Moreover, in-context learning performs comparably to explicit skill maintenance on average, suggesting that much of the improvement arises from adaptation to prior context and feedback rather than reusable skill abstraction alone. Explicit skills nevertheless provide selective benefits for tasks requiring reusable procedures or precise outputs. We further find that less capable models tend to accumulate larger, more fragmented collections of task-specific skills. These findings show that current in-context skill evolution mechanisms can support continual adaptation, but still struggle to consistently consolidate experience into robust and transferable skills.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.03874" target="_blank" rel="noopener">ContinualSkillBench: Can LLM Agents Truly Evolve Their Capabilities?</a> <span class="src-num">[6]</span></div>
+    
+    <div class="card-desc">Modern agent frameworks equip large language models with external skill libraries to solve complex tasks. However, it remains unclear whether these systems can effectively evolve…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 7</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Large language model agents have shown strong potential in complex interactive tasks, yet their reinforcement learning (RL) is often hindered by sparse rewards, as a long multi-turn trajectory may receive only a single outcome-level signal. On-policy self-distillation (OPSD) provides dense token-level supervision from a privileged teacher, but the teacher may not be reliable at every position. Existing methods commonly rely on isolated token-level discrepancies, which can be sensitive to noise, or assign a shared step-level weight that may overlook positional variation. We propose Persistent Consistency Self-Distillation (PCSD), which derives token-level distillation weights from the local persistence of teacher-favoring signals. PCSD combines adaptive windows with exponentially decayed aggregation to capture persistent relative teacher support, applies trend-aware modulation to attenuate locally declining support, and produces continuous weights through sigmoid gating. The resulting objective is jointly optimized with GRPO, combining dense teacher guidance with sparse environmental feedback. Without inference-time skills, PCSD achieves the best ALFWorld Overall results among all baselines on both backbones, exceeding GRPO by 15.6 and 13.3 points and SDAR by 6.2 and 5.5 points, while remaining competitive on WebShop and gaining 15.8 points over GRPO on unseen ALFWorld split.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.01837" target="_blank" rel="noopener">PCSD: Persistent Consistency for Self-Distillation in Agentic Reinforcement Learning</a> <span class="src-num">[17]</span></div>
+    
+    <div class="card-desc">Large language model agents have shown strong potential in complex interactive tasks, yet their reinforcement learning (RL) is often hindered by sparse rewards, as a long…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 32</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Language remains an outlier in generative modeling: while images, video, and audio are increasingly modeled in continuous latent spaces, text generation still relies predominantly on discrete tokens. Existing continuous language models either inherit embedding spaces not designed for joint generation and decoding, or compress autoencoded latents to ease diffusion, sacrificing token-level fidelity. Instead of simplifying the representation to suit the generative model, we preserve a high-capacity, decodable text latent and design the diffusion model to learn its distribution directly.
+  We introduce AURORA-LM, a continuous-latent diffusion language model that separates the construction of a decodable text representation from the modeling of its distribution. A Query-based Encoder-Decoder organizes text into a high-capacity, prefix-aligned latent sequence, and a Block-causal Diffusion Transformer learns its distribution through flow matching, generating blocks left to right while denoising positions within each block in parallel. Because such a latent is harder for diffusion to model, AURORA-LM restricts only the noisy-input pathway while retaining the full clean-latent prediction target, accommodating full-width latents without reducing decoder-facing capacity. We further calibrate the noise-level distribution to the latent width, and introduce self-trajectory consistency to bridge independently sampled training noise and iterative denoising at inference.
+  AURORA-LM achieves">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.02602" target="_blank" rel="noopener">AURORA-LM: Autoencoding Unified Representation for Continuous-Latent Diffusion Language Modeling</a> <span class="src-num">[19]</span></div>
+    
+    <div class="card-desc">Language remains an outlier in generative modeling: while images, video, and audio are increasingly modeled in continuous latent spaces, text generation still relies predominantly…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 61</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Continually improving agents require dynamic interaction feedback beyond static supervision, yet direct real-environment interaction is costly, slow, unsafe, and hard to parallelize. World modeling offers a natural intermediate proxy that allows agents to query lower-cost, more controllable feedback before committing to real actions. Classical world models instantiate this proxy primarily through future physical-state prediction, a formulation useful yet narrow for agents that require actionable feedback beyond raw state transitions. In this work, we conceptualize Agent-Centric Interactive World Proxies, shifting the fundamental paradigm from physical state transitions to agent-usable information transitions, such as execution outcomes, retrieved experiences or skills, and verification signals, broadening the scope of world modeling to provide versatile feedback for continually improving agents. To systematically map this design space, we organize world proxies into six functional forms based on their feedback modalities: dynamics, spatial, execution, memory/experience, skill, and reward/verification proxies, which together characterize the primary ways world modeling serves agent improvement. We further analyze how these proxies empower agents across three progressive levels: L.1 Inference-Time Guidance, where proxy outputs enrich in-context information for superior decisions; L.2 Training-Time Optimization, where proxy outputs yield rewards, critiques, or synthetic rollouts">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.02713" target="_blank" rel="noopener">Quo Vadis, World Modeling?</a> <span class="src-num">[13]</span></div>
+    
+    <div class="card-desc">Continually improving agents require dynamic interaction feedback beyond static supervision, yet direct real-environment interaction is costly, slow, unsafe, and hard to…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 27</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Large Language Model (LLM) agents have seen rapid adoption in software engineering. As agents take a greater role in the actual generation of code, they are making larger changes, spanning tens to hundreds of lines. This makes manual review of agent results increasingly infeasible, leading developers to turn to explanations to understand enacted changes. Despite this, there are no benchmarks that evaluate the trustworthiness of agent-generated explanations. To bridge this gap, we propose ExplainBench, a benchmark to automatically evaluate explanations from coding agents. ExplainBench is based on the intuition that informative explanations should enable an LLM to correctly answer questions, allowing quantitative comparison of explanation quality between agents. With this observation, we construct a suite of questions that evaluates whether explanations accurately describe (1) the intended behavior of buggy code and (2) the effect of applying the agent patch itself. Experiments first reveal that explanation quality is a distinct axis of agent evaluation: ExplainBench ranks agents differently from the widely-used SWE-bench Verified benchmark. A deeper breakdown of explanation quality in agents shows frequent problems in explanations, such that explanations often claim that a patch is correct when it is not. Based on this insight, we implement and evaluate an explanation audit agent which runs additional tests to validate and refine explanations. This agent improved the explanati">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.26451" target="_blank" rel="noopener">ExplainBench: Evaluating Code Explanations from Agents</a> <span class="src-num">[14]</span></div>
+    
+    <div class="card-desc">Large Language Model (LLM) agents have seen rapid adoption in software engineering. As agents take a greater role in the actual generation of code, they are making larger changes,…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 10</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="On-policy distillation, in which a teacher corrects samples that the student itself generates, presupposes that the two models speak the same language: identical VAE latents, matching architectures, and a common timestep grid. We ask what happens when none of this holds, as when the strongest teacher available and the student one wishes to deploy come from different model families, and find that the standard recipes have no answer: teacher latents cannot serve as targets in a foreign coordinate system, per-pixel losses against a teacher that stochastically re-draws local detail degenerate into blur or divergence, and timestep indices lose their meaning across mismatched schedules. We present Any-OPD, to our knowledge the first framework for on-policy distillation between arbitrary pairs of latent flow-matching generators. Any-OPD treats the teacher purely as a black-box sampler and connects the two models at exactly one point: a frozen, model-agnostic vision representation in which their independently decoded outputs are compared, sidestepping every assumption about latents, features, or architecture. Trajectory correspondence is recovered by matching continuous noise levels instead of step indices, and a brief anchoring phase, in which teacher samples are re-encoded through the student&#x27;s own VAE, ensures the on-policy gradient measures sample quality rather than domain mismatch. Distilling the 12B FLUX.1-dev into the 2.5B SD3.5-Medium, Any-OPD lifts the student&#x27;s PickScore f">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.03316" target="_blank" rel="noopener">Any-OPD: Heterogeneous On-Policy Distillation for Flow-Matching Models via Representation-Space Bridging</a> <span class="src-num">[28]</span></div>
+    
+    <div class="card-desc">On-policy distillation, in which a teacher corrects samples that the student itself generates, presupposes that the two models speak the same language: identical VAE latents,…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 21</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Large language model (LLM) agents can self-evolve by continually improving from their own accumulated experience. However, existing studies predominantly adopt independent evaluation. Consequently, the behavior of self-evolving agents in realistic streaming settings, where agents adapt to diverse and complex task streams, remains poorly understood. To address this gap, we introduce AgentStream, a unified framework that evaluates self-evolving agents spanning diverse evolution components by organizing agentic benchmarks into a configurable task stream and instantiating the Isolated, Sequential, and Interleaved streaming scenarios at test time, which progressively vary the scope and domain composition of the stream. Over these scenarios, we combinatorially evaluate five representative self-evolving methods across three frontier foundation models, disentangling how model capability, method architecture, and streaming scenario jointly shape self-evolution. Our results show that self-evolution reliability varies across streaming scenarios, the benefit of self-evolution is gated by model capability and non-monotonic in model strength, and no single method dominates across models and scenarios. These findings offer concrete guidance for selecting self-evolving methods across models and streaming scenarios. Overall, we advocate that self-evolving agents should be evaluated under realistic task streams rather than isolated single-task settings.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.00155" target="_blank" rel="noopener">AgentStream: How Well Do Self-Evolving LLM Agents Perform Under Streaming Tasks?</a> <span class="src-num">[30]</span></div>
+    
+    <div class="card-desc">Large language model (LLM) agents can self-evolve by continually improving from their own accumulated experience. However, existing studies predominantly adopt independent…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 9</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Video world models predict future observations conditioned on historical observations and control signals, enabling long-horizon generation through autoregressive state transitions. Unlike conventional video generation models that primarily capture visual appearance and motion, video world models learn the underlying dynamics governing environment evolution under agent actions, providing a foundation for embodied AI and interactive simulation. Recent progress has largely relied on adapting pretrained video generation models through post-training or distillation. Although effective, these approaches often require complex training pipelines, substantial computational resources, and suffer from the mismatch between bidirectional pretraining and causal streaming inference. Recent studies have shown that training autoregressive video world models from scratch is feasible and scalable. However, the community still lacks a lightweight, transparent, and fully reproducible baseline trainable end-to-end with modest computational resources. We present MiniWorld, a reproducible framework for training streaming video world models from scratch. MiniWorld employs a block-causal Video Diffusion Transformer trained with Flow Matching in the latent space of a pretrained Video VAE. Building on Diffusion Forcing, it adopts a chunk-wise non-decreasing noise schedule and two-stage continued training to improve temporal modeling and stability. During inference, MiniWorld combines a rolling KV cache">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.01127" target="_blank" rel="noopener">MiniWorld: Democratizing the Training of Video World Models from Scratch</a> <span class="src-num">[5]</span></div>
+    
+    <div class="card-desc">Video world models predict future observations conditioned on historical observations and control signals, enabling long-horizon generation through autoregressive state…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 8</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Persona skills distill personal interaction histories into portable and executable artifacts for downstream agents. While enabling flexible personalization, this process concentrates fragmented personal signals, amplifies their impact through reuse, and challenges defenses designed for individual records or retrieval-based memory. To systematically investigate the safety of the persona-skill pipeline, we introduce AntiSkillBench, an end-to-end benchmark for evaluating risks and defenses across the persona-skill pipeline. It comprises: (i) a dataset of 7,500 persona-grounded dialogue traces, constructed from 50 behaviorally rich profiles spanning diverse task scenarios; (ii) an evaluation suite that measures skill-level privacy leakage and agent-level attribute disclosure and behavioral impersonation across three skill-distillation strategies; and (iii) a defense evaluation covering four configurations across online and post-hoc interventions, including active risk suppression and passive provenance protection. Experiments across three frontier agents show that persona-skill risks persist across agent backbones and distillation protocols, extending from explicit attributes to communication styles and personality traits. Existing defenses exhibit limited and distillation-dependent effectiveness, failing to generalize across risk and distillation strategies. These results highlight AntiSkillBench as a challenging benchmark for developing privacy-preserving and authenticity-aware">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.03700" target="_blank" rel="noopener">When Agents Learn to Be You: Benchmarking Privacy Leakage, Impersonation Risk, and Defenses in Persona Skills</a> <span class="src-num">[9]</span></div>
+    
+    <div class="card-desc">Persona skills distill personal interaction histories into portable and executable artifacts for downstream agents. While enabling flexible personalization, this process…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 7</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Tool-Integrated Reasoning (TIR) enables LLMs to solve complex tasks through iterative tool interactions. However, existing reinforcement learning methods often rely on trajectory-level supervision, limiting fine-grained credit assignment in long-horizon TIR scenarios. On-policy self-distillation offers denser signals through teacher branches with privileged context, but existing approaches typically derive such context from ground-truth answers or retrieved skills, which may not reflect the states actually visited by the agent. Moreover, token-level supervision fails to capture the turn-level structure of tool interactions. To address this, we propose TurnSight, a turn-level hindsight self-distillation framework that derives supervision directly from execution-conditioned hindsight. It then constructs multiple hindsight views with different lookahead horizons and selects reliable supervision through cross-horizon directional agreement. Finally, the selected hindsight signal is normalized across sibling rollouts and used to adaptively modulate RL advantages while preserving their original optimization direction. Extensive experiments on three benchmarks demonstrate the effectiveness of TurnSight. Our codes are available at https://github.com/quchangle1/TurnSight.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.04007" target="_blank" rel="noopener">TurnSight: Turn-Level Hindsight Self-Distillation for Tool-Integrated Reasoning</a> <span class="src-num">[21]</span></div>
+    
+    <div class="card-desc">Tool-Integrated Reasoning (TIR) enables LLMs to solve complex tasks through iterative tool interactions. However, existing reinforcement learning methods often rely on…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 14</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Adapting Large Language Models (LLMs) to specialized domains often incurs an alignment tax, as fine-tuning on domain-specific tasks can cause catastrophic forgetting and substantially degrade performance on general tasks. We propose MemSFT, which mitigates the alignment tax by decoupling domain specialization from backbone parameter updates through a plug-and-play parametric memory. The memory is trained to imitate the behavior of a non-parametric retriever operating over domain data, thereby memorizing knowledge and patterns that would otherwise be accessed through retrieval. Once trained on a specific domain, the memory can be reused across LLMs of different sizes. During generation, a learned router dynamically fuses the output distributions of the memory and backbone at each decoding step, allowing domain expertise to be invoked selectively. Across biology, geoscience, and law, evaluations with models ranging from Qwen3-8B to Qwen3-235B-A22B show that MemSFT consistently improves domain performance with negligible degradation in general performance, whereas full SFT suffers severe forgetting on general tasks. Overall, our results demonstrate a practical path to decoupling general model capabilities from domain-specific knowledge at the parameter level, thereby equipping LLMs with new specialized capabilities without compromising their general capabilities.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.25614" target="_blank" rel="noopener">MemSFT: Mitigating Alignment Tax with an External Parametric Memory</a> <span class="src-num">[31]</span></div>
+    
+    <div class="card-desc">Adapting Large Language Models (LLMs) to specialized domains often incurs an alignment tax, as fine-tuning on domain-specific tasks can cause catastrophic forgetting and…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 20</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Industrial recommenders increasingly adopt the pretrain-then-transfer paradigm, yet behavioral distribution drift raises two questions: what to learn from behavior sequences, and how to transfer the learned knowledge while the pretrained model is continually refreshed. To resolve them, we propose Knowledge-Geometry Decoupling (KGD). For what to learn, conventional next-token prediction treats adjacency as dependency and may encode spurious transitions across unrelated sessions. We introduce Behavioral Multi-Token Prediction (BMTP) to retain only collaboratively or semantically related future items as supervision, yielding cleaner and more transferable behavioral knowledge. For how to transfer, pretrained knowledge and task-specific geometry impose conflicting optimization demands on shared parameters. To handle it, KGD assigns them to separate parameter sets: a refreshable encoder owns behavioral knowledge, while a task learner reads contextualized encoder states through read-only cross-attention and writes task-specific geometry through Anchored Calibration Residual (ACR) orthogonal to the pretrained embedding. The decoupled ownership enables continual knowledge refresh without task-gradient interference or invalidating downstream adaptation. KGD improves over strong pretrain-transfer baselines by 4-12% on eight public benchmarks and sustains its advantage over a 90-day production stream where baselines show no gains. KGD has been fully deployed in Shopee. In a live A/B test">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.02738" target="_blank" rel="noopener">Knowledge-Geometry Decoupling: Refreshable Pretrained Transfer for Streaming Recommendation</a> <span class="src-num">[15]</span></div>
+    
+    <div class="card-desc">Industrial recommenders increasingly adopt the pretrain-then-transfer paradigm, yet behavioral distribution drift raises two questions: what to learn from behavior sequences, and…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 36</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="We identify a previously overlooked failure mode of ALiBi positional encoding: its linear bias scaling underflows floating-point precision, which zeroes out a large fraction of attention weights and renders the affected attention heads partially blind. We analyze this failure mode, characterize its impact, and examine four mitigation strategies. We further demonstrate its occurrence in state-of-the-art pretrained models based on ALiBi. Comprehensive pretraining experiments with 148M-parameter decoder models help us to disentangle its effects from out-of-context degradation. We find that ALiBi&#x27;s failure mode can substantially impair token retrieval while having only a minor effect on standard decoder benchmarks. We propose four training-time mitigation strategies and evaluate them individually and in combinations, finding that log-scaled distances yield the most consistent improvements in passkey retrieval. Despite this problem, default ALiBi slopes remain a surprisingly strong baseline, particularly for needle-in-a-haystack retrieval. Based on these findings we provide concrete recommendations on how to train models with ALiBi.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.03994" target="_blank" rel="noopener">When Attention Goes Blind: Numerical Failure in ALiBi Positional Encodings</a> <span class="src-num">[1]</span></div>
+    
+    <div class="card-desc">We identify a previously overlooked failure mode of ALiBi positional encoding: its linear bias scaling underflows floating-point precision, which zeroes out a large fraction of…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 2</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal two critical bottlenecks in current models: (1) modality bias, where agents bypass visual tools in favor of textual search, and (2) parametric knowledge leakage, where models rely on internal memory rather than genuine tool-augmented execution. To address these challenges, we propose Video-DR, featuring a decoupled perception-exploration pipeline with stage-wise tool unlocking that compels exhaustive cross-frame visual grounding prior to web retrieval. Our framework adopts a two-stage training recipe: supervised fine-tuning followed by Group Relative Policy Optimization (GRPO), enabling autonomous exploration that breaks the imitation-learning ceiling. Furthermore, we curate Video-DR-Bench, a human-AI collaborative benchmark comprising 200 complex, multi-hop VQA instances. Empirical results demonstrate that our Video-DeepResearch-35B-A3B establishes a new state-of-the-art of 64.0% average accuracy, surpassing proprietary Claude-4.5-Sonnet (59.0%) by 5.0 points and significantly outperforming GPT-5 (52.5%) and Gemini 2.5 Pro (57.5%). The 30B-A3B variant achieves 59.3%, competitive with Claude-4.5-Sonnet and demonstrating the effectiveness of our training paradigm even at compact scale. Code: https://github.com/Osilly/Vision-DeepResearch.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.03979" target="_blank" rel="noopener">Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent</a> <span class="src-num">[10]</span></div>
+    
+    <div class="card-desc">We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 42</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Self-evolving agents increasingly convert interaction histories into reusable skills that persist beyond individual tasks. While prior work studies memory and retrieval poisoning, such attacks only affect agents when poisoned records are retrieved as context. We uncover a new and more fundamental risk: poisoned experiences can be transformed by the agent itself into durable behavioral artifacts. We present SkillJack, the first attack that exploits the experience-to-skill pipeline of self-evolving agents. Instead of directly manipulating runtime context, SkillJack hijacks the agent&#x27;s own learning process to implant malicious behaviors into its reusable skill repertoire. We identify three key properties of this transformation: sanitization whitewashing, where malicious intent is obscured during skill extraction; cross-layer promotion, where transient experiences become persistent capabilities; and persistence isolation, where the attack survives removal of its original source records. We evaluate SkillJack on two representative systems, SkillX and Anything2Skill, using a shared dataset of 150 trajectories across four policy-risk categories. Results show that skill extraction substantially reduces attack detectability: in SkillX, safety detection drops from 98.5\% for poisoned trajectories to 11.4\% for extracted skills, while Anything2Skill shows a similar effect. Meanwhile, the implanted skills remain effective, achieving attack success rates of 56.2\% and 89.2\% on the two sy">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.03509" target="_blank" rel="noopener">SkillJack: Persistent Skill Backdoors in Self-Evolving Agents</a> <span class="src-num">[24]</span></div>
+    
+    <div class="card-desc">Self-evolving agents increasingly convert interaction histories into reusable skills that persist beyond individual tasks. While prior work studies memory and retrieval poisoning,…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 17</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="World Action Models (WAMs) have emerged as a promising paradigm by jointly modeling robot actions and future visual dynamics. However, their reliance on pixel-generative future supervision can entangle action-relevant state transitions with task-irrelevant visual content, limiting robustness under visual distribution shifts. We identify Training-Distribution Hallucination, a recurring phenomenon in which futures conditioned on visually shifted observations hallucinate training-domain content rather than remain faithful to the current scene. A controlled frame-triplet diagnosis further shows that DINOv3 features remain more stable across visual shifts while better preserving task-state distinctions than Wan-VAE latents. Rather than correcting the predicted futures, we propose Semantic-Temporal WAM (ST-WAM) to improve action robustness by using DINOv3 as a shared semantic representation for future prediction and history retrieval while retaining fine-grained VAE dynamics. Its Dual-Space Future Experts (DSFE) jointly predict future VAE latents and DINO features, while Current-Anchored Intent Retrieval (CAIR) retrieves task-relevant evidence from recent DINO history under the current visual-language context. ST-WAM is trained end-to-end without additional embodied pretraining or task-specific annotations, and requires no explicit future generation at inference. It achieves 98.7% on LIBERO and 92.8% on RoboTwin 2.0; more importantly, compared with Fast-WAM, it improves zero-shot L">
+    <div class="card-title"><a href="https://huggingface.co/papers/2607.28993" target="_blank" rel="noopener">ST-WAM: Semantic-Temporal World Action Model for Robust Manipulation under Visual Distribution Shifts</a> <span class="src-num">[12]</span></div>
+    
+    <div class="card-desc">World Action Models (WAMs) have emerged as a promising paradigm by jointly modeling robot actions and future visual dynamics. However, their reliance on pixel-generative future…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 6</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Omni-modal large language models (Omni-LLMs) have achieved remarkable performance on audio-visual understanding tasks, but processing long and highly redundant visual and audio token sequences incurs substantial computational overhead, demanding aggressive token compression for efficient deployment. Existing methods often degrade at low token budgets: pre-LLM compression may discard structurally important and globally distributed evidence, whereas inner-LLM compression often underexploits query-conditioned audio-visual collaboration. To address these limitations, we propose OmniPack, a training-free framework that coordinates structural compression before the LLM with task-relevant semantic refinement within the LLM. Before the LLM, OmniPack removes structural redundancy through modality-specific importance, global coverage, and similarity-aware merging. After sufficient multimodal interaction, it further consolidates diverse, task-relevant representations through textual guidance and audio-visual collaboration. Extensive experiments on five benchmarks with three Omni-LLM backbones demonstrate that OmniPack consistently achieves the best performance-efficiency trade-off across diverse retention ratios, outperforming all existing methods. Notably, on Qwen2.5-Omni-7B, OmniPack preserves 98.0% of the original performance while reducing FLOPs to 16.7%, and still retains 92.9% of the original performance with only 6.8% of the original FLOPs.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.03812" target="_blank" rel="noopener">OmniPack: Unified Token Compression for Efficient Omni-modal Large Language Models</a> <span class="src-num">[18]</span></div>
+    
+    <div class="card-desc">Omni-modal large language models (Omni-LLMs) have achieved remarkable performance on audio-visual understanding tasks, but processing long and highly redundant visual and audio…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 19</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Recent 3D vision-language models (3D VLMs) construct geometry aware tokens by projecting 2D visual features into world coordinates, enabling spatial reasoning for tasks such as 3D question answering. However, this design generates thousands of tokens per scene, resulting in substantial computational and memory overhead. While token compression has been extensively studied in 2D VLMs, existing approaches rely on semantic relevance or attention-based selection that overlook the structured spatial nature of 3D tokens. Moreover, redundancy in 3D representations cannot be resolved by spatial proximity alone, as object-level token imbalance persists even after spatial aggregation. To address this, we propose 3DZip, a three-stage token compression framework that first applies coarse voxelization to remove point-level redundancy, then selects anchor tokens based on feature-space diversity via a Determinantal Point Process, and finally merges remaining tokens under spatial constraints to preserve geometric coherence. Experiments on three 3D question answering benchmarks demonstrate that 3DZip consistently outperforms existing compression methods, retaining 94.7% of the original performance with only 128 tokens, achieving a 1.92times faster inference speed.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.01185" target="_blank" rel="noopener">3DZip: Spatial-Aware Feature Diversity-Guided Token Compression for 3D Question Answering</a> <span class="src-num">[32]</span></div>
+    
+    <div class="card-desc">Recent 3D vision-language models (3D VLMs) construct geometry aware tokens by projecting 2D visual features into world coordinates, enabling spatial reasoning for tasks such as 3D…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 15</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="A wearable assistant should both answer questions about its visual history and recognize when that history is useful to the present situation. Existing video-memory systems primarily support question-conditioned recall, whereas proactive assistants typically use separate memory and control mechanisms. We introduce GROVE, a training-free framework that supports both behaviors with one memory grown causally from a continuous video stream. GROVE retains fine-grained perceptual evidence and incrementally consolidates it into time-stamped moments, coherent episodes, and recurring cross-day patterns. Each stratum is paired with a scale-native retrieval skill for locating an observation, replaying an activity, or traversing long-range regularities. Reactive QA and proactive assistance share this memory and access interface, differing in whether retrieval is initiated by a user query or the current situation. Across multiple benchmarks including the challenging MM-lifelong and EgoServe, GROVE achieves the best results among the compared methods. Controlled ablations show that the temporal strata and their access skills are complementary, with patterns providing the largest benefit when evidence spans multiple days. Code will be available at https://github.com/SitongGong/GROVE.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.02392" target="_blank" rel="noopener">GROVE: Growing and Reasoning over Temporally Stratified Memory from Streaming Video Experience</a> <span class="src-num">[27]</span></div>
+    
+    <div class="card-desc">A wearable assistant should both answer questions about its visual history and recognize when that history is useful to the present situation. Existing video-memory systems…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 13</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Captions serve as a primary supervision signal for both multimodal understanding and text-to-image generation. However, previous evaluations treat the caption quality as a single scalar objective, which conflates two distinct properties: (1) how much visual information a caption covers and (2) how reliably the image supports its stated claims. To this end, we design a decoupled caption evaluation benchmark, CAPEval (Coverage And Precision Evaluation), with human-written ground-truth captions and human-verified atomic checklist items. Specifically, CAPEval decomposes caption quality into Coverage and Precision. The former quantifies how thoroughly a caption covers ground-truth factual content, while the latter reflects the factual correctness rate of all claims expressed in the caption. We select 10 captioners and further conduct controlled downstream end-to-end experiments with them from four model families, where the caption source is the only variable. Empirically, we find a consistent task-dependent dissociation: Coverage serves as the stronger correlate for understanding performance, whereas Precision acts as the dominant predictor for generation performance. This decoupled evaluation paradigm not only delivers a more fine-grained diagnosis of caption quality, but also offers actionable guidance for selecting and optimizing captioners tailored to different downstream tasks.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.02589" target="_blank" rel="noopener">CAPEval: A Decoupled Caption Evaluation across Understanding and Generation</a> <span class="src-num">[20]</span></div>
+    
+    <div class="card-desc">Captions serve as a primary supervision signal for both multimodal understanding and text-to-image generation. However, previous evaluations treat the caption quality as a single…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 19</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Recent advances in image generation have demonstrated the potential of unified multimodal models that integrate understanding, generation, and editing. However, unified 3D modeling remains constrained by scarce multimodal data, particularly the lack of large-scale and geometrically consistent editing data. To address this limitation, we propose Hunyuan3D-Buffalo 1.0, a unified framework supporting 3D understanding, text-to-3D generation, instruction-guided 3D editing, and text-grounded part generation within a single architecture. To enable scalable training, we construct an 87M-scale 3D multimodal corpus, comprising 25M understanding samples, 50M text-to-3D pairs, and 12M editing pairs generated using Nano3D-v2. Architecturally, the framework combines Hunyuan3D-VLM for semantic, structural, and spatial understanding with Hunyuan3D DiT for high-fidelity 3D synthesis. The VLM provides multimodal semantic conditions for generation, while editing and part generation additionally condition the diffusion process on the source object representation to preserve its overall structure and unedited regions. Extensive experiments show that Hunyuan3D-Buffalo 1.0 achieves state-of-the-art or leading performance on text-to-3D generation and 3D editing benchmarks, while exhibiting strong understanding and part-generation capabilities. Our analysis further shows that both generation and understanding improve editing, demonstrating the effectiveness of unified 3D multimodal training. Project">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.02711" target="_blank" rel="noopener">Hunyuan3D-Buffalo 1.0: A Unified Multimodal Model for Scalable 3D Generation, Understanding, and Editing</a> <span class="src-num">[23]</span></div>
+    
+    <div class="card-desc">Recent advances in image generation have demonstrated the potential of unified multimodal models that integrate understanding, generation, and editing. However, unified 3D…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 65</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Scientific poster construction compresses a long multimodal paper into a readable, editable canvas. Existing systems hide request-level failures by scoring only completed outputs; direct image generation is not element-editable, while coding-agent workflows are costly. PosterMELD is a template-conditioned multi-agent pipeline: capacity-aware slots guide writing before rendering, and deterministic gates plus vision-language model (VLM) review route failures to bounded repair. Each accepted request exports editable PowerPoint (PPTX) and Portable Network Graphics (PNG) artifacts; explicit design controls yield same-paper variants. Across 621 papers, Print-Ready Rate (PRR) counts requests passing geometric, readability, asset-integrity, and obvious-factual-error checks, with native editability reported separately. A frozen VLM assigns conditional Craftsmanship-Harmony-Expressiveness (CHE) scores to print-ready outputs. PosterMELD attains 81.3% PRR, 3.4 times P2P&#x27;s rate and 5.2 times PosterGen&#x27;s, and the highest conditional CHE among generated methods with multiple print-ready outputs. Native editability and explicit design controls are retained at a mean cost of USD 0.38 per request, 3.5% of Codex+Skill&#x27;s. Code and resources are available at https://github.com/Shannon4Science/PosterMELD.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.02218" target="_blank" rel="noopener">PosterMELD: Multi-Agent Paper-to-Poster Generation for Controllable Design Diversity with Editable Print-Ready Outputs</a> <span class="src-num">[7]</span></div>
+    
+    <div class="card-desc">Scientific poster construction compresses a long multimodal paper into a readable, editable canvas. Existing systems hide request-level failures by scoring only completed outputs;…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 4</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Recursive self-improvement requires agents to turn accumulated experience into better future behavior. Personal AI agents offer a concrete setting for studying this capability because they retain preferences, task histories, tool routines, and learned skills across sessions. Yet whether retained experience actually improves them over time has not been systematically tested. We introduce PAST-Bench, a benchmark designed to isolate this question. Each agent runs through ordered sequences of fresh-session tasks under matched conditions that turn retained experience on and off. It spans 26 scenarios and 204 episodes across memory, procedural reuse, information gathering, and update. We report both later-task gains and whether those gains follow the intended save, retrieve, and update pathway. Across seven base models and four agent frameworks, improvement is real but uneven across capabilities. Agents with the same headline gain can differ markedly in whether that gain is supported by evidence of the intended pathway. Guided by these findings, we develop Hermes+, which extends Hermes with five targeted interventions across stages of the agent loop. Hermes+ raises the average gain from retained experience and provides clearer pathway evidence, with its strongest improvement on tasks requiring outdated state to be replaced, although the effect remains capability- and model-dependent. Together, PAST-Bench and Hermes+ provide an evaluation and diagnostic foundation for studying how p">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.04003" target="_blank" rel="noopener">PAST-Bench: Benchmarking the Foundations of Recursive Self-Improvement in Personal Agents</a> <span class="src-num">[16]</span></div>
+    
+    <div class="card-desc">Recursive self-improvement requires agents to turn accumulated experience into better future behavior. Personal AI agents offer a concrete setting for studying this capability…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 25</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="We introduce UniWorld-Design, a framework that redefines image generation from flat pixel synthesis to structured visual composition, with semantic RGBA layers as the atomic units of generation, understanding, and editing. Our key insight is that pixels define how an image is rendered, whereas layers define how an image is created, understood, and edited. Just as human designers create and manipulate visual content through layers rather than raw pixels, UniWorld-Design equips multimodal generative models with a layer-native design space. UniWorld-Design comprises two models. The Text-to-RGBA (T2RGBA) model generates standalone RGBA assets directly from text. The Image-to-Layer (I2L) model conditions on a finished image, a global instruction and per-layer prompts, and jointly produces ordered, complete semantic RGBA layers. Its instruction interface supports top-level decomposition, recursive decomposition and targeted extraction, making layering an instruction-addressable operation for agentic editing. Because I2L learns complete semantic objects rather than visible-pixel partitions, its layers stay usable when moved or removed. On the Crello benchmark, I2L reduces per-layer RGB L1 error by 37% and achieves a 34% relative improvement in Alpha Soft IoU over Qwen-Image-Layered. Separately, T2RGBA achieves the highest CLIP Score, outperforming LayerDiffuse and OmniAlpha.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.03971" target="_blank" rel="noopener">UniWorld-Design: From Pixel Generation to Layer-Native Design</a> <span class="src-num">[25]</span></div>
+    
+    <div class="card-desc">We introduce UniWorld-Design, a framework that redefines image generation from flat pixel synthesis to structured visual composition, with semantic RGBA layers as the atomic units…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 18</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Real-time video editing requires low-latency causal generation with bounded computational resources while preserving source fidelity and long-term temporal consistency. We present JoyAI-Video-Edit, a 16B-parameter autoregressive diffusion framework for real-time, open-ended video editing without access to future frames or a predefined video duration. Our method combines chunk-wise autoregressive adaptation, Source-Anchored Distribution Matching Distillation (SA-DMD), and Long-Horizon Autoregressive Distillation to reduce train--inference mismatch, preserve source fidelity during two-step generation, and mitigate accumulated temporal drift. Extensive automatic and human evaluations show that JoyAI-Video-Edit substantially outperforms existing streaming editors and remains competitive with strong offline systems on both short and long videos. The complete system achieves end-to-end 720p video editing at approximately 30 FPS on a single Nvidia B200 GPU. Code is available at https://github.com/jd-opensource/JoyAI-Video-Edit.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.03974" target="_blank" rel="noopener">JoyAI-Video-Edit: Real-Time Open-Ended Video Editing with Autoregressive Diffusion</a> <span class="src-num">[22]</span></div>
+    
+    <div class="card-desc">Real-time video editing requires low-latency causal generation with bounded computational resources while preserving source fidelity and long-term temporal consistency. We present…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 70</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="We introduce a new problem domain for human action recognition: the fine-grained analysis of children&#x27;s gait behaviors from standard RGB video. We specifically target the ambulatory patterns of children aged 3-17 years. Such behaviors arise naturally in the diagnosis and treatment of several critical developmental and neuromuscular disorders, such as cerebral palsy and hemiplegia. Despite their clinical value, current 3D sensor-based gait analysis systems are expensive, intrusive, and often impractical for young subjects. To address this, we introduce a new dataset comprising over 1,100 high-frame-rate (60 FPS) video sequences from 110 subjects, accompanied by synchronized, anonymized pose sequences. In each session, the child performs a 5-second &quot;walk-around&quot; task, capturing the gait cycle from multiple viewpoints. Crucially, we demonstrate that current state-of-the-art approaches, including gait foundation models and Multimodal Large Language Models (MLLMs), fail to effectively resolve these clinical nuances. We identify the key technical challenges in analyzing these erratic and subtle motor patterns and describe a unified end-to-end framework for decoding fundamental components of pediatric gait. Through comprehensive experimental results, we demonstrate the potential of this dataset to drive novel research questions and establish a rigorous baseline for automated child gait assessment.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.00371" target="_blank" rel="noopener">Decoding Children&#x27;s Gait Behavior</a> <span class="src-num">[4]</span></div>
+    
+    <div class="card-desc">We introduce a new problem domain for human action recognition: the fine-grained analysis of children&#x27;s gait behaviors from standard RGB video. We specifically target the…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 7</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Viscous stains, characterized by high viscosity and complex rheological properties, remain a major challenge for robotic surface cleaning. Conventional wiping often spreads the stain, while scrubbing provides stronger friction but risks damaging the surface. In this paper, we propose Push-Wiper, a framework that reformulates viscous stain cleaning as an aggregation problem. Push-Wiper employs a sponge to progressively gather stains through segmented pushing trajectories, followed by a post-processing phase that detaches the aggregated material and enables sponge self-cleaning. We adopt a stepwise strategy for stain gathering and leverage Diffusion Policy to generate adaptive pushing action sequences. These sequences are executed through our Arbitrary Surface Pose Interpolator (ASPI) and a hybrid force-position controller, allowing the method to generalize to stains with diverse spatial distributions. Push-Wiper achieves a cleaning score (CS), defined as the percentage of stain area removed, up to 130% higher than baseline methods. Without additional training, Push-Wiper also transfers in a zero-shot manner to solid residues, liquid spills, unseen viscous stains, and curved surfaces with varying geometries. Our experiments demonstrate the cleaning effectiveness of Push-Wiper and its strong generalization ability. The project website is available at https://push-wiper.github.io/.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.00730" target="_blank" rel="noopener">Push-Wiper: Toward General-Purpose Robotic Cleaning across Varied Stains and Surfaces with Segmented Pushing Trajectories</a> <span class="src-num">[11]</span></div>
+    
+    <div class="card-desc">Viscous stains, characterized by high viscosity and complex rheological properties, remain a major challenge for robotic surface cleaning. Conventional wiping often spreads the…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 6</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Single-image feed-forward 3D Gaussian Splatting (3DGS) aims to directly generate a renderable 3D scene representation from one input image, avoiding the cost of multi-view capture and per-scene optimization. However, existing methods are often constrained by a pixel-aligned representation, where Gaussians are predicted from fixed image-grid locations. Such pixel-aligned primitives can produce promising nearby-view renderings, but they remain weakly coupled to underlying scene surfaces and struggle to preserve coherent structures under large viewpoint shifts. We present InfiniSplat, a feed-forward single-image 3DGS framework that moves from a pixel-aligned representation toward a surface-aligned representation. InfiniSplat constructs this representation by first using geometry-guided sampling to place 2D supports according to depth-induced local surface structure, and then applying a query-conditioned implicit decoder to predict Gaussian attributes from the image features queried at these supports.By grounding support locations in geometry while decoupling Gaussian prediction from fixed pixel centers, InfiniSplat produces Gaussian layouts that better follow scene surfaces and reduce scattered primitives caused by grid discretization.Across multiple cross-dataset NVS evaluations, InfiniSplat achieves state-of-the-art performance compared with single-image feed-forward baselines, and demonstrates zero-shot generalization from Hypersim indoor synthetic training to complex open-wo">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.02437" target="_blank" rel="noopener">InfiniSplat: Implicit Gaussian Decoding for Large-Baseline Monocular View Synthesis</a> <span class="src-num">[29]</span></div>
+    
+    <div class="card-desc">Single-image feed-forward 3D Gaussian Splatting (3DGS) aims to directly generate a renderable 3D scene representation from one input image, avoiding the cost of multi-view capture…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 51</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Audio-based piano transcription performs well on onset, pitch, and velocity, but the sustain pedal lets sound persist long after key release, so audio systems predict pedal-extended offsets rather than physical key release. Yet existing Visual Piano Transcription (VPT) systems focus on onset detection from short video windows, offset accuracy lags onset by a wide margin, and note-level velocity has not been reported. To address these gaps, we present V2N (Video to Notes), the first complete VPT system: a shared temporal backbone feeds task-specific heads for onset, offset, key hold, and velocity, jointly trained with per-frame supervision rather than only at the window center. Ablations show that multi-task supervision enables offset and velocity prediction while improving onset accuracy; longer temporal context yields further improvements. V2N sets new state-of-the-art results on PianoVAM and R3.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.03419" target="_blank" rel="noopener">Multi-Task Multi-Frame Visual Piano Transcription</a> <span class="src-num">[2]</span></div>
+    
+    <div class="card-desc">Audio-based piano transcription performs well on onset, pitch, and velocity, but the sustain pedal lets sound persist long after key release, so audio systems predict…</div>
+    <div class="card-tags"><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📝 OpenReview <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and fine-tuned on massive 3D data, offering the capability of producing highly consistent multi-view images. However, due to the scarcity of synchronized multi-view video data, it remains challenging to adapt this paradigm to 4D generation directly. Despite that, the available video and 3D data are adequate for training video and multi-view diffusion models separately that can provide satisfactory dynamic and geometric pri">
+    <div class="card-title"><a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and Multi-view Diffusion Models</a> <span class="src-num">[73]</span></div>
+    
+    <div class="card-desc">Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>💻 GitHub Trending <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Lightweight loop engineering state kernel for long-running AI agent teams. Agent-loop agnostic across Codex, Claude Code, and other coding agents, with durable goals, quota-aware auto-wake, executable todos, evidence logs, and verifiable handoffs.">
+    <div class="card-title"><a href="https://github.com/huangruiteng/loopx" target="_blank" rel="noopener">huangruiteng/loopx</a> <span class="src-num">[40]</span></div>
+    
+    <div class="card-desc">Lightweight loop engineering state kernel for long-running AI agent teams. Agent-loop agnostic across Codex, Claude Code, and other coding agents, with durable goals, quota-aware…</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 1.7k</span><span class="tag web-tag">GitHub Trending</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🎓 Google Scholar <span class="group-count">5</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Large language models (LLM) in computational social science: prospects, current state, and challenges">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[35]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[36]</span></div>
+    
+    <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[37]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Early identification of breakthrough technologies: Insights from science-driven innovations">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[33]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[34]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📰 Hacker News <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="The White House Is Keeping Its AI Cybersecurity Framework Secret">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=49177723" target="_blank" rel="noopener">The White House Is Keeping Its AI Cybersecurity Framework Secret</a> <span class="src-num">[38]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="The Trump administration shared the details of its plan with OpenAI, Anthropic, and other AI labs on Tuesday. For now, the public remains in the dark.">
+    <div class="card-title"><a href="https://www.wired.com/story/the-white-house-is-keeping-its-ai-cybersecurity-framework-secret/" target="_blank" rel="noopener">(https://www.wired.com/story/the-white-house-is-keeping-its-ai-cybersecurity-framework-secret/)</a> <span class="src-num">[39]</span></div>
+    
+    <div class="card-desc">The Trump administration shared the details of its plan with OpenAI, Anthropic, and other AI labs on Tuesday. For now, the public remains in the dark.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>👽 Reddit <span class="group-count">32</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="submitted by /u/realmvp77 [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfqqdb/white_house_ai_guidelines_exempt_us_open_models/" target="_blank" rel="noopener">White House AI Guidelines Exempt U.S. Open Models From Government Review</a> <span class="src-num">[53]</span></div>
+    
+    <div class="card-desc">submitted by /u/realmvp77 [link] [comments]</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Hi everyone, I&#x27;m an independent researcher sharing Monodratic, a sparse causal-attention architecture with learned product-hash routing. The idea is that after RoPE, source blocks are assigned to bounded causal posting lists, while each query probes product addresses, reranks the returned candidates, selects a fixed number of remote source blocks, adds guaranteed local blocks, and then runs exact causal softmax over just those tokens. I implemented it as a stateless [batch, sequence, width] -&gt; attention-delta mixer, so normalization, residual updates, feed-forward layers, and inference schedul">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1vg3jda/monodratic_learned_producthash_routing_for_sparse/" target="_blank" rel="noopener">Monodratic: learned product-hash routing for sparse causal attention [R]</a> <span class="src-num">[45]</span></div>
+    
+    <div class="card-desc">Hi everyone, I&#x27;m an independent researcher sharing Monodratic, a sparse causal-attention architecture with learned product-hash routing. The idea is that after RoPE, source blocks…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Released today, with emphasis on agentic capabilities. I really like their models for simple, high volume tasks (&quot;summarize these gazillion documents&quot;) and their 8b-a1b was my go-to for certain tasks so I&#x27;m excited to see how this one performs. There&#x27;s not enough love for tiny models on this sub. https://www.liquid.ai/blog/lfm2-5-2-6b submitted by /u/Alarming_Positive_59 [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfh1sn/lfm2526b_is_out/" target="_blank" rel="noopener">LFM2.5-2.6B is out</a> <span class="src-num">[64]</span></div>
+    
+    <div class="card-desc">Released today, with emphasis on agentic capabilities. I really like their models for simple, high volume tasks (&quot;summarize these gazillion documents&quot;) and their 8b-a1b was my…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I really like to use this one SQL benchmark when testing new models. I had another post some time ago with my benchmarks, but I decided to post a new one because of how well Deepseek did. I like the benchmark because it&#x27;s quick to run, is pretty &quot;real-world&quot; and requires good reasoning to build the correct SQL queries and almost no frontier models can achieve 100%. My old post: https://www.reddit.com/r/LocalLLaMA/comments/1s9mkm1/benchmarked_18_models_that_i_can_run_on_my_rtx/ Benchmark with results from other models: https://sql-benchmark.nicklothian.com https://github.com/nlothian/llm-sql-be">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfctwf/deepseek_v4_flash_2bit_quant_is_the_first_model_i/" target="_blank" rel="noopener">Deepseek V4 Flash 2-bit quant is the first model I can run locally that achieves 100% in this SQL benchmark</a> <span class="src-num">[68]</span></div>
+    
+    <div class="card-desc">I really like to use this one SQL benchmark when testing new models. I had another post some time ago with my benchmarks, but I decided to post a new one because of how well…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="This is something that was spoken here and there, and now it is like writing on the wall. The main additional point is that China has created an independent supply chain. Starting from raw materials and home-made lithography equipment, through their own GPU manufacturing, and to the AI models and training. Plus, there are tons of cheap energy, and it looks like they are also on track to launch the first thermonuclear reactor. I saw a similar pattern with robotics and EVs. The history does not repeat itself, but it rhymes. Does the US have what it takes to turn the tables, or should we just buy">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfj3q7/hugging_face_ceo_says_china_is_winning_the_ai/" target="_blank" rel="noopener">Hugging Face CEO says China is winning the AI race and dominating on open models</a> <span class="src-num">[49]</span></div>
+    
+    <div class="card-desc">This is something that was spoken here and there, and now it is like writing on the wall. The main additional point is that China has created an independent supply chain. Starting…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="submitted by /u/cafedude [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfrr5t/maplepreview_20ba1b_ternaryweight_reasoning/" target="_blank" rel="noopener">Maple-Preview: 20B-A1B ternary-weight reasoning open-weight LLM</a> <span class="src-num">[65]</span></div>
+    
+    <div class="card-desc">submitted by /u/cafedude [link] [comments]</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I could not find any discussion threads for the C&amp;F track. Have people actually submitted to this track? If so, what are your reviews and scores looking like, along with post rebuttal engagement? In our case, they received reviews not in line with the policy defined for the track, where most reviewers praised originality but complained about the scope of experiments. Despite the track saying that it would be possible that the idea cannot be validated in a single paper. We provided experiments but no dice, none of the reviewers responded. Have any ACs seen papers and reviews in this track or do">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1vfv9fj/neurips_2026_concept_feasibility_track_d/" target="_blank" rel="noopener">NeurIPS 2026 Concept &amp; Feasibility Track [D]</a> <span class="src-num">[46]</span></div>
+    
+    <div class="card-desc">I could not find any discussion threads for the C&amp;F track. Have people actually submitted to this track? If so, what are your reviews and scores looking like, along with post…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Weights went up today so this is downloadable now, MIT, ~128GB for the official FP8. I ran these on the API before that landed, so treat it as a preview of what you&#x27;d be pulling rather than a local benchmark submitted by /u/AcanthisittaOk1699 [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfem5v/design_systems_from_code_alone_without_external/" target="_blank" rel="noopener">Design systems from code alone - Without external images, Ling-3.0-flash generated webpages across Bauhaus, Bohemian, acid design, and more—using CSS gradients, SVG paths, typography, and layout to preserve each visual language.</a> <span class="src-num">[71]</span></div>
+    
+    <div class="card-desc">Weights went up today so this is downloadable now, MIT, ~128GB for the official FP8. I ran these on the API before that landed, so treat it as a preview of what you&#x27;d be pulling…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Liquid AI released LFM2.5-2.6B today, and this might be more relevant to local AI than another massive model most people cannot run. The model is only 2.69B parameters, has 128K context, supports tool calling and was post-trained specifically for multi-step agent workflows. The official Q4_K_M GGUF is around 1.67 GB and already works with llama.cpp. Their reported CPU speeds: - 30 tok/s on a phone - 113 tok/s on a Ryzen AI Max+ 395 - 220 tok/s on an M5 Max - Under 2.5 GB memory during their tests These are vendor benchmarks, so independent results are obviously needed. The benchmark results ar">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfn9vc/a_26b_model_with_tool_calling_and_128k_context/" target="_blank" rel="noopener">A 2.6B model with tool calling and 128K context now runs at 30 tok/s on a phone</a> <span class="src-num">[58]</span></div>
+    
+    <div class="card-desc">Liquid AI released LFM2.5-2.6B today, and this might be more relevant to local AI than another massive model most people cannot run. The model is only 2.69B parameters, has 128K…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Hopefully this would let us have faster local models....but it will probably be out of our price range. submitted by /u/giveen [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfa3tq/sk_hynix_in_collaboration_with_sandisk_unveils/" target="_blank" rel="noopener">SK hynix, In Collaboration With SanDisk, Unveils The New High Bandwidth Flash (HBF) Standard, Helping To Resolve AI Inference Bottlenecks, Targeting Up To 3TB/s Bandwidth</a> <span class="src-num">[50]</span></div>
+    
+    <div class="card-desc">Hopefully this would let us have faster local models....but it will probably be out of our price range. submitted by /u/giveen [link] [comments]</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="submitted by /u/tengo_harambe [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfj3me/introducing_shieldstral_mistral_ai/" target="_blank" rel="noopener">Introducing Shieldstral. | Mistral AI</a> <span class="src-num">[55]</span></div>
+    
+    <div class="card-desc">submitted by /u/tengo_harambe [link] [comments]</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Six months ago I started experimenting with PPO and Breakout as a way to learn about Machine Learning and Reinforcement Learning. After a few experiuments just trying to get high scores, it bothered me that everything was a &quot;memorized&quot; script rather than reactive play, like a human would play. Thus began my journey to try and convince PPO to actually track the ball instead of focusing on scoring points. I read a lot of articles and tried a lot of things. After 124 PPO experiments on Atari Breakout, I found that every single model, across sticky actions, cursor wrappers, entropy tuning, dynamic">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1vfa9im/reactive_play_achieved_experimenting_with_atari/" target="_blank" rel="noopener">Reactive Play: Achieved!! Experimenting with Atari Breakout [R]</a> <span class="src-num">[47]</span></div>
+    
+    <div class="card-desc">Six months ago I started experimenting with PPO and Breakout as a way to learn about Machine Learning and Reinforcement Learning. After a few experiuments just trying to get high…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="submitted by /u/fallingdowndizzyvr [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfujnc/chinas_openweight_models_will_be_spared_us_safety/" target="_blank" rel="noopener">China’s Open-Weight Models Will Be Spared US Safety Tests</a> <span class="src-num">[56]</span></div>
+    
+    <div class="card-desc">submitted by /u/fallingdowndizzyvr [link] [comments]</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="A new llama.cpp PR (#26563) adds a heatmap that tracks which MoE experts are used most often. Instead of keeping every expert on the GPU or offloading all of them, it caches the frequently selected experts in VRAM while the cold experts continue running on the CPU. The author’s results on Qwen3.6-35B-A3B with 8GB VRAM: Q2_M: 33.25 → 56.0 tok/s (1.68x) Q5_K_P: 17.34 → 35.93 tok/s (2.07x) Autofit enabled with --expert-hot-s -1 The negative results are probably more interesting: Qwen3.5-122B-A10B and Laguna-S-2.1 were actually slower with caching enabled. So this clearly isn’t a universal “make M">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfhns3/a_llamacpp_pr_caches_hot_moe_experts_on_the_gpu/" target="_blank" rel="noopener">A llama.cpp PR caches “hot” MoE experts on the GPU — 33 → 56 tok/s reported with 8GB VRAM</a> <span class="src-num">[54]</span></div>
+    
+    <div class="card-desc">A new llama.cpp PR (#26563) adds a heatmap that tracks which MoE experts are used most often. Instead of keeping every expert on the GPU or offloading all of them, it caches the…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="https://x.com/xiong_hui_chen/status/2084695353346117760?s=20 submitted by /u/Capital-Remove-6150 [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfhhpq/no_more_slm_opensource/" target="_blank" rel="noopener">No more SLM open-source??</a> <span class="src-num">[52]</span></div>
+    
+    <div class="card-desc">https://x.com/xiong_hui_chen/status/2084695353346117760?s=20 submitted by /u/Capital-Remove-6150 [link] [comments]</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="The Ling-3.0-flash MoE is now open-weighted at 124B A5B params. I know the original announcements were before the Kimi K3, DeepSeek-V4-Flash and Qwen3.8 hype, but this model might still have a good niche for itself due to its sizing. Discussion on the benchmarks are here: https://www.reddit.com/r/LocalLLaMA/comments/1v4mltt/benchmarks_antling30flash_a_hybridreasoning_moe/ from almost 2 weeks ago. submitted by /u/-Cubie- [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfdcd7/inclusionailing30flash_hugging_face/" target="_blank" rel="noopener">inclusionAI/Ling-3.0-flash · Hugging Face</a> <span class="src-num">[61]</span></div>
+    
+    <div class="card-desc">The Ling-3.0-flash MoE is now open-weighted at 124B A5B params. I know the original announcements were before the Kimi K3, DeepSeek-V4-Flash and Qwen3.8 hype, but this model might…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="So I&#x27;m looking at https://huggingface.co/unsloth/DeepSeek-V4-Flash-0731-GGUF and I realize my 128GB of DRAM just isn&#x27;t cutting it for this (incredibly powerful) model. If only I had another 64GB, I thought... EVERYBODY is probably thinking that right this second... I hate to say it, but I imagine DRAM prices are about to go through the roof still yet. I hope I&#x27;m wrong. submitted by /u/johnnyApplePRNG [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfstpj/thinking_of_buying_more_dram_right_now/" target="_blank" rel="noopener">Thinking of buying more DRAM right now...</a> <span class="src-num">[69]</span></div>
+    
+    <div class="card-desc">So I&#x27;m looking at https://huggingface.co/unsloth/DeepSeek-V4-Flash-0731-GGUF and I realize my 128GB of DRAM just isn&#x27;t cutting it for this (incredibly powerful) model. If only I…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="​ Now that the rebuttal period is over, I’m curious about the score distribution specifically for theory papers this year. If you’re comfortable sharing, please drop: • Scores: x / x / x • Confidence: x / x / x • Whether scores changed after rebuttal • Broad area (optional) I got 4 / 4 / 4, with confidence 3 / 3 / 3. From my experience, theory papers often seem to get somewhat lower scores, and this year the scores appear to be lower across disciplines as well. It would be interesting to see where the empirical cutoff might land. Feel free to share anonymously / approximately if you don&#x27;t want">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1vfx8pn/neurips_2026_main_track_theory_papers_score/" target="_blank" rel="noopener">NeurIPS 2026 Main Track — Theory papers score tracking post Rebuttal [D]</a> <span class="src-num">[44]</span></div>
+    
+    <div class="card-desc">​ Now that the rebuttal period is over, I’m curious about the score distribution specifically for theory papers this year. If you’re comfortable sharing, please drop: • Scores: x…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I trained a small MLP to memorize the classic Bad Apple animation, ~2.7 billion pixels of video compressed into 790k parameters (3.2 MB float32, 1.6 MB float16). The network takes a 3D coordinate (t, y, x)- frame index and pixel position- and outputs a grayscale value between 0 and 1. To &quot;play&quot; the video, you can evaluate the function over the full grid. The &quot;video&quot; is stored implicitly in 5 linear layers of sine activations (Sitzmann et al.&#x27;s SIREN) with 512 hidden units, ω₀ = 30, and sigmoid output. The source bad_apple.mp4 is 6524 frames at 854×480; I subsampled to 1620 frames × 384×384, ab">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1vfrco1/i_compressed_bad_apple_into_a_3mb_neural_network_p/" target="_blank" rel="noopener">I Compressed Bad Apple into a 3MB Neural Network [P]</a> <span class="src-num">[41]</span></div>
+    
+    <div class="card-desc">I trained a small MLP to memorize the classic Bad Apple animation, ~2.7 billion pixels of video compressed into 790k parameters (3.2 MB float32, 1.6 MB float16). The network takes…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="submitted by /u/Megneous [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfuo9d/gptx25135m_scores_3rd_place_on_open_slm/" target="_blank" rel="noopener">GPT-X2.5-135M scores 3rd place on Open SLM Leaderboard on Huggingface, Beating Facebook&#x27;s MobileLLM-R1-140M</a> <span class="src-num">[70]</span></div>
+    
+    <div class="card-desc">submitted by /u/Megneous [link] [comments]</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Went public in the last few minutes, both repos ungated. Ling-3.0-flash, BF16, 24 shards, ~255GB Ling-3.0-flash-fp8, official FP8, ~128GB 127.5B total, they quote 5.1B active. What jumped out at me in config.json is 512 experts with 8 active per token, which is a lot finer-grained than most of what gets posted here. Arch is BailingMoeV3, model_type bailing_hybrid, custom_code, so same family as Ling-2.6-flash. Thinking is a per-request switch inside the chat template instead of a separate SKU, and it defaults to on. The FP8 landing at ~128GB is the bit I care about. Someone in the thread here">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfdeek/inclusionailing30flash_weights_are_up_on_hugging/" target="_blank" rel="noopener">inclusionAI/Ling-3.0-flash weights are up on Hugging Face — MIT, BF16 plus an official FP8</a> <span class="src-num">[59]</span></div>
+    
+    <div class="card-desc">Went public in the last few minutes, both repos ungated. Ling-3.0-flash, BF16, 24 shards, ~255GB Ling-3.0-flash-fp8, official FP8, ~128GB 127.5B total, they quote 5.1B active.…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="https://x.com/i/status/2084656348617392261 https://www.reddit.com/r/LLMDevs/s/9oL5ogmE6s submitted by /u/jacek2023 [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfeick/gemma_4_on_500mb/" target="_blank" rel="noopener">Gemma 4 on 500MB</a> <span class="src-num">[57]</span></div>
+    
+    <div class="card-desc">https://x.com/i/status/2084656348617392261 https://www.reddit.com/r/LLMDevs/s/9oL5ogmE6s submitted by /u/jacek2023 [link] [comments]</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Update — long-context SM120 fallback workaround validated to ~500k Extended testing exposed a separate long-prefill failure in the guqiong96/Lvllmds4-x SM120 fallback. This is independent of the adaptive DSpark K1/K2 work. ( https://old.reddit.com/r/LocalLLaMA/comments/1vfnw6a/update_deepseekv4flash0731_on_a_single_rtx_5090/ ) I reduced it to a deterministic reproducer: a ~71.9k-token seed request succeeded, but a second request with a near-full prefix-cache hit plus a tiny suffix reliably killed the engine in the sparse-indexer MQA prefill path. Instrumentation on the failing request showed q">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfbcgx/deepseekv4flash0731_full_1m_context_on_a_single/" target="_blank" rel="noopener">[Deepseek-V4-Flash-0731] Full 1M context on a single RTX5090 + DDR5 Desktop Setup with VLLM CPU/Ram Offloading, ~800 tps pp &amp; 15+ tps decode [Agentic Coding]</a> <span class="src-num">[66]</span></div>
+    
+    <div class="card-desc">Update — long-context SM120 fallback workaround validated to ~500k Extended testing exposed a separate long-prefill failure in the guqiong96/Lvllmds4-x SM120 fallback. This is…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Why nobody is talking about this? Seems pretty significant to the community submitted by /u/MuzafferMahi [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfirld/has_anyone_tried_mach1_additive_95_of_performance/" target="_blank" rel="noopener">Has anyone tried Mach-1 Additive? 95% of performance of Qwen 3.6 35B while being 10x smaller</a> <span class="src-num">[51]</span></div>
+    
+    <div class="card-desc">Why nobody is talking about this? Seems pretty significant to the community submitted by /u/MuzafferMahi [link] [comments]</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="It is one of the best local models ever released, in both 20B and 120B versions. I always come back to it, especially the 120B version. Its only competition is, in my opinion, Qwen 3.5 122B, but that model is much slower (A10B) and has not been released in a local-friendly QAT format (such as MXFP4). Nemotron 3 Super is disappointing; it is close in capability and feels like a GPT-OSS 120B clone with a better architecture. It is also slower (due to being A12B). NVIDIA essentially created a slower GPT-OSS 120B clone. Mistral 4 Small has similar problems. It is definitely not smarter, although i">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfo8be/gptoss_has_turned_one_year_old_today/" target="_blank" rel="noopener">GPT-OSS has turned one year old today!</a> <span class="src-num">[63]</span></div>
+    
+    <div class="card-desc">It is one of the best local models ever released, in both 20B and 120B versions. I always come back to it, especially the 120B version. Its only competition is, in my opinion,…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="As the title suggests, because there&#x27;s no data on Papercopilot yet, and people have been talking about the scores being lower in general than last year, I thought it could be interesting to survey the average score distribution after the rebuttal phase (not considering confidence weights). Very rough and simple poll (I also realize there&#x27;s a self-selection bias in there). Cast your vote here: https://loppy.be/poll/yczuv8yo Thanks! Edit: the trolls have taken over, never mind any notion of representativeness I guess... submitted by /u/Zhiend727 [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1vfi23r/neurips_2026_postrebuttal_score_distribution_poll/" target="_blank" rel="noopener">NeurIPS 2026 post-rebuttal score distribution poll [D]</a> <span class="src-num">[43]</span></div>
+    
+    <div class="card-desc">As the title suggests, because there&#x27;s no data on Papercopilot yet, and people have been talking about the scores being lower in general than last year, I thought it could be…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="People may remember the Qwen3-TTS llama.cpp demo from a few months ago. That PR said it probably wouldn’t be merged because llama.cpp was missing some of the graph and API pieces it needed. A new implementation was merged into master yesterday. What works now: - Qwen3-TTS-12Hz-1.7B-Base in GGUF - WAV or MP3 files as the speaker reference - English, Chinese, German, Italian, Spanish, French, Portuguese, Russian, Japanese and Korean - Audio generation through the llama-tts binary Example: llama-tts -hf ggml-org/Qwen3-TTS-12Hz-1.7B-Base-GGUF \ -p &quot;Hello, this is running locally.&quot; \ --tts-lang en">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vg0q6r/qwen3tts_voice_cloning_is_now_in_mainline/" target="_blank" rel="noopener">Qwen3-TTS voice cloning is now in mainline llama.cpp — the old demo finally became real support</a> <span class="src-num">[60]</span></div>
+    
+    <div class="card-desc">People may remember the Qwen3-TTS llama.cpp demo from a few months ago. That PR said it probably wouldn’t be merged because llama.cpp was missing some of the graph and API pieces…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I run my inference machine in the living room, so noise and heat output are a significant concern. Ran a quick test using my daily driver model (Qwen 3.6-27b) and at 480W, the card outputs only 2.1% less t/s in decode and 8.8% in prefill (which is already very fast). Well worth the massive noise reduction, heat output and increased card longevity, IMO. Even 450W would be fine for many use cases, but the output starts dropping off fast (2.1% -&gt; 4.2% for 30W less). Full data: Model : Qwen3.6-27B-Q6_K.gguf Results: | Limit W | Max GPU C | Steady GPU C | Max GPU fan % | Sustained W | Steady clock">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfdwox/decrease_the_power_limit_of_your_5090_to_at_least/" target="_blank" rel="noopener">Decrease the power limit of your 5090 to at least 480W - the performance penalty for inference is negligible.</a> <span class="src-num">[72]</span></div>
+    
+    <div class="card-desc">I run my inference machine in the living room, so noise and heat output are a significant concern. Ran a quick test using my daily driver model (Qwen 3.6-27b) and at 480W, the…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Llama.cpp currently uses cpu based sampling for user with mtp enabled. The PR moves sampling to the gpu, which on a 5090 boasts an 8% increase in tok/s for qwen3.6:35b. I tested it on my P40 and observed a 4% increase inference speed boost. Pretty exciting to see 84 tok/s max on a nvidia p40 for me. Backend sampling shows ~4% improvement on Linux + Tesla P40 (sm_61, Pascal): CPU Sampling : llama-server -m Qwen3.6-35B-A3B-UD-IQ4_NL.gguf --spec-type draft-mtp --seed 42 python3 mtp-bench.py code_python pred= 192 draft= 132 acc= 124 rate=0.939 tok/s=73.1 code_cpp pred= 113 draft= 76 acc= 74 rate=0">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vf8obs/llamacpp_pr_8_speed_boost/" target="_blank" rel="noopener">Llama.cpp PR 8% speed boost</a> <span class="src-num">[62]</span></div>
+    
+    <div class="card-desc">Llama.cpp currently uses cpu based sampling for user with mtp enabled. The PR moves sampling to the gpu, which on a 5090 boasts an 8% increase in tok/s for qwen3.6:35b. I tested…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I’ve seen a lot of people whose reviewers went silent after initial reviews, but I am also noting abnormally quiet authors. I ultimately withdrew my paper, but stayed an active reviewer. Out of my batch of 4 papers, one withdrew, one posted a rebuttal, and two have been completely silent. Of the two papers with radio silence, I think one had borderline scores. I was also the only reviewer who responded to the one paper with a rebuttal. Has anyone noticed this abnormally dead review period or did I just get a strange batch? I’m seeing either reviewers just dropping out of the review process or">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1vfm2k9/completely_dead_neurips_review_period_from_both/" target="_blank" rel="noopener">Completely dead NeurIPS review period from both ends? [D]</a> <span class="src-num">[42]</span></div>
+    
+    <div class="card-desc">I’ve seen a lot of people whose reviewers went silent after initial reviews, but I am also noting abnormally quiet authors. I ultimately withdrew my paper, but stayed an active…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Kimi K3 full model running on 16x GB10 cluster at 20+tps average (llama-benchy coherent corpus) 38tps peak, 750tps prefill. This is the first run of full k3 with dspark on my cluster. I will be doing some tests and try tp speed this up. As soon as it looks ready I&#x27;ll publish the vllm image and instructions. https://forums.developer.nvidia.com/t/full-kimi-k3-running-on-16x-gb10-cluster/379174 submitted by /u/ciprianveg [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfl525/kimi_k3_full_model_running_on_16x_gb10_cluster_at/" target="_blank" rel="noopener">Kimi K3 full model running on 16x GB10 cluster at 20+tps</a> <span class="src-num">[48]</span></div>
+    
+    <div class="card-desc">Kimi K3 full model running on 16x GB10 cluster at 20+tps average (llama-benchy coherent corpus) 38tps peak, 750tps prefill. This is the first run of full k3 with dspark on my…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I speed up the generation part of the demo in case you get bored 😄 I also tested another long-form generation, and the VRAM usage looks stable. The demo is about a minute long, and I posted it on X. This started as a random idea and somehow turned into a full detour from working on the next audio.cpp release. The model was uploaded to the audio.cpp HF repo. I will upload the xcframework later, and then push the code to a branch after release 0.6. submitted by /u/Acceptable-Cycle4645 [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfuawi/vibevoice_15b_running_locallyon_an_iphone_only_22/" target="_blank" rel="noopener">VibeVoice 1.5B Running Locally...On an iPhone! Only ~2.2 GB of Memory and Up to 1.28× Real-Time Speed</a> <span class="src-num">[67]</span></div>
+    
+    <div class="card-desc">I speed up the generation part of the demo in case you get bored 😄 I also tested another long-form generation, and the VRAM usage looks stable. The demo is about a minute long,…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://huggingface.co/papers/2608.03994" target="_blank" rel="noopener">When Attention Goes Blind: Numerical Failure in ALiBi Positional Encodings</a></li><li>[2] <a href="https://huggingface.co/papers/2608.03419" target="_blank" rel="noopener">Multi-Task Multi-Frame Visual Piano Transcription</a></li><li>[3] <a href="https://huggingface.co/papers/2607.28661" target="_blank" rel="noopener">Are the Financial Reasoning from LLMs Credible? A Real World Test over Long-Horizon…</a></li><li>[4] <a href="https://huggingface.co/papers/2608.00371" target="_blank" rel="noopener">Decoding Children&#x27;s Gait Behavior</a></li><li>[5] <a href="https://huggingface.co/papers/2608.01127" target="_blank" rel="noopener">MiniWorld: Democratizing the Training of Video World Models from Scratch</a></li><li>[6] <a href="https://huggingface.co/papers/2608.03874" target="_blank" rel="noopener">ContinualSkillBench: Can LLM Agents Truly Evolve Their Capabilities?</a></li><li>[7] <a href="https://huggingface.co/papers/2608.02218" target="_blank" rel="noopener">PosterMELD: Multi-Agent Paper-to-Poster Generation for Controllable Design Diversity with…</a></li><li>[8] <a href="https://huggingface.co/papers/2608.03457" target="_blank" rel="noopener">LLaDA MoE v2: Scaling Mixture-of-Experts Diffusion Language Models</a></li><li>[9] <a href="https://huggingface.co/papers/2608.03700" target="_blank" rel="noopener">When Agents Learn to Be You: Benchmarking Privacy Leakage, Impersonation Risk, and…</a></li><li>[10] <a href="https://huggingface.co/papers/2608.03979" target="_blank" rel="noopener">Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent</a></li><li>[11] <a href="https://huggingface.co/papers/2608.00730" target="_blank" rel="noopener">Push-Wiper: Toward General-Purpose Robotic Cleaning across Varied Stains and Surfaces…</a></li><li>[12] <a href="https://huggingface.co/papers/2607.28993" target="_blank" rel="noopener">ST-WAM: Semantic-Temporal World Action Model for Robust Manipulation under Visual…</a></li><li>[13] <a href="https://huggingface.co/papers/2608.02713" target="_blank" rel="noopener">Quo Vadis, World Modeling?</a></li><li>[14] <a href="https://huggingface.co/papers/2607.26451" target="_blank" rel="noopener">ExplainBench: Evaluating Code Explanations from Agents</a></li><li>[15] <a href="https://huggingface.co/papers/2608.02738" target="_blank" rel="noopener">Knowledge-Geometry Decoupling: Refreshable Pretrained Transfer for Streaming…</a></li><li>[16] <a href="https://huggingface.co/papers/2608.04003" target="_blank" rel="noopener">PAST-Bench: Benchmarking the Foundations of Recursive Self-Improvement in Personal Agents</a></li><li>[17] <a href="https://huggingface.co/papers/2608.01837" target="_blank" rel="noopener">PCSD: Persistent Consistency for Self-Distillation in Agentic Reinforcement Learning</a></li><li>[18] <a href="https://huggingface.co/papers/2608.03812" target="_blank" rel="noopener">OmniPack: Unified Token Compression for Efficient Omni-modal Large Language Models</a></li><li>[19] <a href="https://huggingface.co/papers/2608.02602" target="_blank" rel="noopener">AURORA-LM: Autoencoding Unified Representation for Continuous-Latent Diffusion Language…</a></li><li>[20] <a href="https://huggingface.co/papers/2608.02589" target="_blank" rel="noopener">CAPEval: A Decoupled Caption Evaluation across Understanding and Generation</a></li><li>[21] <a href="https://huggingface.co/papers/2608.04007" target="_blank" rel="noopener">TurnSight: Turn-Level Hindsight Self-Distillation for Tool-Integrated Reasoning</a></li><li>[22] <a href="https://huggingface.co/papers/2608.03974" target="_blank" rel="noopener">JoyAI-Video-Edit: Real-Time Open-Ended Video Editing with Autoregressive Diffusion</a></li><li>[23] <a href="https://huggingface.co/papers/2608.02711" target="_blank" rel="noopener">Hunyuan3D-Buffalo 1.0: A Unified Multimodal Model for Scalable 3D Generation,…</a></li><li>[24] <a href="https://huggingface.co/papers/2608.03509" target="_blank" rel="noopener">SkillJack: Persistent Skill Backdoors in Self-Evolving Agents</a></li><li>[25] <a href="https://huggingface.co/papers/2608.03971" target="_blank" rel="noopener">UniWorld-Design: From Pixel Generation to Layer-Native Design</a></li><li>[26] <a href="https://huggingface.co/papers/2607.28956" target="_blank" rel="noopener">MerchantBench: Benchmarking LLM Agents for Long-Term Coherence in E-Commerce Operations</a></li><li>[27] <a href="https://huggingface.co/papers/2608.02392" target="_blank" rel="noopener">GROVE: Growing and Reasoning over Temporally Stratified Memory from Streaming Video…</a></li><li>[28] <a href="https://huggingface.co/papers/2608.03316" target="_blank" rel="noopener">Any-OPD: Heterogeneous On-Policy Distillation for Flow-Matching Models via…</a></li><li>[29] <a href="https://huggingface.co/papers/2608.02437" target="_blank" rel="noopener">InfiniSplat: Implicit Gaussian Decoding for Large-Baseline Monocular View Synthesis</a></li><li>[30] <a href="https://huggingface.co/papers/2608.00155" target="_blank" rel="noopener">AgentStream: How Well Do Self-Evolving LLM Agents Perform Under Streaming Tasks?</a></li><li>[31] <a href="https://huggingface.co/papers/2607.25614" target="_blank" rel="noopener">MemSFT: Mitigating Alignment Tax with an External Parametric Memory</a></li><li>[32] <a href="https://huggingface.co/papers/2608.01185" target="_blank" rel="noopener">3DZip: Spatial-Aware Feature Diversity-Guided Token Compression for 3D Question Answering</a></li><li>[33] <a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven…</a></li><li>[34] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future…</a></li><li>[35] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state,…</a></li><li>[36] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user…</a></li><li>[37] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing…</a></li></ol>
+      <ol><li>[38] <a href="https://news.ycombinator.com/item?id=49177723" target="_blank" rel="noopener">The White House Is Keeping Its AI Cybersecurity Framework Secret</a></li><li>[39] <a href="https://www.wired.com/story/the-white-house-is-keeping-its-ai-cybersecurity-framework-secret/" target="_blank" rel="noopener">(https://www.wired.com/story/the-white-house-is-keeping-its-ai-cybersecurity-framework-sec…</a></li><li>[40] <a href="https://github.com/huangruiteng/loopx" target="_blank" rel="noopener">huangruiteng/loopx</a></li><li>[41] <a href="https://www.reddit.com/r/MachineLearning/comments/1vfrco1/i_compressed_bad_apple_into_a_3mb_neural_network_p/" target="_blank" rel="noopener">I Compressed Bad Apple into a 3MB Neural Network [P]</a></li><li>[42] <a href="https://www.reddit.com/r/MachineLearning/comments/1vfm2k9/completely_dead_neurips_review_period_from_both/" target="_blank" rel="noopener">Completely dead NeurIPS review period from both ends? [D]</a></li><li>[43] <a href="https://www.reddit.com/r/MachineLearning/comments/1vfi23r/neurips_2026_postrebuttal_score_distribution_poll/" target="_blank" rel="noopener">NeurIPS 2026 post-rebuttal score distribution poll [D]</a></li><li>[44] <a href="https://www.reddit.com/r/MachineLearning/comments/1vfx8pn/neurips_2026_main_track_theory_papers_score/" target="_blank" rel="noopener">NeurIPS 2026 Main Track — Theory papers score tracking post Rebuttal [D]</a></li><li>[45] <a href="https://www.reddit.com/r/MachineLearning/comments/1vg3jda/monodratic_learned_producthash_routing_for_sparse/" target="_blank" rel="noopener">Monodratic: learned product-hash routing for sparse causal attention [R]</a></li><li>[46] <a href="https://www.reddit.com/r/MachineLearning/comments/1vfv9fj/neurips_2026_concept_feasibility_track_d/" target="_blank" rel="noopener">NeurIPS 2026 Concept &amp; Feasibility Track [D]</a></li><li>[47] <a href="https://www.reddit.com/r/MachineLearning/comments/1vfa9im/reactive_play_achieved_experimenting_with_atari/" target="_blank" rel="noopener">Reactive Play: Achieved!! Experimenting with Atari Breakout [R]</a></li><li>[48] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfl525/kimi_k3_full_model_running_on_16x_gb10_cluster_at/" target="_blank" rel="noopener">Kimi K3 full model running on 16x GB10 cluster at 20+tps</a></li><li>[49] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfj3q7/hugging_face_ceo_says_china_is_winning_the_ai/" target="_blank" rel="noopener">Hugging Face CEO says China is winning the AI race and dominating on open models</a></li><li>[50] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfa3tq/sk_hynix_in_collaboration_with_sandisk_unveils/" target="_blank" rel="noopener">SK hynix, In Collaboration With SanDisk, Unveils The New High Bandwidth Flash (HBF)…</a></li><li>[51] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfirld/has_anyone_tried_mach1_additive_95_of_performance/" target="_blank" rel="noopener">Has anyone tried Mach-1 Additive? 95% of performance of Qwen 3.6 35B while being 10x…</a></li><li>[52] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfhhpq/no_more_slm_opensource/" target="_blank" rel="noopener">No more SLM open-source??</a></li><li>[53] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfqqdb/white_house_ai_guidelines_exempt_us_open_models/" target="_blank" rel="noopener">White House AI Guidelines Exempt U.S. Open Models From Government Review</a></li><li>[54] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfhns3/a_llamacpp_pr_caches_hot_moe_experts_on_the_gpu/" target="_blank" rel="noopener">A llama.cpp PR caches “hot” MoE experts on the GPU — 33 → 56 tok/s reported with 8GB VRAM</a></li><li>[55] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfj3me/introducing_shieldstral_mistral_ai/" target="_blank" rel="noopener">Introducing Shieldstral. | Mistral AI</a></li><li>[56] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfujnc/chinas_openweight_models_will_be_spared_us_safety/" target="_blank" rel="noopener">China’s Open-Weight Models Will Be Spared US Safety Tests</a></li><li>[57] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfeick/gemma_4_on_500mb/" target="_blank" rel="noopener">Gemma 4 on 500MB</a></li><li>[58] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfn9vc/a_26b_model_with_tool_calling_and_128k_context/" target="_blank" rel="noopener">A 2.6B model with tool calling and 128K context now runs at 30 tok/s on a phone</a></li><li>[59] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfdeek/inclusionailing30flash_weights_are_up_on_hugging/" target="_blank" rel="noopener">inclusionAI/Ling-3.0-flash weights are up on Hugging Face — MIT, BF16 plus an official FP8</a></li><li>[60] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vg0q6r/qwen3tts_voice_cloning_is_now_in_mainline/" target="_blank" rel="noopener">Qwen3-TTS voice cloning is now in mainline llama.cpp — the old demo finally became real…</a></li><li>[61] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfdcd7/inclusionailing30flash_hugging_face/" target="_blank" rel="noopener">inclusionAI/Ling-3.0-flash · Hugging Face</a></li><li>[62] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vf8obs/llamacpp_pr_8_speed_boost/" target="_blank" rel="noopener">Llama.cpp PR 8% speed boost</a></li><li>[63] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfo8be/gptoss_has_turned_one_year_old_today/" target="_blank" rel="noopener">GPT-OSS has turned one year old today!</a></li><li>[64] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfh1sn/lfm2526b_is_out/" target="_blank" rel="noopener">LFM2.5-2.6B is out</a></li><li>[65] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfrr5t/maplepreview_20ba1b_ternaryweight_reasoning/" target="_blank" rel="noopener">Maple-Preview: 20B-A1B ternary-weight reasoning open-weight LLM</a></li><li>[66] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfbcgx/deepseekv4flash0731_full_1m_context_on_a_single/" target="_blank" rel="noopener">[Deepseek-V4-Flash-0731] Full 1M context on a single RTX5090 + DDR5 Desktop Setup with…</a></li><li>[67] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfuawi/vibevoice_15b_running_locallyon_an_iphone_only_22/" target="_blank" rel="noopener">VibeVoice 1.5B Running Locally...On an iPhone! Only ~2.2 GB of Memory and Up to 1.28×…</a></li><li>[68] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfctwf/deepseek_v4_flash_2bit_quant_is_the_first_model_i/" target="_blank" rel="noopener">Deepseek V4 Flash 2-bit quant is the first model I can run locally that achieves 100% in…</a></li><li>[69] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfstpj/thinking_of_buying_more_dram_right_now/" target="_blank" rel="noopener">Thinking of buying more DRAM right now...</a></li><li>[70] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfuo9d/gptx25135m_scores_3rd_place_on_open_slm/" target="_blank" rel="noopener">GPT-X2.5-135M scores 3rd place on Open SLM Leaderboard on Huggingface, Beating Facebook&#x27;s…</a></li><li>[71] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfem5v/design_systems_from_code_alone_without_external/" target="_blank" rel="noopener">Design systems from code alone - Without external images, Ling-3.0-flash generated…</a></li><li>[72] <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vfdwox/decrease_the_power_limit_of_your_5090_to_at_least/" target="_blank" rel="noopener">Decrease the power limit of your 5090 to at least 480W - the performance penalty for…</a></li><li>[73] <a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and…</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <a href="../index.html">Carlos's Debrief</a> · curated by Hermes Research Scout · <a href="../topics.html">topics</a> · <a href="../top-500.html">top 500</a> · <a href="../feed.xml">RSS</a>
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+    <div class="modal-hint">← → navigate · esc close · alt+T theme</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() { return cards.filter((c) => !c.classList.contains('hidden')); }
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open === 'true') {
+      if (e.key === 'Escape') closeModal();
+      else if (e.key === 'ArrowLeft') navigate(-1);
+      else if (e.key === 'ArrowRight') navigate(1);
+    } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      document.getElementById('search').focus();
+    }
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden'); shown++; return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) { card.classList.remove('hidden'); shown++; }
+      else { card.classList.add('hidden'); }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
