@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="github-dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<title>Carlos's Debrief — August 25, 2026 19:00</title>
+<link rel="alternate" type="application/rss+xml" title="Carlos's Debrief" href="../feed.xml">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../assets/themes.css?v=4">
+<script src="../assets/theme-switcher.js?v=4" defer></script>
+<style>
+  /* Page-specific overrides layered on top of the theme tokens. */
+
+  .container { max-width: 1140px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header — gradient, stats, topic chips, current-time stamp */
+  .header {
+    text-align: center;
+    padding: 64px 20px 36px;
+    background: linear-gradient(180deg, var(--bg-elevated, #161b22) 0%, var(--bg, #0d1117) 100%);
+    border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .header h1 {
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--accent, #58a6ff), var(--accent-purple, #d2a8ff));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+  .header .subtitle { color: var(--text-muted, #8b949e); font-size: 1.1em; margin-bottom: 4px; }
+  .header .curated {
+    color: var(--text-subtle, #6e7681); font-size: 0.82em; font-style: italic; margin-top: 10px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+
+  .stats {
+    display: flex; justify-content: center; gap: 20px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .stat {
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 12px;
+    padding: 14px 28px;
+    text-align: center;
+    min-width: 140px;
+    transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+  }
+  .stat:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent, #58a6ff);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .stat-num {
+    font-size: 2em; font-weight: 800; color: var(--accent, #58a6ff); display: block; line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: 0.78em; color: var(--text-muted, #8b949e); margin-top: 4px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  .topics { margin-top: 22px; max-width: 820px; margin-left: auto; margin-right: auto;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; padding: 0 16px; }
+  .topics-label {
+    color: var(--text-subtle, #6e7681); font-size: 0.72em; text-transform: uppercase;
+    letter-spacing: 0.07em; margin-right: 6px; align-self: center;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .topic {
+    color: var(--text-muted, #8b949e); font-size: 0.78em;
+    background: var(--tag-bg, #21262d);
+    border: 1px solid var(--border-soft, #21262d);
+    padding: 3px 10px; border-radius: 999px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .topic:hover { color: var(--accent, #58a6ff); border-color: var(--accent, #58a6ff); cursor: pointer; }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex; gap: 12px; align-items: center; margin-bottom: 28px; flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1; min-width: 220px;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 10px;
+    color: var(--text, #c9d1d9);
+    padding: 12px 16px;
+    font-size: 0.95em; font-family: inherit; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus { border-color: var(--accent, #58a6ff); box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15); }
+  .search-input::placeholder { color: var(--text-subtle, #6e7681); }
+  .filter-count { color: var(--text-muted, #8b949e); font-size: 0.85em; white-space: nowrap; }
+  .kbd-hint { color: var(--text-subtle, #6e7681); font-size: 0.8em; font-family: var(--font-mono, ui-monospace, monospace); }
+
+  /* Summary boxes */
+  .summary-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-2, #3fb950) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-2, #3fb950);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--cat-2, #3fb950); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright, #f0f6fc); }
+
+  .news-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-4, #f0883e) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-4, #f0883e);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--cat-4, #f0883e); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright, #f0f6fc); }
+
+  /* Sections */
+  .section { margin-bottom: 48px; }
+  .section > h2 {
+    font-size: 1.55em; color: var(--text-bright, #f0f6fc); margin-bottom: 22px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .section-group { margin-bottom: 36px; }
+  .section-group h3 {
+    color: var(--accent, #58a6ff); font-size: 1.1em; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400;
+    background: var(--tag-bg, #21262d); padding: 2px 8px; border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--bg-card, #161b22);
+    border: 1px solid var(--border-card, #21262d);
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex; flex-direction: column; position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent, #58a6ff); opacity: 0.5; transition: opacity 0.18s;
+  }
+  .card:hover {
+    border-color: var(--accent, #58a6ff);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .card:hover::before { opacity: 1; }
+  .card::after {
+    content: '⤢'; position: absolute; top: 12px; right: 14px;
+    color: var(--text-subtle, #6e7681); font-size: 0.9em; opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent, #58a6ff); }
+  .card-title { font-size: 1em; font-weight: 600; margin-bottom: 6px; line-height: 1.4; padding-right: 24px; }
+  .card-title a { color: var(--text-bright, #f0f6fc); text-decoration: none; }
+  .card-title a:hover { color: var(--accent, #58a6ff); text-decoration: underline; }
+  .src-num { color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted, #8b949e); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text, #c9d1d9); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .tag {
+    background: var(--tag-bg, #21262d);
+    color: var(--accent, #58a6ff);
+    font-size: 0.74em;
+    padding: 3px 10px; border-radius: 12px;
+    border: 1px solid var(--border, #30363d);
+    white-space: nowrap;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .web-tag { color: var(--accent-purple, #d2a8ff); }
+  .web-card::before { background: var(--accent-purple, #d2a8ff); }
+  .category-1::before { background: var(--cat-1, #58a6ff); }
+  .category-2::before { background: var(--cat-2, #3fb950); }
+  .category-3::before { background: var(--cat-3, #d2a8ff); }
+  .category-4::before { background: var(--cat-4, #f0883e); }
+  .category-5::before { background: var(--cat-5, #ff7b72); }
+  .category-6::before { background: var(--cat-6, #d29922); }
+
+  /* Sources */
+  .sources { margin-top: 48px; }
+  .sources h2 {
+    font-size: 1.3em; color: var(--text-bright, #f0f6fc); margin-bottom: 18px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px; font-size: 0.82em; color: var(--text-muted, #8b949e);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 32px 20px; margin-top: 56px;
+    border-top: 1px solid var(--border-soft, #21262d);
+    color: var(--text-subtle, #6e7681); font-size: 0.85em;
+  }
+  .footer a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Modal — full-screen reading view */
+  .modal {
+    position: fixed; inset: 0; z-index: 1000; display: none;
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute; inset: 0;
+    background: var(--bg-overlay, rgba(1, 4, 9, 0.85));
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw); max-height: 92vh;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border-strong, #484f58);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: var(--shadow-modal, 0 24px 60px rgba(0,0,0,0.7));
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: sticky; top: -36px;
+    display: block;
+    margin-left: auto;
+    margin-right: -22px;
+    margin-top: -36px;
+    width: fit-content;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e); font-size: 1.6em; line-height: 1;
+    cursor: pointer; padding: 4px 14px; border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 10;
+  }
+  .modal-close:hover { background: var(--tag-bg, #21262d); color: var(--text-bright, #f0f6fc); }
+  .modal-title {
+    font-size: 2.15em; font-weight: 700; color: var(--text-bright, #f0f6fc);
+    line-height: 1.25; margin-bottom: 18px; padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent, #58a6ff); }
+  .modal-authors {
+    color: var(--text-muted, #8b949e); font-size: 1.15em; font-style: italic; margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text, #c9d1d9); font-size: 1.3em; line-height: 1.75;
+    margin-bottom: 32px; white-space: pre-wrap;
+  }
+  .modal-hint {
+    position: absolute; bottom: 16px; right: 24px;
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .modal-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border, #30363d);
+  }
+  .modal-nav button {
+    background: none; border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e);
+    padding: 12px 24px; border-radius: 10px; cursor: pointer;
+    font-size: 1em; font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent, #58a6ff); color: var(--accent, #58a6ff); background: var(--tag-bg, #21262d);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle, #6e7681); font-size: 1em; font-variant-numeric: tabular-nums; }
+
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Cyber tweak: matrix-green glow on card hover */
+  :root[data-theme="cyber"] .card:hover {
+    box-shadow: 0 0 24px rgba(0, 255, 65, 0.4), 0 0 48px rgba(0, 255, 65, 0.15);
+    border-color: #00ff41;
+  }
+  /* Dark-mono tweak: no glow, just a hairline; slower animations for less noise */
+  :root[data-theme="dark-mono"] .card {
+    border-radius: 0;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  :root[data-theme="dark-mono"] .card::before { width: 2px; }
+  /* Modern tweak: snappier shadows, slightly more padding */
+  :root[data-theme="modern"] .card {
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+  /* Light tweak: warmer hover, no shadow-blur */
+  :root[data-theme="light"] .card:hover {
+    box-shadow: 0 4px 14px rgba(60, 50, 40, 0.1);
+  }
+
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.7em; }
+    .header { padding: 40px 14px 24px; }
+    .stats { gap: 10px; }
+    .stat { padding: 10px 16px; min-width: 100px; }
+    .stat-num { font-size: 1.6em; }
+    .container { padding: 20px 12px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 6px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; border-radius: 12px; }
+    .modal-close { top: -36px; margin-right: -22px; margin-top: -36px; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.05em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 16px; }
+  }
+</style>
+</head>
+<body>
+<div id="theme-picker" class="theme-picker" role="group" aria-label="Theme switcher">
+  <button type="button" data-theme="github-dark">Default</button>
+  <button type="button" data-theme="cyber">Cyber</button>
+  <button type="button" data-theme="modern">Modern</button>
+  <button type="button" data-theme="dark-mono">Mono</button>
+  <button type="button" data-theme="light">Light</button>
+</div>
+<script src="assets/theme-switcher.js?v=8"></script>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">August 25, 2026 19:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">39</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">39</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">// topics</span>
+    {{TOPIC_CHIPS}}
+  </div>
+  <div class="curated">August 25, 2026 19:00 · curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li><strong>Next-generation lightweight explainable AI for cybersecurity: A review on transparency and real-time threat mitigation</strong>: Problem: The integration of Artificial Intelligence (AI) into cybersecurity, while enhancing threat detection, is hampered by the “black box” nature of complex models, eroding trust, accountability, and regulatory compliance. Explainable…</li>
+      <li><strong>Continual Learning of Frontier Models for SovereignAI. Tech Report + Open Weights Model [R]</strong>: Paper: https://huggingface.co/spaces/tri-fair-lab/publications/blob/main/Thomson_1_0_Technical_Report.pdf The development of frontier models is commonly perceived to be in the exclusive remit of a small number of heavily funded players,…</li>
+      <li><strong>Agentic reasoning: A streamlined framework for enhancing llm reasoning with agentic tools</strong>: Junde Wu, Jiayuan Zhu, Yuyuan Liu, Min Xu, Yueming Jin. Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers).</li>
+      <li><strong>Integrating fully homomorphic encryption and zero-knowledge proofs for efficient verifiable computation</strong></li>
+      <li><strong>zkvc: Fast zero-knowledge proof for private and verifiable computing</strong>: In the context of cloud computing, services are held on cloud servers, where the clients send their data to the server and obtain the results returned by server. However, the computation, data and results are prone to tampering due to the…</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>C2PA Cameras Do Not Survive Contact With Reality</strong>: Welcome to my ::&#x27;########::&#x27;##::::::::&#x27;#######:::&#x27;######::: :: ##....</li>
+      <li><strong>Quantization-Aware Healing: A Practical Recipe for Recovering Compressed, 4-Bit LLMs</strong>: Serving large language models cheaply increasingly means shipping models that are both structurally compressed to a fraction of their parameters and quantized to 4 bits.</li>
+      <li><strong>Partition the Support, Reconstruct the Residual: Training-Free Sparse Attention for Video Generation and World Models</strong>: Training-free block-sparse attention can accelerate video transformers, but row-wise attention concentration does not by itself specify an executable sparse operator.</li>
+      <li><strong>AI At Home Part 2: Multi GPU Drifting</strong>: getting AI models to run fast on a box of e-waste GPUs</li>
+      <li><strong>Industrial-Instruction: An End-to-End Framework for Building Instruction-Tuning and Benchmark Datasets from Industrial Technical Reports</strong>: Industrial technical reports contain high-value knowledge for maintenance, troubleshooting, and product engineering, but their heterogeneous structure (dense prose, specifications, tables) makes them…</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+    <span class="kbd-hint">/ focus · Alt+T theme</span>
+  </div>
+
+    <div class="section">
+    <h2>🗡️ Relevant to your Katana work <span class="group-count">2</span></h2>
+    <ul style="list-style:none;padding:0;margin:0;">
+      <li style="padding:8px 0;border-bottom:1px solid #21262d;"><a href="https://ieeexplore.ieee.org/abstract/document/11618598/" target="_blank" rel="noopener" style="color:#f0f6fc;text-decoration:none;font-weight:600;">Safety and Alignment Frameworks for High-Autonomy AI Systems</a> <span class="src-num">[31]</span><div style="color:#6e7681;font-size:.8em;margin-top:2px;">google_scholar</div></li>
+      <li style="padding:8px 0;border-bottom:1px solid #21262d;"><a href="https://www.cisa.gov/news-events/cybersecurity-advisories/aa26-237a" target="_blank" rel="noopener" style="color:#f0f6fc;text-decoration:none;font-weight:600;">A Tale of Two SOCs: Insights From Two Red Team Assessments</a> <span class="src-num">[7]</span><div style="color:#6e7681;font-size:.8em;margin-top:2px;">lobsters</div></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🤗 HuggingFace Papers <span class="group-count">6</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Interpretability research increasingly asks when concepts emerge during training and whether linear probes recover real structure, but in language models these claims are hard to validate because language offers little ground-truth ordering of concepts or relationships among them. We propose the use of astronomical ground truth through AstroPT, a transformer trained on millions of galaxy images, as a calibration testbed. AstroPT is an LLM-like model trained within a domain where the difficulty ordering of concepts and the relations among them are known in advance. Probing frozen representations across checkpoints, layers, model sizes, and objective choices, we find that galaxy properties emerge in a fixed order that tracks their known difficulty---quantities written almost directly into the pixels (band magnitude) become decodable early in training and shallow in the network, while multiband/spectra based and inferred quantities (such as redshift and specific star formation rate) emerge later and deeper. This order is invariant to our tested training objectives, and scales in magnitude but not in sequence with capacity. Our linear probe directions further recover the known physical structure among galaxy properties. Our findings suggest that astronomy offers a controlled sandbox for calibrating mechanistic interpretability methods we otherwise apply to LLMs blind.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.22614" target="_blank" rel="noopener">What AstroPT knows about galaxies, and what that can teach us about LLMs</a> <span class="src-num">[9]</span></div>
+    
+    <div class="card-desc">Interpretability research increasingly asks when concepts emerge during training and whether linear probes recover real structure, but in language models these claims are hard to…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 3</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Serving large language models cheaply increasingly means shipping models that are both structurally compressed to a fraction of their parameters and quantized to 4 bits. Together these steps degrade reasoning, mathematics, coding, and long-context behavior enough to require a recovery, or healing, stage before deployment. The default recipe, quantization-aware training (QAT), re-fits the compressed, quantized model to hard labels; in our pipeline it converged slowly and collapsed past its peak. We adopted Quantization-Aware Healing (QAH) instead. Because a structurally compressed model is never independently trained at full precision, its bfloat16 checkpoint is a distillation-recovered approximation of the original; QAH distills the 4-bit student directly from the original, uncompressed model. On a GPT-OSS 120B to 60B to MXFP4 pipeline, the QAH student matches or beats its bfloat16 source on 7 of 9 benchmarks at roughly 4 times less weight memory and half the teacher&#x27;s parameter count, and is released open-weight as Hypernova-60B. Against a matched QAT baseline it reaches a comparable peak about 7 times faster and stays stable under continued training, without hand-tuned early stopping. We also report deployment lessons, including a large, reproducible quality gap between distributed-training backends. Our aim is a recipe deployable without a multi-week hyper-parameter search.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.20953" target="_blank" rel="noopener">Quantization-Aware Healing: A Practical Recipe for Recovering Compressed, 4-Bit LLMs</a> <span class="src-num">[12]</span></div>
+    
+    <div class="card-desc">Serving large language models cheaply increasingly means shipping models that are both structurally compressed to a fraction of their parameters and quantized to 4 bits. Together…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 9</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Agent benchmarks often evaluate only final answers even when agents run on stateful runtimes. We argue this under-specifies what is being evaluated: the proper unit is a declared model-plus-runtime configuration whose failures can occur in evidence acquisition, runtime routing, safety boundaries, or repeated execution. We present ClawProBench, a trace-aware benchmark for runtime-native agent evaluation instantiated on OpenClaw, a live agent runtime with workspace tools and native surfaces for browsing, memory, messaging, scheduling, skills, and subagents. ClawProBench defines two tracks: a 102-scenario full profile with live workspace and native-runtime routing tasks, and a frozen 68-scenario holdout with closed-world JSON output contracts for robust ranking. Trials are scored from execution traces via a safety-gated formula combining correctness, process quality, and efficiency, preserving failure evidence for audit. Our anonymous artifact includes benchmark definitions, scoring code, manifests and sanitized traces. We evaluate 68 configurations on the full profile and 37 on holdout. The top safety-gated average trace score is 0.7671. Native-runtime tasks underperform workspace-live tasks (0.5238 vs. 0.6415). On holdout, pass@k-any outperforms strict three-trial pass (0.6638 vs. 0.2890), while full-profile and holdout rankings show weak alignment (Spearman 0.1300). Rankings based purely on correctness differ substantially from process-aware, safety-gated and strict-pass view">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.22510" target="_blank" rel="noopener">ClawProBench: Trace-Aware Evaluation of AI Agents with Runtime Coverage and Frozen Workplace-Style Holdouts</a> <span class="src-num">[10]</span></div>
+    
+    <div class="card-desc">Agent benchmarks often evaluate only final answers even when agents run on stateful runtimes. We argue this under-specifies what is being evaluated: the proper unit is a declared…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 3</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Industrial technical reports contain high-value knowledge for maintenance, troubleshooting, and product engineering, but their heterogeneous structure (dense prose, specifications, tables) makes them difficult to index and reason over with standard retrieval and QA pipelines, and no public instruction-tuning or benchmark datasets are built from such documents. We address this gap with Industrial-Instruction, contributing (i) two open QA datasets built from real industrial technical reports and (ii) the end-to-end pipeline that produces them. Using 906 public Panasonic documents (7,525 pages), we apply layout-aware extraction, build a semantic retrieval index, and synthesize multiple-choice QA grounded in retrieved evidence under five query-document relationships (irrelevant retrieval, single-/multi-document support, single-/multi-document answer). After filtering an initial 23.9k generated samples, each dataset provides approximately 13.6k QA pairs with source documents and a held-out benchmark split. Fine-tuning small open LLMs (under 10B parameters) improves Set-Match Accuracy from 28.5% to 42.0% and F1 from 46.6% to 63.5% on the Panasonic benchmark. We release two parallel versions built by the same pipeline: one generated with the open-weight Qwen3-30B-A3B-Instruct model and one with the closed, API-based Claude-Opus-4.6 model, enabling a direct comparison of open- versus frontier-model data generation. The Claude-Opus-4.6 dataset yields a cleaner raw corpus and larger fi">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.22817" target="_blank" rel="noopener">Industrial-Instruction: An End-to-End Framework for Building Instruction-Tuning and Benchmark Datasets from Industrial Technical Reports</a> <span class="src-num">[13]</span></div>
+    
+    <div class="card-desc">Industrial technical reports contain high-value knowledge for maintenance, troubleshooting, and product engineering, but their heterogeneous structure (dense prose,…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 5</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Training-free block-sparse attention can accelerate video transformers, but row-wise attention concentration does not by itself specify an executable sparse operator. Queries sharing a block route may have poorly overlapping supports, while retained attention mass alone does not determine the post-softmax error from skipped interactions. We show that partition geometry affects both pooled support and the predictability of the remaining residual from the sparse output. We introduce SparsePR, which combines Response-Coupled Partitioning with Probe-Fitted Residual Reconstruction. Sampled-query key responses form paired K/V groups, whose centroids induce query-response coordinates for shared routing. A small set of exact query rows then calibrates a call-specific affine correction from the sparse output within the output subspace observed in the probe residuals. Across four heterogeneous video generation and world models, SparsePR consistently reduces attention-reconstruction error. Ablations show that probe fitting accounts for most of this reduction, while response-coupled partitioning lowers hard-drop error and improves reconstruction under a finite probe budget. SparsePR preserves generation quality at 22.0-26.0% realized executed-pair density while achieving 1.48x-2.61x end-to-end speedups. Project page: https://pardistaghavi.github.io/SparsePR-website/">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.18484" target="_blank" rel="noopener">Partition the Support, Reconstruct the Residual: Training-Free Sparse Attention for Video Generation and World Models</a> <span class="src-num">[14]</span></div>
+    
+    <div class="card-desc">Training-free block-sparse attention can accelerate video transformers, but row-wise attention concentration does not by itself specify an executable sparse operator. Queries…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 8</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="As Retrieval-Augmented Generation (RAG) shifts toward diverse portfolio generation, it is stymied by two critical bottlenecks: flawed measurement of evidence utilization, and suboptimal context budget allocation. We resolve both sequentially.
+  To resolve measurement, we expose a pervasive ``diagnostic illusion&#x27;&#x27;: standard relevance proxies fail catastrophically on hard negatives. We replace them with an efficient causal leave-one-out probe that accurately isolates generative reliance and formally calibrates the structural dilution of LLM attention.
+  To resolve allocation, we deploy this causal probe in a deconfounded factorial grid. We prove that the prevailing strategy of monolithic context widening is an architectural trap penalized by relevance decay. Instead, allocating compute iteratively across multiple sequential generations drives transformative portfolio recall gains of 16.7--20.5 absolute percentage points, scaling robustly up to 32B models.
+  Finally, we unify these solutions into a deployable closed-loop submodular scheduler. Augmented by an attribution-steered contrastive decoder to override LLM attention inertia, our architecture systematically forces fresh evidence integration. By dominating classical open-loop baselines, we establish sequential, feedback-driven orchestration as the definitive paradigm for generative search. Our code, data, and causal measurement instruments are available at https://github.com/PeiYangLiu/ascp.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2608.23252" target="_blank" rel="noopener">The Laws of Context Allocation: Causal Measurement and Closed-Loop Orchestration in Generative Search</a> <span class="src-num">[11]</span></div>
+    
+    <div class="card-desc">As Retrieval-Augmented Generation (RAG) shifts toward diverse portfolio generation, it is stymied by two critical bottlenecks: flawed measurement of evidence utilization, and…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 4</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📝 OpenReview <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and fine-tuned on massive 3D data, offering the capability of producing highly consistent multi-view images. However, due to the scarcity of synchronized multi-view video data, it remains challenging to adapt this paradigm to 4D generation directly. Despite that, the available video and 3D data are adequate for training video and multi-view diffusion models separately that can provide satisfactory dynamic and geometric pri">
+    <div class="card-title"><a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and Multi-view Diffusion Models</a> <span class="src-num">[39]</span></div>
+    
+    <div class="card-desc">Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🦞 Lobste.rs <span class="group-count">8</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Should you boycott generative AI? But what if your hyped-up boss starts pressuring you? Worry not, there’s a middle ground. A tech worker shares their manifesto for responsible agentic AI coding.">
+    <div class="card-title"><a href="https://www.techwerkers.nl/en/posts/manifesto-responsible-agentic-coding/" target="_blank" rel="noopener">A Manifesto for Responsible Agentic Coding</a> <span class="src-num">[2]</span></div>
+    
+    <div class="card-desc">Should you boycott generative AI? But what if your hyped-up boss starts pressuring you? Worry not, there’s a middle ground. A tech worker shares their manifesto for responsible…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="This aims to emulate projects like [lively kernel](https://www.lively-kernel.org/) or [Squeak/Smalltalk](https://squeak.org/)">
+    <div class="card-title"><a href="https://www.inkandswitch.com/livelymerge/notebook/" target="_blank" rel="noopener">Lively Merge | Collaborative programming kernels</a> <span class="src-num">[5]</span></div>
+    
+    <div class="card-desc">This aims to emulate projects like [lively kernel](https://www.lively-kernel.org/) or [Squeak/Smalltalk](https://squeak.org/)</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Could belief in AI predictions be just another form of superstition? This study investigates psychological factors that influence belief in AI predictions about personal behavior, comparing it to belief in astrology- and personality-based predictions. Through an experiment with 238 participants, we examined how cognitive style, paranormal beliefs, AI attitudes, personality traits, and other factors affect perceived validity, reliability, usefulness, and personalization of predictions from different sources. Our findings reveal that belief in AI predictions is positively correlated with belief">
+    <div class="card-title"><a href="https://arxiv.org/abs/2408.06602" target="_blank" rel="noopener">Super-intelligence or Superstition? Exploring Psychological Factors Influencing Belief in AI Predictions about Personal Behavior</a> <span class="src-num">[4]</span></div>
+    
+    <div class="card-desc">Could belief in AI predictions be just another form of superstition? This study investigates psychological factors that influence belief in AI predictions about personal behavior,…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="getting AI models to run fast on a box of e-waste GPUs">
+    <div class="card-title"><a href="https://jdagostino.github.io/ai-pt2-multi-gpu-drifting/index.html" target="_blank" rel="noopener">AI At Home Part 2: Multi GPU Drifting</a> <span class="src-num">[1]</span></div>
+    
+    <div class="card-desc">getting AI models to run fast on a box of e-waste GPUs</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Folks have been daisy-chaining Macs for AI—this refresh keeps that in mind.">
+    <div class="card-title"><a href="https://arstechnica.com/apple/2026/08/with-new-mac-studio-and-mac-mini-apple-leans-hard-into-local-ai-inference/" target="_blank" rel="noopener">Apple&#x27;s new desktop computers are designed specifically for local AI development</a> <span class="src-num">[3]</span></div>
+    
+    <div class="card-desc">Folks have been daisy-chaining Macs for AI—this refresh keeps that in mind.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Same tactics, very different results. This advisory compares defensive outcomes from two red team assessments. Learn what drove detection and implement key actions to protect your organization from cyber threats.">
+    <div class="card-title"><a href="https://www.cisa.gov/news-events/cybersecurity-advisories/aa26-237a" target="_blank" rel="noopener">A Tale of Two SOCs: Insights From Two Red Team Assessments</a> <span class="src-num">[7]</span></div>
+    
+    <div class="card-desc">Same tactics, very different results. This advisory compares defensive outcomes from two red team assessments. Learn what drove detection and implement key actions to protect your…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Welcome to my ::&#x27;########::&#x27;##::::::::&#x27;#######:::&#x27;######::: :: ##.... ##: ##:::::::&#x27;##.... ##:&#x27;##... ##:: :: ##:::: ##: ##::::::: ##:::: ##: ##:::..::: :: ########:: ##::::::: ##:::: ##: ##::&#x27;####: :: ##.... ##: ##::::::: ##:::: ##: ##::: ##:: :: ##:::: ##: ##::::::: ##:::: ##: ##::: ##:: :: ########:: ########:. #######::. ######::: ::........:::........:::.......::::......:::: Blog Index C2PA Cameras Do Not Survive Contact With Reality By David Buchanan (aka retr0id), 25 th August 2026">
+    <div class="card-title"><a href="https://www.da.vidbuchanan.co.uk/blog/android-c2pa.html" target="_blank" rel="noopener">C2PA Cameras Do Not Survive Contact With Reality</a> <span class="src-num">[8]</span></div>
+    
+    <div class="card-desc">Welcome to my ::&#x27;########::&#x27;##::::::::&#x27;#######:::&#x27;######::: :: ##.... ##: ##:::::::&#x27;##.... ##:&#x27;##... ##:: :: ##:::: ##: ##::::::: ##:::: ##: ##:::..::: :: ########:: ##:::::::…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="The Sync Heap: Delete First, Ask Questions Later">
+    <div class="card-title"><a href="https://arxiv.org/pdf/2608.07134" target="_blank" rel="noopener">The Sync Heap: Delete First, Ask Questions Later</a> <span class="src-num">[6]</span></div>
+    
+    <div class="card-desc">Finding from 🦞 Lobste.rs.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🎓 Google Scholar <span class="group-count">18</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Problem: The integration of Artificial Intelligence (AI) into cybersecurity, while enhancing threat detection, is hampered by the “black box” nature of complex models, eroding trust, accountability, and regulatory compliance. Explainable AI (XAI) aims to resolve this opacity but introduces a critical new vulnerability: the adversarial exploitation of model explanations themselves. Gap: Current research lacks a comprehensive synthesis of this dual role of XAI in cybersecurity—as both a tool for transparency and a potential attack vector. There is a pressing need to systematically analyze the tr">
+    <div class="card-title"><a href="https://www.sciopen.com/article/10.32604/cmes.2025.073705" target="_blank" rel="noopener">Next-generation lightweight explainable AI for cybersecurity: A review on transparency and real-time threat mitigation</a> <span class="src-num">[17]</span></div>
+    
+    <div class="card-desc">Problem: The integration of Artificial Intelligence (AI) into cybersecurity, while enhancing threat detection, is hampered by the “black box” nature of complex models, eroding…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Junde Wu, Jiayuan Zhu, Yuyuan Liu, Min Xu, Yueming Jin. Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers). 2025.">
+    <div class="card-title"><a href="https://aclanthology.org/2025.acl-long.1383/" target="_blank" rel="noopener">Agentic reasoning: A streamlined framework for enhancing llm reasoning with agentic tools</a> <span class="src-num">[29]</span></div>
+    
+    <div class="card-desc">Junde Wu, Jiayuan Zhu, Yuyuan Liu, Min Xu, Yueming Jin. Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers). 2025.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Integrating fully homomorphic encryption and zero-knowledge proofs for efficient verifiable computation">
+    <div class="card-title"><a href="https://www.researchgate.net/profile/Aditya-More-6/publication/399111648_Integrating_Fully_Homomorphic_Encryption_and_Zero-Knowledge_Proofs_for_Efficient_Verifiable_Computation/links/694ff64406a9ab54f84b7d66/Integrating-Fully-Homomorphic-Encryption-and-Zero-Knowledge-Proofs-for-Efficient-Verifiable-Computation.pdf" target="_blank" rel="noopener">Integrating fully homomorphic encryption and zero-knowledge proofs for efficient verifiable computation</a> <span class="src-num">[20]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="In the context of cloud computing, services are held on cloud servers, where the clients send their data to the server and obtain the results returned by server. However, the computation, data and results are prone to tampering due to the vulnerabilities on the server side. Thus, verifying the integrity of computation is important in the client-server setting. The cryptographic method known as Zero-Knowledge Proof (ZKP) is renowned for facilitating private and verifiable computing. ZKP allows the client to validate that the results from the server are computed correctly without violating the p">
+    <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11132681/" target="_blank" rel="noopener">zkvc: Fast zero-knowledge proof for private and verifiable computing</a> <span class="src-num">[21]</span></div>
+    
+    <div class="card-desc">In the context of cloud computing, services are held on cloud servers, where the clients send their data to the server and obtain the results returned by server. However, the…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Alignment of Policy, Practice, and Patient Safety for Trustworthy AI in Radiology">
+    <div class="card-title"><a href="https://pubs.rsna.org/doi/abs/10.1148/ryai.250982" target="_blank" rel="noopener">Alignment of Policy, Practice, and Patient Safety for Trustworthy AI in Radiology</a> <span class="src-num">[32]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="The quick advancement in high-autonomy artificial intelligence has raised important issues about safety, reliability, and human value alignment. Even though there are technical and ethical frameworks for risk management, normative aspects, and safety layers, the governance framework is still insufficient and lacks regulation for autonomous and general AI technologies. The alignment strategies like RLHF and constraint control find it challenging to generalize and scale because of the open-ended task, cross-cultural environment, and dynamic situation. Also, the regulatory and ethical frameworks">
+    <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11618598/" target="_blank" rel="noopener">Safety and Alignment Frameworks for High-Autonomy AI Systems</a> <span class="src-num">[31]</span></div>
+    
+    <div class="card-desc">The quick advancement in high-autonomy artificial intelligence has raised important issues about safety, reliability, and human value alignment. Even though there are technical…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Or-llm-agent: Automating modeling and solving of operations research optimization problem with reasoning large language model">
+    <div class="card-title"><a href="https://ui.adsabs.harvard.edu/abs/2025arXiv250310009Z/abstract" target="_blank" rel="noopener">Or-llm-agent: Automating modeling and solving of operations research optimization problem with reasoning large language model</a> <span class="src-num">[26]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Scientific equation discovery is a fundamental task in the history of scientific progress, enabling the derivation of laws governing natural phenomena. Recently, Large Language Models (LLMs) have gained interest for this task due to their potential to leverage embedded scientific knowledge for hypothesis generation. However, evaluating the true discovery capabilities of these methods remains challenging, as existing benchmarks often rely on common equations that are susceptible to memorization by LLMs, leading to inflated performance metrics that do not reflect discovery. In this paper, we int">
+    <div class="card-title"><a href="https://arxiv.org/abs/2504.10415" target="_blank" rel="noopener">Llm-srbench: A new benchmark for scientific equation discovery with large language models</a> <span class="src-num">[16]</span></div>
+    
+    <div class="card-desc">Scientific equation discovery is a fundamental task in the history of scientific progress, enabling the derivation of laws governing natural phenomena. Recently, Large Language…</div>
+    <div class="card-tags"><span class="tag web-tag">📊 56 cites</span><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Quantiphy: A quantitative benchmark evaluating physical reasoning abilities of vision-language models">
+    <div class="card-title"><a href="https://openaccess.thecvf.com/content/CVPR2026/html/Puyin_QUANTIPHY_A_Quantitative_Benchmark_Evaluating_Physical_Reasoning_Abilities_of_Vision-Language_CVPR_2026_paper.html" target="_blank" rel="noopener">Quantiphy: A quantitative benchmark evaluating physical reasoning abilities of vision-language models</a> <span class="src-num">[30]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="To address the challenges of internal security policy compliance and dynamic threat response in organizations, we present a novel framework that integrates artificial intelligence (AI), blockchain, and smart contracts. We propose a system that automates the enforcement of security policies, reducing manual effort and potential human error. Utilizing AI, we can analyse cyber threat intelligence rapidly, identify non-compliances and automatically adjust cyber defence mechanisms. Blockchain technology provides an immutable ledger for transparent logging of compliance actions, while smart contract">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s41870-024-02324-9" target="_blank" rel="noopener">Automated cybersecurity compliance and threat response using AI, blockchain and smart contracts</a> <span class="src-num">[24]</span></div>
+    
+    <div class="card-desc">To address the challenges of internal security policy compliance and dynamic threat response in organizations, we present a novel framework that integrates artificial intelligence…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Mars: Multi-agent adaptive reasoning with socratic guidance for automated prompt optimization">
+    <div class="card-title"><a href="https://ojs.aaai.org/index.php/AAAI/article/view/38668" target="_blank" rel="noopener">Mars: Multi-agent adaptive reasoning with socratic guidance for automated prompt optimization</a> <span class="src-num">[28]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Robotic-assisted surgery (RAS) is central to modern surgery, driving the need for intelligent systems with accurate scene understanding. Most existing surgical AI methods rely on isolated, task-specific models, leading to fragmented pipelines with limited interpretability and no unified understanding of RAS scene. Vision-Language Models (VLMs) offer strong zero-shot reasoning, but struggle with hallucinations, domain gaps and weak task-interdependency modeling. To address the lack of unified data for RAS scene understanding, we introduce SurgCoTBench , the first reasoning-focused benchmark in">
+    <div class="card-title"><a href="https://ieeexplore.ieee.org/abstract/document/11397309/" target="_blank" rel="noopener">Surgraw: Multi-agent workflow with chain of thought reasoning for robotic surgical video analysis</a> <span class="src-num">[27]</span></div>
+    
+    <div class="card-desc">Robotic-assisted surgery (RAS) is central to modern surgery, driving the need for intelligent systems with accurate scene understanding. Most existing surgical AI methods rely on…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="An AI-based cyber ranges to strengthen the cybersecurity of cyber physical systems">
+    <div class="card-title"><a href="https://www.tandfonline.com/doi/abs/10.1080/19361610.2025.2518383" target="_blank" rel="noopener">An AI-based cyber ranges to strengthen the cybersecurity of cyber physical systems</a> <span class="src-num">[18]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="The authors propose and evaluate a novel cybersecurity architecture for telehealth that is resilient against future quantum computing cyber threats. By integrating post-quantum cryptography (PQC) with quantum key distribution (QKD) and ...">
+    <div class="card-title"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12860431/" target="_blank" rel="noopener">Post-quantum cryptography resilience in telehealth using quantum key distribution</a> <span class="src-num">[19]</span></div>
+    
+    <div class="card-desc">The authors propose and evaluate a novel cybersecurity architecture for telehealth that is resilient against future quantum computing cyber threats. By integrating post-quantum…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future advancements</a> <span class="src-num">[15]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Product life cycle management (PLM) in large supply chains still suffers from limited transparency, manual record-keeping, and weak traceability of provenance and expiry, which often results in counterfeit products, delayed recalls, and unsafe items reaching consumers. After the advancements in blockchain technologies, immutable, decentralised and auto-generated smart contracts provide a secure, safe, and organised solution for consent to the agreement between two or more parties and help digital assets and transactions to occur efficiently This work proposes a Blockchain–Internet of Things (B">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s43926-025-00274-7" target="_blank" rel="noopener">Blockchain and IoT based smart contract framework for efficient and secure product life management</a> <span class="src-num">[23]</span></div>
+    
+    <div class="card-desc">Product life cycle management (PLM) in large supply chains still suffers from limited transparency, manual record-keeping, and weak traceability of provenance and expiry, which…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Hybrid quantum genetic algorithm for structural damage identification">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S0045782525001380" target="_blank" rel="noopener">Hybrid quantum genetic algorithm for structural damage identification</a> <span class="src-num">[22]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Leveraging blockchain and smart contracts to combat greenwashing in sustainable development">
+    <div class="card-title"><a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/sd.3431" target="_blank" rel="noopener">Leveraging blockchain and smart contracts to combat greenwashing in sustainable development</a> <span class="src-num">[25]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📰 Hacker News <span class="group-count">2</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Quantum Computing Failure Now Obvious">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=49439680" target="_blank" rel="noopener">Quantum Computing Failure Now Obvious</a> <span class="src-num">[33]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="(https://www.youtube.com/watch?v=DX_oIQ-tA6M)">
+    <div class="card-title"><a href="https://www.youtube.com/watch?v=DX_oIQ-tA6M" target="_blank" rel="noopener">(https://www.youtube.com/watch?v=DX_oIQ-tA6M)</a> <span class="src-num">[34]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>👽 Reddit <span class="group-count">4</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Paper: https://huggingface.co/spaces/tri-fair-lab/publications/blob/main/Thomson_1_0_Technical_Report.pdf The development of frontier models is commonly perceived to be in the exclusive remit of a small number of heavily funded players, creating an information, economic and power asymmetry between developers and the diverse user base of modern AI. Recent public discourse acknowledges this concern, calling for SovereignAI (an organisation&#x27;s capability to independently build, deploy and govern AI use), but often providing little concrete advice on how this can be achieved in the short term under">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1vxvzju/continual_learning_of_frontier_models_for/" target="_blank" rel="noopener">Continual Learning of Frontier Models for SovereignAI. Tech Report + Open Weights Model [R]</a> <span class="src-num">[35]</span></div>
+    
+    <div class="card-desc">Paper: https://huggingface.co/spaces/tri-fair-lab/publications/blob/main/Thomson_1_0_Technical_Report.pdf The development of frontier models is commonly perceived to be in the…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I am working on an evaluation design and would appreciate criticism before running it. Most coding-agent benchmarks collapse the model and its harness into one score. If a run fails, it is difficult to tell whether the cause was model capability, context assembly, task decomposition, tool design, retry policy, or the acceptance gate. A model can also look worse because the harness truncated its output, or look better because the gate only checked for plausible surface markers. The experiment I am considering crosses two independent variables: Workflow: one monolithic task versus decomposition">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1vy0ki7/what_would_a_fair_benchmark_for_agent/" target="_blank" rel="noopener">What would a fair benchmark for agent architecture look like? [D]</a> <span class="src-num">[38]</span></div>
+    
+    <div class="card-desc">I am working on an evaluation design and would appreciate criticism before running it. Most coding-agent benchmarks collapse the model and its harness into one score. If a run…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="Hi everyone, I’m researching how to design an AI agent for a medicine-reminder system. The agent has to decide, at each relevant time, whether to: send a reminder, wait (do nothing for now), or notify another person (e.g. caregiver), when it does not have complete information about the patient (has the dose already been taken? is the person nearby/attentive? are there adherence barriers? etc.). I’m trying to frame this properly before diving into implementation. Right now I’m looking at it as a sequential decision problem under partial observability (POMDP / belief-state RL territory), but I’m">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1vy8a9g/d_looking_for_advice_modelling_a_medicinereminder/" target="_blank" rel="noopener">[D] Looking for advice: Modelling a medicine-reminder agent that must decide “remind / wait / notify” under incomplete information[D]</a> <span class="src-num">[36]</span></div>
+    
+    <div class="card-desc">Hi everyone, I’m researching how to design an AI agent for a medicine-reminder system. The agent has to decide, at each relevant time, whether to: send a reminder, wait (do…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I wrote a technical breakdown of how search works on Papers with Code. The system combines keyword and semantic search, which produced better results than either approach alone. The stack includes: PostgreSQL with pgvector Qwen3-Embedding-0.6B for text embeddings Hugging Face Jobs with an NVIDIA L4 for batch embedding generation Hugging Face Buckets for storing artifacts A live embedding model served through Hugging Face Inference Endpoints The same infrastructure also powers the “related papers” recommendations shown on individual paper pages. Full write-up: How Hugging Face Inference Endpoin">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1vxyrsr/how_we_built_a_sota_search_engine_using/" target="_blank" rel="noopener">How we built a SOTA search engine using PostgreSQL, pgvector, and Qwen3 embeddings [P]</a> <span class="src-num">[37]</span></div>
+    
+    <div class="card-desc">I wrote a technical breakdown of how search works on Papers with Code. The system combines keyword and semantic search, which produced better results than either approach alone.…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://jdagostino.github.io/ai-pt2-multi-gpu-drifting/index.html" target="_blank" rel="noopener">AI At Home Part 2: Multi GPU Drifting</a></li><li>[2] <a href="https://www.techwerkers.nl/en/posts/manifesto-responsible-agentic-coding/" target="_blank" rel="noopener">A Manifesto for Responsible Agentic Coding</a></li><li>[3] <a href="https://arstechnica.com/apple/2026/08/with-new-mac-studio-and-mac-mini-apple-leans-hard-into-local-ai-inference/" target="_blank" rel="noopener">Apple&#x27;s new desktop computers are designed specifically for local AI development</a></li><li>[4] <a href="https://arxiv.org/abs/2408.06602" target="_blank" rel="noopener">Super-intelligence or Superstition? Exploring Psychological Factors Influencing Belief in…</a></li><li>[5] <a href="https://www.inkandswitch.com/livelymerge/notebook/" target="_blank" rel="noopener">Lively Merge | Collaborative programming kernels</a></li><li>[6] <a href="https://arxiv.org/pdf/2608.07134" target="_blank" rel="noopener">The Sync Heap: Delete First, Ask Questions Later</a></li><li>[7] <a href="https://www.cisa.gov/news-events/cybersecurity-advisories/aa26-237a" target="_blank" rel="noopener">A Tale of Two SOCs: Insights From Two Red Team Assessments</a></li><li>[8] <a href="https://www.da.vidbuchanan.co.uk/blog/android-c2pa.html" target="_blank" rel="noopener">C2PA Cameras Do Not Survive Contact With Reality</a></li><li>[9] <a href="https://huggingface.co/papers/2608.22614" target="_blank" rel="noopener">What AstroPT knows about galaxies, and what that can teach us about LLMs</a></li><li>[10] <a href="https://huggingface.co/papers/2608.22510" target="_blank" rel="noopener">ClawProBench: Trace-Aware Evaluation of AI Agents with Runtime Coverage and Frozen…</a></li><li>[11] <a href="https://huggingface.co/papers/2608.23252" target="_blank" rel="noopener">The Laws of Context Allocation: Causal Measurement and Closed-Loop Orchestration in…</a></li><li>[12] <a href="https://huggingface.co/papers/2608.20953" target="_blank" rel="noopener">Quantization-Aware Healing: A Practical Recipe for Recovering Compressed, 4-Bit LLMs</a></li><li>[13] <a href="https://huggingface.co/papers/2608.22817" target="_blank" rel="noopener">Industrial-Instruction: An End-to-End Framework for Building Instruction-Tuning and…</a></li><li>[14] <a href="https://huggingface.co/papers/2608.18484" target="_blank" rel="noopener">Partition the Support, Reconstruct the Residual: Training-Free Sparse Attention for Video…</a></li><li>[15] <a href="https://www.sciencedirect.com/science/article/pii/S0360319924036942" target="_blank" rel="noopener">Catalyst breakthroughs in methane dry reforming: Employing machine learning for future…</a></li><li>[16] <a href="https://arxiv.org/abs/2504.10415" target="_blank" rel="noopener">Llm-srbench: A new benchmark for scientific equation discovery with large language models</a></li><li>[17] <a href="https://www.sciopen.com/article/10.32604/cmes.2025.073705" target="_blank" rel="noopener">Next-generation lightweight explainable AI for cybersecurity: A review on transparency…</a></li><li>[18] <a href="https://www.tandfonline.com/doi/abs/10.1080/19361610.2025.2518383" target="_blank" rel="noopener">An AI-based cyber ranges to strengthen the cybersecurity of cyber physical systems</a></li><li>[19] <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12860431/" target="_blank" rel="noopener">Post-quantum cryptography resilience in telehealth using quantum key distribution</a></li><li>[20] <a href="https://www.researchgate.net/profile/Aditya-More-6/publication/399111648_Integrating_Fully_Homomorphic_Encryption_and_Zero-Knowledge_Proofs_for_Efficient_Verifiable_Computation/links/694ff64406a9ab54f84b7d66/Integrating-Fully-Homomorphic-Encryption-and-Zero-Knowledge-Proofs-for-Efficient-Verifiable-Computation.pdf" target="_blank" rel="noopener">Integrating fully homomorphic encryption and zero-knowledge proofs for efficient…</a></li></ol>
+      <ol><li>[21] <a href="https://ieeexplore.ieee.org/abstract/document/11132681/" target="_blank" rel="noopener">zkvc: Fast zero-knowledge proof for private and verifiable computing</a></li><li>[22] <a href="https://www.sciencedirect.com/science/article/pii/S0045782525001380" target="_blank" rel="noopener">Hybrid quantum genetic algorithm for structural damage identification</a></li><li>[23] <a href="https://link.springer.com/article/10.1007/s43926-025-00274-7" target="_blank" rel="noopener">Blockchain and IoT based smart contract framework for efficient and secure product life…</a></li><li>[24] <a href="https://link.springer.com/article/10.1007/s41870-024-02324-9" target="_blank" rel="noopener">Automated cybersecurity compliance and threat response using AI, blockchain and smart…</a></li><li>[25] <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/sd.3431" target="_blank" rel="noopener">Leveraging blockchain and smart contracts to combat greenwashing in sustainable…</a></li><li>[26] <a href="https://ui.adsabs.harvard.edu/abs/2025arXiv250310009Z/abstract" target="_blank" rel="noopener">Or-llm-agent: Automating modeling and solving of operations research optimization problem…</a></li><li>[27] <a href="https://ieeexplore.ieee.org/abstract/document/11397309/" target="_blank" rel="noopener">Surgraw: Multi-agent workflow with chain of thought reasoning for robotic surgical video…</a></li><li>[28] <a href="https://ojs.aaai.org/index.php/AAAI/article/view/38668" target="_blank" rel="noopener">Mars: Multi-agent adaptive reasoning with socratic guidance for automated prompt…</a></li><li>[29] <a href="https://aclanthology.org/2025.acl-long.1383/" target="_blank" rel="noopener">Agentic reasoning: A streamlined framework for enhancing llm reasoning with agentic tools</a></li><li>[30] <a href="https://openaccess.thecvf.com/content/CVPR2026/html/Puyin_QUANTIPHY_A_Quantitative_Benchmark_Evaluating_Physical_Reasoning_Abilities_of_Vision-Language_CVPR_2026_paper.html" target="_blank" rel="noopener">Quantiphy: A quantitative benchmark evaluating physical reasoning abilities of…</a></li><li>[31] <a href="https://ieeexplore.ieee.org/abstract/document/11618598/" target="_blank" rel="noopener">Safety and Alignment Frameworks for High-Autonomy AI Systems</a></li><li>[32] <a href="https://pubs.rsna.org/doi/abs/10.1148/ryai.250982" target="_blank" rel="noopener">Alignment of Policy, Practice, and Patient Safety for Trustworthy AI in Radiology</a></li><li>[33] <a href="https://news.ycombinator.com/item?id=49439680" target="_blank" rel="noopener">Quantum Computing Failure Now Obvious</a></li><li>[34] <a href="https://www.youtube.com/watch?v=DX_oIQ-tA6M" target="_blank" rel="noopener">(https://www.youtube.com/watch?v=DX_oIQ-tA6M)</a></li><li>[35] <a href="https://www.reddit.com/r/MachineLearning/comments/1vxvzju/continual_learning_of_frontier_models_for/" target="_blank" rel="noopener">Continual Learning of Frontier Models for SovereignAI. Tech Report + Open Weights Model…</a></li><li>[36] <a href="https://www.reddit.com/r/MachineLearning/comments/1vy8a9g/d_looking_for_advice_modelling_a_medicinereminder/" target="_blank" rel="noopener">[D] Looking for advice: Modelling a medicine-reminder agent that must decide “remind /…</a></li><li>[37] <a href="https://www.reddit.com/r/MachineLearning/comments/1vxyrsr/how_we_built_a_sota_search_engine_using/" target="_blank" rel="noopener">How we built a SOTA search engine using PostgreSQL, pgvector, and Qwen3 embeddings [P]</a></li><li>[38] <a href="https://www.reddit.com/r/MachineLearning/comments/1vy0ki7/what_would_a_fair_benchmark_for_agent/" target="_blank" rel="noopener">What would a fair benchmark for agent architecture look like? [D]</a></li><li>[39] <a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and…</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <a href="../index.html">Carlos's Debrief</a> · curated by Hermes Research Scout · <a href="../topics.html">topics</a> · <a href="../top-500.html">top 500</a> · <a href="../feed.xml">RSS</a>
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+    <div class="modal-hint">← → navigate · esc close · alt+T theme</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() { return cards.filter((c) => !c.classList.contains('hidden')); }
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open === 'true') {
+      if (e.key === 'Escape') closeModal();
+      else if (e.key === 'ArrowLeft') navigate(-1);
+      else if (e.key === 'ArrowRight') navigate(1);
+    } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      document.getElementById('search').focus();
+    }
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden'); shown++; return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) { card.classList.remove('hidden'); shown++; }
+      else { card.classList.add('hidden'); }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
