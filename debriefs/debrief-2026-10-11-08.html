@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="github-dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<title>Carlos's Debrief — October 11, 2026 08:00</title>
+<link rel="alternate" type="application/rss+xml" title="Carlos's Debrief" href="../feed.xml">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../assets/themes.css?v=4">
+<script src="../assets/theme-switcher.js?v=4" defer></script>
+<style>
+  /* Page-specific overrides layered on top of the theme tokens. */
+
+  .container { max-width: 1140px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header — gradient, stats, topic chips, current-time stamp */
+  .header {
+    text-align: center;
+    padding: 64px 20px 36px;
+    background: linear-gradient(180deg, var(--bg-elevated, #161b22) 0%, var(--bg, #0d1117) 100%);
+    border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .header h1 {
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--accent, #58a6ff), var(--accent-purple, #d2a8ff));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+  .header .subtitle { color: var(--text-muted, #8b949e); font-size: 1.1em; margin-bottom: 4px; }
+  .header .curated {
+    color: var(--text-subtle, #6e7681); font-size: 0.82em; font-style: italic; margin-top: 10px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+
+  .stats {
+    display: flex; justify-content: center; gap: 20px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .stat {
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 12px;
+    padding: 14px 28px;
+    text-align: center;
+    min-width: 140px;
+    transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+  }
+  .stat:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent, #58a6ff);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .stat-num {
+    font-size: 2em; font-weight: 800; color: var(--accent, #58a6ff); display: block; line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: 0.78em; color: var(--text-muted, #8b949e); margin-top: 4px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  .topics { margin-top: 22px; max-width: 820px; margin-left: auto; margin-right: auto;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; padding: 0 16px; }
+  .topics-label {
+    color: var(--text-subtle, #6e7681); font-size: 0.72em; text-transform: uppercase;
+    letter-spacing: 0.07em; margin-right: 6px; align-self: center;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .topic {
+    color: var(--text-muted, #8b949e); font-size: 0.78em;
+    background: var(--tag-bg, #21262d);
+    border: 1px solid var(--border-soft, #21262d);
+    padding: 3px 10px; border-radius: 999px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .topic:hover { color: var(--accent, #58a6ff); border-color: var(--accent, #58a6ff); cursor: pointer; }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex; gap: 12px; align-items: center; margin-bottom: 28px; flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1; min-width: 220px;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    border-radius: 10px;
+    color: var(--text, #c9d1d9);
+    padding: 12px 16px;
+    font-size: 0.95em; font-family: inherit; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus { border-color: var(--accent, #58a6ff); box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15); }
+  .search-input::placeholder { color: var(--text-subtle, #6e7681); }
+  .filter-count { color: var(--text-muted, #8b949e); font-size: 0.85em; white-space: nowrap; }
+  .kbd-hint { color: var(--text-subtle, #6e7681); font-size: 0.8em; font-family: var(--font-mono, ui-monospace, monospace); }
+
+  /* Summary boxes */
+  .summary-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-2, #3fb950) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-2, #3fb950);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 20px;
+  }
+  .summary-box h2 { color: var(--cat-2, #3fb950); font-size: 1.25em; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 22px; }
+  .summary-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .summary-box strong { color: var(--text-bright, #f0f6fc); }
+
+  .news-box {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cat-4, #f0883e) 12%, var(--bg-elevated, #161b22)) 0%, var(--bg-elevated, #161b22) 100%);
+    border-left: 4px solid var(--cat-4, #f0883e);
+    border-radius: 12px; padding: 24px 28px; margin-bottom: 36px;
+  }
+  .news-box h2 { color: var(--cat-4, #f0883e); font-size: 1.25em; margin-bottom: 14px; }
+  .news-box ul { padding-left: 22px; }
+  .news-box li { margin-bottom: 10px; color: var(--text, #c9d1d9); line-height: 1.6; }
+  .news-box strong { color: var(--text-bright, #f0f6fc); }
+
+  /* Sections */
+  .section { margin-bottom: 48px; }
+  .section > h2 {
+    font-size: 1.55em; color: var(--text-bright, #f0f6fc); margin-bottom: 22px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .section-group { margin-bottom: 36px; }
+  .section-group h3 {
+    color: var(--accent, #58a6ff); font-size: 1.1em; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .group-count {
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400;
+    background: var(--tag-bg, #21262d); padding: 2px 8px; border-radius: 10px;
+  }
+
+  /* Cards */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--bg-card, #161b22);
+    border: 1px solid var(--border-card, #21262d);
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: zoom-in;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+    display: flex; flex-direction: column; position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent, #58a6ff); opacity: 0.5; transition: opacity 0.18s;
+  }
+  .card:hover {
+    border-color: var(--accent, #58a6ff);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card, 0 4px 16px rgba(0,0,0,0.4));
+  }
+  .card:hover::before { opacity: 1; }
+  .card::after {
+    content: '⤢'; position: absolute; top: 12px; right: 14px;
+    color: var(--text-subtle, #6e7681); font-size: 0.9em; opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .card:hover::after { opacity: 1; color: var(--accent, #58a6ff); }
+  .card-title { font-size: 1em; font-weight: 600; margin-bottom: 6px; line-height: 1.4; padding-right: 24px; }
+  .card-title a { color: var(--text-bright, #f0f6fc); text-decoration: none; }
+  .card-title a:hover { color: var(--accent, #58a6ff); text-decoration: underline; }
+  .src-num { color: var(--text-subtle, #6e7681); font-size: 0.78em; font-weight: 400; margin-left: 4px; }
+  .card-authors { color: var(--text-muted, #8b949e); font-size: 0.85em; margin-bottom: 8px; font-style: italic; }
+  .card-desc { color: var(--text, #c9d1d9); font-size: 0.9em; line-height: 1.55; margin-bottom: 12px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .tag {
+    background: var(--tag-bg, #21262d);
+    color: var(--accent, #58a6ff);
+    font-size: 0.74em;
+    padding: 3px 10px; border-radius: 12px;
+    border: 1px solid var(--border, #30363d);
+    white-space: nowrap;
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .web-tag { color: var(--accent-purple, #d2a8ff); }
+  .web-card::before { background: var(--accent-purple, #d2a8ff); }
+  .category-1::before { background: var(--cat-1, #58a6ff); }
+  .category-2::before { background: var(--cat-2, #3fb950); }
+  .category-3::before { background: var(--cat-3, #d2a8ff); }
+  .category-4::before { background: var(--cat-4, #f0883e); }
+  .category-5::before { background: var(--cat-5, #ff7b72); }
+  .category-6::before { background: var(--cat-6, #d29922); }
+
+  /* Sources */
+  .sources { margin-top: 48px; }
+  .sources h2 {
+    font-size: 1.3em; color: var(--text-bright, #f0f6fc); margin-bottom: 18px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft, #21262d);
+  }
+  .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .sources-grid ol { padding-left: 22px; }
+  .sources-grid li {
+    margin-bottom: 4px; font-size: 0.82em; color: var(--text-muted, #8b949e);
+    word-break: break-word;
+  }
+  .sources-grid a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .sources-grid a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 32px 20px; margin-top: 56px;
+    border-top: 1px solid var(--border-soft, #21262d);
+    color: var(--text-subtle, #6e7681); font-size: 0.85em;
+  }
+  .footer a { color: var(--accent, #58a6ff); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Modal — full-screen reading view */
+  .modal {
+    position: fixed; inset: 0; z-index: 1000; display: none;
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal[data-open="true"] { display: flex; }
+  .modal-backdrop {
+    position: absolute; inset: 0;
+    background: var(--bg-overlay, rgba(1, 4, 9, 0.85));
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease;
+  }
+  .modal-content {
+    position: relative;
+    width: min(1200px, 92vw); max-height: 92vh;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border-strong, #484f58);
+    border-radius: 18px;
+    padding: 56px 72px 48px;
+    overflow-y: auto;
+    box-shadow: var(--shadow-modal, 0 24px 60px rgba(0,0,0,0.7));
+    animation: modalZoom 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-close {
+    position: sticky; top: -36px;
+    display: block;
+    margin-left: auto;
+    margin-right: -22px;
+    margin-top: -36px;
+    width: fit-content;
+    background: var(--bg-elevated, #161b22);
+    border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e); font-size: 1.6em; line-height: 1;
+    cursor: pointer; padding: 4px 14px; border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+    z-index: 10;
+  }
+  .modal-close:hover { background: var(--tag-bg, #21262d); color: var(--text-bright, #f0f6fc); }
+  .modal-title {
+    font-size: 2.15em; font-weight: 700; color: var(--text-bright, #f0f6fc);
+    line-height: 1.25; margin-bottom: 18px; padding-right: 60px;
+    letter-spacing: -0.01em;
+  }
+  .modal-title a { color: inherit; text-decoration: none; }
+  .modal-title a:hover { color: var(--accent, #58a6ff); }
+  .modal-authors {
+    color: var(--text-muted, #8b949e); font-size: 1.15em; font-style: italic; margin-bottom: 28px;
+  }
+  .modal-desc {
+    color: var(--text, #c9d1d9); font-size: 1.3em; line-height: 1.75;
+    margin-bottom: 32px; white-space: pre-wrap;
+  }
+  .modal-hint {
+    position: absolute; bottom: 16px; right: 24px;
+    color: var(--text-subtle, #6e7681); font-size: 0.78em; font-family: var(--font-mono, ui-monospace, monospace);
+  }
+  .modal-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border, #30363d);
+  }
+  .modal-nav button {
+    background: none; border: 1px solid var(--border, #30363d);
+    color: var(--text-muted, #8b949e);
+    padding: 12px 24px; border-radius: 10px; cursor: pointer;
+    font-size: 1em; font-family: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .modal-nav button:hover:not(:disabled) {
+    border-color: var(--accent, #58a6ff); color: var(--accent, #58a6ff); background: var(--tag-bg, #21262d);
+  }
+  .modal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-counter { color: var(--text-subtle, #6e7681); font-size: 1em; font-variant-numeric: tabular-nums; }
+
+  .card.hidden { display: none; }
+  .section-group.empty { display: none; }
+
+  @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.94) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Cyber tweak: matrix-green glow on card hover */
+  :root[data-theme="cyber"] .card:hover {
+    box-shadow: 0 0 24px rgba(0, 255, 65, 0.4), 0 0 48px rgba(0, 255, 65, 0.15);
+    border-color: #00ff41;
+  }
+  /* Dark-mono tweak: no glow, just a hairline; slower animations for less noise */
+  :root[data-theme="dark-mono"] .card {
+    border-radius: 0;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  :root[data-theme="dark-mono"] .card::before { width: 2px; }
+  /* Modern tweak: snappier shadows, slightly more padding */
+  :root[data-theme="modern"] .card {
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+  /* Light tweak: warmer hover, no shadow-blur */
+  :root[data-theme="light"] .card:hover {
+    box-shadow: 0 4px 14px rgba(60, 50, 40, 0.1);
+  }
+
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.7em; }
+    .header { padding: 40px 14px 24px; }
+    .stats { gap: 10px; }
+    .stat { padding: 10px 16px; min-width: 100px; }
+    .stat-num { font-size: 1.6em; }
+    .container { padding: 20px 12px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .modal { padding: 6px; }
+    .modal-content { padding: 36px 22px 28px; width: 100%; max-height: 95vh; border-radius: 12px; }
+    .modal-close { top: -36px; margin-right: -22px; margin-top: -36px; }
+    .modal-title { font-size: 1.45em; padding-right: 44px; }
+    .modal-authors { font-size: 1em; }
+    .modal-desc { font-size: 1.05em; line-height: 1.65; }
+    .modal-nav button { font-size: 0.9em; padding: 10px 16px; }
+  }
+</style>
+</head>
+<body>
+<div id="theme-picker" class="theme-picker" role="group" aria-label="Theme switcher">
+  <button type="button" data-theme="github-dark">Default</button>
+  <button type="button" data-theme="cyber">Cyber</button>
+  <button type="button" data-theme="modern">Modern</button>
+  <button type="button" data-theme="dark-mono">Mono</button>
+  <button type="button" data-theme="light">Light</button>
+</div>
+<script src="assets/theme-switcher.js?v=8"></script>
+<div class="header">
+  <h1>Carlos's Debrief</h1>
+  <div class="subtitle">October 11, 2026 08:00</div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">ArXiv Papers</span></div>
+    <div class="stat"><span class="stat-num">47</span><span class="stat-label">Web Findings</span></div>
+    <div class="stat"><span class="stat-num">47</span><span class="stat-label">Total Sources</span></div>
+  </div>
+  <div class="topics">
+    <span class="topics-label">// topics</span>
+    {{TOPIC_CHIPS}}
+  </div>
+  <div class="curated">October 11, 2026 08:00 · curated by Hermes Research Scout</div>
+</div>
+<div class="container">
+  <div class="summary-box">
+    <h2>⚡ Quick Summary</h2>
+    <ul>
+            <li><strong>A Closer Look at Agentic BBO: Benchmarking LLM Agents for Black-Box Optimization</strong>: Black-box optimization (BBO) arises in many scientific and engineering problems where objective evaluations are expensive and limited. Recent large language model (LLM) agents offer a new way to approach BBO by combining task semantics,…</li>
+      <li><strong>Can AI Agents Make Open-Ended Scientific Discovery? Evidence from Station</strong>: Recent AI systems have made rapid progress in scientific discovery when given well-defined metrics, but whether they can autonomously undertake open-ended scientific discovery remains unclear. We investigate AI&#x27;s ability to tackle…</li>
+      <li><strong>Large language models (LLM) in computational social science: prospects, current state, and challenges</strong></li>
+      <li><strong>Frozen Models, Evolving Expertise: Model-Agnostic Learning from Deployment Experience for Multimodal Medical AI</strong>: Large language models (LLMs) and vision-language models (VLMs) are usually frozen after deployment, so they do not learn from the cases they solve. This is especially concerning in medicine, where new clinical evidence, updated guidelines,…</li>
+      <li><strong>(https://news.err.ee/1610155906/effect-of-research-paper-mills-enough-to-start-affecting-llm-query-results)</strong>: Scientific paper mills and AI-generated content are posing a growing threat to research integrity, while retractions reveal only a fraction of the problem, TalTech researcher Anton Sokolov says.</li>
+    </ul>
+  </div>
+
+  <div class="news-box">
+    <h2>📰 News Headlines</h2>
+    <ul>
+            <li><strong>Memento 3: Model-Based Recursive Self-Improvement through Reflective Rulebooks</strong>: Learning to act in unfamiliar environments requires agents to infer how the world works and revise that understanding as new evidence arrives.</li>
+      <li><strong>Pumpire: Unified Benchmark for Metric Distance Estimation</strong>: We present Pumpire, a unified benchmark for evaluating metric point-pair distance estimation capability of both image- and video-level 3D foundation models, with or without depth priors.</li>
+      <li><strong>Opera: A Verbal Critic Framework for Long-horizon Coding Agents</strong>: Long-horizon coding agents need timely corrections, yet feedback can be ineffective or even harmful when it misjudges ongoing work or fails to address the underlying problem.</li>
+      <li><strong>1-click MMI execution in Android</strong>: An application with the CALL_PHONE permission can execute carrier MMI/USSD codes with no user confirmation.</li>
+      <li><strong>A GPU-Parallel Framework for Heterogeneous Multi-Task Reinforcement Learning</strong>: GPU-parallel simulation provides abundant robot interaction, but existing benchmarks rarely combine this scale with heterogeneous manipulation tasks and standardized multi-task RL evaluation.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Search title, authors, tags…" />
+    <span class="filter-count" id="filter-count"></span>
+    <span class="kbd-hint">/ focus · Alt+T theme</span>
+  </div>
+
+    <div class="section">
+    <h2>🌐 Web Findings</h2>
+    <div class="section-group">
+      <h3>🤗 HuggingFace Papers <span class="group-count">22</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Black-box optimization (BBO) arises in many scientific and engineering problems where objective evaluations are expensive and limited. Recent large language model (LLM) agents offer a new way to approach BBO by combining task semantics, computation, optimization tools, and feedback-driven decision making, showing great potential due to the integration with mathematically rigorous tools. However, existing agentic BBO studies use different task domains and system configurations, making their results difficult to compare and the effects of individual design choices hard to isolate. We therefore introduce AgenticBBO-Bench, a cross-domain benchmark for agentic BBO spanning synthetic functions, hyperparameter optimization, database tuning, chip design, and molecular design under a unified finite-budget evaluation protocol. In our experiments, agentic BBO achieves higher family-averaged scores than direct LLM-based methods in all five domains and outperforms the best numerical optimizers in four. We further study three factors shaping agent performance: optimization tools, task information and prior knowledge, and the role of the LLM during search. Our results show that additional numerical tools do not consistently improve performance, task semantics are broadly useful while more specific priors are less reliable, and numerical optimizers can effectively absorb gains from search trajectories established by the agent. Finally, we introduce a five-task frontier challenge within Agent">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.12183" target="_blank" rel="noopener">A Closer Look at Agentic BBO: Benchmarking LLM Agents for Black-Box Optimization</a> <span class="src-num">[28]</span></div>
+    
+    <div class="card-desc">Black-box optimization (BBO) arises in many scientific and engineering problems where objective evaluations are expensive and limited. Recent large language model (LLM) agents…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 8</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Recent AI systems have made rapid progress in scientific discovery when given well-defined metrics, but whether they can autonomously undertake open-ended scientific discovery remains unclear. We investigate AI&#x27;s ability to tackle open-ended tasks in Station, an open-world environment in which multiple agents simulate a scientific ecosystem. To tackle challenges specific to open-ended tasks, we propose augmenting Station with two mechanisms: a Supervisor mechanism and periodic Meta Reflection, which encourage persistent exploration even when intermediate metrics are lacking. We construct open-ended tasks from three recent oral papers presented at ICLR. We give agents the main research question studied in each paper while withholding the paper&#x27;s results and disabling web access. We then measure how many of the original findings-partitioned into individual criteria-agents rediscover. We find that Station rediscovers 62.7% of the criteria on average, compared with 15.4% for Codex Multiagent-v2 and 14.4-20.6% for AI Scientist-v2. Ablation and behavioral analyses indicate that adding the two mechanisms together improves research coverage and continuity. We further evaluate Station on two open-ended tasks without oracle papers and find that some of the discoveries made by the agents closely match discoveries reported by researchers after the knowledge cutoff date. Together, these results indicate that a suitable environment can enable agents to autonomously make meaningful progress">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.08927" target="_blank" rel="noopener">Can AI Agents Make Open-Ended Scientific Discovery? Evidence from Station</a> <span class="src-num">[23]</span></div>
+    
+    <div class="card-desc">Recent AI systems have made rapid progress in scientific discovery when given well-defined metrics, but whether they can autonomously undertake open-ended scientific discovery…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 8</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Large language models (LLMs) and vision-language models (VLMs) are usually frozen after deployment, so they do not learn from the cases they solve. This is especially concerning in medicine, where new clinical evidence, updated guidelines, and new therapies can change established practice. Fine-tuning can update the model, but it requires access to model weights and additional training. Parameter-free methods avoid training, but they may overfit a fixed validation set, lack reliable domain knowledge, or lose visual details by saving experience only as text. To address these limitations, we present a model-agnostic framework that allows frozen LLMs and VLMs to learn from deployment experience through three forms of external expertise: a Skill that guides reasoning and tool use, a Knowledge Memory that stores reliable facts supported by earlier cases or trusted external evidence, and a Multimodal Knowledge Base that keeps visual examples and guides the model to relate each retrieved case to the current image. Instead of relying on a fixed validation set, a validation strategy keeps an update only if it helps on new cases without degrading performance on earlier ones. Across six benchmarks covering clinical diagnosis, clinical workflows, medical reasoning, and medical and non-medical visual reasoning, and with four open-weight and closed-source base models, our framework improves performance during online deployment by up to 34.2% over the base model on medical tasks, generalize">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.09146" target="_blank" rel="noopener">Frozen Models, Evolving Expertise: Model-Agnostic Learning from Deployment Experience for Multimodal Medical AI</a> <span class="src-num">[19]</span></div>
+    
+    <div class="card-desc">Large language models (LLMs) and vision-language models (VLMs) are usually frozen after deployment, so they do not learn from the cases they solve. This is especially concerning…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 6</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Learning to act in unfamiliar environments requires agents to infer how the world works and revise that understanding as new evidence arrives. Yet limited observations can support multiple world models that explain past interactions but predict different outcomes in unseen states. We introduce Memento 3, building on the Memento series to enable frozen LLM agents to continually learn explicit world models through external memory. The agent maintains a natural-language rulebook as persistent semantic memory, recording revisable hypotheses about environment dynamics while leaving unknown aspects underspecified. It compiles this rulebook into executable code for prediction and planning. Through a continual loop of observation, reflection, rule revision, compilation, and verification, the agent uses prediction errors to refine both the rulebook and its code. Updated code is accepted only when the LLM judges it faithful to the rulebook and cell-exact replay reproduces the observed transitions. We investigate this process as a model-based route to recursive self-improvement (RSI): the agent autonomously explores the environment, revises its world model, and uses verified updates to guide subsequent interaction and learning, while the underlying LLM remains fixed. A population extension maintains multiple world models in parallel, sharing interaction evidence and using their predictions to guide exploration. On ARC-AGI-3, the single-model agent clears every level of all 25 public gam">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.11794" target="_blank" rel="noopener">Memento 3: Model-Based Recursive Self-Improvement through Reflective Rulebooks</a> <span class="src-num">[29]</span></div>
+    
+    <div class="card-desc">Learning to act in unfamiliar environments requires agents to infer how the world works and revise that understanding as new evidence arrives. Yet limited observations can support…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 35</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Optimizing deployed AI systems increasingly amounts to editing prompts, skills, harnesses, and code rather than model weights. Existing approaches commonly optimize these artifacts through propose-evaluate-select procedures, where candidate configurations are evaluated and only those meeting an acceptance criterion are selected. Yet our analysis shows that discarded candidates often contain information critical for subsequent optimization. Discarding them causes later proposals to revisit the same failure modes. We introduce Mara Chain, a refinement procedure that turns rejected candidates into stepping stones. Rather than discarding a rejected candidate, Mara Chain retains and iteratively refines it using evidence accumulated across preceding attempts. The procedure limits each refinement chain to a fixed depth and applies Pareto-filtered Top-N selection to bound the candidate pool. Across AppWorld skill optimization, TerminalBench 2.1 harness optimization, and MuSiQue retrieval-pipeline optimization, Mara Chain delivers greater task-performance gains with fewer rollouts. It outperforms GEPA, ACE, and SkillOpt-Lite by up to 20.5% in relative performance on AppWorld, reaching the target score with 65.5% fewer rollouts than GEPA. It improves the pass rate by 20.2 and 22.5 percentage points over AHE and Meta-Harness on TerminalBench 2.1, respectively, and improves MuSiQue test nDCG@10 and Recall@10 by 0.104 and 0.131 over a hand-written retrieval pipeline.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2609.35855" target="_blank" rel="noopener">Mara Chain: Rethinking Failure as a Stepping Stone for AI System Auto-Evolution</a> <span class="src-num">[17]</span></div>
+    
+    <div class="card-desc">Optimizing deployed AI systems increasingly amounts to editing prompts, skills, harnesses, and code rather than model weights. Existing approaches commonly optimize these…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 9</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Large language models (LLMs) are increasingly relied upon to support ambient documentation and clinical reasoning. Here we examine the impact of a failure mode shared between these two applications by assessing their sensitivity to information incidental to the patient encounter. In 576 patient-clinician dialogues, we found that frontier models inserted small-talk exchanges into 35% of notes, while mean quality scores changed by at most 0.20 points on five-point scales. In 3.7% of frontier notes, models misattributed the asides or used them clinically. In 57 mock recorded consultations, background speech from a separate patient encounter at -10 dB leaked into 48.2% of transcripts, with contamination detected in 5.3% of downstream notes generated by four open-weight models. We propose a dual encoding hypothesis of clinical reasoning and distraction in LLMs, with preliminary evidence that LLM components associated with disruption by incidental information also support clinical reasoning. These findings support evaluating resistance to incidental information before clinical use, with safeguards that prevent contamination while preserving clinical reasoning.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.08585" target="_blank" rel="noopener">Incidental information contaminates patient notes and disrupts clinical reasoning in large language models</a> <span class="src-num">[18]</span></div>
+    
+    <div class="card-desc">Large language models (LLMs) are increasingly relied upon to support ambient documentation and clinical reasoning. Here we examine the impact of a failure mode shared between…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 6</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Agent skills are SKILL.md instructions and scripts that AI coding agents such as Claude Code and Codex run with the permissions of their user. Developers share skills by copying them between repositories, which makes them a software supply chain without a registry, versions or provenance. The origin of a copied skill, the reach of a security fix and the repositories that warrant review are therefore unknown. Studies that record which repositories hold a skill at a single point in time cannot reveal who copied it from whom. We contribute the first dated copy network of agent skills, built from the git history of every SKILL.md in GitSkills and covering 2,193,119 skill adoptions across GitHub, together with an interactive viewer. A few repositories are the source of almost all copies, and GitHub stars do not identify them. Skill copies almost never change with their source, and a fix at the source therefore rarely reaches them. We fit a model of which repositories others copy from and use it to rank repositories for audit. Reviewing the 100 repositories it ranks highest prevents 14.9% of later adoptions of high-risk skills, against 0.5% for the 100 most starred, which gives security engineers a short list to check before a skill spreads. Platforms should therefore distribute versioned references rather than copies. Project Website: https://fahdseddik.github.io/Skill-Constellations/">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.11169" target="_blank" rel="noopener">Skill Constellations: Tracing the Supply Chain of Agent Skills on GitHub</a> <span class="src-num">[14]</span></div>
+    
+    <div class="card-desc">Agent skills are SKILL.md instructions and scripts that AI coding agents such as Claude Code and Codex run with the permissions of their user. Developers share skills by copying…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 5</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Diffusion and autoregression (AR) have long been seen as different categories of generative models, with diffusion specialising in continuous fields and AR specialising in discrete tokens. Recent work seeks to combine the advantages of the two models, and each hybrid fixes its decoding schedule by design. In this paper, we ask whether the performance of decoding schedules of one model can be predicted before decoding at a fixed number of steps. We describe diffusion, AR, and models in between as paths on one corruption lattice, and define the cost of a schedule as the dependence its parallel steps discard. The cost shows that the fewest steps of a zero-cost schedule are set by the geometry of the data, in the same way for tokens and for continuous fields. In particular, for data that are Markov on a graph and dependent along its paths, the fewest steps equal the graph&#x27;s treedepth, which is logarithmic in the length of a sequence and linear in the side length of a grid. With fewer steps than the treedepth, every schedule pays a positive cost, whose ranking we predict before decoding with a kernel of pairwise dependence estimated from pretrained weights. Across text generation, image generation, and video generation, we verify most of the predictions about the rankings of different schedules under different metrics and benchmarks. This work therefore provides a design principle for decoding for future AR models, diffusion models, and anything in between. Our code is available a">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.11216" target="_blank" rel="noopener">The Lattice of Transition Laws</a> <span class="src-num">[10]</span></div>
+    
+    <div class="card-desc">Diffusion and autoregression (AR) have long been seen as different categories of generative models, with diffusion specialising in continuous fields and AR specialising in…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 5</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Tool-calling agents have become central to enterprise AI, yet training and evaluating them at scale remains severely constrained due to business and legal restrictions on enterprise systems, data, and database schemas. Tabular data synthesis offers a natural alternative, but its effectiveness is fundamentally limited by structural validity and schema availability, while procedure-based approaches yield the opposite weakness, typically lacking distributional fidelity without per-domain authoring. We introduce **Synthesis Through Simulation** (STS), a **schema--free** data synthesis paradigm in which an LLM agent generates data by executing operations against policy-enforcing APIs within simulated enterprise environments. Because data is generated through the same environment that defines what is valid, STS guarantees structural validity by construction while decoupling validity enforcement from distribution modeling, allowing each to be addressed independently. The **Generalist Populator** (GP), STS&#x27;s domain-agnostic agent, addresses the remaining challenges of distributional fidelity and synthesis scalability: GP achieves **0.88** average marginal fidelity and **100\% constraint satisfaction** across all ten environments *without access to DB schemas*, while statistical synthesizers are inapplicable to seven due to necessary seed data requirements, and schema-privileged agents fail 82\% of trajectories on airline environment&#x27;s tightly coupled workflows due to brittle task com">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.10549" target="_blank" rel="noopener">Synthesis Through Simulation: Generating Coherent Enterprise Data via Scalable Agent-System Interaction</a> <span class="src-num">[20]</span></div>
+    
+    <div class="card-desc">Tool-calling agents have become central to enterprise AI, yet training and evaluating them at scale remains severely constrained due to business and legal restrictions on…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 7</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Reasoning traces improve large language models (LLMs), but current models are trained to reason mostly in English. It has been shown that forcing a model to reason in another language degrades accuracy, even when the reasoning language matches the language of the prompt -- but only for a setting where the model reasons over a short prompt. Here, we ask whether the same holds for retrieval-augmented generation (RAG), where the model must read and integrate a large amount of retrieved evidence in the target language. To study this, we build a fully monolingual German RAG question-answering testbed over the fictional world of the tabletop role-playing game The Dark Eye, a domain that is richly documented in German but too niche for the model to answer from memory, so that it has to rely on retrieval. Varying the forced reasoning language of an agentic RAG system on this testbed, we find that aligning the reasoning language with the language of the query and the retrieved documents helps. Forced German reasoning outperforms forced French, although the model benchmarks higher in French, so the benefit comes from alignment and not from language proficiency. The advantage grows when the retrieved context is richer and structure-aware. However, forced German only reaches the level of the model&#x27;s native, unconstrained English reasoning without surpassing it, showing that native multilingual reasoning is needed. We publicly release the testbed and QA benchmark.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.03136" target="_blank" rel="noopener">Investigating the Role of Reasoning-Language Alignment in Monolingual Retrieval-Augmented Generation</a> <span class="src-num">[26]</span></div>
+    
+    <div class="card-desc">Reasoning traces improve large language models (LLMs), but current models are trained to reason mostly in English. It has been shown that forcing a model to reason in another…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 5</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="In this work, we show that a single Transformer block, applied recurrently, can match the accuracy of a full-depth vision encoder at comparable inference FLOPs without intermediate feature distillation. reViT restores depth-specific transformations by representing the FFN at each recurrent depth as a convex combination of a small shared expert bank. A continuous normalized-depth coordinate programs this mixture, defining a resampleable trajectory through FFN parameter space. We evaluate this design in two regimes: supervised ImageNet-1k training and distillation from a DINOv2 teacher. Across both regimes, controlled adaptations identify weight-space merging as the strongest tested MoE family at a matching one-FFN budget, ahead of the token-dispatch and output-mixture alternatives. Trained from scratch, reViT-B/16 attains DeiT III accuracy with about 70\% fewer stored parameters. An 8-experts model distilled using only the teacher&#x27;s output features retains nearly all of its DINOv2 teacher&#x27;s linear-probe accuracy and transfers across classification, segmentation, and depth prediction. Elastic-depth training allows one checkpoint (trained model) to operate at multiple tested depths by resampling the same normalized coordinate interval. For fixed-depth deployment, the recurrent block can be materialized as a conventional dense graph, removing online routing and merging without changing the one-FFN-per-depth compute but expanding deployment storage.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.12448" target="_blank" rel="noopener">One Block, Multiple Depths: Recurrent Vision Transformers with Depth-Programmed Experts</a> <span class="src-num">[27]</span></div>
+    
+    <div class="card-desc">In this work, we show that a single Transformer block, applied recurrently, can match the accuracy of a full-depth vision encoder at comparable inference FLOPs without…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 7</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Learned simulators for deformable linear objects (DLOs) such as cables have to predict the motion of cables they were not trained on and stay stable over long rollouts. Most of their error occurs where the cable touches itself or the floor. Attention over all pairs of cable segments can represent contact between parts of the cable that are far apart along its length, but attention has no notion of geometry. A cable has two pairwise distances, which agree only while it is straight: the arc-length distance along the cable, which governs elastic forces, and the Euclidean distance in space, which governs contact. We add a physical attention bias, an additive term on the attention logits with a learned rate, and ask which distance it should use. We compare no bias, each distance alone, and both distances on disjoint sets of heads, keeping the rest of the model and the training protocol fixed. A physical bias improves prediction on unseen cables. The gain is largest when attention is the only mechanism that connects distant segments: there, the arc-length bias reduces prediction error by 15% and more than halves the drift in segment length. The Euclidean bias alone stays close to unbiased attention, while assigning both distances across heads is best or near-best on every metric we report. Code and per-run records: https://github.com/avihaig/dlogps.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.11975" target="_blank" rel="noopener">Predicting Cable Dynamics with Physical Attention Bias</a> <span class="src-num">[15]</span></div>
+    
+    <div class="card-desc">Learned simulators for deformable linear objects (DLOs) such as cables have to predict the motion of cables they were not trained on and stay stable over long rollouts. Most of…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 5</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Existing Open-Ended Deep Research (OEDR) systems primarily generate reports from scratch, making them inefficient for scenarios where research reports need to be continuously maintained as new information emerges. We introduce Incremental Open-Ended Deep Research (Incremental-OEDR), a research setting that treats a report as an evolving research state and incrementally updates it by preserving valid knowledge, revising outdated or incomplete content, and incorporating newly available information. To support this setting, we propose Structured Harness, which represents reports as structured collections of outlines, sections, and supporting evidence, and provides structured retrieval, a persistent structured evidence pool, and structured generation for selective report updating and evidence reuse. We further establish a temporal evaluation framework spanning ten years, with Single-Step Task and Long-Chain Task to evaluate incremental updates over both individual transitions and long-term update chains. Extensive Experiments on DeepResearch Bench and DeepConsult under both the Open-source Configuration (OC) and Proprietary Configuration (PC) show that Incremental-OEDR maintains competitive report quality while substantially improving report continuity and reducing research costs. As shown in Figure~fig:profile, it achieves up to 0.51 higher content-level ROUGE-L F1, 0.63 higher outline-level EM F1, 33\% lower token consumption, and 61\% fewer search calls than OEDR on DeepResear">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.11566" target="_blank" rel="noopener">Incremental Open-Ended Deep Research with Structured Harness</a> <span class="src-num">[25]</span></div>
+    
+    <div class="card-desc">Existing Open-Ended Deep Research (OEDR) systems primarily generate reports from scratch, making them inefficient for scenarios where research reports need to be continuously…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 7</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Diffusion large language models (DLLMs) generate text through iterative block denoising, and multi-branch speculative decoding accelerates this process by verifying a main branch together with multiple draft branches in a single forward pass. While prior DLLM acceleration methods primarily exploit temporal redundancy across denoising steps, we identify a complementary redundancy axis within each speculative verification step: multi-branch computational redundancy. During speculative verification, draft branches inherit most tokens from their parents while unmasking a small set of additional positions, causing large portions of hidden states to remain highly similar across branches. We propose SpecFold, an algorithm-system co-design that exploits this multi-branch redundancy to reduce the cost of multi-branch speculative verification. Algorithmically, SpecFold performs token-level residual gating and selectively reuses parent computation through folded attention and FFN while preserving residual hidden states. Systemically, a Triton kernel implementation translates this fine-grained reuse into end-to-end throughput gains through efficient sparse multi-branch execution. SpecFold is orthogonal to temporal caching and compatible with existing DLLM speculation strategies. Across two DLLM families, five models, and five standard benchmarks, SpecFold achieves up to 1.64x throughput over Spiffy and up to 1.99x over vanilla decoding, while maintaining comparable task performance.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.04875" target="_blank" rel="noopener">SpecFold: Folding Multi-Branch Redundancy for Faster Speculative Decoding in Diffusion Language Models</a> <span class="src-num">[21]</span></div>
+    
+    <div class="card-desc">Diffusion large language models (DLLMs) generate text through iterative block denoising, and multi-branch speculative decoding accelerates this process by verifying a main branch…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 7</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Long-horizon coding agents need timely corrections, yet feedback can be ineffective or even harmful when it misjudges ongoing work or fails to address the underlying problem. Existing critics focus on evaluating trajectories and generating feedback, but rarely track what happens after feedback is delivered. We present Opera, a verbal critic framework that treats each correction as a persistent note, followed until the diagnosed problem is resolved. Opera decides when to review through periodic and event-driven triggers, diagnoses issues with typed operators, audits feedback against visible evidence before delivery, and tracks the agent&#x27;s subsequent actions to distinguish mere compliance from actual resolution. As a test-time critic, Opera improves the resolve rate of non-critic agents by up to 12.4, 15.0, and 8.9 percentage points on Terminal-Bench 2.1, a SWE-Bench Pro subset, and DeepSWE v1.1, respectively, across four policy models, and achieves the highest mean resolve rate among competitive critic baselines on all three benchmarks, and also improves policy models when the policy critiques itself. Beyond inference, Opera-guided rollouts provide approximately on-policy training data: fine-tuning Qwen3.5-9B on them improves its resolve rate on held-out SWE-Bench Pro repositories by 10.2 percentage points without a critic at inference time, matching fine-tuning on rollouts from a stronger model, while preserving its performance when switching harness, i.e., from Openhands to">
+    <div class="card-title"><a href="https://huggingface.co/papers/2609.33987" target="_blank" rel="noopener">Opera: A Verbal Critic Framework for Long-horizon Coding Agents</a> <span class="src-num">[13]</span></div>
+    
+    <div class="card-desc">Long-horizon coding agents need timely corrections, yet feedback can be ineffective or even harmful when it misjudges ongoing work or fails to address the underlying problem.…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 14</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="GPU-parallel simulation provides abundant robot interaction, but existing benchmarks rarely combine this scale with heterogeneous manipulation tasks and standardized multi-task RL evaluation. We introduce Hebero (Heterogeneous Benchmark for Robot Learning), a GPU-parallel Isaac Lab benchmark that enables efficient joint training and evaluation of a single policy across all 40 heterogeneous tasks. Scaling experiments show that increasing parallel replicas per task improves success under a fixed wall-clock budget. To support learning with sparse rewards and limited demonstrations, we propose Demonstration-Guided Policy Optimization (DGPO), which reuses demonstrations for dense tracking rewards and asymmetric value learning. Its shared stack supports controlled comparisons of learner-specific demonstration interfaces within PPO. Within DGPO framework, we introduce IW-ABC, which uses a lightweight per-task learning progress signal to coordinate adaptive behavior cloning (ABC), relaxing demonstration guidance with task progress, and importance weighting (IW), emphasizing lagging tasks in PPO updates. With 50 demonstrations per task, IW-ABC achieves 90.1% state-input mean success, outperforming the strongest baseline FAMO-ABC by 7.8 percentage points. Its visual counterpart reaches 93.5% mean success. Real-world experiments further demonstrate that a single multi-task policy trained in simulation can successfully perform four tasks on a physical Piper robot. The project page is ava">
+    <div class="card-title"><a href="https://huggingface.co/papers/2606.03335" target="_blank" rel="noopener">A GPU-Parallel Framework for Heterogeneous Multi-Task Reinforcement Learning</a> <span class="src-num">[16]</span></div>
+    
+    <div class="card-desc">GPU-parallel simulation provides abundant robot interaction, but existing benchmarks rarely combine this scale with heterogeneous manipulation tasks and standardized multi-task RL…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 12</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Sparse GNN training reduces computation, but deciding which edges to keep can be costly. Reusing one sparse graph is cheap, but locks training to a fixed topology, while varying it across epochs can require repeated sampling or recomputation. We introduce EDiS (Edge-Disjoint Subgraph sparsification framework), which separates one-time structural extraction from per-epoch graph composition. EDiS decomposes the graph once into cacheable edge-disjoint subgraphs, then recombines them into graphs with edge-budget constraints across epochs and retention ratios without re-extracting structure. Our default construction uses feature-based scores and successive maximum score covering forests, while the same composition mechanism also supports alternative edge selection rules. We provide a combinatorial analysis of the per-epoch sampler, the composition step that draws a training graph from the cached decomposition. We show that, under the default covering-forest selector, the stored decomposition deterministically preserves high-score cut edges, and we derive a selector-agnostic conditional bound on high-score cut survival in composed training graphs. Across 19 homophilic, heterophilic, and large-scale node classification benchmarks against 17 baselines under the same edge budget, EDiS achieves the highest mean benchmark score (accuracy/ROC-AUC) and the lowest average rank and gap-to-best among ranked methods. Ablations show the clearest benefits of structural decomposition and epoch v">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.09059" target="_blank" rel="noopener">EDiS: Edge Disjoint Subgraph Sparsification Framework for Graph Neural Networks</a> <span class="src-num">[31]</span></div>
+    
+    <div class="card-desc">Sparse GNN training reduces computation, but deciding which edges to keep can be costly. Reusing one sparse graph is cheap, but locks training to a fixed topology, while varying…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 6</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="When a large language model handles a multi-turn task and a user proposes a change but ultimately rejects it, the model should continue as if nothing changed. We find a surprising failure: merely mentioning a rejected change can derail task execution, even when the user&#x27;s final intent remains unchanged. To systematically study language model behavior under evolving user intent, we introduce Intent-Eval, a controlled benchmark spanning tool actions, code, databases, and mathematics. Across diverse tasks, models are vulnerable to both rejected proposals and superseded requirements, consistent with mentioned-as-in-effect confusion: conversational content is treated as active requirements even after it has been rejected or replaced. Accuracy degradation can deepen or persist as interaction continues, highlighting the need to distinguish what has been mentioned from what remains in effect. Building on this insight, we propose Intent-OPSD, a decision-conditioned on-policy self-distillation framework with Teacher and Student initialized from the same model. The frozen Teacher provides active-intent supervision from the complete task matching the user&#x27;s decision, training the Student on the full dialogue to follow active requirements reflecting user intent.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.06496" target="_blank" rel="noopener">You Changed Your Mind, The Model Didn&#x27;t: Demystifying Intent in Multi-Turn Dialogue</a> <span class="src-num">[30]</span></div>
+    
+    <div class="card-desc">When a large language model handles a multi-turn task and a user proposes a change but ultimately rejects it, the model should continue as if nothing changed. We find a surprising…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 6</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="We present Pumpire, a unified benchmark for evaluating metric point-pair distance estimation capability of both image- and video-level 3D foundation models, with or without depth priors. In contrast to previous approaches that normally evaluate depth and camera intrinsics separately or evaluate point-clouds with geometric similarity metrics, which cannot directly reflect models&#x27; point-to-point distance estimation capability, Pumpire directly assesses point-to-point distances from the reconstructed geometry. To this end, we collect a large-scale and diverse dataset (pumpire-6k) comprising 100 real-world scenes, each annotated with physically measured point-pair distances and containing 64 frames, for a total of 6,400 frames. Building on this dataset, we establish a holistic evaluation protocol that covers both image- and video-level 3D foundation models and enables direct assessment of point-pair distance errors and cross-setting comparison. We conduct extensive experiments across 29 baseline configurations of representative 3D foundation models and provide a comprehensive analysis of the results. By offering this benchmark, we target the more fundamental ability to perceive and estimate physical scale in the reconstructed 3D space, which prior evaluation protocols have largely overlooked. The project page can be found at https://pumpire.github.io/">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.12423" target="_blank" rel="noopener">Pumpire: Unified Benchmark for Metric Distance Estimation</a> <span class="src-num">[24]</span></div>
+    
+    <div class="card-desc">We present Pumpire, a unified benchmark for evaluating metric point-pair distance estimation capability of both image- and video-level 3D foundation models, with or without depth…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 18</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="This work examines the transfer of a co-evolved communication mechanism between two robotic agents from a discrete two-dimensional (2D) simulator to a three-dimensional simulator with real physics (3D). The study focuses on whether a communication mechanism co-evolved in a 2D environment retains its functional role after transfer to a 3D physics-based simulator. To support this analysis, the effects of the episode time budget, the social cue, and the asymmetry between the two co-evolved roles were examined. The results indicate that the success rate increased approximately linearly with the evaluated time budgets, with no evidence of a plateau between 2,000 and 6,000 physics steps, suggesting that evaluations based on shorter episodes may underestimate the performance of the trained controllers. In both simulators, the social cue functioned primarily as a jam- assistance mechanism rather than as a navigation guide, although with a more pronounced effect in 2D. Analysis of eight independent evolutionary runs revealed a consistent direction of asymmetry, although its magnitude varied across runs. Controlling the processing order between agents allowed us to rule out an artifact of the physics engine. Finally, the results are discussed in terms of the factors that may contribute to the remaining performance gap observed after transfer.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.09280" target="_blank" rel="noopener">Evaluating the Transfer of Co-Evolved Communication from 2D to 3D Simulation</a> <span class="src-num">[12]</span></div>
+    
+    <div class="card-desc">This work examines the transfer of a co-evolved communication mechanism between two robotic agents from a discrete two-dimensional (2D) simulator to a three-dimensional simulator…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 4</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="Text-to-music systems produce increasingly convincing audio, yet evaluation reveals little about whether the result matches user intent. A global text-audio relevance score can overlook the implicit intent in underspecified prompts and mask failures in specific requirements, such as instrumentation, structure, rhythm, or mood progression. To bridge this gap, we formulate text-to-music intent alignment as satisfying a per-request rubric of independently verifiable items covering both a request&#x27;s explicit requirements and its implied musical intent. Scoring items individually makes evaluation diagnostic by intent source and musical dimension, rather than a single opaque score. We instantiate this as MuRA-Bench, a benchmark of real-world platform requests curated by music experts. We further propose MIRA (Musical Intent Refinement Agent), a test-time agent that first grounds a request&#x27;s intent into rubrics, then searches over prompt revisions for a black-box generator under a bounded budget, iteratively generating music, verifying it against the rubrics, and using this feedback to guide a trajectory-aware tree search. Experiments across open-source and commercial backends show that MIRA improves intent alignment, enabling an open-source generator to achieve performance comparable to representative commercial systems (e.g. Suno and Mureka). Project page: https://mirareview.github.io/.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2610.10355" target="_blank" rel="noopener">MIRA: A Musical Intent Refinement Agent for Aligning Text-to-Music Generation with User Intent</a> <span class="src-num">[22]</span></div>
+    
+    <div class="card-desc">Text-to-music systems produce increasingly convincing audio, yet evaluation reveals little about whether the result matches user intent. A global text-audio relevance score can…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 8</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div><div class="card web-card" data-full-desc="This work evaluates the direct transfer of a co-evolved communication protocol from a 2D simulation to a 3D physical environment, without retraining the network weights. Two e-puck-type robots, controlled by a GRU network with residual connection, were evaluated in a food-seeking task with social signaling. The sensory and motor translation layer required three corrections for stable physical operation, including the calibration of a hunger term based on a measurable asymmetry in the trained residual weights. Even with these corrections, the transfer was partial and asymmetric: one agent reached the food source in one of thirty tested seeds, while the other did not reach it in any. Task success was measured by both agents reaching the food area. An additional experiment incorporating explicit directional information in the social channel produced observable changes in the trajectory of the receiving agent and improvements in several specific cases. However, these improvements were not enough to allow the second agent to reach the food source, suggesting that the limitation may not be explained solely by signal translation, but also by the ability to navigate under the new physical constraints. The results suggest that successful transfer of emergent communication may depend not only on preserving the signaling process itself, but also on preserving the ecological and navigational conditions under which the protocol evolved.">
+    <div class="card-title"><a href="https://huggingface.co/papers/2609.38527" target="_blank" rel="noopener">Behavioral Persistence and Incomplete Functional Transfer of Co-evolved Communication in Evolutionary Robotics</a> <span class="src-num">[11]</span></div>
+    
+    <div class="card-desc">This work evaluates the direct transfer of a co-evolved communication protocol from a 2D simulation to a 3D physical environment, without retraining the network weights. Two…</div>
+    <div class="card-tags"><span class="tag web-tag">▲ 4</span><span class="tag web-tag">HuggingFace Papers</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📝 OpenReview <span class="group-count">1</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and fine-tuned on massive 3D data, offering the capability of producing highly consistent multi-view images. However, due to the scarcity of synchronized multi-view video data, it remains challenging to adapt this paradigm to 4D generation directly. Despite that, the available video and 3D data are adequate for training video and multi-view diffusion models separately that can provide satisfactory dynamic and geometric pri">
+    <div class="card-title"><a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and Multi-view Diffusion Models</a> <span class="src-num">[47]</span></div>
+    
+    <div class="card-desc">Recent advancements in 3D generation are predominantly propelled by improvements in 3D-aware image diffusion models. These models are pretrained on Internet-scale image data and…</div>
+    <div class="card-tags"><span class="tag web-tag">OpenReview</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🦞 Lobste.rs <span class="group-count">9</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="The paper challenges the assumption that language models need explicit tokenizers to be efficient demonstrating that standard flat Transformers can process raw byte sequences and actually outperform traditional subword models as parameter sizes scale. The prevailing thought in the field has been that processing raw bytes is computationally inefficient because the sequences are substantially longer. A typical subword contains around four bytes. The authors argue that this extra sequence length is actually a feature that provides useful additional computation under the same parameter budget. By">
+    <div class="card-title"><a href="https://arxiv.org/html/2610.05978v1" target="_blank" rel="noopener">Byte Language Models: Scaling, Emergent Abstractions, and Information Allocation</a> <span class="src-num">[2]</span></div>
+    
+    <div class="card-desc">The paper challenges the assumption that language models need explicit tokenizers to be efficient demonstrating that standard flat Transformers can process raw byte sequences and…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Continual learning model trained from scratch on 8GB VRAM laptop with batch-1 stream of data. - volotat/mini-AGI">
+    <div class="card-title"><a href="https://github.com/volotat/mini-AGI/" target="_blank" rel="noopener">A Continual learning model trained from scratch on 8GB VRAM laptop with batch-1 stream of data</a> <span class="src-num">[3]</span></div>
+    
+    <div class="card-desc">Continual learning model trained from scratch on 8GB VRAM laptop with batch-1 stream of data. - volotat/mini-AGI</div>
+    <div class="card-tags"><span class="tag web-tag">⭐ 1.2k</span><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Reporting vulnerabilities to Estonian companies">
+    <div class="card-title"><a href="https://www.youtube.com/watch?v=4gcSlBORoTI" target="_blank" rel="noopener">Reporting vulnerabilities to Estonian companies</a> <span class="src-num">[6]</span></div>
+    
+    <div class="card-desc">Finding from 🦞 Lobste.rs.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="No single component can promise consistency. The Kafka spent years and had rewrite significant parts of their tool proving this point. After all that work, they still say the guarantee is yours to hold.">
+    <div class="card-title"><a href="https://n-the-loop.com/blog/consistency-is-not-a-localized-property/" target="_blank" rel="noopener">Consistency is not a localized property</a> <span class="src-num">[1]</span></div>
+    
+    <div class="card-desc">No single component can promise consistency. The Kafka spent years and had rewrite significant parts of their tool proving this point. After all that work, they still say the…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="We’re in 2026 and it is entirely possible for an attacker to hack into a Windows computer using a “simple” USB device. Hollywood screenwriters were right from the start, but we never listened.">
+    <div class="card-title"><a href="https://blog.scrt.ch/2026/10/06/a-practical-guide-to-plugpwn-for-pentesters-and-defenders/" target="_blank" rel="noopener">A Practical Guide to “Plug&amp;Pwn” for Pentesters and Defenders</a> <span class="src-num">[8]</span></div>
+    
+    <div class="card-desc">We’re in 2026 and it is entirely possible for an attacker to hack into a Windows computer using a “simple” USB device. Hollywood screenwriters were right from the start, but we…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="[Here is the follow-up dive into the base station](https://adepts.of0x.cc/eufy-homestation2-firmware/)">
+    <div class="card-title"><a href="https://adepts.of0x.cc/Eufy-DoorBell-hacking/" target="_blank" rel="noopener">Hacking the Eufy Doorbell and Base Station</a> <span class="src-num">[5]</span></div>
+    
+    <div class="card-desc">[Here is the follow-up dive into the base station](https://adepts.of0x.cc/eufy-homestation2-firmware/)</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="An unescaped separator in Telegram Desktop’s single-instance IPC lets one clicked link read arbitrary files off the disk and send them to the attacker, session files included.">
+    <div class="card-title"><a href="https://beaksec.github.io/posts/telegram-desktop-one-click-account-takeover/" target="_blank" rel="noopener">Telegram Desktop: one-click account takeover via IPC injection</a> <span class="src-num">[9]</span></div>
+    
+    <div class="card-desc">An unescaped separator in Telegram Desktop’s single-instance IPC lets one clicked link read arbitrary files off the disk and send them to the attacker, session files included.</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="An application with the CALL_PHONE permission can execute carrier MMI/USSD codes with no user confirmation. A vulnerable application with browsable deeplinks can trigger MMI execution with a single tap.">
+    <div class="card-title"><a href="https://karansaini.com/mmi-android/" target="_blank" rel="noopener">1-click MMI execution in Android</a> <span class="src-num">[7]</span></div>
+    
+    <div class="card-desc">An application with the CALL_PHONE permission can execute carrier MMI/USSD codes with no user confirmation. A vulnerable application with browsable deeplinks can trigger MMI…</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div><div class="card web-card" data-full-desc="Launched on December 4, 1996 by NASA aboard a Delta II booster, the Mars Pathfinder landed on July 4, 1997 on Mars&#x27;s Ares Vallis, in a region called Chry...">
+    <div class="card-title"><a href="https://nerdyelectronics.com/mars-pathfinder-what-really-happened/" target="_blank" rel="noopener">Mars Pathfinder Priority Inversion Bug: What Really Happened</a> <span class="src-num">[4]</span></div>
+    
+    <div class="card-desc">Launched on December 4, 1996 by NASA aboard a Delta II booster, the Mars Pathfinder landed on July 4, 1997 on Mars&#x27;s Ares Vallis, in a region called Chry...</div>
+    <div class="card-tags"><span class="tag web-tag">Lobste.rs</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>🎓 Google Scholar <span class="group-count">4</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Large language models (LLM) in computational social science: prospects, current state, and challenges">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state, and challenges</a> <span class="src-num">[33]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to secure devices and...">
+    <div class="card-title"><a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user privacy in IoT devices</a> <span class="src-num">[34]</span></div>
+    
+    <div class="card-desc">Cluster Computing - With the emergence of quantum computers, traditional cryptographic methods are vulnerable to attacks, emphasizing the need for post-quantum cryptography to…</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing for computational advancements</a> <span class="src-num">[35]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div><div class="card web-card" data-full-desc="Early identification of breakthrough technologies: Insights from science-driven innovations">
+    <div class="card-title"><a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven innovations</a> <span class="src-num">[32]</span></div>
+    
+    <div class="card-desc">Finding from 🎓 Google Scholar.</div>
+    <div class="card-tags"><span class="tag web-tag">Google Scholar</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>📰 Hacker News <span class="group-count">6</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="Scientific paper mills and AI-generated content are posing a growing threat to research integrity, while retractions reveal only a fraction of the problem, TalTech researcher Anton Sokolov says.">
+    <div class="card-title"><a href="https://news.err.ee/1610155906/effect-of-research-paper-mills-enough-to-start-affecting-llm-query-results" target="_blank" rel="noopener">(https://news.err.ee/1610155906/effect-of-research-paper-mills-enough-to-start-affecting-llm-query-results)</a> <span class="src-num">[38]</span></div>
+    
+    <div class="card-desc">Scientific paper mills and AI-generated content are posing a growing threat to research integrity, while retractions reveal only a fraction of the problem, TalTech researcher…</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="Japan&#x27;s government urged companies to treat cybersecurity as a management priority after AI-driven attacks hit Times Car, Daiwa Securities and FamilyMart.">
+    <div class="card-title"><a href="https://en.sedaily.com/international/2026/10/09/japan-urges-firms-to-boost-cybersecurity-as-ai-driven" target="_blank" rel="noopener">(https://en.sedaily.com/international/2026/10/09/japan-urges-firms-to-boost-cybersecurity-as-ai-driven)</a> <span class="src-num">[40]</span></div>
+    
+    <div class="card-desc">Japan&#x27;s government urged companies to treat cybersecurity as a management priority after AI-driven attacks hit Times Car, Daiwa Securities and FamilyMart.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="Japan urges firms to boost cybersecurity as AI-driven cyberattacks surge">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=50027275" target="_blank" rel="noopener">Japan urges firms to boost cybersecurity as AI-driven cyberattacks surge</a> <span class="src-num">[39]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="Put a price on breakthroughs">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=50028982" target="_blank" rel="noopener">Put a price on breakthroughs</a> <span class="src-num">[36]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="DARPA Selects Companies for Final Stage C Verification Under QBI">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=50040261" target="_blank" rel="noopener">DARPA Selects Companies for Final Stage C Verification Under QBI</a> <span class="src-num">[41]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div><div class="card web-card" data-full-desc="Effect of research paper mills enough to start affecting LLM query results">
+    <div class="card-title"><a href="https://news.ycombinator.com/item?id=50031664" target="_blank" rel="noopener">Effect of research paper mills enough to start affecting LLM query results</a> <span class="src-num">[37]</span></div>
+    
+    <div class="card-desc">Finding from 📰 Hacker News.</div>
+    <div class="card-tags"><span class="tag web-tag">Hacker News</span></div>
+  </div></div>
+    </div>
+    <div class="section-group">
+      <h3>👽 Reddit <span class="group-count">5</span></h3>
+      <div class="cards-grid"><div class="card web-card" data-full-desc="I feel like I am unable to digest most machine learning research these days. The primary reason is because I feel like they have gotten tremendously wordy. I find it not uncommon to find research papers consisting of 20+, 30+, 40+ pages of pure texts. An example is https://arxiv.org/pdf/2302.13971 I understand this is in the context of LLM but I&#x27;ve also noticed this trend outside of LLM, even in things like optimization. Also because the papers seem to have gotten wordy, it is possible to come across some undefined (suspected) new terminology due to word usage. An example (and not a research p">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1x2uklq/has_machine_learning_research_gotten_more_wordy_d/" target="_blank" rel="noopener">Has machine learning research gotten more &quot;wordy&quot;? [D]</a> <span class="src-num">[42]</span></div>
+    
+    <div class="card-desc">I feel like I am unable to digest most machine learning research these days. The primary reason is because I feel like they have gotten tremendously wordy. I find it not uncommon…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I&#x27;ve been building open models that treat a decision as a closed-set scoring problem rather than text generation. The input is structured context plus a typed question with a fixed set of options. The output is a probability for each option, taken from the candidate-label logits, so there&#x27;s no generation step to parse and no sampling. v2.1 updates the 27B and the 9B. On the Decision Index 0.3 public suite (my own runs with the unchanged official scorer, submitted to the board, which adds private tests before ranking anything): - 27B: 57.03 vs 55.11 for v2. Knowledge +2.34, Language +3.89, Retr">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1x33wgz/p_pecision_models_that_score_every_allowed_label/" target="_blank" rel="noopener">[P] Pecision models that score every allowed label from the logits: Jebadiah v2.1 (27B, 9B), open weights and self-run benchmark results [P]</a> <span class="src-num">[44]</span></div>
+    
+    <div class="card-desc">I&#x27;ve been building open models that treat a decision as a closed-set scoring problem rather than text generation. The input is structured context plus a typed question with a…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="ALHR- Adaptive learnable Hierarchical Routing is a static binary tree based system that uses learnable functions to REDUCE the amount of keys used. It takes less memory and SCALES much better VRAM with tokens submitted by /u/Alarming-Emotion-894 [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1x2lwja/i_built_a_onlogn_attention_system_that_retains_97/" target="_blank" rel="noopener">I Built a O(NlogN) attention system that retains 97% accuracy over long context (MQAR)[P]</a> <span class="src-num">[43]</span></div>
+    
+    <div class="card-desc">ALHR- Adaptive learnable Hierarchical Routing is a static binary tree based system that uses learnable functions to REDUCE the amount of keys used. It takes less memory and SCALES…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="I have working programmatic control over a system, I can send inputs reliably and capture the screen as visual feedback. The control/feedback loop is already done. I need something that can learn from visual information, remember what it has seen and been taught, and get better at operating the system over time. recommendations? the AI I have tried so far it&#x27;s memory is not good enough and it often doesn&#x27;t consult the visual information before making decisions which is very frustrating. submitted by /u/angrykirby [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1x2yoxe/what_ai_is_best_to_operate_a_system_from_screen/" target="_blank" rel="noopener">What ai is best to operate a system from screen video [p]</a> <span class="src-num">[46]</span></div>
+    
+    <div class="card-desc">I have working programmatic control over a system, I can send inputs reliably and capture the screen as visual feedback. The control/feedback loop is already done. I need…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div><div class="card web-card" data-full-desc="This is my first time ARR submission. I have a paper from the ARR 2026 August cycle with completed reviews and I understand the reviews remain valid for 6 months. If we want to commit to NAACL 2027 instead of EACL, do we need to do anything with the August ARR submission now, or can we simply wait and commit it when the NAACL commitment site opens? Thanks. submitted by /u/SillyNeuron [link] [comments]">
+    <div class="card-title"><a href="https://www.reddit.com/r/MachineLearning/comments/1x2z83e/do_i_need_to_do_anything_now_to_use_an_arr_august/" target="_blank" rel="noopener">Do I need to do anything now to use an ARR August review for NAACL 2027? [D]</a> <span class="src-num">[45]</span></div>
+    
+    <div class="card-desc">This is my first time ARR submission. I have a paper from the ARR 2026 August cycle with completed reviews and I understand the reviews remain valid for 6 months. If we want to…</div>
+    <div class="card-tags"><span class="tag web-tag">Reddit</span></div>
+  </div></div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h2>🔗 All Sources</h2>
+    <div class="sources-grid">
+      <ol><li>[1] <a href="https://n-the-loop.com/blog/consistency-is-not-a-localized-property/" target="_blank" rel="noopener">Consistency is not a localized property</a></li><li>[2] <a href="https://arxiv.org/html/2610.05978v1" target="_blank" rel="noopener">Byte Language Models: Scaling, Emergent Abstractions, and Information Allocation</a></li><li>[3] <a href="https://github.com/volotat/mini-AGI/" target="_blank" rel="noopener">A Continual learning model trained from scratch on 8GB VRAM laptop with batch-1 stream of…</a></li><li>[4] <a href="https://nerdyelectronics.com/mars-pathfinder-what-really-happened/" target="_blank" rel="noopener">Mars Pathfinder Priority Inversion Bug: What Really Happened</a></li><li>[5] <a href="https://adepts.of0x.cc/Eufy-DoorBell-hacking/" target="_blank" rel="noopener">Hacking the Eufy Doorbell and Base Station</a></li><li>[6] <a href="https://www.youtube.com/watch?v=4gcSlBORoTI" target="_blank" rel="noopener">Reporting vulnerabilities to Estonian companies</a></li><li>[7] <a href="https://karansaini.com/mmi-android/" target="_blank" rel="noopener">1-click MMI execution in Android</a></li><li>[8] <a href="https://blog.scrt.ch/2026/10/06/a-practical-guide-to-plugpwn-for-pentesters-and-defenders/" target="_blank" rel="noopener">A Practical Guide to “Plug&amp;Pwn” for Pentesters and Defenders</a></li><li>[9] <a href="https://beaksec.github.io/posts/telegram-desktop-one-click-account-takeover/" target="_blank" rel="noopener">Telegram Desktop: one-click account takeover via IPC injection</a></li><li>[10] <a href="https://huggingface.co/papers/2610.11216" target="_blank" rel="noopener">The Lattice of Transition Laws</a></li><li>[11] <a href="https://huggingface.co/papers/2609.38527" target="_blank" rel="noopener">Behavioral Persistence and Incomplete Functional Transfer of Co-evolved Communication in…</a></li><li>[12] <a href="https://huggingface.co/papers/2610.09280" target="_blank" rel="noopener">Evaluating the Transfer of Co-Evolved Communication from 2D to 3D Simulation</a></li><li>[13] <a href="https://huggingface.co/papers/2609.33987" target="_blank" rel="noopener">Opera: A Verbal Critic Framework for Long-horizon Coding Agents</a></li><li>[14] <a href="https://huggingface.co/papers/2610.11169" target="_blank" rel="noopener">Skill Constellations: Tracing the Supply Chain of Agent Skills on GitHub</a></li><li>[15] <a href="https://huggingface.co/papers/2610.11975" target="_blank" rel="noopener">Predicting Cable Dynamics with Physical Attention Bias</a></li><li>[16] <a href="https://huggingface.co/papers/2606.03335" target="_blank" rel="noopener">A GPU-Parallel Framework for Heterogeneous Multi-Task Reinforcement Learning</a></li><li>[17] <a href="https://huggingface.co/papers/2609.35855" target="_blank" rel="noopener">Mara Chain: Rethinking Failure as a Stepping Stone for AI System Auto-Evolution</a></li><li>[18] <a href="https://huggingface.co/papers/2610.08585" target="_blank" rel="noopener">Incidental information contaminates patient notes and disrupts clinical reasoning in…</a></li><li>[19] <a href="https://huggingface.co/papers/2610.09146" target="_blank" rel="noopener">Frozen Models, Evolving Expertise: Model-Agnostic Learning from Deployment Experience for…</a></li><li>[20] <a href="https://huggingface.co/papers/2610.10549" target="_blank" rel="noopener">Synthesis Through Simulation: Generating Coherent Enterprise Data via Scalable…</a></li><li>[21] <a href="https://huggingface.co/papers/2610.04875" target="_blank" rel="noopener">SpecFold: Folding Multi-Branch Redundancy for Faster Speculative Decoding in Diffusion…</a></li><li>[22] <a href="https://huggingface.co/papers/2610.10355" target="_blank" rel="noopener">MIRA: A Musical Intent Refinement Agent for Aligning Text-to-Music Generation with User…</a></li><li>[23] <a href="https://huggingface.co/papers/2610.08927" target="_blank" rel="noopener">Can AI Agents Make Open-Ended Scientific Discovery? Evidence from Station</a></li><li>[24] <a href="https://huggingface.co/papers/2610.12423" target="_blank" rel="noopener">Pumpire: Unified Benchmark for Metric Distance Estimation</a></li></ol>
+      <ol><li>[25] <a href="https://huggingface.co/papers/2610.11566" target="_blank" rel="noopener">Incremental Open-Ended Deep Research with Structured Harness</a></li><li>[26] <a href="https://huggingface.co/papers/2610.03136" target="_blank" rel="noopener">Investigating the Role of Reasoning-Language Alignment in Monolingual Retrieval-Augmented…</a></li><li>[27] <a href="https://huggingface.co/papers/2610.12448" target="_blank" rel="noopener">One Block, Multiple Depths: Recurrent Vision Transformers with Depth-Programmed Experts</a></li><li>[28] <a href="https://huggingface.co/papers/2610.12183" target="_blank" rel="noopener">A Closer Look at Agentic BBO: Benchmarking LLM Agents for Black-Box Optimization</a></li><li>[29] <a href="https://huggingface.co/papers/2610.11794" target="_blank" rel="noopener">Memento 3: Model-Based Recursive Self-Improvement through Reflective Rulebooks</a></li><li>[30] <a href="https://huggingface.co/papers/2610.06496" target="_blank" rel="noopener">You Changed Your Mind, The Model Didn&#x27;t: Demystifying Intent in Multi-Turn Dialogue</a></li><li>[31] <a href="https://huggingface.co/papers/2610.09059" target="_blank" rel="noopener">EDiS: Edge Disjoint Subgraph Sparsification Framework for Graph Neural Networks</a></li><li>[32] <a href="https://www.sciencedirect.com/science/article/pii/S1751157724001184" target="_blank" rel="noopener">Early identification of breakthrough technologies: Insights from science-driven…</a></li><li>[33] <a href="https://link.springer.com/article/10.1007/s13278-025-01428-9" target="_blank" rel="noopener">Large language models (LLM) in computational social science: prospects, current state,…</a></li><li>[34] <a href="https://link.springer.com/article/10.1007/s10586-024-04799-4" target="_blank" rel="noopener">Securing the future: exploring post-quantum cryptography for authentication and user…</a></li><li>[35] <a href="https://www.sciencedirect.com/science/article/pii/S2215016125001645" target="_blank" rel="noopener">Quantum machine learning: A comprehensive review of integrating AI with quantum computing…</a></li><li>[36] <a href="https://news.ycombinator.com/item?id=50028982" target="_blank" rel="noopener">Put a price on breakthroughs</a></li><li>[37] <a href="https://news.ycombinator.com/item?id=50031664" target="_blank" rel="noopener">Effect of research paper mills enough to start affecting LLM query results</a></li><li>[38] <a href="https://news.err.ee/1610155906/effect-of-research-paper-mills-enough-to-start-affecting-llm-query-results" target="_blank" rel="noopener">(https://news.err.ee/1610155906/effect-of-research-paper-mills-enough-to-start-affecting-l…</a></li><li>[39] <a href="https://news.ycombinator.com/item?id=50027275" target="_blank" rel="noopener">Japan urges firms to boost cybersecurity as AI-driven cyberattacks surge</a></li><li>[40] <a href="https://en.sedaily.com/international/2026/10/09/japan-urges-firms-to-boost-cybersecurity-as-ai-driven" target="_blank" rel="noopener">(https://en.sedaily.com/international/2026/10/09/japan-urges-firms-to-boost-cybersecurity-…</a></li><li>[41] <a href="https://news.ycombinator.com/item?id=50040261" target="_blank" rel="noopener">DARPA Selects Companies for Final Stage C Verification Under QBI</a></li><li>[42] <a href="https://www.reddit.com/r/MachineLearning/comments/1x2uklq/has_machine_learning_research_gotten_more_wordy_d/" target="_blank" rel="noopener">Has machine learning research gotten more &quot;wordy&quot;? [D]</a></li><li>[43] <a href="https://www.reddit.com/r/MachineLearning/comments/1x2lwja/i_built_a_onlogn_attention_system_that_retains_97/" target="_blank" rel="noopener">I Built a O(NlogN) attention system that retains 97% accuracy over long context (MQAR)[P]</a></li><li>[44] <a href="https://www.reddit.com/r/MachineLearning/comments/1x33wgz/p_pecision_models_that_score_every_allowed_label/" target="_blank" rel="noopener">[P] Pecision models that score every allowed label from the logits: Jebadiah v2.1 (27B,…</a></li><li>[45] <a href="https://www.reddit.com/r/MachineLearning/comments/1x2z83e/do_i_need_to_do_anything_now_to_use_an_arr_august/" target="_blank" rel="noopener">Do I need to do anything now to use an ARR August review for NAACL 2027? [D]</a></li><li>[46] <a href="https://www.reddit.com/r/MachineLearning/comments/1x2yoxe/what_ai_is_best_to_operate_a_system_from_screen/" target="_blank" rel="noopener">What ai is best to operate a system from screen video [p]</a></li><li>[47] <a href="https://openreview.net/forum?id=fectsEG2GU" target="_blank" rel="noopener">Diffusion$^2$: Dynamic 3D Content Generation via Score Composition of Video and…</a></li></ol>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <a href="../index.html">Carlos's Debrief</a> · curated by Hermes Research Scout · <a href="../topics.html">topics</a> · <a href="../top-500.html">top 500</a> · <a href="../feed.xml">RSS</a>
+</div>
+
+<!-- Click-to-expand modal -->
+<div class="modal" id="card-modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-title" id="modal-title-text"></div>
+    <div class="modal-authors" id="modal-authors"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-nav">
+      <button id="modal-prev" type="button">← Previous</button>
+      <span class="modal-counter" id="modal-counter"></span>
+      <button id="modal-next" type="button">Next →</button>
+    </div>
+    <div class="modal-hint">← → navigate · esc close · alt+T theme</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('card-modal');
+  const modalTitle = document.getElementById('modal-title-text');
+  const modalAuthors = document.getElementById('modal-authors');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
+  const modalCounter = document.getElementById('modal-counter');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  let currentIndex = -1;
+
+  function visibleCards() { return cards.filter((c) => !c.classList.contains('hidden')); }
+  function openCard(card) {
+    const list = visibleCards();
+    currentIndex = list.indexOf(card);
+    if (currentIndex === -1) return;
+    const titleLink = card.querySelector('.card-title a');
+    const titleEl = card.querySelector('.card-title');
+    const authorsEl = card.querySelector('.card-authors');
+    const descEl = card.querySelector('.card-desc');
+    if (titleLink) {
+      modalTitle.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = titleLink.href; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = titleLink.textContent;
+      modalTitle.appendChild(a);
+    } else {
+      modalTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+    }
+    const authorsText = authorsEl ? authorsEl.textContent.trim() : '';
+    modalAuthors.textContent = authorsText;
+    modalAuthors.style.display = authorsText ? '' : 'none';
+    const fullDesc = card.getAttribute('data-full-desc');
+    modalDesc.textContent = fullDesc || (descEl ? descEl.textContent.trim() : '');
+    modalPrev.disabled = currentIndex <= 0;
+    modalNext.disabled = currentIndex >= list.length - 1;
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + list.length;
+    modal.dataset.open = 'true';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-content').scrollTop = 0;
+  }
+  function closeModal() {
+    modal.dataset.open = 'false';
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+  function navigate(delta) {
+    const list = visibleCards();
+    const next = currentIndex + delta;
+    if (next >= 0 && next < list.length) openCard(list[next]);
+  }
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      openCard(card);
+    });
+  });
+  backdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  modalPrev.addEventListener('click', () => navigate(-1));
+  modalNext.addEventListener('click', () => navigate(1));
+  document.addEventListener('keydown', (e) => {
+    if (modal.dataset.open === 'true') {
+      if (e.key === 'Escape') closeModal();
+      else if (e.key === 'ArrowLeft') navigate(-1);
+      else if (e.key === 'ArrowRight') navigate(1);
+    } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      document.getElementById('search').focus();
+    }
+  });
+
+  const search = document.getElementById('search');
+  const filterCount = document.getElementById('filter-count');
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      if (!q) {
+        card.classList.remove('hidden'); shown++; return;
+      }
+      const text = (card.textContent + ' ' + (card.getAttribute('data-full-desc') || '')).toLowerCase();
+      if (text.includes(q)) { card.classList.remove('hidden'); shown++; }
+      else { card.classList.add('hidden'); }
+    });
+    document.querySelectorAll('.section-group').forEach((grp) => {
+      const remaining = grp.querySelectorAll('.card:not(.hidden)');
+      grp.classList.toggle('empty', remaining.length === 0);
+    });
+    filterCount.textContent = q ? shown + ' of ' + cards.length + ' cards' : '';
+  }
+  if (search) search.addEventListener('input', applyFilter);
+})();
+</script>
+</body>
+</html>
